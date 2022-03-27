@@ -1590,6 +1590,16 @@
         "runtime": {
           "bin/placeholder/MarvicSolution.DATA.dll": {}
         }
+      },
+      "MarvicSolution.Utilities/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/MarvicSolution.Utilities.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MarvicSolution.Utilities.dll": {}
+        }
       }
     }
   },
@@ -5951,11 +5961,17 @@
       "type": "project",
       "path": "../MarvicSolution.DATA/MarvicSolution.DATA.csproj",
       "msbuildProject": "../MarvicSolution.DATA/MarvicSolution.DATA.csproj"
+    },
+    "MarvicSolution.Utilities/1.0.0": {
+      "type": "project",
+      "path": "../MarvicSolution.Utilities/MarvicSolution.Utilities.csproj",
+      "msbuildProject": "../MarvicSolution.Utilities/MarvicSolution.Utilities.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
-      "MarvicSolution.DATA >= 1.0.0"
+      "MarvicSolution.DATA >= 1.0.0",
+      "MarvicSolution.Utilities >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -5988,6 +6004,9 @@
           "projectReferences": {
             "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj": {
               "projectPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj"
+            },
+            "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj": {
+              "projectPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj"
             }
           }
         }

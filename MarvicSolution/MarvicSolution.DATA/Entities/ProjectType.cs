@@ -18,6 +18,20 @@ namespace MarvicSolution.DATA.Entities
         public string Updator { get; set; }
         public DateTime UpdateDate { get; set; }
         public EnumStatus IsDeleted { get; set; }
-      
+
+        public ProjectType()
+        {
+
+        }
+
+        public ProjectType(Guid id, string name, string updator, DateTime updateDate, EnumStatus isDeleted)
+        {
+            Id = id;
+            Name = name;
+            Updator = updator;
+            UpdateDate = updateDate;
+            IsDeleted = isDeleted;
+        }
+
     }
 }

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MarvicSolution.DATA\MarvicSolution.DATA.csproj" />
+    <ProjectReference Include="..\MarvicSolution.Utilities\MarvicSolution.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

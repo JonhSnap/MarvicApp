@@ -8,4 +8,6 @@ ASP.NET core 5.0
 4.  Microsoft.Extensions.Configuration.FileExtensions 5.0.0
 5.  Microsoft.Extensions.Configuration.Json 5.0.0
 6.  Microsoft.Extensions.Hosting.Abstractions 5.0.
+7.  Swashbuckle.AspNetCore 6.3.0
+
 
