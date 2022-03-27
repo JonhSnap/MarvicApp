@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v5.0": {
       "MarvicSolution.Services/1.0.0": {
         "dependencies": {
-          "MarvicSolution.DATA": "1.0.0"
+          "MarvicSolution.DATA": "1.0.0",
+          "MarvicSolution.Utilities": "1.0.0"
         },
         "runtime": {
           "MarvicSolution.Services.dll": {}
@@ -1135,6 +1136,11 @@
         "runtime": {
           "MarvicSolution.DATA.dll": {}
         }
+      },
+      "MarvicSolution.Utilities/1.0.0": {
+        "runtime": {
+          "MarvicSolution.Utilities.dll": {}
+        }
       }
     }
   },
@@ -1852,6 +1858,11 @@
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
     },
     "MarvicSolution.DATA/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MarvicSolution.Utilities/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -1,5 +1,6 @@
 using MarvicSolution.BackendApi.Constants;
 using MarvicSolution.DATA.EF;
+using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +30,18 @@ namespace MarvicSolution.BackendApi
         {
             services.AddDbContext<MarvicDbContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.MainConnectionString)));
+
+            /// Declare DI
+            /// AddTransient: Moi lan request la tao moi 1 object
+            services.AddTransient<IProjectType_Service, ProjectType_Service>();
+
             services.AddControllersWithViews();
+
+            // Add Swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger Marvic Solution", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +63,11 @@ namespace MarvicSolution.BackendApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            // Swagger Middleware
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger Marvic Solution v1"));
+
 
             app.UseEndpoints(endpoints =>
             {

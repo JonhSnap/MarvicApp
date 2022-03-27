@@ -5,8 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MarvicSolution.DATA\MarvicSolution.DATA.csproj" />
     <ProjectReference Include="..\MarvicSolution.Services\MarvicSolution.Services.csproj" />
+    <ProjectReference Include="..\MarvicSolution.Utilities\MarvicSolution.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
