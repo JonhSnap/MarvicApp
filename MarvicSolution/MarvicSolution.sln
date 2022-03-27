@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32106.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarvicSolution.DATA", "MarvicSolution.DATA\MarvicSolution.DATA.csproj", "{D2038306-BBA6-4BD3-9F17-A0BAD37FC50E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarvicSolution.Services", "MarvicSolution.Services\MarvicSolution.Services.csproj", "{130EA771-3891-475B-A4A7-A014F97EDF6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{24C0DD83-69FE-44AB-AD23-8332C11B54D1}"
+	ProjectSection(SolutionItems) = preProject
+		MemberNotes.txt = MemberNotes.txt
+		README.txt = README.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarvicSolution.BackendApi", "MarvicSolution.BackendApi\MarvicSolution.BackendApi.csproj", "{6C701FCC-64FD-4058-BADD-0C1AE7B7B1F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2038306-BBA6-4BD3-9F17-A0BAD37FC50E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2038306-BBA6-4BD3-9F17-A0BAD37FC50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2038306-BBA6-4BD3-9F17-A0BAD37FC50E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2038306-BBA6-4BD3-9F17-A0BAD37FC50E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{130EA771-3891-475B-A4A7-A014F97EDF6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{130EA771-3891-475B-A4A7-A014F97EDF6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{130EA771-3891-475B-A4A7-A014F97EDF6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{130EA771-3891-475B-A4A7-A014F97EDF6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C701FCC-64FD-4058-BADD-0C1AE7B7B1F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C701FCC-64FD-4058-BADD-0C1AE7B7B1F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C701FCC-64FD-4058-BADD-0C1AE7B7B1F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C701FCC-64FD-4058-BADD-0C1AE7B7B1F5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DD31B471-6DBA-4A9D-A59A-ECAA479A6022}
+	EndGlobalSection
+EndGlobal
