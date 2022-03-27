@@ -1,5 +1,6 @@
 ﻿using MarvicSolution.DATA.Entities;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest;
+using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest.Dtos.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -30,6 +31,36 @@ namespace MarvicSolution.BackendApi.Controllers
             }
             var prjTypes = await _service.GetAlls();
             return Ok(prjTypes);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] ProjectType_CreateRequest rq)
+        {
+            var prjTypeId = await _service.Create(rq);
+            if (prjTypeId.Equals("00000000-0000-0000-0000-000000000000"))
+                return BadRequest();
+
+            return Created(nameof(Get), prjTypeId);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromForm] ProjectType_UpdateRequest rq)
+        {
+            var affectedResutl = await _service.Update(rq);
+            if (affectedResutl.Equals("00000000-0000-0000-0000-000000000000"))
+                return BadRequest();
+
+            return Ok();
+        }
+
+        [HttpDelete("{prjTypeId}")]
+        public async Task<IActionResult> Delete(Guid prjTypeId)
+        {
+            var affectedResutl = await _service.Delete(prjTypeId);
+            if (affectedResutl.Equals("00000000-0000-0000-0000-000000000000"))
+                return BadRequest();
+
+            return Ok();
         }
     }
 }

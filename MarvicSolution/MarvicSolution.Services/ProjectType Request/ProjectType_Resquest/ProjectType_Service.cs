@@ -1,8 +1,5 @@
 ﻿using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
-using MarvicSolution.Services.Group_Sample.Dtos;
-using MarvicSolution.Services.Group_Sample.Module_Sample.Dtos;
-using MarvicSolution.Services.Group_Sample.Module_Sample.Dtos.ViewModels;
 using MarvicSolution.Services.ProjectType_Request.Dtos;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest.Dtos;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest.Dtos.ViewModels;
@@ -11,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest
@@ -23,44 +19,63 @@ namespace MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest
         {
             _context = context;
         }
-        public async Task<int> Create(ProjectType_CreateRequest request)
+        public async Task<Guid> Create(ProjectType_CreateRequest request)
         {
-            var projectType = new ProjectType()
+            try
             {
-                Creator = request.Creator,
-                Name = request.Name,
-                Updator = request.Updator,
-                UpdateDate = request.UpdateDate,
-                IsDeleted = request.IsDeleted
-            };
+                var projectType = new ProjectType()
+                {
+                    Id = Guid.NewGuid(),
+                    Creator = request.Creator,
+                    Name = request.Name,
+                    Updator = request.Updator,
+                    UpdateDate = request.UpdateDate,
+                    IsDeleted = request.IsDeleted
+                };
 
-            _context.ProjectTypes.Add(projectType);
-            return await _context.SaveChangesAsync();
+                _context.ProjectTypes.Add(projectType);
+                await _context.SaveChangesAsync();
+                return projectType.Id;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
-        public async Task<int> Update(ProjectType_UpdateRequest request)
+        public async Task<Guid> Update(ProjectType_UpdateRequest request)
         {
-            var projectType = _context.ProjectTypes.Find(request.Id);
-            if (projectType == null)
-                throw new MarvicException($"Can not find a project: {request.Id}");
+            try
+            {
+                var projectType = _context.ProjectTypes.Find(request.Id);
+                projectType.Creator = request.Creator;
+                projectType.Name = request.Name;
+                projectType.Updator = request.Updator;
+                projectType.UpdateDate = request.UpdateDate;
 
-            projectType.Creator = request.Creator;
-            projectType.Name = request.Name;
-            projectType.Updator = request.Updator;
-            projectType.UpdateDate = request.UpdateDate;
-
-            _context.ProjectTypes.Add(projectType);
-            return await _context.SaveChangesAsync();
+                _context.ProjectTypes.Add(projectType);
+                await _context.SaveChangesAsync();
+                return projectType.Id;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
-        public async Task<int> Delete(int Id)
+        public async Task<Guid> Delete(Guid Id)
         {
-            var projectType = _context.ProjectTypes.Find(Id);
-            if (projectType == null)
-                throw new MarvicException($"Can not find a project: {Id}");
-
-            projectType.IsDeleted = DATA.Enums.EnumStatus.True;
-            return await _context.SaveChangesAsync();
+            try
+            {
+                var projectType = _context.ProjectTypes.Find(Id);
+                projectType.IsDeleted = DATA.Enums.EnumStatus.True;
+                await _context.SaveChangesAsync();
+                return projectType.Id;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
         public async Task<List<ProjectType_ViewModel>> GetAlls()
@@ -83,7 +98,6 @@ namespace MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest
             {
                 throw new MarvicException($"Error: {e}");
             }
-            return null;
         }
 
         Task<ProjectType_PageResult<ProjectType_ViewModel>> IProjectType_Service.GetAllPaging(Get_ProjectType_PagingRequest request)
