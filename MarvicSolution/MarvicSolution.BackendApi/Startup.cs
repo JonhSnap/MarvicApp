@@ -1,5 +1,6 @@
 using MarvicSolution.BackendApi.Constants;
 using MarvicSolution.DATA.EF;
+using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +35,7 @@ namespace MarvicSolution.BackendApi
             /// Declare DI
             /// AddTransient: Moi lan request la tao moi 1 object
             services.AddTransient<IProjectType_Service, ProjectType_Service>();
+            services.AddTransient<IProject_Service, Project_Service>();
 
             services.AddControllersWithViews();
 

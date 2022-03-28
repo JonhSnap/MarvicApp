@@ -23,6 +23,7 @@ namespace MarvicSolution.BackendApi.Controllers
 
         // /api/ProjectType/
         [HttpGet]
+        [Route("/api/ProjectType/Get")]
         public async Task<IActionResult> Get()
         {
             if (_service == null)
@@ -33,18 +34,26 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok(prjTypes);
         }
 
+        /// <summary>
+        /// DateTime format: 3/29/2022
+        /// </summary>
+        /// <param name="rq">Request from client</param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] ProjectType_CreateRequest rq)
+        [Route("/api/ProjectType/Create")]
+        public async Task<IActionResult> Create([FromForm]ProjectType_CreateRequest rq)
         {
             var prjTypeId = await _service.Create(rq);
             if (prjTypeId.Equals("00000000-0000-0000-0000-000000000000"))
                 return BadRequest();
 
-            return Created(nameof(Get), prjTypeId);
+            //return Created(nameof(GetAlls), prjTypeId);
+            return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromForm] ProjectType_UpdateRequest rq)
+        [Route("/api/ProjectType/Update")]
+        public async Task<IActionResult> Update([FromForm]ProjectType_UpdateRequest rq)
         {
             var affectedResutl = await _service.Update(rq);
             if (affectedResutl.Equals("00000000-0000-0000-0000-000000000000"))

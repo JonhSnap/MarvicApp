@@ -53,7 +53,7 @@ namespace MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest
                 projectType.Updator = request.Updator;
                 projectType.UpdateDate = request.UpdateDate;
 
-                _context.ProjectTypes.Add(projectType);
+                _context.ProjectTypes.Update(projectType);
                 await _context.SaveChangesAsync();
                 return projectType.Id;
             }
