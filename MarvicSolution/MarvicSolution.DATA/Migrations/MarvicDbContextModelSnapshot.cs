@@ -19,169 +19,206 @@ namespace MarvicSolution.DATA.Migrations
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("MarvicSolution.DATA.Entities.Course", b =>
+            modelBuilder.Entity("MarvicSolution.DATA.Entities.App_Role", b =>
                 {
-                    b.Property<int>("Course_ID")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Credits")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
+                    b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Course_ID");
+                    b.Property<string>("Creator")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Course");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IsDeleted")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Updator")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("App_Role");
 
                     b.HasData(
                         new
                         {
-                            Course_ID = 1050,
-                            Credits = 3,
-                            Title = "Chemistry"
+                            Id = new Guid("ea586555-af1d-4536-9e8c-29f00adef527"),
+                            ConcurrencyStamp = "304536bf-d212-4951-a48b-48d32512b1fd",
+                            Creator = "KhanhND",
+                            DateCreated = new DateTime(2022, 3, 30, 17, 57, 16, 381, DateTimeKind.Local).AddTicks(7804),
+                            IsDeleted = 0,
+                            Name = "Project Manager",
+                            UpdateDate = new DateTime(2022, 3, 30, 17, 57, 16, 382, DateTimeKind.Local).AddTicks(3698),
+                            Updator = "KhanhND"
                         },
                         new
                         {
-                            Course_ID = 4022,
-                            Credits = 3,
-                            Title = "Microeconomics"
+                            Id = new Guid("a31bfd28-35fa-419a-b03f-fe687112dc5c"),
+                            ConcurrencyStamp = "78b0c9dc-1505-42b0-949c-d2b2fda79a6e",
+                            Creator = "KhanhND",
+                            DateCreated = new DateTime(2022, 3, 30, 17, 57, 16, 382, DateTimeKind.Local).AddTicks(4323),
+                            IsDeleted = 0,
+                            Name = "Member",
+                            UpdateDate = new DateTime(2022, 3, 30, 17, 57, 16, 382, DateTimeKind.Local).AddTicks(4328),
+                            Updator = "KhanhND"
                         },
                         new
                         {
-                            Course_ID = 4041,
-                            Credits = 3,
-                            Title = "Macroeconomics"
-                        },
-                        new
-                        {
-                            Course_ID = 1045,
-                            Credits = 4,
-                            Title = "Calculus"
-                        },
-                        new
-                        {
-                            Course_ID = 3141,
-                            Credits = 4,
-                            Title = "Trigonometry"
-                        },
-                        new
-                        {
-                            Course_ID = 2021,
-                            Credits = 3,
-                            Title = "Composition"
-                        },
-                        new
-                        {
-                            Course_ID = 2042,
-                            Credits = 4,
-                            Title = "Literature"
+                            Id = new Guid("0bd0e4cd-9a05-4588-a75f-1625492156b3"),
+                            ConcurrencyStamp = "4677c147-4162-4b27-9d4b-f83e0edf8e1f",
+                            Creator = "KhanhND",
+                            DateCreated = new DateTime(2022, 3, 30, 17, 57, 16, 382, DateTimeKind.Local).AddTicks(4335),
+                            IsDeleted = 0,
+                            Name = "Viewer",
+                            UpdateDate = new DateTime(2022, 3, 30, 17, 57, 16, 382, DateTimeKind.Local).AddTicks(4336),
+                            Updator = "KhanhND"
                         });
                 });
 
-            modelBuilder.Entity("MarvicSolution.DATA.Entities.Enrollment", b =>
+            modelBuilder.Entity("MarvicSolution.DATA.Entities.App_User", b =>
                 {
-                    b.Property<int>("Enrollment_ID")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CourseID")
+                    b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Grade")
+                    b.Property<string>("AccountName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Department")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IsDeleted")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentID")
-                        .HasColumnType("int");
+                    b.Property<string>("JobTitle")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Enrollment_ID");
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
 
-                    b.ToTable("Enrollment");
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Organization")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("App_User");
 
                     b.HasData(
                         new
                         {
-                            Enrollment_ID = 1,
-                            CourseID = 1050,
-                            Grade = 0,
-                            StudentID = 1
+                            Id = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
+                            AccessFailedCount = 0,
+                            AccountName = "KhanhND",
+                            ConcurrencyStamp = "bbdb8171-44a6-4598-b0be-8d0a61b9289a",
+                            Department = "Khoang 1 HN",
+                            Email = "khanhnd@gmail.com",
+                            EmailConfirmed = false,
+                            FullName = "Nguyen Duy Khanh",
+                            IsDeleted = 0,
+                            JobTitle = "Project Manager",
+                            LockoutEnabled = false,
+                            Organization = "Company TechNo1",
+                            Password = "KhanhND123@",
+                            PhoneNumber = "0989878767",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
                         },
                         new
                         {
-                            Enrollment_ID = 2,
-                            CourseID = 4022,
-                            Grade = 2,
-                            StudentID = 1
+                            Id = new Guid("346f2520-6295-4734-8868-6ca75258e7c1"),
+                            AccessFailedCount = 0,
+                            AccountName = "NhanTT",
+                            ConcurrencyStamp = "9f105bd1-90ba-489b-b6dd-3a68a867abb5",
+                            Department = "Khoang 2 HCM",
+                            Email = "nhantt@gmail.com",
+                            EmailConfirmed = false,
+                            FullName = "Tran Thien Nhan",
+                            IsDeleted = 0,
+                            JobTitle = "Member Job Title",
+                            LockoutEnabled = false,
+                            Organization = "Company PizzaHub",
+                            Password = "NhanTT123@",
+                            PhoneNumber = "0336355563",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
                         },
                         new
                         {
-                            Enrollment_ID = 3,
-                            CourseID = 4041,
-                            Grade = 1,
-                            StudentID = 1
-                        },
-                        new
-                        {
-                            Enrollment_ID = 4,
-                            CourseID = 1045,
-                            Grade = 1,
-                            StudentID = 2
-                        },
-                        new
-                        {
-                            Enrollment_ID = 5,
-                            CourseID = 3141,
-                            Grade = 4,
-                            StudentID = 2
-                        },
-                        new
-                        {
-                            Enrollment_ID = 6,
-                            CourseID = 2021,
-                            Grade = 4,
-                            StudentID = 2
-                        },
-                        new
-                        {
-                            Enrollment_ID = 7,
-                            CourseID = 1050,
-                            StudentID = 3
-                        },
-                        new
-                        {
-                            Enrollment_ID = 8,
-                            CourseID = 1050,
-                            StudentID = 4
-                        },
-                        new
-                        {
-                            Enrollment_ID = 9,
-                            CourseID = 4022,
-                            Grade = 4,
-                            StudentID = 4
-                        },
-                        new
-                        {
-                            Enrollment_ID = 10,
-                            CourseID = 4041,
-                            Grade = 2,
-                            StudentID = 5
-                        },
-                        new
-                        {
-                            Enrollment_ID = 11,
-                            CourseID = 1045,
-                            StudentID = 6
-                        },
-                        new
-                        {
-                            Enrollment_ID = 12,
-                            CourseID = 3141,
-                            Grade = 0,
-                            StudentID = 7
+                            Id = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
+                            AccessFailedCount = 0,
+                            AccountName = "NhanTT1",
+                            ConcurrencyStamp = "fe03aa93-4fc8-42d3-915c-31706db6b30d",
+                            Department = "Khoang 10 DN",
+                            Email = "nhant1@gmail.com",
+                            EmailConfirmed = false,
+                            FullName = "Tran Thanh Nhan",
+                            IsDeleted = 0,
+                            JobTitle = "Director",
+                            LockoutEnabled = false,
+                            Organization = "Company Marketing Hanzu",
+                            Password = "NhanTT1Cute@",
+                            PhoneNumber = "0345677456",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
                         });
                 });
 
@@ -207,12 +244,14 @@ namespace MarvicSolution.DATA.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Key")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("Lead_Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ProjectType_Id")
@@ -331,83 +370,83 @@ namespace MarvicSolution.DATA.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MarvicSolution.DATA.Entities.Student", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.Property<int>("Student_ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("EnrollmentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FirstMidName")
+                    b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Student_ID");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
-                    b.ToTable("Student");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasData(
-                        new
-                        {
-                            Student_ID = 1,
-                            EnrollmentDate = new DateTime(2005, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Carson",
-                            LastName = "Alexander"
-                        },
-                        new
-                        {
-                            Student_ID = 2,
-                            EnrollmentDate = new DateTime(2002, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Meredith",
-                            LastName = "Alonso"
-                        },
-                        new
-                        {
-                            Student_ID = 3,
-                            EnrollmentDate = new DateTime(2003, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Arturo",
-                            LastName = "Anand"
-                        },
-                        new
-                        {
-                            Student_ID = 4,
-                            EnrollmentDate = new DateTime(2002, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Gytis",
-                            LastName = "Barzdukas"
-                        },
-                        new
-                        {
-                            Student_ID = 5,
-                            EnrollmentDate = new DateTime(2002, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Yan",
-                            LastName = "Li"
-                        },
-                        new
-                        {
-                            Student_ID = 6,
-                            EnrollmentDate = new DateTime(2001, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Peggy",
-                            LastName = "Justice"
-                        },
-                        new
-                        {
-                            Student_ID = 7,
-                            EnrollmentDate = new DateTime(2003, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Laura",
-                            LastName = "Norman"
-                        },
-                        new
-                        {
-                            Student_ID = 8,
-                            EnrollmentDate = new DateTime(2005, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Nino",
-                            LastName = "Olivetto"
-                        });
+                    b.ToTable("App_RoleClaim");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.ToTable("App_UserClaim");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.ToTable("App_UserLogin");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.ToTable("App_UserRole");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("App_UserToken");
                 });
 #pragma warning restore 612, 618
         }

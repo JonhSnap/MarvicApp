@@ -63,3 +63,7 @@ E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.BackendApi\bin\
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.BackendApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.BackendApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.BackendApi\obj\Debug\net5.0\MarvicSolution.BackendApi.MvcApplicationPartsAssemblyInfo.cs
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.BackendApi\bin\Debug\net5.0\FluentValidation.dll
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.BackendApi\bin\Debug\net5.0\FluentValidation.AspNetCore.dll
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.BackendApi\bin\Debug\net5.0\FluentValidation.DependencyInjectionExtensions.dll
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.BackendApi\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

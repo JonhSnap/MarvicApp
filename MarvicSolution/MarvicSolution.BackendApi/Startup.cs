@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using MarvicSolution.BackendApi.Constants;
 using MarvicSolution.DATA.EF;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
@@ -5,6 +6,7 @@ using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +38,14 @@ namespace MarvicSolution.BackendApi
             /// AddTransient: Moi lan request la tao moi 1 object
             services.AddTransient<IProjectType_Service, ProjectType_Service>();
             services.AddTransient<IProject_Service, Project_Service>();
+
+            /// Validator Fluent Api
+            services.AddControllers()
+                .AddFluentValidation(s =>
+                {
+                    s.RegisterValidatorsFromAssemblyContaining<Startup>();
+                    s.DisableDataAnnotationsValidation = true; // = RunDefaultMvcValidationAfterFluentValidationExecutes = false; 
+                });
 
             services.AddControllersWithViews();
 
