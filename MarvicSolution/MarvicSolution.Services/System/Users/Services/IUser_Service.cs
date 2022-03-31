@@ -9,7 +9,7 @@ namespace MarvicSolution.Services.System.Users.Services
 {
     public interface IUser_Service
     {
-        Task<bool> Authenticate(Login_Request login_Requets);
-        Task<bool> Register(Register_Request register_Request);
+        Task<string> Authenticate(Login_Request rq);
+        Task<bool> Register(Register_Request rq);
     }
 }

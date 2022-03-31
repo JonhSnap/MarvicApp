@@ -75,11 +75,5 @@ namespace MarvicSolution.DATA.EF
         public DbSet<Project> Projects { get; set; }
         public DbSet<App_User> App_Users { get; set; }
         public DbSet<App_Role> App_Roles { get; set; }
-
-        //public DbSet<IdentityRoleClaim<Guid>> App_RoleClaim { get; set; }
-        //public DbSet<IdentityUserClaim<Guid>> App_UserClaim { get; set; }
-        //public DbSet<IdentityUserLogin<Guid>> App_UserLogin { get; set; }
-        //public DbSet<IdentityUserToken<Guid>> App_UserToken { get; set; }
-        //public DbSet<IdentityUserRole<Guid>> App_UserRole { get; set; }
     }
 }

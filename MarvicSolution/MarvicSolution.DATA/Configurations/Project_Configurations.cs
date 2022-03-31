@@ -29,13 +29,13 @@ namespace MarvicSolution.DATA.Configurations
                 Id = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                 Name = "Project A",
                 Key = "PA",
-                ProjectType_Id = new Guid("77B88991-F823-4301-B452-1B14CA44D5CB"), // P_Type_Marketing
-                Lead_Id = new Guid(),
-                Creator_Id = new Guid(),
+                Id_ProjectType = new Guid("77B88991-F823-4301-B452-1B14CA44D5CB"), // P_Type_Marketing
+                Id_Lead = new Guid(),
+                Id_Creator = new Guid(),
                 DateCreated = DateTime.Parse("2021-2-25"),
                 DateStarted = DateTime.Parse("2021-7-21"),
                 DateEnd = DateTime.Parse("2021-8-1"),
-                Updator_Id = new Guid(),
+                Id_Updator = new Guid(),
                 UpdateDate = DateTime.Parse("2021-7-21"),
                 IsDeleted = EnumStatus.False
             },
@@ -44,13 +44,13 @@ namespace MarvicSolution.DATA.Configurations
                 Id = new Guid("89FAD9A0-690D-46E8-A2FE-C6CC50350EAF"),
                 Name = "Project B",
                 Key = "PB",
-                ProjectType_Id = new Guid("77B88991-F823-4301-B452-1B14CA44D5CB"), // P_Type_Marketing
-                Lead_Id = new Guid(),
-                Creator_Id = new Guid(),
+                Id_ProjectType = new Guid("77B88991-F823-4301-B452-1B14CA44D5CB"), // P_Type_Marketing
+                Id_Lead = new Guid(),
+                Id_Creator = new Guid(),
                 DateCreated = DateTime.Parse("2021-3-2"),
                 DateStarted = DateTime.Parse("2021-4-21"),
                 DateEnd = DateTime.Parse("2021-8-1"),
-                Updator_Id = new Guid(),
+                Id_Updator = new Guid(),
                 UpdateDate = DateTime.Parse("2021-6-21"),
                 IsDeleted = EnumStatus.False
             },
@@ -59,13 +59,13 @@ namespace MarvicSolution.DATA.Configurations
                 Id = new Guid("A5329D06-9D32-4A54-B816-906DFBBD288C"),
                 Name = "Project C",
                 Key = "PC",
-                ProjectType_Id = new Guid("21C68955-EA3E-4B41-8EC5-EF816C912F1A"), // P_Type_Development Program
-                Lead_Id = new Guid(),
-                Creator_Id = new Guid(),
+                Id_ProjectType = new Guid("21C68955-EA3E-4B41-8EC5-EF816C912F1A"), // P_Type_Development Program
+                Id_Lead = new Guid(),
+                Id_Creator = new Guid(),
                 DateCreated = DateTime.Parse("2021-4-25"),
                 DateStarted = DateTime.Parse("2021-5-21"),
                 DateEnd = DateTime.Parse("2021-6-1"),
-                Updator_Id = new Guid(),
+                Id_Updator = new Guid(),
                 UpdateDate = DateTime.Parse("2021-4-26"),
                 IsDeleted = EnumStatus.False
             }
