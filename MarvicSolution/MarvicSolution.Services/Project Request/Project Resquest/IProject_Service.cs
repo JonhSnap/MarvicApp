@@ -15,7 +15,10 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         Task<int>  Update(Project_UpdateRequest request);
         Task<Guid> Delete(Guid Id);
 
-        Task<List<Project_ViewModel>> GetAlls();
+        Task<List<Project_ViewModel>> GetAlls_Linq();
+        Task<List<Project_ViewModel>> GetAlls_Tscript();
+        Task<List<Project_ViewModel>> GetAlls_Proc();
+        Task<List<Project_ViewModel>> Groupby_ProjectType_Tscript();
         Task<Project_PageResult<Project_ViewModel>> GetAllPaging(Get_Project_PagingRequest request);
     }
 }
