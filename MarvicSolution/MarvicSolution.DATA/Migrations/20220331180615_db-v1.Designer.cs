@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarvicSolution.DATA.Migrations
 {
     [DbContext(typeof(MarvicDbContext))]
-    [Migration("20220330105716_edit-user-and-role-follow-identity-v1")]
-    partial class edituserandrolefollowidentityv1
+    [Migration("20220331180615_db-v1")]
+    partial class dbv1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,34 +59,34 @@ namespace MarvicSolution.DATA.Migrations
                         new
                         {
                             Id = new Guid("ea586555-af1d-4536-9e8c-29f00adef527"),
-                            ConcurrencyStamp = "304536bf-d212-4951-a48b-48d32512b1fd",
+                            ConcurrencyStamp = "64d601c5-64ab-4c31-b8bd-74e6970f47b5",
                             Creator = "KhanhND",
-                            DateCreated = new DateTime(2022, 3, 30, 17, 57, 16, 381, DateTimeKind.Local).AddTicks(7804),
+                            DateCreated = new DateTime(2022, 4, 1, 1, 6, 14, 808, DateTimeKind.Local).AddTicks(5392),
                             IsDeleted = 0,
                             Name = "Project Manager",
-                            UpdateDate = new DateTime(2022, 3, 30, 17, 57, 16, 382, DateTimeKind.Local).AddTicks(3698),
+                            UpdateDate = new DateTime(2022, 4, 1, 1, 6, 14, 808, DateTimeKind.Local).AddTicks(8895),
                             Updator = "KhanhND"
                         },
                         new
                         {
                             Id = new Guid("a31bfd28-35fa-419a-b03f-fe687112dc5c"),
-                            ConcurrencyStamp = "78b0c9dc-1505-42b0-949c-d2b2fda79a6e",
+                            ConcurrencyStamp = "7b5eadcb-e7c6-443a-84a2-6301b50756c5",
                             Creator = "KhanhND",
-                            DateCreated = new DateTime(2022, 3, 30, 17, 57, 16, 382, DateTimeKind.Local).AddTicks(4323),
+                            DateCreated = new DateTime(2022, 4, 1, 1, 6, 14, 808, DateTimeKind.Local).AddTicks(9828),
                             IsDeleted = 0,
                             Name = "Member",
-                            UpdateDate = new DateTime(2022, 3, 30, 17, 57, 16, 382, DateTimeKind.Local).AddTicks(4328),
+                            UpdateDate = new DateTime(2022, 4, 1, 1, 6, 14, 808, DateTimeKind.Local).AddTicks(9834),
                             Updator = "KhanhND"
                         },
                         new
                         {
                             Id = new Guid("0bd0e4cd-9a05-4588-a75f-1625492156b3"),
-                            ConcurrencyStamp = "4677c147-4162-4b27-9d4b-f83e0edf8e1f",
+                            ConcurrencyStamp = "5c68add5-814d-4033-aa61-5771c33597d8",
                             Creator = "KhanhND",
-                            DateCreated = new DateTime(2022, 3, 30, 17, 57, 16, 382, DateTimeKind.Local).AddTicks(4335),
+                            DateCreated = new DateTime(2022, 4, 1, 1, 6, 14, 808, DateTimeKind.Local).AddTicks(9841),
                             IsDeleted = 0,
                             Name = "Viewer",
-                            UpdateDate = new DateTime(2022, 3, 30, 17, 57, 16, 382, DateTimeKind.Local).AddTicks(4336),
+                            UpdateDate = new DateTime(2022, 4, 1, 1, 6, 14, 808, DateTimeKind.Local).AddTicks(9842),
                             Updator = "KhanhND"
                         });
                 });
@@ -99,9 +99,6 @@ namespace MarvicSolution.DATA.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<string>("AccountName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
@@ -169,8 +166,7 @@ namespace MarvicSolution.DATA.Migrations
                         {
                             Id = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
                             AccessFailedCount = 0,
-                            AccountName = "KhanhND",
-                            ConcurrencyStamp = "bbdb8171-44a6-4598-b0be-8d0a61b9289a",
+                            ConcurrencyStamp = "dac0f81e-fabc-435b-9f0a-df6aee906b10",
                             Department = "Khoang 1 HN",
                             Email = "khanhnd@gmail.com",
                             EmailConfirmed = false,
@@ -182,14 +178,14 @@ namespace MarvicSolution.DATA.Migrations
                             Password = "KhanhND123@",
                             PhoneNumber = "0989878767",
                             PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false
+                            TwoFactorEnabled = false,
+                            UserName = "KhanhND"
                         },
                         new
                         {
                             Id = new Guid("346f2520-6295-4734-8868-6ca75258e7c1"),
                             AccessFailedCount = 0,
-                            AccountName = "NhanTT",
-                            ConcurrencyStamp = "9f105bd1-90ba-489b-b6dd-3a68a867abb5",
+                            ConcurrencyStamp = "404b4074-dafc-4bd8-a3b5-c7434f455334",
                             Department = "Khoang 2 HCM",
                             Email = "nhantt@gmail.com",
                             EmailConfirmed = false,
@@ -201,14 +197,14 @@ namespace MarvicSolution.DATA.Migrations
                             Password = "NhanTT123@",
                             PhoneNumber = "0336355563",
                             PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false
+                            TwoFactorEnabled = false,
+                            UserName = "NhanTT"
                         },
                         new
                         {
                             Id = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
                             AccessFailedCount = 0,
-                            AccountName = "NhanTT1",
-                            ConcurrencyStamp = "fe03aa93-4fc8-42d3-915c-31706db6b30d",
+                            ConcurrencyStamp = "f5c0b33b-51f1-4130-8ace-d1720ef6c990",
                             Department = "Khoang 10 DN",
                             Email = "nhant1@gmail.com",
                             EmailConfirmed = false,
@@ -217,10 +213,11 @@ namespace MarvicSolution.DATA.Migrations
                             JobTitle = "Director",
                             LockoutEnabled = false,
                             Organization = "Company Marketing Hanzu",
-                            Password = "NhanTT1Cute@",
+                            Password = "NhanTTT1Cute@",
                             PhoneNumber = "0345677456",
                             PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false
+                            TwoFactorEnabled = false,
+                            UserName = "NhanTTT1"
                         });
                 });
 
@@ -230,17 +227,26 @@ namespace MarvicSolution.DATA.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Creator_Id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateEnd")
+                    b.Property<DateTime?>("DateEnd")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateStarted")
+                    b.Property<DateTime?>("DateStarted")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Id_Creator")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id_Lead")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id_ProjectType")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id_Updator")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("IsDeleted")
                         .HasColumnType("int");
@@ -249,21 +255,12 @@ namespace MarvicSolution.DATA.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("Lead_Id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ProjectType_Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdateDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<Guid>("Updator_Id")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -273,47 +270,47 @@ namespace MarvicSolution.DATA.Migrations
                         new
                         {
                             Id = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
-                            Creator_Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             DateCreated = new DateTime(2021, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateEnd = new DateTime(2021, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Lead = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_ProjectType = new Guid("77b88991-f823-4301-b452-1b14ca44d5cb"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             Key = "PA",
-                            Lead_Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             Name = "Project A",
-                            ProjectType_Id = new Guid("77b88991-f823-4301-b452-1b14ca44d5cb"),
-                            UpdateDate = new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Updator_Id = new Guid("00000000-0000-0000-0000-000000000000")
+                            UpdateDate = new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"),
-                            Creator_Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             DateCreated = new DateTime(2021, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateEnd = new DateTime(2021, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2021, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Lead = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_ProjectType = new Guid("77b88991-f823-4301-b452-1b14ca44d5cb"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             Key = "PB",
-                            Lead_Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             Name = "Project B",
-                            ProjectType_Id = new Guid("77b88991-f823-4301-b452-1b14ca44d5cb"),
-                            UpdateDate = new DateTime(2021, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Updator_Id = new Guid("00000000-0000-0000-0000-000000000000")
+                            UpdateDate = new DateTime(2021, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = new Guid("a5329d06-9d32-4a54-b816-906dfbbd288c"),
-                            Creator_Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             DateCreated = new DateTime(2021, 4, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateEnd = new DateTime(2021, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2021, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Lead = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_ProjectType = new Guid("21c68955-ea3e-4b41-8ec5-ef816c912f1a"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             Key = "PC",
-                            Lead_Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             Name = "Project C",
-                            ProjectType_Id = new Guid("21c68955-ea3e-4b41-8ec5-ef816c912f1a"),
-                            UpdateDate = new DateTime(2021, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Updator_Id = new Guid("00000000-0000-0000-0000-000000000000")
+                            UpdateDate = new DateTime(2021, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 

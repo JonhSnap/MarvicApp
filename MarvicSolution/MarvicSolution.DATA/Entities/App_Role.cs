@@ -17,5 +17,6 @@ namespace MarvicSolution.DATA.Entities
         public string Updator { get; set; }
         public DateTime UpdateDate { get; set; }
         public EnumStatus IsDeleted { get; set; }
+
     }
 }
