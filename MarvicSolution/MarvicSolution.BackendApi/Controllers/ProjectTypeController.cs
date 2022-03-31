@@ -23,7 +23,7 @@ namespace MarvicSolution.BackendApi.Controllers
 
         // /api/ProjectType/
         [HttpGet]
-        [Route("/api/ProjectType/Get")]
+        [Route("/api/ProjectType/Get")]// remember to check this route
         public async Task<IActionResult> Get()
         {
             if (_service == null)
@@ -40,7 +40,7 @@ namespace MarvicSolution.BackendApi.Controllers
         /// <param name="rq">Request from client</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("/api/ProjectType/Create")]
+        [Route("/api/ProjectType/Create")]// remember to check this route
         public async Task<IActionResult> Create([FromForm]ProjectType_CreateRequest rq)
         {
             var prjTypeId = await _service.Create(rq);
@@ -52,7 +52,7 @@ namespace MarvicSolution.BackendApi.Controllers
         }
 
         [HttpPut]
-        [Route("/api/ProjectType/Update")]
+        [Route("/api/ProjectType/Update")]// remember to check this route
         public async Task<IActionResult> Update([FromForm]ProjectType_UpdateRequest rq)
         {
             var affectedResutl = await _service.Update(rq);
@@ -62,7 +62,7 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok();
         }
 
-        [HttpDelete("{prjTypeId}")]
+        [HttpDelete("{prjTypeId}")]// remember to check this route
         public async Task<IActionResult> Delete(Guid prjTypeId)
         {
             var affectedResutl = await _service.Delete(prjTypeId);
