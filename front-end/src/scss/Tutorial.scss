@@ -1,0 +1,175 @@
+.tutorial {
+    width: 100%;
+    max-width: 1320px;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+
+    .content-1 {
+        width: 40%;
+        height: 80%;
+        border-radius: 50%;
+        background-color: #5d78a2;
+        position: absolute;
+        top: -150px;
+        left: -90px;
+        display: flex;
+        flex-direction: column;
+
+
+
+        .content {
+            width: 66%;
+            height: 55%;
+            position: absolute;
+            top: 150px;
+            left: 90px;
+            padding: 20px;
+        }
+
+        .title-content,
+        .main-content {
+            width: 100%;
+            color: #fff;
+        }
+
+        .title-content {
+            flex: 1;
+            font-size: xxx-large;
+        }
+
+        .main-content {
+            flex: 3;
+            height: 80%;
+            overflow: auto;
+        }
+    }
+
+    .content-2 {
+        width: 80%;
+        height: 115%;
+        border-radius: 50%;
+        background-color: #6fbded;
+        position: absolute;
+        bottom: -120px;
+        right: -115px;
+
+        .content2 {
+            width: 80%;
+            height: 60%;
+            position: absolute;
+            top: 125px;
+            left: 90px;
+            padding: 20px;
+        }
+
+        .title-content,
+        .main-content {
+            width: 100%;
+            color: #fff;
+        }
+
+        .title-content {
+            flex: 1;
+            font-size: xxx-large;
+        }
+
+        .main-content {
+            flex: 3;
+            height: 65%;
+            overflow: auto;
+        }
+
+        .btn {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 100px;
+
+            .btn-next,
+            .btn-previous,
+            .btn-skip {
+                width: 100px;
+                padding: 15px;
+                margin: 10px;
+            }
+
+            .btn-previous,
+            .btn-next {
+                color: #fff;
+            }
+        }
+    }
+
+    .content-3 {
+        width: 20%;
+        height: 40%;
+        border-radius: 50%;
+        border: 10px solid #ccc;
+        position: absolute;
+        bottom: 20px;
+        left: 60px;
+        display: flex;
+
+        .circle-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            border-radius: 50%;
+        }
+
+        .circle-center {
+            width: 40%;
+            height: 40%;
+            background-color: #729aca;
+            margin: auto;
+            font-size: x-large;
+        }
+
+        .circle-1,
+        .circle-2,
+        .circle-3,
+        .circle-4,
+        .circle-5 {
+            width: 30%;
+            height: 30%;
+            position: absolute;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            border-radius: 50%;
+        }
+
+        .circle-1 {
+            background-color: #e9893b;
+            top: -20%;
+            left: 35%;
+        }
+
+        .circle-2 {
+            background-color: #afc97a;
+            top: 15%;
+            left: 80%;
+        }
+
+        .circle-3 {
+            background-color: #6fbdd1;
+            bottom: -10%;
+            left: 5%;
+        }
+
+        .circle-4 {
+            background-color: #a9a176;
+            bottom: -10%;
+            right: 5%;
+        }
+
+        .circle-5 {
+            background-color: #cd7371;
+            top: 15%;
+            right: 80%;
+        }
+    }
+}
