@@ -67,3 +67,4 @@ E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.BackendApi\bin\
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.BackendApi\bin\Debug\net5.0\FluentValidation.AspNetCore.dll
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.BackendApi\bin\Debug\net5.0\FluentValidation.DependencyInjectionExtensions.dll
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.BackendApi\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.BackendApi\bin\Debug\net5.0\BCrypt.Net-Next.dll

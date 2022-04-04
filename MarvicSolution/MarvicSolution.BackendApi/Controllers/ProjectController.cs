@@ -23,7 +23,7 @@ namespace MarvicSolution.BackendApi.Controllers
         // /api/Project/GetAlls
         [HttpGet]
         [Route("/api/Project/GetAllsLinq")] // remember to check this route
-        public async Task<IActionResult> GetAlls_Linq()
+        public async Task<IActionResult> GetAllsLinq()
         {
             if (_service == null)
             {

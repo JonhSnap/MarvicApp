@@ -1,5 +1,8 @@
-﻿using MarvicSolution.Services.System.Users.Requests;
+﻿using MarvicSolution.DATA.Entities;
+using MarvicSolution.Services.System.Helpers;
+using MarvicSolution.Services.System.Users.Requests;
 using MarvicSolution.Services.System.Users.Services;
+using MarvicSolution.Utilities.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,39 +18,80 @@ namespace MarvicSolution.BackendApi.Controllers
     public class UserController : ControllerBase
     {
         // Must declare DI in startup
-        private readonly IUser_Service _user_Service;
-        public UserController(IUser_Service user_Service)
+        private readonly IUser_Service _userService;
+        private readonly Jwt_Service _jwtService;
+        public UserController(IUser_Service userService, Jwt_Service jwtService)
         {
-            _user_Service = user_Service;
+            _userService = userService;
+            _jwtService = jwtService;
         }
 
-        [HttpPost("authenticate")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Authenticate([FromForm] Login_Request rq)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var resultToken = await _user_Service.Authenticate(rq);
-            if (string.IsNullOrEmpty(resultToken))
-                return BadRequest("UserName or Password is incorrect");
-
-            return Ok(new { token = resultToken });
-        }
-
+        // /api/user/register
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromForm] Register_Request rq)
+        public async Task<IActionResult> Register([FromBody] Register_Request rq)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            bool result = await _userService.Register(rq);
+
+            return Ok("Register success");
+        }
+
+        // /api/user/login
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public IActionResult Login([FromBody] Login_Request rq)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _user_Service.Register(rq);
-            if (!result)
-                return BadRequest("Register is unsuccessful");
-
-            return Ok();
+            // Tao token theo JWT
+            var jwt = _userService.Authenticate(rq);
+            // Tao cookie
+            Response.Cookies.Append("jwt", jwt, new CookieOptions
+            {
+                HttpOnly = true
+            });
+            return Ok("Login success");
         }
 
+        // /api/user/get
+        [HttpGet("get")]
+        public async Task<IActionResult> Get()
+        {
+            try
+            {
+                Guid id_User = ValidateUserById();
+                var user = await _userService.GetUserbyId(id_User);
+                return Ok(user);
+            }
+            catch (Exception)
+            {
+                return Unauthorized();
+            }
+        }
+
+        // /api/user/logout
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("jwt");
+            return Ok("Logout success");
+        }
+
+        private Guid ValidateUserById()
+        {
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+                var token = _jwtService.Verify(jwt);
+                return Guid.Parse(token.Issuer);
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
     }
 }

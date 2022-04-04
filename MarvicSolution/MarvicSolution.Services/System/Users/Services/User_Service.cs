@@ -1,82 +1,112 @@
-﻿using MarvicSolution.DATA.Entities;
+﻿using MarvicSolution.DATA.EF;
+using MarvicSolution.DATA.Entities;
 using MarvicSolution.Services.System.Users.Requests;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
+using MarvicSolution.Utilities.Exceptions;
+using MarvicSolution.Utilities.Common;
+using MarvicSolution.Services.System.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace MarvicSolution.Services.System.Users.Services
 {
     public class User_Service : IUser_Service
     {
-        private readonly UserManager<App_User> _userManager;
-        private readonly SignInManager<App_User> _singInManager;
-        private readonly RoleManager<App_Role> _roleManager;
-        private readonly IConfiguration _config;
-        public User_Service(UserManager<App_User> userManager, SignInManager<App_User> signInManager,
-            RoleManager<App_Role> roleManager, IConfiguration config)
+        private readonly MarvicDbContext _context;
+        private readonly Jwt_Service _jwtService;
+
+        public User_Service(MarvicDbContext context, Jwt_Service jwtService)
         {
-            _userManager = userManager;
-            _singInManager = signInManager;
-            _roleManager = roleManager;
-            _config = config;
+            _context = context;
+            _jwtService = jwtService;
         }
-        public async Task<string> Authenticate(Login_Request rq)
+
+        public string Authenticate(Login_Request rq)
         {
-            var user = await _userManager.FindByNameAsync(rq.UserName);
+            // Kiem tra tai khoan
+            var user = GetUserbyUserName(rq);
             if (user == null)
-                return null;
+                return "Invalid account";
 
-            var result = await _singInManager.PasswordSignInAsync(user, rq.Password, rq.RememberMe, true);
-            if (!result.Succeeded)
-                return null;
+            // Kiem tra mat khau
+            if (!BCrypt.Net.BCrypt.Verify(rq.Password, user.Password))
+                return "Invalid credential";
 
-            var roles = _userManager.GetRolesAsync(user);
+            // Tao token theo JWT
+            var jwt = _jwtService.GenerateToken(user.Id);
 
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.Email,user.Email),
-                new Claim(ClaimTypes.GivenName,user.FullName),
-                new Claim(ClaimTypes.Role,string.Join(";", roles)), // danh sach cach nhau bang dau ";"
-            };
+            return jwt;
+        }
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        public App_User GetUserbyUserName(Login_Request rq)
+        {
+            var user = _context.App_Users.FirstOrDefault(u => u.UserName == rq.UserName);
 
-            var token = new JwtSecurityToken(_config["Tokens:Issuer"],
-                _config["Tokens:Issuer"],
-                claims,
-                expires: DateTime.Now.AddHours(3),
-                signingCredentials: creds);
+            if (user == null)
+                throw new MarvicException($"Cannot find user with username: {rq.UserName}");
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return user;
         }
 
         public async Task<bool> Register(Register_Request rq)
         {
-            var user = new App_User()
+            try
             {
-                // Required prop
-                FullName = rq.FullName,
-                UserName = rq.UserName,
-                Password = rq.Password,
-                Email = rq.Email,
-                PhoneNumber = rq.PhoneNumber,
-                JobTitle = rq.JobTitle,
-                Department = rq.Department,
-                Organization = rq.Organization
-            };
+                var user = new App_User()
+                {
+                    Id = Guid.NewGuid(),
+                    FullName = rq.FullName,
+                    UserName = rq.UserName,
+                    Password = BCrypt.Net.BCrypt.HashPassword(rq.Password),
+                    IsDeleted = DATA.Enums.EnumStatus.False
+                };
 
-            var result = await _userManager.CreateAsync(user, rq.Password);
-            if (result.Succeeded)
-                return true; // Co the add them cac claim mong muon
+                _context.App_Users.Add(user);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
 
-            // Ghi log error result.Error (list)
-            return false;
+        public async Task<Guid> Create(Create_User_Request rq)
+        {
+            try
+            {
+                var user = new App_User()
+                {
+                    Id = Guid.NewGuid(),
+                    FullName = rq.FullName,
+                    UserName = rq.UserName,
+                    Password = BCrypt.Net.BCrypt.HashPassword(rq.Password),
+                    JobTitle = rq.JobTitle,
+                    Department = rq.Department,
+                    Organization = rq.Organization,
+                    PhoneNumber = rq.PhoneNumber,
+                    IsDeleted = DATA.Enums.EnumStatus.False
+                };
+
+                _context.App_Users.Add(user);
+                await _context.SaveChangesAsync();
+                return user.Id;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+        public async Task<App_User> GetUserbyId(Guid Id)
+        {
+            var user = await _context.App_Users.FindAsync(Id);
+
+            if (user == null)
+                throw new MarvicException($"Cannot find user with Id: {Id}");
+
+            return user;
         }
     }
 }
