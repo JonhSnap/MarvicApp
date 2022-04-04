@@ -1,5 +1,5 @@
 ﻿## Lưu ý 
-1. Đổi connection string trong appsettings.json ở MarvicSolution.WebApp
+1. Đổi connection string trong appsettings.json -> appsettings.Development.json ở MarvicSolution.BackendApi
 - Nếu có tài khoản admin: "Server=...;Database=MarvicDB;User Id=sa;Password=...;"
 - Nếu dùng tài khoản window thông thường: "Server=...;Database=MarvicDB;Trusted_Connection=True;"
 

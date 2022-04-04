@@ -12,7 +12,7 @@ namespace MarvicSolution.Services.System.Users.Requests
         {
 
         }
-        public string UserName { get; set; }
+        public string UserName { get; set; } // sửa lại unique
         public string Password { get; set; }
         public bool RememberMe { get; set; }
 
