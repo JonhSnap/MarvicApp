@@ -2,7 +2,6 @@ E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\bin\D
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\bin\Debug\net5.0\MarvicSolution.Utilities.dll
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\bin\Debug\net5.0\ref\MarvicSolution.Utilities.dll
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\bin\Debug\net5.0\MarvicSolution.Utilities.pdb
-E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.csproj.AssemblyReference.cache
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.GeneratedMSBuildEditorConfig.editorconfig
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.AssemblyInfoInputs.cache
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.AssemblyInfo.cs

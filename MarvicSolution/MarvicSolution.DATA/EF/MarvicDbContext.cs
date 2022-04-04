@@ -26,7 +26,7 @@ namespace MarvicSolution.DATA.EF
             modelBuilder.ApplyConfiguration(new ProjectType_Configurations());
             modelBuilder.ApplyConfiguration(new Project_Configurations());
             modelBuilder.ApplyConfiguration(new App_User_Configurations());
-            modelBuilder.ApplyConfiguration(new App_Role_Configurations());
+            modelBuilder.ApplyConfiguration(new Issue_Configurations());
 
             //base.OnModelCreating(modelBuilder);
         }
@@ -35,6 +35,6 @@ namespace MarvicSolution.DATA.EF
         public DbSet<ProjectType> ProjectTypes { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<App_User> App_Users { get; set; }
-        public DbSet<App_Role> App_Roles { get; set; }
+        public DbSet<Issue> Issues { get; set; }
     }
 }
