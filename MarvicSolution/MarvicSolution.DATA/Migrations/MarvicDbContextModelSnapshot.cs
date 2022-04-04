@@ -19,169 +19,152 @@ namespace MarvicSolution.DATA.Migrations
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("MarvicSolution.DATA.Entities.Course", b =>
+            modelBuilder.Entity("MarvicSolution.DATA.Entities.App_Role", b =>
                 {
-                    b.Property<int>("Course_ID")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Credits")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
+                    b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Course_ID");
+                    b.Property<string>("Creator")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Course");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IsDeleted")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Updator")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("App_Role");
 
                     b.HasData(
                         new
                         {
-                            Course_ID = 1050,
-                            Credits = 3,
-                            Title = "Chemistry"
+                            Id = new Guid("ea586555-af1d-4536-9e8c-29f00adef527"),
+                            ConcurrencyStamp = "444c2206-ee5e-479d-addc-23422b787fa5",
+                            Creator = "KhanhND",
+                            DateCreated = new DateTime(2022, 4, 4, 5, 26, 49, 934, DateTimeKind.Local).AddTicks(7365),
+                            IsDeleted = 0,
+                            Name = "Project Manager",
+                            UpdateDate = new DateTime(2022, 4, 4, 5, 26, 49, 935, DateTimeKind.Local).AddTicks(4135),
+                            Updator = "KhanhND"
                         },
                         new
                         {
-                            Course_ID = 4022,
-                            Credits = 3,
-                            Title = "Microeconomics"
+                            Id = new Guid("a31bfd28-35fa-419a-b03f-fe687112dc5c"),
+                            ConcurrencyStamp = "7de3becf-8a9b-4edd-98c0-bf885fcfa6d5",
+                            Creator = "KhanhND",
+                            DateCreated = new DateTime(2022, 4, 4, 5, 26, 49, 935, DateTimeKind.Local).AddTicks(5286),
+                            IsDeleted = 0,
+                            Name = "Member",
+                            UpdateDate = new DateTime(2022, 4, 4, 5, 26, 49, 935, DateTimeKind.Local).AddTicks(5291),
+                            Updator = "KhanhND"
                         },
                         new
                         {
-                            Course_ID = 4041,
-                            Credits = 3,
-                            Title = "Macroeconomics"
-                        },
-                        new
-                        {
-                            Course_ID = 1045,
-                            Credits = 4,
-                            Title = "Calculus"
-                        },
-                        new
-                        {
-                            Course_ID = 3141,
-                            Credits = 4,
-                            Title = "Trigonometry"
-                        },
-                        new
-                        {
-                            Course_ID = 2021,
-                            Credits = 3,
-                            Title = "Composition"
-                        },
-                        new
-                        {
-                            Course_ID = 2042,
-                            Credits = 4,
-                            Title = "Literature"
+                            Id = new Guid("0bd0e4cd-9a05-4588-a75f-1625492156b3"),
+                            ConcurrencyStamp = "5d015904-1032-4887-8b5e-3ce433ed0ca1",
+                            Creator = "KhanhND",
+                            DateCreated = new DateTime(2022, 4, 4, 5, 26, 49, 935, DateTimeKind.Local).AddTicks(5300),
+                            IsDeleted = 0,
+                            Name = "Viewer",
+                            UpdateDate = new DateTime(2022, 4, 4, 5, 26, 49, 935, DateTimeKind.Local).AddTicks(5301),
+                            Updator = "KhanhND"
                         });
                 });
 
-            modelBuilder.Entity("MarvicSolution.DATA.Entities.Enrollment", b =>
+            modelBuilder.Entity("MarvicSolution.DATA.Entities.App_User", b =>
                 {
-                    b.Property<int>("Enrollment_ID")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CourseID")
+                    b.Property<string>("Department")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IsDeleted")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Grade")
-                        .HasColumnType("int");
+                    b.Property<string>("JobTitle")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StudentID")
-                        .HasColumnType("int");
+                    b.Property<string>("Organization")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Enrollment_ID");
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Enrollment");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("App_User");
 
                     b.HasData(
                         new
                         {
-                            Enrollment_ID = 1,
-                            CourseID = 1050,
-                            Grade = 0,
-                            StudentID = 1
+                            Id = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
+                            Department = "Khoang 1 HN",
+                            Email = "khanhnd@gmail.com",
+                            FullName = "Nguyen Duy Khanh",
+                            IsDeleted = 0,
+                            JobTitle = "Project Manager",
+                            Organization = "Company TechNo1",
+                            Password = "KhanhND123@",
+                            PhoneNumber = "0989878767",
+                            UserName = "KhanhND"
                         },
                         new
                         {
-                            Enrollment_ID = 2,
-                            CourseID = 4022,
-                            Grade = 2,
-                            StudentID = 1
+                            Id = new Guid("346f2520-6295-4734-8868-6ca75258e7c1"),
+                            Department = "Khoang 2 HCM",
+                            Email = "nhantt@gmail.com",
+                            FullName = "Tran Thien Nhan",
+                            IsDeleted = 0,
+                            JobTitle = "Member Job Title",
+                            Organization = "Company PizzaHub",
+                            Password = "NhanTT123@",
+                            PhoneNumber = "0336355563",
+                            UserName = "NhanTT"
                         },
                         new
                         {
-                            Enrollment_ID = 3,
-                            CourseID = 4041,
-                            Grade = 1,
-                            StudentID = 1
-                        },
-                        new
-                        {
-                            Enrollment_ID = 4,
-                            CourseID = 1045,
-                            Grade = 1,
-                            StudentID = 2
-                        },
-                        new
-                        {
-                            Enrollment_ID = 5,
-                            CourseID = 3141,
-                            Grade = 4,
-                            StudentID = 2
-                        },
-                        new
-                        {
-                            Enrollment_ID = 6,
-                            CourseID = 2021,
-                            Grade = 4,
-                            StudentID = 2
-                        },
-                        new
-                        {
-                            Enrollment_ID = 7,
-                            CourseID = 1050,
-                            StudentID = 3
-                        },
-                        new
-                        {
-                            Enrollment_ID = 8,
-                            CourseID = 1050,
-                            StudentID = 4
-                        },
-                        new
-                        {
-                            Enrollment_ID = 9,
-                            CourseID = 4022,
-                            Grade = 4,
-                            StudentID = 4
-                        },
-                        new
-                        {
-                            Enrollment_ID = 10,
-                            CourseID = 4041,
-                            Grade = 2,
-                            StudentID = 5
-                        },
-                        new
-                        {
-                            Enrollment_ID = 11,
-                            CourseID = 1045,
-                            StudentID = 6
-                        },
-                        new
-                        {
-                            Enrollment_ID = 12,
-                            CourseID = 3141,
-                            Grade = 0,
-                            StudentID = 7
+                            Id = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
+                            Department = "Khoang 10 DN",
+                            Email = "nhant1@gmail.com",
+                            FullName = "Tran Thanh Nhan",
+                            IsDeleted = 0,
+                            JobTitle = "Director",
+                            Organization = "Company Marketing Hanzu",
+                            Password = "NhanTTT1Cute@",
+                            PhoneNumber = "0345677456",
+                            UserName = "NhanTTT1"
                         });
                 });
 
@@ -191,38 +174,40 @@ namespace MarvicSolution.DATA.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Creator_Id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateEnd")
+                    b.Property<DateTime?>("DateEnd")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateStarted")
+                    b.Property<DateTime?>("DateStarted")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Id_Creator")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id_Lead")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id_ProjectType")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id_Updator")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("IsDeleted")
                         .HasColumnType("int");
 
                     b.Property<string>("Key")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("Lead_Id")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ProjectType_Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdateDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<Guid>("Updator_Id")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -232,47 +217,47 @@ namespace MarvicSolution.DATA.Migrations
                         new
                         {
                             Id = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
-                            Creator_Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             DateCreated = new DateTime(2021, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateEnd = new DateTime(2021, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Lead = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_ProjectType = new Guid("77b88991-f823-4301-b452-1b14ca44d5cb"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             Key = "PA",
-                            Lead_Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             Name = "Project A",
-                            ProjectType_Id = new Guid("77b88991-f823-4301-b452-1b14ca44d5cb"),
-                            UpdateDate = new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Updator_Id = new Guid("00000000-0000-0000-0000-000000000000")
+                            UpdateDate = new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"),
-                            Creator_Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             DateCreated = new DateTime(2021, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateEnd = new DateTime(2021, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2021, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Lead = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_ProjectType = new Guid("77b88991-f823-4301-b452-1b14ca44d5cb"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             Key = "PB",
-                            Lead_Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             Name = "Project B",
-                            ProjectType_Id = new Guid("77b88991-f823-4301-b452-1b14ca44d5cb"),
-                            UpdateDate = new DateTime(2021, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Updator_Id = new Guid("00000000-0000-0000-0000-000000000000")
+                            UpdateDate = new DateTime(2021, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = new Guid("a5329d06-9d32-4a54-b816-906dfbbd288c"),
-                            Creator_Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             DateCreated = new DateTime(2021, 4, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateEnd = new DateTime(2021, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2021, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Lead = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_ProjectType = new Guid("21c68955-ea3e-4b41-8ec5-ef816c912f1a"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             Key = "PC",
-                            Lead_Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             Name = "Project C",
-                            ProjectType_Id = new Guid("21c68955-ea3e-4b41-8ec5-ef816c912f1a"),
-                            UpdateDate = new DateTime(2021, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Updator_Id = new Guid("00000000-0000-0000-0000-000000000000")
+                            UpdateDate = new DateTime(2021, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -328,85 +313,6 @@ namespace MarvicSolution.DATA.Migrations
                             Name = "Accounting",
                             UpdateDate = new DateTime(2015, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Updator = "User C_Update"
-                        });
-                });
-
-            modelBuilder.Entity("MarvicSolution.DATA.Entities.Student", b =>
-                {
-                    b.Property<int>("Student_ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("EnrollmentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FirstMidName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Student_ID");
-
-                    b.ToTable("Student");
-
-                    b.HasData(
-                        new
-                        {
-                            Student_ID = 1,
-                            EnrollmentDate = new DateTime(2005, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Carson",
-                            LastName = "Alexander"
-                        },
-                        new
-                        {
-                            Student_ID = 2,
-                            EnrollmentDate = new DateTime(2002, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Meredith",
-                            LastName = "Alonso"
-                        },
-                        new
-                        {
-                            Student_ID = 3,
-                            EnrollmentDate = new DateTime(2003, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Arturo",
-                            LastName = "Anand"
-                        },
-                        new
-                        {
-                            Student_ID = 4,
-                            EnrollmentDate = new DateTime(2002, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Gytis",
-                            LastName = "Barzdukas"
-                        },
-                        new
-                        {
-                            Student_ID = 5,
-                            EnrollmentDate = new DateTime(2002, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Yan",
-                            LastName = "Li"
-                        },
-                        new
-                        {
-                            Student_ID = 6,
-                            EnrollmentDate = new DateTime(2001, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Peggy",
-                            LastName = "Justice"
-                        },
-                        new
-                        {
-                            Student_ID = 7,
-                            EnrollmentDate = new DateTime(2003, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Laura",
-                            LastName = "Norman"
-                        },
-                        new
-                        {
-                            Student_ID = 8,
-                            EnrollmentDate = new DateTime(2005, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstMidName = "Nino",
-                            LastName = "Olivetto"
                         });
                 });
 #pragma warning restore 612, 618
