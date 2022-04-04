@@ -1,5 +1,7 @@
 ﻿using MarvicSolution.DATA.Configurations;
 using MarvicSolution.DATA.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,7 +16,7 @@ namespace MarvicSolution.DATA.EF
         public MarvicDbContext(DbContextOptions options) : base(options)
         {
         }
-        
+
         /// <summary>
         /// Su dung Fluent Api cai dat cac thuoc tinh cho Table va cac Fields
         /// </summary>
@@ -23,6 +25,8 @@ namespace MarvicSolution.DATA.EF
         {
             modelBuilder.ApplyConfiguration(new ProjectType_Configurations());
             modelBuilder.ApplyConfiguration(new Project_Configurations());
+            modelBuilder.ApplyConfiguration(new App_User_Configurations());
+            modelBuilder.ApplyConfiguration(new App_Role_Configurations());
 
             //base.OnModelCreating(modelBuilder);
         }
@@ -30,5 +34,7 @@ namespace MarvicSolution.DATA.EF
         // Cac table của db
         public DbSet<ProjectType> ProjectTypes { get; set; }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<App_User> App_Users { get; set; }
+        public DbSet<App_Role> App_Roles { get; set; }
     }
 }
