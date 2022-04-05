@@ -8,10 +8,6 @@ namespace MarvicSolution.Services.System.Users.Requests
 {
     public class Login_Request
     {
-        public Login_Request()
-        {
-
-        }
         public string UserName { get; set; } // sửa lại unique
         public string Password { get; set; }
         public bool RememberMe { get; set; }

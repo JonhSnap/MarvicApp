@@ -33,7 +33,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("E341A8F6-DC1B-4829-94FB-316B6BAC99B6"),
                     FullName = "Nguyen Duy Khanh",
                     UserName = "KhanhND",
-                    Password = "KhanhND123@",
+                    Password = "$2a$11$D57iJclK1BhZgg9B0P4I2.9sq0MoQIRImA8YeDVvbxeKPNG/KuTMK", //pass: KhanhND123@                    
                     Email = "khanhnd@gmail.com",
                     JobTitle = "Project Manager",
                     Department = "Khoang 1 HN",
@@ -46,7 +46,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"),
                     FullName = "Tran Thien Nhan",
                     UserName = "NhanTT",
-                    Password = "NhanTT123@",
+                    Password = "$2a$11$MjbSthPb/xXnLsaNnJDVE.GGHoWL9aPMqLzCXTmoVs1HoHBqLsuWq", // pass NhanTT123@
                     Email = "nhantt@gmail.com",
                     JobTitle = "Member Job Title",
                     Department = "Khoang 2 HCM",
@@ -59,7 +59,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("7A370BAC-B796-454D-84CF-18C603102CA2"),
                     FullName = "Tran Thanh Nhan",
                     UserName = "NhanTTT1",
-                    Password = "NhanTTT1Cute@",
+                    Password = "$2a$11$IM2wFUFnOP.TYaxfqYjEluUatAmE95HIFZcElLoLGRmdUYkBFujCm", // pass NhanTTT1Cute@	
                     Email = "nhant1@gmail.com",
                     JobTitle = "Director",
                     Department = "Khoang 10 DN",

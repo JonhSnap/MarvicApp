@@ -22,8 +22,8 @@ namespace MarvicSolution.BackendApi.Controllers
 
         // /api/Project/GetAlls
         [HttpGet]
-        [Route("/api/Project/GetAllsLinq")] // remember to check this route
-        public async Task<IActionResult> GetAllsLinq()
+        [Route("/api/Project/GetAlls")] // remember to check this route
+        public async Task<IActionResult> GetAlls()
         {
             if (_service == null)
             {
@@ -34,42 +34,42 @@ namespace MarvicSolution.BackendApi.Controllers
         }
 
         // /api/Project/GetAllsTscript
-        [HttpGet]
-        [Route("/api/Project/GetAllsProc")]// remember to check this route
-        public async Task<IActionResult> GetAllsProc()
-        {
-            if (_service == null)
-            {
-                return BadRequest();
-            }
-            var project = await _service.GetAlls_Proc();
-            return Ok(project);
-        }
+        //[HttpGet]
+        //[Route("/api/Project/GetAllsProc")]// remember to check this route
+        //public async Task<IActionResult> GetAllsProc()
+        //{
+        //    if (_service == null)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    var project = await _service.GetAlls_Proc();
+        //    return Ok(project);
+        //}
 
-        [HttpGet]
-        [Route("/api/Project/GetAllsTscript")]// remember to check this route
-        public async Task<IActionResult> GetAllsTscript()
-        {
-            if (_service == null)
-            {
-                return BadRequest();
-            }
-            var project = await _service.GetAlls_Tscript();
-            return Ok(project);
-        }
+        //[HttpGet]
+        //[Route("/api/Project/GetAllsTscript")]// remember to check this route
+        //public async Task<IActionResult> GetAllsTscript()
+        //{
+        //    if (_service == null)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    var project = await _service.GetAlls_Tscript();
+        //    return Ok(project);
+        //}
 
         // /api/Project/GetGroupbyProjectTypeTscript
-        [HttpGet("{projType_Id}")]
+        //[HttpGet("{projType_Id}")]
         //[Route("/api/Project/Groupby_ProjectType_Tscript")] // remember to check this route
-        public async Task<IActionResult> Get_Groupby_ProjectType_Tscript(Guid projType_Id)
-        {
-            if (_service == null)
-            {
-                return BadRequest();
-            }
-            var project = await _service.Groupby_ProjectType_Tscript(projType_Id);
-            return Ok(project);
-        }
+        //public async Task<IActionResult> Get_Groupby_ProjectType_Tscript(Guid projType_Id)
+        //{
+        //    if (_service == null)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    var project = await _service.Groupby_ProjectType_Tscript(projType_Id);
+        //    return Ok(project);
+        //}
 
         /// <summary>
         /// DateTime format: 3/29/2022
@@ -78,35 +78,34 @@ namespace MarvicSolution.BackendApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/Project/Create")]// remember to check this route
-        public async Task<IActionResult> Create([FromForm] Project_CreateRequest rq)
+        public async Task<IActionResult> Create([FromBody] Project_CreateRequest rq)
         {
             var proj_Id = await _service.Create(rq);
-            if (proj_Id.Equals("00000000-0000-0000-0000-000000000000"))
+            if (proj_Id.Equals(Guid.Empty))
                 return BadRequest();
 
-            //return Created(nameof(GetAlls), proj_Id);
-            return Ok();
+            return Ok("Create project success");
         }
 
         [HttpPut]
         [Route("/api/Project/Update")]// remember to check this route
-        public async Task<IActionResult> Update([FromForm] Project_UpdateRequest rq)
+        public async Task<IActionResult> Update([FromBody] Project_UpdateRequest rq)
         {
             var affectedResutl = await _service.Update(rq);
-            if (affectedResutl.Equals("00000000-0000-0000-0000-000000000000"))
+            if (affectedResutl.Equals(Guid.Empty))
                 return BadRequest();
 
-            return Ok();
+            return Ok("Update project success");
         }
 
         [HttpDelete("{proj_Id}")]
         public async Task<IActionResult> Delete(Guid proj_Id)
         {
             var affectedResutl = await _service.Delete(proj_Id);
-            if (affectedResutl.Equals("00000000-0000-0000-0000-000000000000"))
+            if (affectedResutl.Equals(Guid.Empty))
                 return BadRequest();
 
-            return Ok();
+            return Ok("Delete project success");
         }
     }
 }
