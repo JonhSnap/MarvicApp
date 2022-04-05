@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using MarvicSolution.Utilities.Exceptions;
-using MarvicSolution.Utilities.Common;
 using MarvicSolution.Services.System.Helpers;
 using Microsoft.AspNetCore.Http;
+using MarvicSolution.DATA.Common;
 
 namespace MarvicSolution.Services.System.Users.Services
 {
@@ -29,11 +29,11 @@ namespace MarvicSolution.Services.System.Users.Services
             var user = GetUserbyUserName(rq);
             if (user == null)
                 return "Invalid account";
-
+            // Thiet lap thong tin cho user da login
+            UserLogin.SetInfo(user);
             // Kiem tra mat khau
             if (!BCrypt.Net.BCrypt.Verify(rq.Password, user.Password))
                 return "Invalid credential";
-
             // Tao token theo JWT
             var jwt = _jwtService.GenerateToken(user.Id);
 

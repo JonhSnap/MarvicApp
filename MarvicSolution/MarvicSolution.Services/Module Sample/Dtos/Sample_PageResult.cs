@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MarvicSolution.Services.Module_Sample.Dtos
 {
-    public class Sample_PageResult<T>
+    public class Issue_PageResult<T>
     {
         public List<T> Items { get; set; }
         public int totalRecords { get; set; }

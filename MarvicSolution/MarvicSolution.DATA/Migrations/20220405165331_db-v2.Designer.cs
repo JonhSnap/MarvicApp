@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarvicSolution.DATA.Migrations
 {
     [DbContext(typeof(MarvicDbContext))]
-    [Migration("20220404180830_add-db-v1")]
-    partial class adddbv1
+    [Migration("20220405165331_db-v2")]
+    partial class dbv2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -68,7 +68,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             JobTitle = "Project Manager",
                             Organization = "Company TechNo1",
-                            Password = "KhanhND123@",
+                            Password = "$2a$11$D57iJclK1BhZgg9B0P4I2.9sq0MoQIRImA8YeDVvbxeKPNG/KuTMK",
                             PhoneNumber = "0989878767",
                             UserName = "KhanhND"
                         },
@@ -81,7 +81,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             JobTitle = "Member Job Title",
                             Organization = "Company PizzaHub",
-                            Password = "NhanTT123@",
+                            Password = "$2a$11$MjbSthPb/xXnLsaNnJDVE.GGHoWL9aPMqLzCXTmoVs1HoHBqLsuWq",
                             PhoneNumber = "0336355563",
                             UserName = "NhanTT"
                         },
@@ -94,7 +94,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             JobTitle = "Director",
                             Organization = "Company Marketing Hanzu",
-                            Password = "NhanTTT1Cute@",
+                            Password = "$2a$11$IM2wFUFnOP.TYaxfqYjEluUatAmE95HIFZcElLoLGRmdUYkBFujCm",
                             PhoneNumber = "0345677456",
                             UserName = "NhanTTT1"
                         });
@@ -359,6 +359,9 @@ namespace MarvicSolution.DATA.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Access")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -372,9 +375,6 @@ namespace MarvicSolution.DATA.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("Id_Lead")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("Id_ProjectType")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("Id_Updator")
@@ -402,12 +402,12 @@ namespace MarvicSolution.DATA.Migrations
                         new
                         {
                             Id = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
+                            Access = 1,
                             DateCreated = new DateTime(2021, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateEnd = new DateTime(2021, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Lead = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Id_ProjectType = new Guid("77b88991-f823-4301-b452-1b14ca44d5cb"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             Key = "PA",
@@ -417,12 +417,12 @@ namespace MarvicSolution.DATA.Migrations
                         new
                         {
                             Id = new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"),
+                            Access = 3,
                             DateCreated = new DateTime(2021, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateEnd = new DateTime(2021, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2021, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Lead = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Id_ProjectType = new Guid("77b88991-f823-4301-b452-1b14ca44d5cb"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             Key = "PB",
@@ -432,12 +432,12 @@ namespace MarvicSolution.DATA.Migrations
                         new
                         {
                             Id = new Guid("a5329d06-9d32-4a54-b816-906dfbbd288c"),
+                            Access = 2,
                             DateCreated = new DateTime(2021, 4, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateEnd = new DateTime(2021, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2021, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Lead = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Id_ProjectType = new Guid("21c68955-ea3e-4b41-8ec5-ef816c912f1a"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             Key = "PC",

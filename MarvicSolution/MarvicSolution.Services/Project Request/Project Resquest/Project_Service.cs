@@ -1,5 +1,7 @@
-﻿using MarvicSolution.DATA.EF;
+﻿using MarvicSolution.DATA.Common;
+using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
+using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Project_Request.Dtos;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewModels;
@@ -16,29 +18,27 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
     public class Project_Service : IProject_Service
     {
         private readonly MarvicDbContext _context;
-      
+
         public Project_Service(MarvicDbContext context)
         {
             _context = context;
         }
-        public async Task<Guid> Create(Project_CreateRequest request)
+        public async Task<Guid> Create(Project_CreateRequest rq)
         {
             try
             {
+                var id = UserLogin.Id;
                 var proj = new Project()
                 {
                     Id = Guid.NewGuid(),
-                    Name = request.Name,
-                    Key = request.Key,
-                    Id_ProjectType = request.Id_ProjectType,
-                    Id_Lead = request.Id_Lead != Guid.Empty ? request.Id_Lead : request.Id_Creator, // Can thay doi
-                    Id_Creator = request.Id_Creator,
+                    Name = rq.Name,
+                    Key = rq.Key,
+                    Access = rq.Access,
+                    Id_Lead = rq.Id_Lead.Equals(Guid.Empty) ? UserLogin.Id : rq.Id_Lead,
+                    Id_Creator = UserLogin.Id,
                     DateCreated = DateTime.Now,
-                    DateStarted = request.DateStarted,
-                    DateEnd = request.DateEnd,
-                    Id_Updator = Guid.Empty,
-                    UpdateDate = null,
-                    IsDeleted = DATA.Enums.EnumStatus.False
+                    DateStarted = rq.DateStarted,
+                    DateEnd = rq.DateEnd
                 };
 
                 _context.Projects.Add(proj);
@@ -50,19 +50,69 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 throw new MarvicException($"Error: {e}");
             }
         }
-
-        public async Task<Guid> Update(Project_UpdateRequest request)
+        public Project_ViewModel GetProjectById(Guid Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var proj = _context.Projects.FirstOrDefault(p => p.Id.Equals(Id) && p.IsDeleted == EnumStatus.False);
+                if (proj == null)
+                    throw new MarvicException($"Cannot find the project with id: {Id}");
+                var result = new Project_ViewModel()
+                {
+                    Id = proj.Id,
+                    Name = proj.Name,
+                    Key = proj.Key,
+                    Access = proj.Access
+                };
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+        public async Task<Guid> Update(Project_UpdateRequest rq)
+        {
+            try
+            {
+                var proj = _context.Projects.Find(rq.Id);
+                if (proj == null)
+                    throw new MarvicException($"Cannot find the project with id: {rq.Id}");
+                proj.Name = rq.Name;
+                proj.Key = rq.Key;
+                proj.Access = rq.Access;
+                proj.Id_Lead = rq.Id_Lead;
+                proj.DateStarted = rq.DateStarted;
+                proj.DateEnd = rq.DateEnd;
+                proj.Id_Updator = UserLogin.Id;
+                proj.UpdateDate = DateTime.Now;
+
+                await _context.SaveChangesAsync();
+                return rq.Id;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
         public async Task<Guid> Delete(Guid Id)
         {
-            await _context.SaveChangesAsync();
-            return Id;
+            try
+            {
+                var proj = _context.Projects.Find(Id);
+                proj.IsDeleted = DATA.Enums.EnumStatus.True;
+                await _context.SaveChangesAsync();
+                return Id;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
-        public async Task<Project_PageResult<Project_ViewModel>> GetAllPaging(Get_Project_PagingRequest request)
+        public async Task<Project_PageResult<Project_ViewModel>> GetAllPaging(Get_Project_PagingRequest rq)
         {
             throw new NotImplementedException();
         }
@@ -73,7 +123,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             try
             {
                 var query = from proj in _context.Projects select new { proj };
-                var data = await query.Select(x => new Project_ViewModel()
+                var data = await query.Where(d=>d.proj.IsDeleted == EnumStatus.False).Select(x => new Project_ViewModel()
                 {
                     Id = x.proj.Id,
                     Name = x.proj.Name,
@@ -92,7 +142,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         {
             try
             {
-                var data = await _context.Projects.FromSqlInterpolated($"Select * from Project").Select(x => new Project_ViewModel()
+                var data = await _context.Projects.FromSqlInterpolated($"Select * from Project Where Project.IsDelete = 0").Select(x => new Project_ViewModel()
                 {
                     Id = x.Id,
                     Name = x.Name,

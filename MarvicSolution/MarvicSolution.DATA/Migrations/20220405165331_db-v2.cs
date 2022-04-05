@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MarvicSolution.DATA.Migrations
 {
-    public partial class adddbv1 : Migration
+    public partial class dbv2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -69,7 +69,7 @@ namespace MarvicSolution.DATA.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Key = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Id_ProjectType = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Access = table.Column<int>(type: "int", nullable: false),
                     Id_Lead = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Id_Creator = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -105,9 +105,9 @@ namespace MarvicSolution.DATA.Migrations
                 columns: new[] { "Id", "Department", "Email", "FullName", "IsDeleted", "JobTitle", "Organization", "Password", "PhoneNumber", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"), "Khoang 1 HN", "khanhnd@gmail.com", "Nguyen Duy Khanh", 0, "Project Manager", "Company TechNo1", "KhanhND123@", "0989878767", "KhanhND" },
-                    { new Guid("346f2520-6295-4734-8868-6ca75258e7c1"), "Khoang 2 HCM", "nhantt@gmail.com", "Tran Thien Nhan", 0, "Member Job Title", "Company PizzaHub", "NhanTT123@", "0336355563", "NhanTT" },
-                    { new Guid("7a370bac-b796-454d-84cf-18c603102ca2"), "Khoang 10 DN", "nhant1@gmail.com", "Tran Thanh Nhan", 0, "Director", "Company Marketing Hanzu", "NhanTTT1Cute@", "0345677456", "NhanTTT1" }
+                    { new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"), "Khoang 1 HN", "khanhnd@gmail.com", "Nguyen Duy Khanh", 0, "Project Manager", "Company TechNo1", "$2a$11$D57iJclK1BhZgg9B0P4I2.9sq0MoQIRImA8YeDVvbxeKPNG/KuTMK", "0989878767", "KhanhND" },
+                    { new Guid("346f2520-6295-4734-8868-6ca75258e7c1"), "Khoang 2 HCM", "nhantt@gmail.com", "Tran Thien Nhan", 0, "Member Job Title", "Company PizzaHub", "$2a$11$MjbSthPb/xXnLsaNnJDVE.GGHoWL9aPMqLzCXTmoVs1HoHBqLsuWq", "0336355563", "NhanTT" },
+                    { new Guid("7a370bac-b796-454d-84cf-18c603102ca2"), "Khoang 10 DN", "nhant1@gmail.com", "Tran Thanh Nhan", 0, "Director", "Company Marketing Hanzu", "$2a$11$IM2wFUFnOP.TYaxfqYjEluUatAmE95HIFZcElLoLGRmdUYkBFujCm", "0345677456", "NhanTTT1" }
                 });
 
             migrationBuilder.InsertData(
@@ -125,12 +125,12 @@ namespace MarvicSolution.DATA.Migrations
 
             migrationBuilder.InsertData(
                 table: "Project",
-                columns: new[] { "Id", "DateCreated", "DateEnd", "DateStarted", "Id_Creator", "Id_Lead", "Id_ProjectType", "Id_Updator", "IsDeleted", "Key", "Name", "UpdateDate" },
+                columns: new[] { "Id", "Access", "DateCreated", "DateEnd", "DateStarted", "Id_Creator", "Id_Lead", "Id_Updator", "IsDeleted", "Key", "Name", "UpdateDate" },
                 values: new object[,]
                 {
-                    { new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"), new DateTime(2021, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("77b88991-f823-4301-b452-1b14ca44d5cb"), new Guid("00000000-0000-0000-0000-000000000000"), 0, "PA", "Project A", new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"), new DateTime(2021, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("77b88991-f823-4301-b452-1b14ca44d5cb"), new Guid("00000000-0000-0000-0000-000000000000"), 0, "PB", "Project B", new DateTime(2021, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("a5329d06-9d32-4a54-b816-906dfbbd288c"), new DateTime(2021, 4, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("21c68955-ea3e-4b41-8ec5-ef816c912f1a"), new Guid("00000000-0000-0000-0000-000000000000"), 0, "PC", "Project C", new DateTime(2021, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"), 1, new DateTime(2021, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("00000000-0000-0000-0000-000000000000"), 0, "PA", "Project A", new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"), 3, new DateTime(2021, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("00000000-0000-0000-0000-000000000000"), 0, "PB", "Project B", new DateTime(2021, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("a5329d06-9d32-4a54-b816-906dfbbd288c"), 2, new DateTime(2021, 4, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("00000000-0000-0000-0000-000000000000"), 0, "PC", "Project C", new DateTime(2021, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(

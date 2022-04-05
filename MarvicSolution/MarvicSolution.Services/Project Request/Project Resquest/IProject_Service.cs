@@ -18,6 +18,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         Task<List<Project_ViewModel>> GetAlls_Linq();
         Task<List<Project_ViewModel>> GetAlls_Tscript();
         Task<List<Project_ViewModel>> GetAlls_Proc();
+        Project_ViewModel GetProjectById(Guid Id);
         Task<List<Project_ViewModel>> Groupby_ProjectType_Tscript(Guid projType_Id);
         Task<Project_PageResult<Project_ViewModel>> GetAllPaging(Get_Project_PagingRequest request);
     }
