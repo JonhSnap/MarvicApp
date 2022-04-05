@@ -46,6 +46,7 @@ namespace MarvicSolution.BackendApi.Controllers
         //    return Ok(project);
         //}
 
+<<<<<<< HEAD
         //[HttpGet]
         //[Route("/api/Project/GetAllsTscript")]// remember to check this route
         //public async Task<IActionResult> GetAllsTscript()
@@ -57,10 +58,23 @@ namespace MarvicSolution.BackendApi.Controllers
         //    var project = await _service.GetAlls_Tscript();
         //    return Ok(project);
         //}
+=======
+        [HttpGet]
+        [Route("/api/Project/GetAllsTscript")]// remember to check this route
+        public async Task<IActionResult> GetAllsTscript()
+        {
+            if (_service == null)
+                return BadRequest();
+            var project = await _service.GetAlls_Tscript();
+
+            return Ok(project);
+        }
+>>>>>>> ae81ba416732d68131c78b185c2135cb2617125c
 
         // /api/Project/GetGroupbyProjectTypeTscript
         //[HttpGet("{projType_Id}")]
         //[Route("/api/Project/Groupby_ProjectType_Tscript")] // remember to check this route
+<<<<<<< HEAD
         //public async Task<IActionResult> Get_Groupby_ProjectType_Tscript(Guid projType_Id)
         //{
         //    if (_service == null)
@@ -70,6 +84,16 @@ namespace MarvicSolution.BackendApi.Controllers
         //    var project = await _service.Groupby_ProjectType_Tscript(projType_Id);
         //    return Ok(project);
         //}
+=======
+        public async Task<IActionResult> Get_Groupby_ProjectType_Tscript(Guid projType_Id)
+        {
+            if (_service == null)
+                return BadRequest();
+            var project = await _service.Groupby_ProjectType_Tscript(projType_Id);
+
+            return Ok(project);
+        }
+>>>>>>> ae81ba416732d68131c78b185c2135cb2617125c
 
         /// <summary>
         /// DateTime format: 3/29/2022
@@ -84,15 +108,24 @@ namespace MarvicSolution.BackendApi.Controllers
             if (proj_Id.Equals(Guid.Empty))
                 return BadRequest();
 
+<<<<<<< HEAD
             return Ok("Create project success");
+=======
+            return Ok();
+>>>>>>> ae81ba416732d68131c78b185c2135cb2617125c
         }
 
         [HttpPut]
         [Route("/api/Project/Update")]// remember to check this route
         public async Task<IActionResult> Update([FromBody] Project_UpdateRequest rq)
         {
+<<<<<<< HEAD
             var affectedResutl = await _service.Update(rq);
             if (affectedResutl.Equals(Guid.Empty))
+=======
+            var affectedResult = await _service.Update(rq);
+            if (affectedResult.Equals(Guid.Empty))
+>>>>>>> ae81ba416732d68131c78b185c2135cb2617125c
                 return BadRequest();
 
             return Ok("Update project success");
@@ -101,8 +134,13 @@ namespace MarvicSolution.BackendApi.Controllers
         [HttpDelete("{proj_Id}")]
         public async Task<IActionResult> Delete(Guid proj_Id)
         {
+<<<<<<< HEAD
             var affectedResutl = await _service.Delete(proj_Id);
             if (affectedResutl.Equals(Guid.Empty))
+=======
+            var affectedResult = await _service.Delete(proj_Id);
+            if (affectedResult.Equals(Guid.Empty))
+>>>>>>> ae81ba416732d68131c78b185c2135cb2617125c
                 return BadRequest();
 
             return Ok("Delete project success");
