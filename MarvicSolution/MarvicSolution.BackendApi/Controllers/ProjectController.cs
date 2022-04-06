@@ -33,6 +33,44 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok(project);
         }
 
+        // /api/Project/GetAllsTscript
+        //[HttpGet]
+        //[Route("/api/Project/GetAllsProc")]// remember to check this route
+        //public async Task<IActionResult> GetAllsProc()
+        //{
+        //    if (_service == null)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    var project = await _service.GetAlls_Proc();
+        //    return Ok(project);
+        //}
+
+        //[HttpGet]
+        //[Route("/api/Project/GetAllsTscript")]// remember to check this route
+        //public async Task<IActionResult> GetAllsTscript()
+        //{
+        //    if (_service == null)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    var project = await _service.GetAlls_Tscript();
+        //    return Ok(project);
+        //}
+
+        // /api/Project/GetGroupbyProjectTypeTscript
+        //[HttpGet("{projType_Id}")]
+        //[Route("/api/Project/Groupby_ProjectType_Tscript")] // remember to check this route
+        //public async Task<IActionResult> Get_Groupby_ProjectType_Tscript(Guid projType_Id)
+        //{
+        //    if (_service == null)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    var project = await _service.Groupby_ProjectType_Tscript(projType_Id);
+        //    return Ok(project);
+        //}
+
         /// <summary>
         /// DateTime format: 3/29/2022
         /// </summary>
@@ -53,7 +91,6 @@ namespace MarvicSolution.BackendApi.Controllers
         [Route("/api/Project/Update")]// remember to check this route
         public async Task<IActionResult> Update([FromBody] Project_UpdateRequest rq)
         {
-
             var affectedResutl = await _service.Update(rq);
             if (affectedResutl.Equals(Guid.Empty))
                 return BadRequest();
@@ -64,8 +101,8 @@ namespace MarvicSolution.BackendApi.Controllers
         [HttpDelete("{proj_Id}")]
         public async Task<IActionResult> Delete(Guid proj_Id)
         {
-            var affectedResult = await _service.Delete(proj_Id);
-            if (affectedResult.Equals(Guid.Empty))
+            var affectedResutl = await _service.Delete(proj_Id);
+            if (affectedResutl.Equals(Guid.Empty))
                 return BadRequest();
 
             return Ok("Delete project success");
