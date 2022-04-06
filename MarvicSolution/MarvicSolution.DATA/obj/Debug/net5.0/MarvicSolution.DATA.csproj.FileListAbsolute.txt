@@ -13,3 +13,4 @@ E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\obj\Debug\
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\obj\Debug\net5.0\ref\MarvicSolution.DATA.dll
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\obj\Debug\net5.0\MarvicSolution.DATA.pdb
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\obj\Debug\net5.0\MarvicSolution.DATA.genruntimeconfig.cache
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\bin\Debug\net5.0\appsettings.json
