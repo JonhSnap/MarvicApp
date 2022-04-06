@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MarvicSolution.Services.Module_Sample.Sample_Resquest.Dtos.ViewModels
 {
-    public class Sample_ViewModel
+    public class Issue_ViewModel
     {
         ///Các prop cần thiết cho ViewModel này
     }

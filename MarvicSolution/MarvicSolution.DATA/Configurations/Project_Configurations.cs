@@ -29,7 +29,7 @@ namespace MarvicSolution.DATA.Configurations
                 Id = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                 Name = "Project A",
                 Key = "PA",
-                Id_ProjectType = new Guid("77B88991-F823-4301-B452-1B14CA44D5CB"), // P_Type_Marketing
+                Access = EnumAccess.Public,
                 Id_Lead = new Guid(),
                 Id_Creator = new Guid(),
                 DateCreated = DateTime.Parse("2021-2-25"),
@@ -44,7 +44,7 @@ namespace MarvicSolution.DATA.Configurations
                 Id = new Guid("89FAD9A0-690D-46E8-A2FE-C6CC50350EAF"),
                 Name = "Project B",
                 Key = "PB",
-                Id_ProjectType = new Guid("77B88991-F823-4301-B452-1B14CA44D5CB"), // P_Type_Marketing
+                Access = EnumAccess.Private,
                 Id_Lead = new Guid(),
                 Id_Creator = new Guid(),
                 DateCreated = DateTime.Parse("2021-3-2"),
@@ -59,7 +59,7 @@ namespace MarvicSolution.DATA.Configurations
                 Id = new Guid("A5329D06-9D32-4A54-B816-906DFBBD288C"),
                 Name = "Project C",
                 Key = "PC",
-                Id_ProjectType = new Guid("21C68955-EA3E-4B41-8EC5-EF816C912F1A"), // P_Type_Development Program
+                Access = EnumAccess.Limited,
                 Id_Lead = new Guid(),
                 Id_Creator = new Guid(),
                 DateCreated = DateTime.Parse("2021-4-25"),

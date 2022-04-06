@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MarvicSolution.DATA.EF
 {
-    public class MarvicDbContext : IdentityDbContext<App_User, App_Role, Guid>
+    public class MarvicDbContext : DbContext
     {
         public MarvicDbContext(DbContextOptions options) : base(options)
         {
@@ -26,46 +26,7 @@ namespace MarvicSolution.DATA.EF
             modelBuilder.ApplyConfiguration(new ProjectType_Configurations());
             modelBuilder.ApplyConfiguration(new Project_Configurations());
             modelBuilder.ApplyConfiguration(new App_User_Configurations());
-            modelBuilder.ApplyConfiguration(new App_Role_Configurations());
-
-            modelBuilder.Entity<IdentityUserLogin<Guid>>(
-            eb =>
-            {
-                //eb.HasKey(o => o.UserId);
-                eb.HasNoKey();
-                eb.ToTable("App_UserLogin");
-            });
-            modelBuilder.Entity<IdentityUserToken<Guid>>(
-            eb =>
-            {
-                eb.HasNoKey();
-                eb.ToTable("App_UserToken");
-            });
-
-            modelBuilder.Entity<IdentityRoleClaim<Guid>>(
-            eb =>
-            {
-                //eb.HasKey(o => o.Id);
-                eb.HasNoKey();
-                eb.ToTable("App_RoleClaim");
-            });
-
-            modelBuilder.Entity<IdentityUserClaim<Guid>>(
-            eb =>
-            {
-                //eb.HasKey(o => o.Id);
-                eb.HasNoKey();
-                eb.ToTable("App_UserClaim");
-            });
-
-            modelBuilder.Entity<IdentityUserRole<Guid>>(
-            eb =>
-            {
-                //eb.HasKey(o => new { o.UserId, o.RoleId });
-                eb.HasNoKey();
-                eb.ToTable("App_UserRole");
-            });
-
+            modelBuilder.ApplyConfiguration(new Issue_Configurations());
 
             //base.OnModelCreating(modelBuilder);
         }
@@ -74,6 +35,6 @@ namespace MarvicSolution.DATA.EF
         public DbSet<ProjectType> ProjectTypes { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<App_User> App_Users { get; set; }
-        public DbSet<App_Role> App_Roles { get; set; }
+        public DbSet<Issue> Issues { get; set; }
     }
 }

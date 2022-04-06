@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MarvicSolution.Services.Module_Sample.Sample_Resquest.Dtos
 {
-    public class Sample_DeleteRequest
+    public class Issue_DeleteRequest
     {
         ///Các prop cần thiết cho request này
     }

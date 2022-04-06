@@ -14,7 +14,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest.Dtos
         public string Name { get; set; }
         public string Key { get; set; }
 
-        public Guid ProjectType_Id { get; set; }
+        public EnumAccess Access { get; set; } = EnumAccess.Public;
         public Guid Lead_Id { get; set; }
         public Guid Creator_Id { get; set; }
 

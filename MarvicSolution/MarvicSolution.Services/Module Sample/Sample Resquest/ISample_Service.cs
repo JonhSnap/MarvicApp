@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace MarvicSolution.Services.Module_Sample.Sample_Resquest
 {
-    public interface ISample_Service
+    public interface IIssue_Service
     {
         // INPUT
-        Task<int> Create(Sample_CreateRequest request);
-        Task<int>  Update(Sample_UpdateRequest request);
+        Task<int> Create(Issue_CreateRequest request);
+        Task<int>  Update(Issue_UpdateRequest request);
         Task<int> Delete(int Id);
 
         // OUTPUT
-        Task<List<Sample_ViewModel>> GetAlls();
-        Task<Sample_PageResult<Sample_ViewModel>> GetAllPaging(Get_Sample_PagingRequest request);
+        Task<List<Issue_ViewModel>> GetAlls();
+        Task<Issue_PageResult<Issue_ViewModel>> GetAllPaging(Get_Sample_PagingRequest request);
     }
 }

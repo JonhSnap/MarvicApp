@@ -18,9 +18,8 @@ namespace MarvicSolution.DATA.Entities
         public string Name { get; set; }
         [Required(ErrorMessage = "Key is required.")]
         public string Key { get; set; }
-
-        [Required(ErrorMessage = "ProjectType Id Key is required.")]
-        public Guid Id_ProjectType { get; set; }
+        [Required(ErrorMessage = "Access is required.")]
+        public EnumAccess Access { get; set; } = EnumAccess.Public;
         public Guid Id_Lead { get; set; }
         public Guid Id_Creator { get; set; }
 
@@ -30,7 +29,7 @@ namespace MarvicSolution.DATA.Entities
 
         public Guid Id_Updator { get; set; }
         public DateTime? UpdateDate { get; set; }
-        public EnumStatus IsDeleted { get; set; }
+        public EnumStatus IsDeleted { get; set; } = EnumStatus.False;
 
     }
 }

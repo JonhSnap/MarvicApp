@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MarvicSolution.Services.Module_Sample.Sample_Resquest.Dtos
 {
-    public class Get_Sample_PagingRequest : Sample_PagingRequestBase
+    public class Get_Sample_PagingRequest : Issue_PagingRequestBase
     {
         public string Keyword { get; set; }
     }

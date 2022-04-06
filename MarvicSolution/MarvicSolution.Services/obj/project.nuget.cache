@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "s3u2ZCJqEGcqAe1Oty2RORnJ0zrxmItg/kOHw8hVr5ohfTcSHXNxz7UdhNU7+tjtQoGQQLHcJxDL+2+fFRTlFQ==",
+  "dgSpecHash": "My/krsIK9oziUt4QTwjF9WrDc41cXaJcZirj+eg8E1XBXyv5vAOY2SYayLME3UU/A1HaX7C15BXM+EfKFANcaA==",
   "success": true,
   "projectFilePath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\MarvicSolution.Services.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\thanh\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\fluentvalidation\\10.4.0\\fluentvalidation.10.4.0.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\fluentvalidation.aspnetcore\\10.4.0\\fluentvalidation.aspnetcore.10.4.0.nupkg.sha512",
     "C:\\Users\\thanh\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\10.4.0\\fluentvalidation.dependencyinjectionextensions.10.4.0.nupkg.sha512",
