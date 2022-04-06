@@ -33,44 +33,6 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok(project);
         }
 
-        // /api/Project/GetAllsTscript
-        //[HttpGet]
-        //[Route("/api/Project/GetAllsProc")]// remember to check this route
-        //public async Task<IActionResult> GetAllsProc()
-        //{
-        //    if (_service == null)
-        //    {
-        //        return BadRequest();
-        //    }
-        //    var project = await _service.GetAlls_Proc();
-        //    return Ok(project);
-        //}
-
-        //[HttpGet]
-        //[Route("/api/Project/GetAllsTscript")]// remember to check this route
-        //public async Task<IActionResult> GetAllsTscript()
-        //{
-        //    if (_service == null)
-        //    {
-        //        return BadRequest();
-        //    }
-        //    var project = await _service.GetAlls_Tscript();
-        //    return Ok(project);
-        //}
-
-        // /api/Project/GetGroupbyProjectTypeTscript
-        //[HttpGet("{projType_Id}")]
-        //[Route("/api/Project/Groupby_ProjectType_Tscript")] // remember to check this route
-        //public async Task<IActionResult> Get_Groupby_ProjectType_Tscript(Guid projType_Id)
-        //{
-        //    if (_service == null)
-        //    {
-        //        return BadRequest();
-        //    }
-        //    var project = await _service.Groupby_ProjectType_Tscript(projType_Id);
-        //    return Ok(project);
-        //}
-
         /// <summary>
         /// DateTime format: 3/29/2022
         /// </summary>
