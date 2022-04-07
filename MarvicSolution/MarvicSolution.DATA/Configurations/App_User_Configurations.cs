@@ -59,7 +59,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("7A370BAC-B796-454D-84CF-18C603102CA2"),
                     FullName = "Tran Thanh Nhan",
                     UserName = "NhanTTT1",
-                    Password = "$2a$11$IM2wFUFnOP.TYaxfqYjEluUatAmE95HIFZcElLoLGRmdUYkBFujCm", // pass NhanTTT1Cute@	
+                    Password = "$2a$11$IM2wFUFnOP.TYaxfqYjEluUatAmE95HIFZcElLoLGRmdUYkBFujCm", // pass NhanTTT1Cute@ | Update HelloFromTheOtherSide
                     Email = "nhant1@gmail.com",
                     JobTitle = "Director",
                     Department = "Khoang 10 DN",
