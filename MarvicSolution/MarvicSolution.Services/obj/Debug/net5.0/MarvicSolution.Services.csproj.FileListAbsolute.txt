@@ -15,3 +15,4 @@ E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\De
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.pdb
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Utilities.dll
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Utilities.pdb
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\appsettings.json

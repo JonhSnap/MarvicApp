@@ -43,10 +43,6 @@ namespace MarvicSolution.BackendApi
             /// AddTransient: Moi lan request la tao moi 1 object
             services.AddTransient<IProjectType_Service, ProjectType_Service>();
             services.AddTransient<IProject_Service, Project_Service>();
-            //services.AddTransient<IUser_Service, User_Service>();
-            //services.AddTransient<Jwt_Service, Jwt_Service>();
-
-
             services.AddScoped<Jwt_Service, Jwt_Service>();
             services.AddScoped<IUser_Service, User_Service>();
 

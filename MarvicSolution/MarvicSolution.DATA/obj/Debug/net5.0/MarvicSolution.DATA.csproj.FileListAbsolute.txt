@@ -1,0 +1,16 @@
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\bin\Debug\net5.0\MarvicSolution.DATA.deps.json
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\bin\Debug\net5.0\MarvicSolution.DATA.runtimeconfig.json
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\bin\Debug\net5.0\MarvicSolution.DATA.runtimeconfig.dev.json
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\bin\Debug\net5.0\MarvicSolution.DATA.dll
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\bin\Debug\net5.0\ref\MarvicSolution.DATA.dll
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\bin\Debug\net5.0\MarvicSolution.DATA.pdb
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\obj\Debug\net5.0\MarvicSolution.DATA.csproj.AssemblyReference.cache
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\obj\Debug\net5.0\MarvicSolution.DATA.GeneratedMSBuildEditorConfig.editorconfig
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\obj\Debug\net5.0\MarvicSolution.DATA.AssemblyInfoInputs.cache
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\obj\Debug\net5.0\MarvicSolution.DATA.AssemblyInfo.cs
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\obj\Debug\net5.0\MarvicSolution.DATA.csproj.CoreCompileInputs.cache
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\obj\Debug\net5.0\MarvicSolution.DATA.dll
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\obj\Debug\net5.0\ref\MarvicSolution.DATA.dll
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\obj\Debug\net5.0\MarvicSolution.DATA.pdb
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\obj\Debug\net5.0\MarvicSolution.DATA.genruntimeconfig.cache
+E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.DATA\bin\Debug\net5.0\appsettings.json

@@ -53,7 +53,6 @@ namespace MarvicSolution.BackendApi.Controllers
         [Route("/api/Project/Update")]// remember to check this route
         public async Task<IActionResult> Update([FromBody] Project_UpdateRequest rq)
         {
-
             var affectedResutl = await _service.Update(rq);
             if (affectedResutl.Equals(Guid.Empty))
                 return BadRequest();
@@ -64,8 +63,8 @@ namespace MarvicSolution.BackendApi.Controllers
         [HttpDelete("{proj_Id}")]
         public async Task<IActionResult> Delete(Guid proj_Id)
         {
-            var affectedResult = await _service.Delete(proj_Id);
-            if (affectedResult.Equals(Guid.Empty))
+            var affectedResutl = await _service.Delete(proj_Id);
+            if (affectedResutl.Equals(Guid.Empty))
                 return BadRequest();
 
             return Ok("Delete project success");
