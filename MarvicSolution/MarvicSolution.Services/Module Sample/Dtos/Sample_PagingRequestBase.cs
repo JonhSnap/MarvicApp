@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarvicSolution.Services.Group_Sample.Dtos
+namespace MarvicSolution.Services.Module_Sample.Dtos
 {
-    public class Sample_PagingRequestBase
+    public class Issue_PagingRequestBase
     {
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
