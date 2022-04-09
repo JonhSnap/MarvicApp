@@ -16,3 +16,21 @@ E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\De
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Utilities.dll
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Utilities.pdb
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\appsettings.json
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\appsettings.json
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Services.deps.json
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Services.dll
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\ref\MarvicSolution.Services.dll
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Services.pdb
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.DATA.dll
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Utilities.dll
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.DATA.pdb
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Utilities.pdb
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.csproj.AssemblyReference.cache
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.GeneratedMSBuildEditorConfig.editorconfig
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.AssemblyInfoInputs.cache
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.AssemblyInfo.cs
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.csproj.CoreCompileInputs.cache
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.csproj.CopyComplete
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.dll
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\ref\MarvicSolution.Services.dll
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.pdb

@@ -10,3 +10,15 @@ E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\D
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\ref\MarvicSolution.Utilities.dll
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.pdb
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.csproj.AssemblyReference.cache
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\bin\Debug\net5.0\MarvicSolution.Utilities.deps.json
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\bin\Debug\net5.0\MarvicSolution.Utilities.dll
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\bin\Debug\net5.0\ref\MarvicSolution.Utilities.dll
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\bin\Debug\net5.0\MarvicSolution.Utilities.pdb
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.csproj.AssemblyReference.cache
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.GeneratedMSBuildEditorConfig.editorconfig
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.AssemblyInfoInputs.cache
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.AssemblyInfo.cs
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.csproj.CoreCompileInputs.cache
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.dll
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\ref\MarvicSolution.Utilities.dll
+G:\Project Mavics Reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.pdb
