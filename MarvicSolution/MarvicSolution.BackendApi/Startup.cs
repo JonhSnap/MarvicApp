@@ -38,14 +38,14 @@ namespace MarvicSolution.BackendApi
             services.AddCors();
 
             services
+                //        .AddDbContext<MarvicDbContext>(options =>
+                //options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.Khiet_ConnectionString)))
+                //        .AddDbContext<MarvicDbContext>(options =>
+                //options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.Thang_ConnectionString)))
                 .AddDbContext<MarvicDbContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.Khiet_ConnectionString)))
-                .AddDbContext<MarvicDbContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.Thang_ConnectionString)))
-                .AddDbContext<MarvicDbContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.Tung_ConnectionString)))
-                .AddDbContext<MarvicDbContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.Thinh_ConnectionString)));
+        options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.Tung_ConnectionString)));
+        //        .AddDbContext<MarvicDbContext>(options =>
+        //options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.Thinh_ConnectionString)));
 
             /// Declare DI
             /// AddTransient: Moi lan request la tao moi 1 object

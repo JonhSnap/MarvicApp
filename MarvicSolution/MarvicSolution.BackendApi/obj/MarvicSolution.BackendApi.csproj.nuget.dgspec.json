@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\MarvicSolution.BackendApi.csproj": {}
+    "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\MarvicSolution.BackendApi.csproj": {}
   },
   "projects": {
-    "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\MarvicSolution.BackendApi.csproj": {
+    "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\MarvicSolution.BackendApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\MarvicSolution.BackendApi.csproj",
+        "projectUniqueName": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\MarvicSolution.BackendApi.csproj",
         "projectName": "MarvicSolution.BackendApi",
-        "projectPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\MarvicSolution.BackendApi.csproj",
-        "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\obj\\",
+        "projectPath": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\MarvicSolution.BackendApi.csproj",
+        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+        "outputPath": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,21 +22,20 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://sitecore.myget.org/F/sc-packages/api/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj": {
-                "projectPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj"
+              "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj": {
+                "projectPath": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj"
               },
-              "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\MarvicSolution.Services.csproj": {
-                "projectPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\MarvicSolution.Services.csproj"
+              "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\MarvicSolution.Services.csproj": {
+                "projectPath": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\MarvicSolution.Services.csproj"
               },
-              "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj": {
-                "projectPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj"
+              "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj": {
+                "projectPath": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj"
               }
             }
           }
@@ -86,17 +85,17 @@
         }
       }
     },
-    "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj": {
+    "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj",
+        "projectUniqueName": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj",
         "projectName": "MarvicSolution.DATA",
-        "projectPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj",
-        "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\obj\\",
+        "projectPath": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj",
+        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+        "outputPath": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -104,8 +103,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://sitecore.myget.org/F/sc-packages/api/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
@@ -179,17 +177,17 @@
         }
       }
     },
-    "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\MarvicSolution.Services.csproj": {
+    "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\MarvicSolution.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\MarvicSolution.Services.csproj",
+        "projectUniqueName": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\MarvicSolution.Services.csproj",
         "projectName": "MarvicSolution.Services",
-        "projectPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\MarvicSolution.Services.csproj",
-        "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\obj\\",
+        "projectPath": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\MarvicSolution.Services.csproj",
+        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+        "outputPath": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -197,18 +195,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://sitecore.myget.org/F/sc-packages/api/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj": {
-                "projectPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj"
+              "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj": {
+                "projectPath": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj"
               },
-              "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj": {
-                "projectPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj"
+              "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj": {
+                "projectPath": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj"
               }
             }
           }
@@ -251,17 +248,17 @@
         }
       }
     },
-    "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj": {
+    "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj",
+        "projectUniqueName": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj",
         "projectName": "MarvicSolution.Utilities",
-        "projectPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj",
-        "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-        "outputPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\obj\\",
+        "projectPath": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj",
+        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+        "outputPath": "G:\\Project Mavics Reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -269,8 +266,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://sitecore.myget.org/F/sc-packages/api/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
