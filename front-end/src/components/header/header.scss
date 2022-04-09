@@ -80,6 +80,7 @@
             display: flex;
             gap: 10px;
             align-items: center;
+            transition: all ease-in 0.1s;
             .search-wrapper {
                 flex: 1;
                 display: flex;
@@ -96,7 +97,6 @@
                     flex: 1;
                     outline: none;
                     border: none;
-                    transition: all linear 1s;
                 }
             }
             .header-right-option {

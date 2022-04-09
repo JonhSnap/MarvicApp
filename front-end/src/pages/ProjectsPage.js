@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '../components/button/Button'
 import CreateProjectPopup from '../components/popup/CreateProjectPopup';
 import ListProject from '../components/projects/ListProject';
@@ -6,7 +6,19 @@ import useModal from '../hooks/useModal';
 
 function ProjectsPage() {
   const [isShowProjectPopup, setIsShowProjectPopup, handleCloseProjectPopup] = useModal();
-  const [projects, ] = useState([1]);
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    const url = 'https://localhost:5001/api/Project/GetAlls';
+    fetch(url)
+    .then(resp => {
+      return resp.json();
+    })
+    .then(data => {
+      console.log('data ~ ', data);
+    })
+    .catch(err => console.log(err))
+  }, [])
 
   return (
     <div className='w-[100vw] flex justify-center'>

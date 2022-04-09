@@ -6688,19 +6688,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\thanh\\.nuget\\packages\\": {}
+    "C:\\Users\\ASUS\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\MarvicSolution.BackendApi.csproj",
+      "projectUniqueName": "E:\\LẬP TRÌNH\\Lập trình web\\reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\MarvicSolution.BackendApi.csproj",
       "projectName": "MarvicSolution.BackendApi",
-      "projectPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\MarvicSolution.BackendApi.csproj",
-      "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
-      "outputPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\obj\\",
+      "projectPath": "E:\\LẬP TRÌNH\\Lập trình web\\reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\MarvicSolution.BackendApi.csproj",
+      "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+      "outputPath": "E:\\LẬP TRÌNH\\Lập trình web\\reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.BackendApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6708,21 +6708,20 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://sitecore.myget.org/F/sc-packages/api/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj": {
-              "projectPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj"
+            "E:\\LẬP TRÌNH\\Lập trình web\\reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj": {
+              "projectPath": "E:\\LẬP TRÌNH\\Lập trình web\\reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.DATA\\MarvicSolution.DATA.csproj"
             },
-            "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\MarvicSolution.Services.csproj": {
-              "projectPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\MarvicSolution.Services.csproj"
+            "E:\\LẬP TRÌNH\\Lập trình web\\reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\MarvicSolution.Services.csproj": {
+              "projectPath": "E:\\LẬP TRÌNH\\Lập trình web\\reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Services\\MarvicSolution.Services.csproj"
             },
-            "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj": {
-              "projectPath": "E:\\Project\\MarvicProject\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj"
+            "E:\\LẬP TRÌNH\\Lập trình web\\reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj": {
+              "projectPath": "E:\\LẬP TRÌNH\\Lập trình web\\reactjs\\MarvicApp\\MarvicSolution\\MarvicSolution.Utilities\\MarvicSolution.Utilities.csproj"
             }
           }
         }
@@ -6768,7 +6767,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.406\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

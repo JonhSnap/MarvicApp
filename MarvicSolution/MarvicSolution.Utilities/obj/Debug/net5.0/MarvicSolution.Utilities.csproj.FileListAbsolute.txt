@@ -10,3 +10,15 @@ E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\D
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\ref\MarvicSolution.Utilities.dll
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.pdb
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.csproj.AssemblyReference.cache
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\bin\Debug\net5.0\MarvicSolution.Utilities.deps.json
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\bin\Debug\net5.0\MarvicSolution.Utilities.dll
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\bin\Debug\net5.0\MarvicSolution.Utilities.pdb
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.csproj.AssemblyReference.cache
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.GeneratedMSBuildEditorConfig.editorconfig
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.AssemblyInfoInputs.cache
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.AssemblyInfo.cs
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.csproj.CoreCompileInputs.cache
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.dll
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\refint\MarvicSolution.Utilities.dll
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\MarvicSolution.Utilities.pdb
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Utilities\obj\Debug\net5.0\ref\MarvicSolution.Utilities.dll

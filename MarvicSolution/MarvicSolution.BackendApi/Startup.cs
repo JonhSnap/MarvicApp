@@ -83,7 +83,7 @@ namespace MarvicSolution.BackendApi
             app.UseRouting();
 
             app.UseCors(option => option
-            .WithOrigins(new[] { "https:localhost:3000", "https:localhost:8000", "https:localhost:4200" }) // FE's port
+            .WithOrigins(new[] { "http:localhost:3000", "https:localhost:8000", "https:localhost:4200" }) // FE's port
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials()); // send cookie to FE

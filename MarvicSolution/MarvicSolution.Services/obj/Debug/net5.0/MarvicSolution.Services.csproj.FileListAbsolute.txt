@@ -16,3 +16,21 @@ E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\De
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Utilities.dll
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Utilities.pdb
 E:\Project\MarvicProject\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\appsettings.json
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\appsettings.json
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Services.deps.json
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Services.dll
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Services.pdb
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.DATA.dll
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Utilities.dll
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.DATA.pdb
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\bin\Debug\net5.0\MarvicSolution.Utilities.pdb
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.csproj.AssemblyReference.cache
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.GeneratedMSBuildEditorConfig.editorconfig
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.AssemblyInfoInputs.cache
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.AssemblyInfo.cs
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.csproj.CoreCompileInputs.cache
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.csproj.CopyComplete
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.dll
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\refint\MarvicSolution.Services.dll
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\MarvicSolution.Services.pdb
+E:\LẬP TRÌNH\Lập trình web\reactjs\MarvicApp\MarvicSolution\MarvicSolution.Services\obj\Debug\net5.0\ref\MarvicSolution.Services.dll
