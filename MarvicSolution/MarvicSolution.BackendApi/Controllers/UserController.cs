@@ -81,6 +81,36 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok("Logout success");
         }
 
+        // /api/user/update
+        [HttpPut("Update")]
+        public IActionResult Update(Update_User_Request rq)
+        {
+            var userId = _userService.Update(rq);
+            if (userId.Equals(Guid.Empty))
+                return BadRequest();
+            return Ok("Update user success");
+        }
+
+        // /api/User/7a370bac-b796-454d-84cf-18c603102ca2
+        [HttpDelete("{Id}")]
+        public IActionResult Delete(Guid Id)
+        {
+            var userId = _userService.Delete(Id);
+            if (userId.Equals(Guid.Empty))
+                return BadRequest();
+            return Ok("Delete user success");
+        }
+
+        // /api/user/recovery-password
+        [HttpPut("recovery-password")]
+        public IActionResult RecoveryPassword(RecoveryPassword_Request rq)
+        {
+            var userId = _userService.RecoveryPassword(rq);
+            if (userId.Equals(Guid.Empty))
+                return BadRequest();
+            return Ok("Recovery password for user success");
+        }
+
         private Guid ValidateUserById()
         {
             try

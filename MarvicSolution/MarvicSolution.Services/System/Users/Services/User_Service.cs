@@ -9,6 +9,7 @@ using MarvicSolution.Utilities.Exceptions;
 using MarvicSolution.Services.System.Helpers;
 using Microsoft.AspNetCore.Http;
 using MarvicSolution.DATA.Common;
+using MarvicSolution.DATA.Enums;
 
 namespace MarvicSolution.Services.System.Users.Services
 {
@@ -26,7 +27,7 @@ namespace MarvicSolution.Services.System.Users.Services
         public string Authenticate(Login_Request rq)
         {
             // Kiem tra tai khoan
-            var user = GetUserbyUserName(rq);
+            var user = GetUserbyUserName(rq.UserName);
             if (user == null)
                 return "Invalid account";
             // Thiet lap thong tin cho user da login
@@ -40,12 +41,22 @@ namespace MarvicSolution.Services.System.Users.Services
             return jwt;
         }
 
-        public App_User GetUserbyUserName(Login_Request rq)
+        //public App_User GetUserbyUserName(Login_Request rq)
+        //{
+        //    var user = _context.App_Users.FirstOrDefault(u => u.UserName == rq.UserName);
+
+        //    if (user == null)
+        //        throw new MarvicException($"Cannot find user with username: {rq.UserName}");
+
+        //    return user;
+        //}
+
+        public App_User GetUserbyUserName(string userName)
         {
-            var user = _context.App_Users.FirstOrDefault(u => u.UserName == rq.UserName);
+            var user = _context.App_Users.FirstOrDefault(u => u.UserName == userName);
 
             if (user == null)
-                throw new MarvicException($"Cannot find user with username: {rq.UserName}");
+                throw new MarvicException($"Cannot find user with username: {userName}");
 
             return user;
         }
@@ -81,6 +92,7 @@ namespace MarvicSolution.Services.System.Users.Services
                     Id = Guid.NewGuid(),
                     FullName = rq.FullName,
                     UserName = rq.UserName,
+                    Email = rq.Email,
                     Password = BCrypt.Net.BCrypt.HashPassword(rq.Password),
                     JobTitle = rq.JobTitle,
                     Department = rq.Department,
@@ -108,5 +120,83 @@ namespace MarvicSolution.Services.System.Users.Services
 
             return user;
         }
+
+        public Guid Update(Update_User_Request rq)
+        {
+            try
+            {
+                var user = _context.App_Users.Find(rq.Id);
+                if (user == null)
+                    throw new MarvicException($"Cannot find the user with id: {rq.Id}");
+                user.FullName = rq.FullName;
+                user.UserName = rq.UserName;
+                user.Password = BCrypt.Net.BCrypt.HashPassword(rq.Password);
+                user.Email = rq.Email;
+                user.JobTitle = rq.JobTitle;
+                user.Department = rq.Department;
+                user.Organization = rq.Organization;
+                user.PhoneNumber = rq.PhoneNumber;
+
+                _context.SaveChangesAsync();
+                return rq.Id;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+        public Guid UpdatePassword(RecoveryPassword_Request rq)
+        {
+            try
+            {
+                var user = GetUserbyUserName(rq.UserName);
+                user.Password = BCrypt.Net.BCrypt.HashPassword(rq.NewPassword);
+                _context.SaveChanges();
+                return user.Id;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+        public Guid RecoveryPassword(RecoveryPassword_Request rq)
+        {
+            try
+            {
+                var user = GetUserbyUserName(rq.UserName);
+                var hasUser = user != null ? true : false;
+                var validEmail = user.Email.Equals(rq.Email) ? true : false;
+                if (hasUser && validEmail)
+                {
+                    UpdatePassword(rq);
+                    return user.Id;
+                }
+                return Guid.Empty;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+        public Guid Delete(Guid Id)
+        {
+            try
+            {
+                var user = _context.App_Users.Find(Id);
+                user.IsDeleted = EnumStatus.True;
+                _context.SaveChanges();
+                return user.Id;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+
+
+
     }
 }
