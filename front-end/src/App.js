@@ -5,8 +5,8 @@ import TutorialPage from './pages/TutorialPage';
 function App() {
   return (
     <div className="App">
-      <TestPage/>
-      {/* <TutorialPage/> */}
+      {/* <TestPage/> */}
+      <TutorialPage/>
     </div>
   );
 }
