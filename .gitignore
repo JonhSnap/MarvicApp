@@ -30,7 +30,22 @@ obj/
 [Dd]ebug*/
 [Rr]elease*/
 Ankh.NoLoad
+General File
+MarvicSolution/.vs
+MarvicSolution/.vs/slnx.sqlite
+MarvicSolution/.vs/VSWorkspaceState.json
 
+MarvicSolution/MarvicSolution.BackendApi/bin
+MarvicSolution/MarvicSolution.BackendApi/obj
+
+MarvicSolution/MarvicSolution.DATA/bin
+MarvicSolution/MarvicSolution.DATA/obj
+
+MarvicSolution/MarvicSolution.Services/bin
+MarvicSolution/MarvicSolution.Services/obj
+
+MarvicSolution/MarvicSolution.Utilities/bin
+MarvicSolution/MarvicSolution.Utilities/obj
 #Tooling
 _ReSharper*/
 *.resharper
