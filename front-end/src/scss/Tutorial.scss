@@ -6,24 +6,26 @@
     overflow: hidden;
 
     .content-1 {
-        width: 33rem;
-        height: 30rem;
+        width: 40%;
+        height: 55%;
         border-radius: 50%;
         background-color: #5d78a2;
         position: absolute;
-        top: -8rem;
-        left: -5rem;
+        top: -10%;
+        left: -3%;
         display: flex;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
 
 
 
         .content {
             width: 75%;
             height: 60%;
-            position: absolute;
-            top: 8rem;
-            left: 5rem;
+            // position: absolute;
+            // top: 8rem;
+            // left: 5rem;
             padding: 20px;
         }
 
@@ -46,20 +48,23 @@
     }
 
     .content-2 {
-        width: 63rem;
-        height: 43rem;
+        width: 75%;
+        height: 95%;
         border-radius: 50%;
         background-color: #6fbded;
         position: absolute;
-        bottom: -8rem;
-        right: -7rem;
+        bottom: -10%;
+        right: -10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         .content2 {
             width: 80%;
             height: 60%;
-            position: absolute;
-            top: 125px;
-            left: 90px;
+            // position: absolute;
+            // top: 125px;
+            // left: 90px;
             padding: 20px;
         }
 
@@ -80,39 +85,17 @@
             overflow: auto;
         }
 
-        .btn {
-            display: flex;
-            justify-content: flex-end;
-            padding: 0 100px;
-
-            .btn-next,
-            .btn-previous,
-            .btn-skip {
-                width: 100px;
-                padding: 15px;
-                margin: 10px;
-            }
-
-            .btn-previous,
-            .btn-next {
-                color: #fff;
-            }
-
-            .btn-previous {
-                cursor: auto;
-                pointer-events: none;
-            }
-        }
+        
     }
 
     .content-3 {
-        width: 17rem;
-        height: 15rem;
+        width: 25%;
+        height: 40%;
         border-radius: 50%;
         border: 10px solid #ccc;
         position: absolute;
-        bottom: 1rem;
-        left: 2rem;
+        bottom: 3rem;
+        left: 5rem;
         display: flex;
 
         .circle-center {

@@ -1,0 +1,23 @@
+.btn {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 100px;
+
+    .btn-next,
+    .btn-previous,
+    .btn-skip {
+        width: 100px;
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .btn-previous,
+    .btn-next {
+        color: #fff;
+    }
+
+    // .btn-previous {
+    //     cursor: auto;
+    //     pointer-events: none;
+    // }
+}

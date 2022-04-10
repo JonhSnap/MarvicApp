@@ -2,56 +2,22 @@ import React, { useEffect, useState } from 'react'
 import '../scss/Tutorial.scss'
 import { motion } from "framer-motion";
 import Data from '../tutorial/data-tutorial.json'
+import BtnNextPrevComponent from '../components/btn-next-prev/BtnNextPrevComponent';
 
 export default function TutorialPage() {
   const [show, setShow] = useState(true)
   const [count, setCount] = useState(1)
-  // let count = 1;
-
-
-  const hiddenTutorial = () => {
-    document.querySelector('.tutorial').style.display = 'none';
-  }
-
-  const toggleBtn = (e) => {
-    setShow(v => !v)
-    setTimeout(() => setShow(v => !v), 200)
-    if (e.target.innerHTML == "Next") {
-      setCount(count => count + 1)
-      if (count != Data.posts.length - 1) {
-        document.querySelector('.btn-previous').style.pointerEvents = "auto";
-        document.querySelector('.btn-previous').style.cursor = "pointer";
-      }
-      else {
-        document.querySelector('.btn-next').style.pointerEvents = "none";
-        document.querySelector('.btn-next').style.cursor = "auto";
-      }
-    } else {
-      setCount(count => count - 1)
-      if (count != 2) {
-        document.querySelector('.btn-next').style.pointerEvents = "auto";
-        document.querySelector('.btn-next').style.cursor = "pointer";
-      }
-      else {
-        document.querySelector('.btn-previous').style.pointerEvents = "none";
-        document.querySelector('.btn-previous').style.cursor = "auto";
-      }
-    }
-  }
-
 
 
 
   return (
     <div className='tutorial'>
 
-      {show && <motion.div className='content-1' initial={{ scale: 0 }}
-        animate={{ rotate: 360, scale: 1 }}
-        transition={{
-          type: "spring",
-          stiffness: 260,
-          damping: 20
-        }}>
+      {show && <motion.div className='content-1' transition={{
+        type: "spring",
+        damping: 10,
+        stiffness: 100
+      }} animate={{ scale: 1.1 }}>
         {Data.posts.map((post) => {
           let html = "";
           if (post.id == count) {
@@ -66,13 +32,11 @@ export default function TutorialPage() {
           return html
         })}
       </motion.div>}
-      { <motion.div className='content-2' initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{
-          type: "spring",
-          stiffness: 260,
-          damping: 20
-        }}>
+      {show && <motion.div className='content-2'  transition={{
+        type: "spring",
+        damping: 10,
+        stiffness: 100
+      }} animate={{ scale: 1.1 }}>
         <div className='content2'>
           {Data.posts.map((post) => {
             let html = "";
@@ -87,14 +51,10 @@ export default function TutorialPage() {
             }
             return html
           })}
-          <div className='btn'>
-            <button className='btn-previous' onClick={toggleBtn}>Previous</button>
-            <button className='btn-next' onClick={toggleBtn}>Next</button>
-            <button className='btn-skip' onClick={hiddenTutorial}>Skip</button>
-          </div>
+          <BtnNextPrevComponent setShow={setShow} setCount={setCount} count={count} />
         </div>
       </motion.div>}
-      <motion.div className='content-3' initial={{ scale: 0 }}
+      {show && <motion.div className='content-3' initial={{ scale: 0 }}
         animate={{ rotate: 360, scale: 1 }}
         transition={{
           type: "spring",
@@ -119,7 +79,7 @@ export default function TutorialPage() {
         <div className='circle-5'>
           Courage
         </div>
-      </motion.div>
+      </motion.div>}
     </div>
   )
 }
