@@ -18,8 +18,8 @@ function App() {
       </Routes>
     </Suspense> */}
      <div className="App">
-       {/* <TestPage/> */}
-      <TutorialPage/>
+       <TestPage/>
+      {/* <TutorialPage/> */}
      </div>
       {/* <Routes>
         <Route path="/" element={<Home></Home>}></Route>

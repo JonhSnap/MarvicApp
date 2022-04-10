@@ -8,7 +8,7 @@
     .content-1 {
         width: 40%;
         height: 55%;
-        border-radius: 50%;
+        border-radius: 0 50% 50% 50%;
         background-color: #5d78a2;
         position: absolute;
         top: -10%;
@@ -50,7 +50,7 @@
     .content-2 {
         width: 75%;
         height: 95%;
-        border-radius: 50%;
+        border-radius: 50% 50% 0 50%;
         background-color: #6fbded;
         position: absolute;
         bottom: -10%;
@@ -85,12 +85,12 @@
             overflow: auto;
         }
 
-        
+
     }
 
     .content-3 {
         width: 25%;
-        height: 40%;
+        height: 50%;
         border-radius: 50%;
         border: 10px solid #ccc;
         position: absolute;

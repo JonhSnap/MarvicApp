@@ -8,8 +8,6 @@ export default function TutorialPage() {
   const [show, setShow] = useState(true)
   const [count, setCount] = useState(1)
 
-
-
   return (
     <div className='tutorial'>
 
@@ -54,13 +52,13 @@ export default function TutorialPage() {
           <BtnNextPrevComponent setShow={setShow} setCount={setCount} count={count} />
         </div>
       </motion.div>}
-      {show && <motion.div className='content-3' initial={{ scale: 0 }}
+      {show && <motion.div className='content-3' 
+      initial={{ scale: 0.5 }}
         animate={{ rotate: 360, scale: 1 }}
-        transition={{
-          type: "spring",
-          stiffness: 260,
-          damping: 20
-        }}>
+        transition={{duration:0.8}}
+        variants={{}}
+  
+        >
         <div className='circle-center'>
           Scrum
         </div>
