@@ -28,6 +28,9 @@ namespace MarvicSolution.DATA.EF
             modelBuilder.ApplyConfiguration(new App_User_Configurations());
             modelBuilder.ApplyConfiguration(new Issue_Configurations());
             modelBuilder.ApplyConfiguration(new Member_Configurations());
+            modelBuilder.ApplyConfiguration(new Test_Configurations());
+            modelBuilder.ApplyConfiguration(new Question_Configurations());
+            modelBuilder.ApplyConfiguration(new Answer_Configurations());
 
             //base.OnModelCreating(modelBuilder);
         }
@@ -38,5 +41,8 @@ namespace MarvicSolution.DATA.EF
         public DbSet<App_User> App_Users { get; set; }
         public DbSet<Issue> Issues { get; set; }
         public DbSet<Member> Members { get; set; }
+        public DbSet<Test> Tests { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<Answer> Answers { get; set; }
     }
 }
