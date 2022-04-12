@@ -4,14 +4,16 @@ using MarvicSolution.DATA.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MarvicSolution.DATA.Migrations
 {
     [DbContext(typeof(MarvicDbContext))]
-    partial class MarvicDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220412133337_db-v3")]
+    partial class dbv3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,6 +63,7 @@ namespace MarvicSolution.DATA.Migrations
                         {
                             Id = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
                             Department = "Khoang 1 HN",
+                            Email = "khanhnd@gmail.com",
                             FullName = "Nguyen Duy Khanh",
                             IsDeleted = 0,
                             JobTitle = "Project Manager",
@@ -347,54 +350,6 @@ namespace MarvicSolution.DATA.Migrations
                             Story_Point_Estimate = 1,
                             Summary = "The Story of Project B",
                             UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
-                });
-
-            modelBuilder.Entity("MarvicSolution.DATA.Entities.Member", b =>
-                {
-                    b.Property<Guid>("Id_Project")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("Id_User")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("IsDeleted")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id_Project", "Id_User");
-
-                    b.ToTable("Member");
-
-                    b.HasData(
-                        new
-                        {
-                            Id_Project = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
-                            Id_User = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
-                            IsDeleted = 0
-                        },
-                        new
-                        {
-                            Id_Project = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
-                            Id_User = new Guid("346f2520-6295-4734-8868-6ca75258e7c1"),
-                            IsDeleted = 0
-                        },
-                        new
-                        {
-                            Id_Project = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
-                            Id_User = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
-                            IsDeleted = 0
-                        },
-                        new
-                        {
-                            Id_Project = new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"),
-                            Id_User = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
-                            IsDeleted = 0
-                        },
-                        new
-                        {
-                            Id_Project = new Guid("a5329d06-9d32-4a54-b816-906dfbbd288c"),
-                            Id_User = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
-                            IsDeleted = 0
                         });
                 });
 

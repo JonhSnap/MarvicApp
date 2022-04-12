@@ -1,4 +1,5 @@
-﻿using MarvicSolution.Services.Project_Request.Dtos;
+﻿using MarvicSolution.DATA.Entities;
+using MarvicSolution.Services.Project_Request.Dtos;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewModels;
 using System;
@@ -15,9 +16,8 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         Task<Guid>  Update(Project_UpdateRequest request);
         Task<Guid> Delete(Guid Id);
 
-        Task<List<Project_ViewModel>> GetAlls_Linq();
-        Task<List<Project_ViewModel>> GetAlls_Tscript();
-        Task<List<Project_ViewModel>> GetAlls_Proc();
+        Task<List<Project_ViewModel>> GetAlls();
+        List<Project_ViewModel> GetProjectByIdUser(Guid IdUser);
         Project_ViewModel GetProjectById(Guid Id);
         Task<List<Project_ViewModel>> Groupby_ProjectType_Tscript(Guid projType_Id);
         Task<Project_PageResult<Project_ViewModel>> GetAllPaging(Get_Project_PagingRequest request);
