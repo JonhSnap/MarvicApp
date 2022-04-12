@@ -41,16 +41,6 @@ namespace MarvicSolution.Services.System.Users.Services
             return jwt;
         }
 
-        //public App_User GetUserbyUserName(Login_Request rq)
-        //{
-        //    var user = _context.App_Users.FirstOrDefault(u => u.UserName == rq.UserName);
-
-        //    if (user == null)
-        //        throw new MarvicException($"Cannot find user with username: {rq.UserName}");
-
-        //    return user;
-        //}
-
         public App_User GetUserbyUserName(string userName)
         {
             var user = _context.App_Users.FirstOrDefault(u => u.UserName == userName);
