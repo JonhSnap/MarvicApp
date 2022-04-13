@@ -52,9 +52,11 @@ namespace MarvicSolution.BackendApi.Controllers
             // Tao cookie
             Response.Cookies.Append("jwt", jwt, new CookieOptions
             {
-                HttpOnly = true
+                HttpOnly = true,
+                Expires = DateTime.Now.AddHours(24)
             });
-            return Ok("Login success");
+            var user = _userService.GetUserbyUserName(rq.UserName);
+            return Ok(user);
         }
 
         // /api/user/get
@@ -63,7 +65,7 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             try
             {
-                Guid id_User = ValidateUserById();
+                Guid id_User = ValidateUser();
                 var user = await _userService.GetUserbyId(id_User);
                 return Ok(user);
             }
@@ -111,7 +113,7 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok("Recovery password for user success");
         }
 
-        private Guid ValidateUserById()
+        private Guid ValidateUser()
         {
             try
             {

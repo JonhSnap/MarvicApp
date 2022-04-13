@@ -12,4 +12,4 @@
 
 
 
-New code of BE
+New commit remove bin and obj
