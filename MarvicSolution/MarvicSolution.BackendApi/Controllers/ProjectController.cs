@@ -1,4 +1,5 @@
-﻿using MarvicSolution.Services.Project_Request.Project_Resquest;
+﻿using MarvicSolution.DATA.Common;
+using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.System.Helpers;
 using MarvicSolution.Utilities.Exceptions;
@@ -81,6 +82,18 @@ namespace MarvicSolution.BackendApi.Controllers
             var projects = _projectService.GetProjectByIdUser(IdUser);
             if (projects == null)
                 return BadRequest($"Cannot get projects of idUser = {IdUser}");
+            return Ok(projects);
+        }
+
+        // api/Project/GetByLoginUser
+        [HttpGet]
+        [Route("/api/Project/GetByLoginUser")]
+        public IActionResult GetByLoginUser()
+        {
+            // get project by user has login
+            var projects = _projectService.GetProjectByIdUser(UserLogin.Id);
+            if (projects == null)
+                return BadRequest($"Cannot get projects of idUser = {UserLogin.Id}");
             return Ok(projects);
         }
 
