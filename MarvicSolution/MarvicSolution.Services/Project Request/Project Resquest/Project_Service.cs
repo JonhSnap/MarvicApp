@@ -87,6 +87,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 proj.DateEnd = rq.DateEnd;
                 proj.Id_Updator = UserLogin.Id;
                 proj.UpdateDate = DateTime.Now;
+                proj.IsStared = rq.IsStared;
 
                 await _context.SaveChangesAsync();
                 return rq.Id;
@@ -102,7 +103,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             try
             {
                 var proj = _context.Projects.Find(Id);
-                proj.IsDeleted = DATA.Enums.EnumStatus.True;
+                proj.IsDeleted = EnumStatus.True;
                 await _context.SaveChangesAsync();
                 return Id;
             }
@@ -223,5 +224,39 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 throw new MarvicException($"Error: {e}");
             }
         }
+
+        public Guid GetIdUserByUserName(string userName)
+        {
+            try
+            {
+                return _context.App_Users.FirstOrDefault(u => u.UserName.Equals(userName)).Id;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+        public Guid AddMembers(Guid IdProject, params string[] userNames)
+        {
+            try
+            {
+                foreach (var i_name in userNames)
+                {
+                    Member member = new Member { Id_Project = IdProject, Id_User = GetIdUserByUserName(i_name) };
+                    _context.Members.Add(member);
+                }
+
+                _context.SaveChanges();
+                return IdProject;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+
+
     }
 }

@@ -97,5 +97,16 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok(projects);
         }
 
+        // api/Project/AddMember
+        [HttpPost]
+        [Route("/api/Project/AddMember")]
+        public IActionResult AddMember(Guid IdProject, params string[] UserName)
+        {
+            var idProject = _projectService.AddMembers(IdProject, UserName);
+            if (idProject.Equals(Guid.Empty))
+                return BadRequest($"Cannot get projects of idUser = {UserLogin.Id}");
+            return Ok(idProject);
+        }
+
     }
 }
