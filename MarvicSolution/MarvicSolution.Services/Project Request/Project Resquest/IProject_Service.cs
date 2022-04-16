@@ -24,5 +24,10 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
 
         Guid GetIdUserByUserName(string userName);
         Guid AddMembers(Guid IdProject, params string[] userNames);
+        List<Guid> Get_IdMembers_By_IdProject(Guid IdProject);
+        List<Guid> Get_All_IdMembers();
+        List<string> Get_UserNames_By_Ids(List<Guid> ListIdMember);
+        List<string> Get_List_UserName_Can_Added_By_IdProject(Guid IdProject);
+
     }
 }

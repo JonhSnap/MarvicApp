@@ -256,6 +256,40 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
         }
 
+        public List<Guid> Get_IdMembers_By_IdProject(Guid IdProject)
+        {
+            return _context.Members.Where(m => m.Id_Project.Equals(IdProject)).Select(m=>m.Id_User).ToList();
+        }
+
+        public List<Guid> Get_All_IdMembers()
+        {
+            return _context.Members.Select(m => m.Id_User).ToList();
+        }
+
+        public List<string> Get_UserNames_By_Ids(List<Guid> ListIdMember)
+        {
+            List<string> listUserName = new List<string>();
+            foreach (var i_Id in ListIdMember)
+            {
+                var userName = _context.App_Users.FirstOrDefault(u => u.Id.Equals(i_Id)).UserName;
+                listUserName.Add(userName);
+            }
+            return listUserName;
+        }
+
+        public List<string> Get_List_UserName_Can_Added_By_IdProject(Guid IdProject)
+        {
+            // All Id members
+            var listIdAllMembers = Get_All_IdMembers();
+            // Id Member in Project
+            var listIdMembers = Get_IdMembers_By_IdProject(IdProject);
+            // not contain in Project
+            var listMembersCanAdded = listIdAllMembers.Except(listIdMembers).ToList();
+            var listUserNames = Get_UserNames_By_Ids(listMembersCanAdded);
+            
+            return listUserNames;
+        }
+
 
 
     }
