@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarvicSolution.BackendApi", "MarvicSolution.BackendApi\MarvicSolution.BackendApi.csproj", "{6C701FCC-64FD-4058-BADD-0C1AE7B7B1F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarvicSolution.Utilities", "MarvicSolution.Utilities\MarvicSolution.Utilities.csproj", "{F2C5ADDC-BE9E-481A-B58A-BF588E2AD823}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarvicSolution.Utilities", "MarvicSolution.Utilities\MarvicSolution.Utilities.csproj", "{F2C5ADDC-BE9E-481A-B58A-BF588E2AD823}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
