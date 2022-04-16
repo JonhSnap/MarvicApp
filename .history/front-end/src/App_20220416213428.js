@@ -1,8 +1,8 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Main from "./components/layouts/Main";
-// import LoginPage from "./pages/auth/Login";
-// import RegisterPage from "./pages/auth/Register";
+import LoginPage from "./pages/auth/Login";
+import RegisterPage from "./pages/auth/Register";
 // import LoginPage from "./pages/LoginPage";
 // import ProjectsPage from './pages/ProjectsPage'
 // import YourWorkPage from './pages/YourWorkPage'

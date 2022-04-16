@@ -9,8 +9,8 @@ import Main from "./components/layouts/Main";
 
 const YourWorkPage = lazy(() => import("./pages/YourWorkPage"));
 const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
-const LoginPage = lazy(() => import("./pages/LoginPage"));
-const RegisterPage = lazy(() => import("./pages/RegisterPage"));
+// const LoginPage = lazy(() => import("./pages/LoginPage"));
+// const RegisterPage = lazy(() => import("./pages/RegisterPage"));
 const TutorialPage = lazy(() => import("./pages/TutorialPage"));
 const TestPage = lazy(() => import("./pages/TestPage"));
 
