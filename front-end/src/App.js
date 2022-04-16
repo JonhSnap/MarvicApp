@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Main from './components/layouts/Main'
-import Tutorial from './pages/Tutorial';
+// import TutorialPage from './pages/TutorialPage';
 // import LoginPage from './pages/LoginPage'
 // import ProjectsPage from './pages/ProjectsPage'
 // import RegisterPage from './pages/RegisterPage'
@@ -24,7 +24,7 @@ function App() {
         </Route>
         <Route path='/login' element={<LoginPage></LoginPage>}></Route>
         <Route path='/register' element={<RegisterPage></RegisterPage>}></Route>
-        <Route path='/tutorial' element={<Tutorial></Tutorial>}></Route>
+        <Route path='/tutorial' element={<TutorialPage></TutorialPage>}></Route>
         <Route path='/test' element={<TestPage></TestPage>}></Route>
       </Routes>
     </Suspense>
