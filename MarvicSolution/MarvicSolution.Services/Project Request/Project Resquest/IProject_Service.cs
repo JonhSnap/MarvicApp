@@ -21,5 +21,13 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         Project_ViewModel GetProjectById(Guid Id);
         Task<List<Project_ViewModel>> Groupby_ProjectType_Tscript(Guid projType_Id);
         Task<Project_PageResult<Project_ViewModel>> GetAllPaging(Get_Project_PagingRequest request);
+
+        Guid GetIdUserByUserName(string userName);
+        Guid AddMembers(Guid IdProject, params string[] userNames);
+        List<Guid> Get_IdMembers_By_IdProject(Guid IdProject);
+        List<Guid> Get_All_IdMembers();
+        List<string> Get_UserNames_By_Ids(List<Guid> ListIdMember);
+        List<string> Get_List_UserName_Can_Added_By_IdProject(Guid IdProject);
+
     }
 }

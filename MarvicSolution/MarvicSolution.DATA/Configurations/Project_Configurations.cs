@@ -37,6 +37,7 @@ namespace MarvicSolution.DATA.Configurations
                 DateEnd = DateTime.Parse("2021-8-1"),
                 Id_Updator = new Guid(),
                 UpdateDate = DateTime.Parse("2021-7-21"),
+                IsStared = EnumStatus.False,
                 IsDeleted = EnumStatus.False
             },
             new Project
@@ -52,6 +53,7 @@ namespace MarvicSolution.DATA.Configurations
                 DateEnd = DateTime.Parse("2021-8-1"),
                 Id_Updator = new Guid(),
                 UpdateDate = DateTime.Parse("2021-6-21"),
+                IsStared = EnumStatus.True,
                 IsDeleted = EnumStatus.False
             },
             new Project
@@ -67,6 +69,7 @@ namespace MarvicSolution.DATA.Configurations
                 DateEnd = DateTime.Parse("2021-6-1"),
                 Id_Updator = new Guid(),
                 UpdateDate = DateTime.Parse("2021-4-26"),
+                IsStared = EnumStatus.True,
                 IsDeleted = EnumStatus.False
             }
             );
