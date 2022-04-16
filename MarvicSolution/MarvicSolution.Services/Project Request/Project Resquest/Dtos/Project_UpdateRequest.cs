@@ -17,6 +17,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest.Dtos
         public Guid Id_Lead { get; set; }
         public DateTime? DateStarted { get; set; }
         public DateTime DateEnd { get; set; }
+        public EnumStatus IsStared { get; set; } = EnumStatus.False;
 
         public Guid Id_Updator { get; set; }
         public DateTime UpdateDate { get; set; }
