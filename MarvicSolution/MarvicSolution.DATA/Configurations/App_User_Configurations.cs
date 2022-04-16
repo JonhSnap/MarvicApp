@@ -34,8 +34,7 @@ namespace MarvicSolution.DATA.Configurations
                     FullName = "Nguyen Duy Khanh",
                     UserName = "KhanhND",
                     Password = "$2a$11$D57iJclK1BhZgg9B" +
-                    "0P4I2.9sq0MoQIRImA8YeDVvbxeKPNG/KuTMK", //pass: KhanhND123@                    
-                    Email = "khanhnd@gmail.com",
+                    "0P4I2.9sq0MoQIRImA8YeDVvbxeKPNG/KuTMK", //pass: KhanhND123@ | Email = "khanhnd@gmail.com",
                     JobTitle = "Project Manager",
                     Department = "Khoang 1 HN",
                     Organization = "Company TechNo1",
