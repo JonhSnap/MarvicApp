@@ -43,7 +43,7 @@ namespace MarvicSolution.BackendApi
                 //        .AddDbContext<MarvicDbContext>(options =>
                 //options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.Thang_ConnectionString)))
                 .AddDbContext<MarvicDbContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.Tung_ConnectionString)));
+        options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.Thang_ConnectionString)));
         //        .AddDbContext<MarvicDbContext>(options =>
         //options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.Thinh_ConnectionString)));
 
