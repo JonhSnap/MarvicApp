@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Main from './components/layouts/Main'
+import ProjectDetailPage from './pages/ProjectDetailPage';
 // import LoginPage from './pages/LoginPage'
 // import ProjectsPage from './pages/ProjectsPage'
 // import RegisterPage from './pages/RegisterPage'
@@ -20,6 +21,7 @@ function App() {
         <Route path='/' element={<Main></Main>}>
           <Route path='/' element={<YourWorkPage></YourWorkPage>}></Route>
           <Route path='/projects' element={<ProjectsPage></ProjectsPage>}></Route>
+          <Route path='/projects/:id' element={<ProjectDetailPage></ProjectDetailPage>}></Route>
         </Route>
         <Route path='/login' element={<LoginPage></LoginPage>}></Route>
         <Route path='/register' element={<RegisterPage></RegisterPage>}></Route>
