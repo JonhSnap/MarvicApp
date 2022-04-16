@@ -87,6 +87,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 proj.DateEnd = rq.DateEnd;
                 proj.Id_Updator = UserLogin.Id;
                 proj.UpdateDate = DateTime.Now;
+                proj.IsStared = rq.IsStared;
 
                 await _context.SaveChangesAsync();
                 return rq.Id;
@@ -102,7 +103,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             try
             {
                 var proj = _context.Projects.Find(Id);
-                proj.IsDeleted = DATA.Enums.EnumStatus.True;
+                proj.IsDeleted = EnumStatus.True;
                 await _context.SaveChangesAsync();
                 return Id;
             }
@@ -118,12 +119,12 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         }
 
         // GetAlls Linq
-        public async Task<List<Project_ViewModel>> GetAlls_Linq()
+        public async Task<List<Project_ViewModel>> GetAlls()
         {
             try
             {
                 var query = from proj in _context.Projects select new { proj };
-                var data = await query.Where(d=>d.proj.IsDeleted == EnumStatus.False).Select(x => new Project_ViewModel()
+                var data = await query.Where(d => d.proj.IsDeleted == EnumStatus.False).Select(x => new Project_ViewModel()
                 {
                     Id = x.proj.Id,
                     Name = x.proj.Name,
@@ -200,6 +201,96 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 throw new MarvicException($"Error: {e}");
             }
         }
+
+        public List<Project_ViewModel> GetProjectByIdUser(Guid IdUser)
+        {
+            try
+            {
+                var projects = from mem in _context.Members
+                               join u in _context.App_Users on mem.Id_User equals u.Id
+                               join p in _context.Projects on mem.Id_Project equals p.Id
+                               where mem.Id_User.Equals(IdUser)
+                               select new Project_ViewModel
+                               {
+                                   Id = p.Id,
+                                   Name = p.Name,
+                                   Key = p.Key,
+                                   Access = p.Access
+                               };
+                return projects.ToList();
+            }
+            catch (NullReferenceException e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+        public Guid GetIdUserByUserName(string userName)
+        {
+            try
+            {
+                return _context.App_Users.FirstOrDefault(u => u.UserName.Equals(userName)).Id;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+        public Guid AddMembers(Guid IdProject, params string[] userNames)
+        {
+            try
+            {
+                foreach (var i_name in userNames)
+                {
+                    Member member = new Member { Id_Project = IdProject, Id_User = GetIdUserByUserName(i_name) };
+                    _context.Members.Add(member);
+                }
+
+                _context.SaveChanges();
+                return IdProject;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+        public List<Guid> Get_IdMembers_By_IdProject(Guid IdProject)
+        {
+            return _context.Members.Where(m => m.Id_Project.Equals(IdProject)).Select(m=>m.Id_User).ToList();
+        }
+
+        public List<Guid> Get_All_IdMembers()
+        {
+            return _context.Members.Select(m => m.Id_User).ToList();
+        }
+
+        public List<string> Get_UserNames_By_Ids(List<Guid> ListIdMember)
+        {
+            List<string> listUserName = new List<string>();
+            foreach (var i_Id in ListIdMember)
+            {
+                var userName = _context.App_Users.FirstOrDefault(u => u.Id.Equals(i_Id)).UserName;
+                listUserName.Add(userName);
+            }
+            return listUserName;
+        }
+
+        public List<string> Get_List_UserName_Can_Added_By_IdProject(Guid IdProject)
+        {
+            // All Id members
+            var listIdAllMembers = Get_All_IdMembers();
+            // Id Member in Project
+            var listIdMembers = Get_IdMembers_By_IdProject(IdProject);
+            // not contain in Project
+            var listMembersCanAdded = listIdAllMembers.Except(listIdMembers).ToList();
+            var listUserNames = Get_UserNames_By_Ids(listMembersCanAdded);
+            
+            return listUserNames;
+        }
+
+
 
     }
 }

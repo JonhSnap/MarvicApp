@@ -36,8 +36,9 @@ namespace MarvicSolution.BackendApi
         {
             // If develop a SPA the brower will prevent request from different port | check "app.UseCors" bollow
             services.AddCors();
+
             services.AddDbContext<MarvicDbContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.MainConnectionString)));
+        options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.ConnectionString)));
 
             /// Declare DI
             /// AddTransient: Moi lan request la tao moi 1 object
@@ -83,7 +84,7 @@ namespace MarvicSolution.BackendApi
             app.UseRouting();
 
             app.UseCors(option => option
-            .WithOrigins(new[] { "https:localhost:3000", "https:localhost:8000", "https:localhost:4200" }) // FE's port
+            .WithOrigins(new[] { "http://localhost:3000", "http://localhost:8000", "http://localhost:4200" }) // FE's port
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials()); // send cookie to FE

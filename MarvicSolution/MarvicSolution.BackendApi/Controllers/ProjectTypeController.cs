@@ -44,7 +44,7 @@ namespace MarvicSolution.BackendApi.Controllers
         public async Task<IActionResult> Create([FromForm]ProjectType_CreateRequest rq)
         {
             var prjTypeId = await _service.Create(rq);
-            if (prjTypeId.Equals("00000000-0000-0000-0000-000000000000"))
+            if (prjTypeId.Equals(Guid.Empty))
                 return BadRequest();
 
             //return Created(nameof(GetAlls), prjTypeId);
@@ -56,17 +56,17 @@ namespace MarvicSolution.BackendApi.Controllers
         public async Task<IActionResult> Update([FromForm]ProjectType_UpdateRequest rq)
         {
             var affectedResutl = await _service.Update(rq);
-            if (affectedResutl.Equals("00000000-0000-0000-0000-000000000000"))
+            if (affectedResutl.Equals(Guid.Empty))
                 return BadRequest();
 
             return Ok();
         }
 
-        [HttpDelete("{prjTypeId}")]// remember to check this route
-        public async Task<IActionResult> Delete(Guid prjTypeId)
+        [HttpDelete("{projTypeId}")]// remember to check this route
+        public async Task<IActionResult> Delete(Guid projTypeId)
         {
-            var affectedResutl = await _service.Delete(prjTypeId);
-            if (affectedResutl.Equals("00000000-0000-0000-0000-000000000000"))
+            var affectedResutl = await _service.Delete(projTypeId);
+            if (affectedResutl.Equals(Guid.Empty))
                 return BadRequest();
 
             return Ok();
