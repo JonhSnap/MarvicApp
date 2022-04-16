@@ -1,12 +1,14 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import ContainerBoard from '../components/containers/ContainerBoard'
+import Sidebar from '../components/sidebar/Sidebar'
 
 function ProjectDetailPage() {
-  const idProject = useParams().id;
-  console.log('id project ~', idProject);
 
   return (
-    <div>ProjectDetailPage</div>
+    <div className='project-board flex'>
+      <Sidebar></Sidebar>
+      <ContainerBoard></ContainerBoard>
+    </div>
   )
 }
 
