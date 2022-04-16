@@ -3,18 +3,12 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
-// import { Provider } from "react-redux";
-// import store from "./redux/store";
-import axios from "axios";
+import { BrowserRouter } from 'react-router-dom'
 
-// axios.defaults.baseURL = "https://localhost:5001/api/User";
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      {/* <Provider store={store}> */}
-        <App />
-      {/* </Provider> */}
+          <App />
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

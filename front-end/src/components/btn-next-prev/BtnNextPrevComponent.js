@@ -9,39 +9,20 @@ export default function BtnNextPrevComponent(props) {
         localStorage.count = props.count
     }
     useEffect(() => {
-        if (parseInt(localStorage.getItem('count')) == 1 ) {
-            // document.querySelector('.btn-next').style.pointerEvents = "auto";
-            // document.querySelector('.btn-next').style.cursor = "pointer";
-            
+        if (parseInt(localStorage.getItem('count')) == 1) {
             document.querySelector('.btn-previous').style.pointerEvents = "none";
             document.querySelector('.btn-previous').style.cursor = "auto";
         }
-        // else {
-        //     document.querySelector('.btn-previous').style.pointerEvents = "none";
-        //     document.querySelector('.btn-previous').style.cursor = "auto";
-        // }
 
         if (parseInt(localStorage.getItem('count')) == Data.posts.length) {
-            // document.querySelector('.btn-previous').style.pointerEvents = "auto";
-            // document.querySelector('.btn-previous').style.cursor = "pointer";
-            
             document.querySelector('.btn-next').style.pointerEvents = "none";
             document.querySelector('.btn-next').style.cursor = "auto";
         }
-        // else {
-        //     document.querySelector('.btn-next').style.pointerEvents = "none";
-        //     document.querySelector('.btn-next').style.cursor = "auto";
-        // }
-
     }, [])
-
-
 
     const hiddenTutorial = () => {
         document.querySelector('.tutorial').style.display = 'none';
     }
-
-
 
     const toggleBtn = (e) => {
 
@@ -56,10 +37,12 @@ export default function BtnNextPrevComponent(props) {
         }
     }
     return (
-        <div className='btn'>
-            <button className='btn-previous' onClick={toggleBtn}>Previous</button>
-            <button className='btn-next' onClick={toggleBtn}>Next</button>
-            <button className='btn-skip' onClick={hiddenTutorial}>Skip</button>
-        </div>
+        <>
+            <div className='btn'>
+                <button className='btn-previous' onClick={toggleBtn}>Previous</button>
+                <button className='btn-next' onClick={toggleBtn}>Next</button>
+                <button className='btn-skip' onClick={hiddenTutorial}>Skip</button>
+            </div>
+        </>
     )
 }

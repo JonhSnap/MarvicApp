@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import ConfirmComponent from '../components/ConfirmComponent'
-import ScoreComponent from '../components/ScoreComponent'
+import ConfirmComponent from '../components/confirm/ConfirmComponent'
+import ScoreComponent from '../components/score/ScoreComponent'
 import '../scss/TestPage.scss'
 
 export default function TestPage() {

@@ -3,15 +3,16 @@ import '../scss/Tutorial.scss'
 import { motion } from "framer-motion";
 import Data from '../tutorial/data-tutorial.json'
 import BtnNextPrevComponent from '../components/btn-next-prev/BtnNextPrevComponent';
+import BtnNextPrevComponent1 from '../components/Next-Prev Button/BtnNextPrevComponent';
 
 export default function TutorialPage() {
-  const [show, setShow] = useState(true)
+  // const [show, setShow] = useState(true)
   const [count, setCount] = useState(1)
 
   return (
     <div className='tutorial'>
 
-      {show && <motion.div className='content-1' transition={{
+      {<motion.div className='content-1' transition={{
         type: "spring",
         damping: 10,
         stiffness: 100
@@ -30,7 +31,7 @@ export default function TutorialPage() {
           return html
         })}
       </motion.div>}
-      {show && <motion.div className='content-2'  transition={{
+      {<motion.div className='content-2' transition={{
         type: "spring",
         damping: 10,
         stiffness: 100
@@ -49,16 +50,17 @@ export default function TutorialPage() {
             }
             return html
           })}
-          <BtnNextPrevComponent setShow={setShow} setCount={setCount} count={count} />
+          <BtnNextPrevComponent setCount={setCount} count={count} />
+          {/* <BtnNextPrevComponent1 setShow={setShow} setCount={setCount} count={count} /> */}
         </div>
       </motion.div>}
-      {show && <motion.div className='content-3' 
-      initial={{ scale: 0.5 }}
+      {<motion.div className='content-3'
+        initial={{ scale: 0.5 }}
         animate={{ rotate: 360, scale: 1 }}
-        transition={{duration:0.8}}
+        transition={{ duration: 0.8 }}
         variants={{}}
-  
-        >
+
+      >
         <div className='circle-center'>
           Scrum
         </div>

@@ -13,6 +13,7 @@ $main-color: #0052cc;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-size: 16px;
 }
 html {
   font-size: 14px;
@@ -23,33 +24,3 @@ html {
   font-family: "Poppins", sans-serif;
 }
 
-// css sign up sign in
-
-.sign-up {
-  height: 100vh;
-  background: url("./images/form-register.png");
-  background-repeat: no-repeat;
-}
-.name-logo {
-  font-size: 64px;
-  background: linear-gradient(180deg, #344c8b 0%, #8777d9 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  // text-fill-color: transparent;
-}
-
-.signup-right::after {
-  position: absolute;
-  content: "";
-  background-color: #eee2e2;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  opacity: 0.25;
-}
-
-.continue-btn {
-  background: linear-gradient(180deg, #344c8b 0%, #8777d9 100%);
-}
