@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MarvicSolution.DATA.Migrations
 {
-    public partial class dbv3 : Migration
+    public partial class dbv2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

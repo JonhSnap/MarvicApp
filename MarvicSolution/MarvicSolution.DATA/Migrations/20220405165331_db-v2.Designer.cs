@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarvicSolution.DATA.Migrations
 {
     [DbContext(typeof(MarvicDbContext))]
-    [Migration("20220412133337_db-v3")]
-    partial class dbv3
+    [Migration("20220405165331_db-v2")]
+    partial class dbv2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

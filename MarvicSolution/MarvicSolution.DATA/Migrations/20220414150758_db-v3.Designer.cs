@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarvicSolution.DATA.Migrations
 {
     [DbContext(typeof(MarvicDbContext))]
-    [Migration("20220412232606_add-test-question-answer")]
-    partial class addtestquestionanswer
+    [Migration("20220414150758_db-v3")]
+    partial class dbv3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -743,6 +743,9 @@ namespace MarvicSolution.DATA.Migrations
                     b.Property<int>("IsDeleted")
                         .HasColumnType("int");
 
+                    b.Property<int>("IsStared")
+                        .HasColumnType("int");
+
                     b.Property<string>("Key")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -770,6 +773,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Lead = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
+                            IsStared = 0,
                             Key = "PA",
                             Name = "Project A",
                             UpdateDate = new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -785,6 +789,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Lead = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
+                            IsStared = 1,
                             Key = "PB",
                             Name = "Project B",
                             UpdateDate = new DateTime(2021, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -800,6 +805,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Lead = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
+                            IsStared = 1,
                             Key = "PC",
                             Name = "Project C",
                             UpdateDate = new DateTime(2021, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)

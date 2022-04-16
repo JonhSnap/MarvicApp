@@ -97,5 +97,26 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok(projects);
         }
 
+        // api/Project/AddMember?IdProject=xxx-xxx-xx
+        [HttpPost]
+        [Route("/api/Project/AddMember")]
+        public IActionResult AddMember(Guid IdProject, params string[] UserName)
+        {
+            var idProject = _projectService.AddMembers(IdProject, UserName);
+            if (idProject.Equals(Guid.Empty))
+                return BadRequest($"Cannot get projects of idUser = {UserLogin.Id}");
+            return Ok(idProject);
+        }
+
+        // api/Project/UserCanAdded
+        [HttpGet]
+        [Route("/api/Project/UserCanAdded")]
+        public IActionResult UserCanAdded(Guid IdProject)
+        {
+            var listUserName = _projectService.Get_List_UserName_Can_Added_By_IdProject(IdProject);
+            if (!listUserName.Any()) // Kiem tra list ko rong
+                return BadRequest($"Cannot get list username by IdProject = {IdProject}");
+            return Ok(listUserName);
+        }
     }
 }
