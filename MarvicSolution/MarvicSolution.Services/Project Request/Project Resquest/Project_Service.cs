@@ -118,12 +118,12 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         }
 
         // GetAlls Linq
-        public async Task<List<Project_ViewModel>> GetAlls_Linq()
+        public async Task<List<Project_ViewModel>> GetAlls()
         {
             try
             {
                 var query = from proj in _context.Projects select new { proj };
-                var data = await query.Where(d=>d.proj.IsDeleted == EnumStatus.False).Select(x => new Project_ViewModel()
+                var data = await query.Where(d => d.proj.IsDeleted == EnumStatus.False).Select(x => new Project_ViewModel()
                 {
                     Id = x.proj.Id,
                     Name = x.proj.Name,
@@ -201,5 +201,27 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
         }
 
+        public List<Project_ViewModel> GetProjectByIdUser(Guid IdUser)
+        {
+            try
+            {
+                var projects = from mem in _context.Members
+                               join u in _context.App_Users on mem.Id_User equals u.Id
+                               join p in _context.Projects on mem.Id_Project equals p.Id
+                               where mem.Id_User.Equals(IdUser)
+                               select new Project_ViewModel
+                               {
+                                   Id = p.Id,
+                                   Name = p.Name,
+                                   Key = p.Key,
+                                   Access = p.Access
+                               };
+                return projects.ToList();
+            }
+            catch (NullReferenceException e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
     }
 }

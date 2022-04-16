@@ -7,6 +7,6 @@ namespace MarvicSolution.BackendApi.Constants
 {
     public class SystemConstant
     {
-        public const string MainConnectionString = "MarvicDbConnection";
+        public const string ConnectionString = "MarvicDbConnection";
     }
 }
