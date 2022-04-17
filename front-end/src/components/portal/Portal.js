@@ -27,7 +27,7 @@ function Portal(
         {overlay && <div className="overlay absolute inset-0 bg-black bg-opacity-20"></div>}
         <div
         style={bodyStyle}
-        className={`content w-fit ${bodyClassName}`}>
+        className={`content content-modal w-fit ${bodyClassName}`}>
             {children}
         </div>
     </div>

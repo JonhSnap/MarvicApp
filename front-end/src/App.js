@@ -24,7 +24,7 @@ function App() {
             element={<ProjectsPage></ProjectsPage>}
           ></Route>
           <Route
-            path="/projects/:id"
+            path="/projects/:key"
             element={<ProjectDetailPage></ProjectDetailPage>}
           ></Route>
         </Route>
