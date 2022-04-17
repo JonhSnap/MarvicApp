@@ -36,43 +36,6 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok(project);
         }
 
-        /// <summary>
-        /// DateTime format: 3/29/2022
-        /// </summary>
-        /// <param name="rq">Request from client</param>
-        /// <returns></returns>
-        [HttpPost]
-        [Route("/api/Project/Create")]// remember to check this route
-        public async Task<IActionResult> Create([FromBody] Project_CreateRequest rq)
-        {
-            var proj_Id = await _projectService.Create(rq);
-            if (proj_Id.Equals(Guid.Empty))
-                return BadRequest();
-
-            return Ok("Create project success");
-        }
-
-        [HttpPut]
-        [Route("/api/Project/Update")]// remember to check this route
-        public async Task<IActionResult> Update([FromBody] Project_UpdateRequest rq)
-        {
-            var affectedResutl = await _projectService.Update(rq);
-            if (affectedResutl.Equals(Guid.Empty))
-                return BadRequest();
-
-            return Ok("Update project success");
-        }
-
-        [HttpDelete("{proj_Id}")]
-        public async Task<IActionResult> Delete(Guid proj_Id)
-        {
-            var affectedResutl = await _projectService.Delete(proj_Id);
-            if (affectedResutl.Equals(Guid.Empty))
-                return BadRequest();
-
-            return Ok("Delete project success");
-        }
-
         // api/Project/GetProjectByIdUser/Id
         [HttpGet]
         [Route("/api/Project/GetProjectByIdUser/Id")]
@@ -97,6 +60,44 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok(projects);
         }
 
+        // api/Project/UserCanAdded
+        [HttpGet]
+        [Route("/api/Project/UserCanAdded")]
+        public IActionResult UserCanAdded(Guid IdProject)
+        {
+            var listUserName = _projectService.Get_List_UserName_Can_Added_By_IdProject(IdProject);
+            if (!listUserName.Any()) // Kiem tra list ko rong
+                return BadRequest($"Cannot get list username by IdProject = {IdProject}");
+            return Ok(listUserName);
+        }
+
+        // api/Project/GetAllMemberByIdProject
+        [HttpGet]
+        [Route("/api/Project/GetAllMemberByIdProject")]
+        public IActionResult GetAllMemberByIdProject(Guid IdProject)
+        {
+            var members = _projectService.Get_AllMembers_By_IdProject(IdProject);
+            if (!members.Any())
+                return BadRequest($"Cannot find any member from IdProject = {IdProject}");
+            return Ok(members);
+        }
+
+        /// <summary>
+        /// DateTime format: 3/29/2022
+        /// </summary>
+        /// <param name="rq">Request from client</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("/api/Project/Create")]// remember to check this route
+        public async Task<IActionResult> Create([FromBody] Project_CreateRequest rq)
+        {
+            var proj_Id = await _projectService.Create(rq);
+            if (proj_Id.Equals(Guid.Empty))
+                return BadRequest();
+
+            return Ok("Create project success");
+        }
+
         // api/Project/AddMember?IdProject=xxx-xxx-xx
         [HttpPost]
         [Route("/api/Project/AddMember")]
@@ -109,17 +110,6 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok(idProject);
         }
 
-        // api/Project/UserCanAdded
-        [HttpGet]
-        [Route("/api/Project/UserCanAdded")]
-        public IActionResult UserCanAdded(Guid IdProject)
-        {
-            var listUserName = _projectService.Get_List_UserName_Can_Added_By_IdProject(IdProject);
-            if (!listUserName.Any()) // Kiem tra list ko rong
-                return BadRequest($"Cannot get list username by IdProject = {IdProject}");
-            return Ok(listUserName);
-        }
-
         // api/Project/RemoveMember
         [HttpPost]
         [Route("/api/Project/RemoveMember")]
@@ -130,5 +120,28 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest($"Cannot remove idUser = {rq.IdUser} from IdProject = {rq.IdProject}");
             return Ok(result);
         }
+        [HttpPut]
+        [Route("/api/Project/Update")]// remember to check this route
+        public async Task<IActionResult> Update([FromBody] Project_UpdateRequest rq)
+        {
+            var affectedResutl = await _projectService.Update(rq);
+            if (affectedResutl.Equals(Guid.Empty))
+                return BadRequest();
+
+            return Ok("Update project success");
+        }
+
+        [HttpDelete("{proj_Id}")]
+        public async Task<IActionResult> Delete(Guid proj_Id)
+        {
+            var affectedResutl = await _projectService.Delete(proj_Id);
+            if (affectedResutl.Equals(Guid.Empty))
+                return BadRequest();
+
+            return Ok("Delete project success");
+        }
+
+
+
     }
 }
