@@ -36,6 +36,52 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok(project);
         }
 
+        // api/Project/GetProjectByIdUser/Id
+        [HttpGet]
+        [Route("/api/Project/GetProjectByIdUser/Id")]
+        public IActionResult GetProjectByIdUser(Guid IdUser)
+        {
+            // get project by user has login
+            var projects = _projectService.GetProjectByIdUser(IdUser);
+            if (projects == null)
+                return BadRequest($"Cannot get projects of idUser = {IdUser}");
+            return Ok(projects);
+        }
+
+        // api/Project/GetByLoginUser
+        [HttpGet]
+        [Route("/api/Project/GetByLoginUser")]
+        public IActionResult GetByLoginUser()
+        {
+            // get project by user has login
+            var projects = _projectService.GetProjectByIdUser(UserLogin.Id);
+            if (projects == null)
+                return BadRequest($"Cannot get projects of idUser = {UserLogin.Id}");
+            return Ok(projects);
+        }
+
+        // api/Project/UserCanAdded
+        [HttpGet]
+        [Route("/api/Project/UserCanAdded")]
+        public IActionResult UserCanAdded(Guid IdProject)
+        {
+            var listUserName = _projectService.Get_List_UserName_Can_Added_By_IdProject(IdProject);
+            if (!listUserName.Any()) // Kiem tra list ko rong
+                return BadRequest($"Cannot get list username by IdProject = {IdProject}");
+            return Ok(listUserName);
+        }
+
+        // api/Project/GetAllMemberByIdProject
+        [HttpGet]
+        [Route("/api/Project/GetAllMemberByIdProject")]
+        public IActionResult GetAllMemberByIdProject(Guid IdProject)
+        {
+            var members = _projectService.Get_AllMembers_By_IdProject(IdProject);
+            if (!members.Any())
+                return BadRequest($"Cannot find any member from IdProject = {IdProject}");
+            return Ok(members);
+        }
+
         /// <summary>
         /// DateTime format: 3/29/2022
         /// </summary>
@@ -52,6 +98,28 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok("Create project success");
         }
 
+        // api/Project/AddMember?IdProject=xxx-xxx-xx
+        [HttpPost]
+        [Route("/api/Project/AddMember")]
+        //public IActionResult AddMember(Guid IdProject, params string[] userNames)
+        public IActionResult AddMember([FromBody] AddMember_Request rq)
+        {
+            var idProject = _projectService.AddMembers(rq.IdProject, rq.UserNames);
+            if (idProject.Equals(Guid.Empty))
+                return BadRequest($"Cannot get projects of idUser = {UserLogin.Id}");
+            return Ok(idProject);
+        }
+
+        // api/Project/RemoveMember
+        [HttpPost]
+        [Route("/api/Project/RemoveMember")]
+        public IActionResult RemoveMember([FromBody] RemoveMember_Request rq)
+        {
+            var result = _projectService.Remove_Member_From_Project(rq.IdProject, rq.IdUser);
+            if (result.Equals(Guid.Empty))
+                return BadRequest($"Cannot remove idUser = {rq.IdUser} from IdProject = {rq.IdProject}");
+            return Ok(result);
+        }
         [HttpPut]
         [Route("/api/Project/Update")]// remember to check this route
         public async Task<IActionResult> Update([FromBody] Project_UpdateRequest rq)
@@ -73,50 +141,7 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok("Delete project success");
         }
 
-        // api/Project/GetByIdUser/Id
-        [HttpGet]
-        [Route("/api/Project/GetByIdUser/Id")]
-        public IActionResult GetByIdUser(Guid IdUser)
-        {
-            // get project by user has login
-            var projects = _projectService.GetProjectByIdUser(IdUser);
-            if (projects == null)
-                return BadRequest($"Cannot get projects of idUser = {IdUser}");
-            return Ok(projects);
-        }
 
-        // api/Project/GetByLoginUser
-        [HttpGet]
-        [Route("/api/Project/GetByLoginUser")]
-        public IActionResult GetByLoginUser()
-        {
-            // get project by user has login
-            var projects = _projectService.GetProjectByIdUser(UserLogin.Id);
-            if (projects == null)
-                return BadRequest($"Cannot get projects of idUser = {UserLogin.Id}");
-            return Ok(projects);
-        }
 
-        // api/Project/AddMember?IdProject=xxx-xxx-xx
-        [HttpPost]
-        [Route("/api/Project/AddMember")]
-        public IActionResult AddMember(Guid IdProject, params string[] UserName)
-        {
-            var idProject = _projectService.AddMembers(IdProject, UserName);
-            if (idProject.Equals(Guid.Empty))
-                return BadRequest($"Cannot get projects of idUser = {UserLogin.Id}");
-            return Ok(idProject);
-        }
-
-        // api/Project/UserCanAdded
-        [HttpGet]
-        [Route("/api/Project/UserCanAdded")]
-        public IActionResult UserCanAdded(Guid IdProject)
-        {
-            var listUserName = _projectService.Get_List_UserName_Can_Added_By_IdProject(IdProject);
-            if (!listUserName.Any()) // Kiem tra list ko rong
-                return BadRequest($"Cannot get list username by IdProject = {IdProject}");
-            return Ok(listUserName);
-        }
     }
 }

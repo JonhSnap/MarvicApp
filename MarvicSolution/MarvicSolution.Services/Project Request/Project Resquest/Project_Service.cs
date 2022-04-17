@@ -62,7 +62,14 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                     Id = proj.Id,
                     Name = proj.Name,
                     Key = proj.Key,
-                    Access = proj.Access
+                    Access = proj.Access,
+                    Id_Lead = proj.Id_Lead,
+                    Id_Creator = proj.Id_Creator,
+                    DateCreated = proj.DateCreated,
+                    DateEnd = proj.DateEnd,
+                    Id_Updator = proj.Id_Updator,
+                    UpdateDate = proj.UpdateDate,
+                    IsStared = proj.IsStared
                 };
                 return result;
             }
@@ -124,12 +131,21 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             try
             {
                 var query = from proj in _context.Projects select new { proj };
-                var data = await query.Where(d => d.proj.IsDeleted == EnumStatus.False).Select(x => new Project_ViewModel()
-                {
-                    Id = x.proj.Id,
-                    Name = x.proj.Name,
-                    Key = x.proj.Key
-                }).ToListAsync();
+                var data = await query.Where(d => d.proj.IsDeleted == EnumStatus.False)
+                                        .Select(x => new Project_ViewModel()
+                                        {
+                                            Id = x.proj.Id,
+                                            Name = x.proj.Name,
+                                            Key = x.proj.Key,
+                                            Access = x.proj.Access,
+                                            Id_Lead = x.proj.Id_Lead,
+                                            Id_Creator = x.proj.Id_Creator,
+                                            DateCreated = x.proj.DateCreated,
+                                            DateEnd = x.proj.DateEnd,
+                                            Id_Updator = x.proj.Id_Updator,
+                                            UpdateDate = x.proj.UpdateDate,
+                                            IsStared = x.proj.IsStared
+                                        }).ToListAsync();
                 return data;
             }
             catch (NullReferenceException e)
@@ -209,17 +225,24 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 var projects = from mem in _context.Members
                                join u in _context.App_Users on mem.Id_User equals u.Id
                                join p in _context.Projects on mem.Id_Project equals p.Id
-                               where mem.Id_User.Equals(IdUser)
+                               where mem.Id_User.Equals(IdUser) && p.IsDeleted.Equals(EnumStatus.False)
                                select new Project_ViewModel
                                {
                                    Id = p.Id,
                                    Name = p.Name,
                                    Key = p.Key,
-                                   Access = p.Access
+                                   Access = p.Access,
+                                   Id_Lead = p.Id_Lead,
+                                   Id_Creator = p.Id_Creator,
+                                   DateCreated = p.DateCreated,
+                                   DateEnd = p.DateEnd,
+                                   Id_Updator = p.Id_Updator,
+                                   UpdateDate = p.UpdateDate,
+                                   IsStared = p.IsStared
                                };
                 return projects.ToList();
             }
-            catch (NullReferenceException e)
+            catch (Exception e)
             {
                 throw new MarvicException($"Error: {e}");
             }
@@ -229,7 +252,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         {
             try
             {
-                return _context.App_Users.FirstOrDefault(u => u.UserName.Equals(userName)).Id;
+                return _context.App_Users.FirstOrDefault(u => u.UserName.Equals(userName) && u.IsDeleted.Equals(EnumStatus.False)).Id;
             }
             catch (Exception e)
             {
@@ -237,7 +260,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
         }
 
-        public Guid AddMembers(Guid IdProject, params string[] userNames)
+        public Guid AddMembers(Guid IdProject, List<string> userNames)
         {
             try
             {
@@ -258,39 +281,105 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
 
         public List<Guid> Get_IdMembers_By_IdProject(Guid IdProject)
         {
-            return _context.Members.Where(m => m.Id_Project.Equals(IdProject)).Select(m=>m.Id_User).ToList();
+            return _context.Members.Where(m => m.Id_Project.Equals(IdProject)
+                                            && m.IsDeleted.Equals(EnumStatus.False)
+                                        ).Select(m => m.Id_User).ToList();
         }
 
         public List<Guid> Get_All_IdMembers()
         {
-            return _context.Members.Select(m => m.Id_User).ToList();
+            try
+            {
+                return _context.Members.Where(m => m.IsDeleted.Equals(EnumStatus.False))
+                                        .Select(m => m.Id_User).ToList();
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
         public List<string> Get_UserNames_By_Ids(List<Guid> ListIdMember)
         {
-            List<string> listUserName = new List<string>();
-            foreach (var i_Id in ListIdMember)
+            try
             {
-                var userName = _context.App_Users.FirstOrDefault(u => u.Id.Equals(i_Id)).UserName;
-                listUserName.Add(userName);
+                List<string> listUserName = new List<string>();
+                foreach (var i_Id in ListIdMember)
+                {
+                    var userName = _context.App_Users.FirstOrDefault(u => u.Id.Equals(i_Id)
+                                                                    && u.IsDeleted.Equals(EnumStatus.False)
+                                                                    ).UserName;
+                    listUserName.Add(userName);
+                }
+                return listUserName;
             }
-            return listUserName;
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
         public List<string> Get_List_UserName_Can_Added_By_IdProject(Guid IdProject)
         {
-            // All Id members
-            var listIdAllMembers = Get_All_IdMembers();
-            // Id Member in Project
-            var listIdMembers = Get_IdMembers_By_IdProject(IdProject);
-            // not contain in Project
-            var listMembersCanAdded = listIdAllMembers.Except(listIdMembers).ToList();
-            var listUserNames = Get_UserNames_By_Ids(listMembersCanAdded);
-            
-            return listUserNames;
+            try
+            {
+                // All Id members
+                var listIdAllMembers = Get_All_IdMembers();
+                // Id Member in Project
+                var listIdMembers = Get_IdMembers_By_IdProject(IdProject);
+                // not contain in Project
+                var listMembersCanAdded = listIdAllMembers.Except(listIdMembers).ToList();
+                var listUserNames = Get_UserNames_By_Ids(listMembersCanAdded);
+
+                return listUserNames;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
+        public Guid Remove_Member_From_Project(Guid IdProject, Guid IdUser)
+        {
+            try
+            {
+                var member = _context.Members.FirstOrDefault(m => m.Id_Project.Equals(IdProject)
+                                                            && m.Id_User.Equals(IdUser)
+                                                            );
+                _context.Remove(member);
+                _context.SaveChanges();
+                return member.Id_Project;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
 
+        public List<Member_ViewModel> Get_AllMembers_By_IdProject(Guid IdProject)
+        {
+            try
+            {
+                return (from mem in _context.Members
+                        join u in _context.App_Users on mem.Id_User equals u.Id
+                        where mem.Id_Project.Equals(IdProject) && u.IsDeleted.Equals(EnumStatus.False)
+                        select new Member_ViewModel()
+                        {
+                            Id = u.Id,
+                            FullName = u.FullName,
+                            UserName = u.UserName,
+                            Email = u.Email,
+                            JobTitle = u.JobTitle,
+                            Department = u.Department,
+                            Organization = u.Organization,
+                            PhoneNumber = u.PhoneNumber
+                        }).ToList();
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
 
     }
 }
