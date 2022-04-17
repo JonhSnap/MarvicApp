@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 
 function ProjectItem({ project }) {
     const navigate = useNavigate();
-    const handleClickName = (id) => {
-        navigate(`/projects/${id}`);
+    const handleClickName = (key) => {
+        navigate(`/projects/${key}`);
     }
     
   return (
@@ -18,7 +18,7 @@ function ProjectItem({ project }) {
             <img
             className='w-6 h-6 object-cover rounded-sm'
             src="https://images.unsplash.com/photo-1562577309-4932fdd64cd1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZGlnaXRhbCUyMG1hcmtldGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="" />
-            <span onClick={() => handleClickName(project.id)} className='text-primary cursor-pointer hover:underline'>{project.name}</span>
+            <span onClick={() => handleClickName(project.key)} className='text-primary cursor-pointer hover:underline'>{project.name}</span>
         </div>
         <div className='basis-[20%]'>
             <span>{project.key}</span>

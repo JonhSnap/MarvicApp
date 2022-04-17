@@ -1,4 +1,3 @@
-import { v4 } from "uuid";
 
 const createKey = (name) => {
     if(!name) return;
@@ -17,6 +16,6 @@ const createKey = (name) => {
             return initValue + word.slice(0, 1).toUpperCase();
         }, result)
     }
-    return result + v4();
+    return result;
 }
 export default createKey;

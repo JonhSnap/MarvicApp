@@ -73,10 +73,10 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok("Delete project success");
         }
 
-        // api/Project/GetByIdUser/Id
+        // api/Project/GetProjectByIdUser/Id
         [HttpGet]
-        [Route("/api/Project/GetByIdUser/Id")]
-        public IActionResult GetByIdUser(Guid IdUser)
+        [Route("/api/Project/GetProjectByIdUser/Id")]
+        public IActionResult GetProjectByIdUser(Guid IdUser)
         {
             // get project by user has login
             var projects = _projectService.GetProjectByIdUser(IdUser);
@@ -100,9 +100,10 @@ namespace MarvicSolution.BackendApi.Controllers
         // api/Project/AddMember?IdProject=xxx-xxx-xx
         [HttpPost]
         [Route("/api/Project/AddMember")]
-        public IActionResult AddMember(Guid IdProject, params string[] UserName)
+        //public IActionResult AddMember(Guid IdProject, params string[] userNames)
+        public IActionResult AddMember([FromBody] AddMember_Request rq)
         {
-            var idProject = _projectService.AddMembers(IdProject, UserName);
+            var idProject = _projectService.AddMembers(rq.IdProject, rq.UserNames);
             if (idProject.Equals(Guid.Empty))
                 return BadRequest($"Cannot get projects of idUser = {UserLogin.Id}");
             return Ok(idProject);
@@ -117,6 +118,17 @@ namespace MarvicSolution.BackendApi.Controllers
             if (!listUserName.Any()) // Kiem tra list ko rong
                 return BadRequest($"Cannot get list username by IdProject = {IdProject}");
             return Ok(listUserName);
+        }
+
+        // api/Project/RemoveMember
+        [HttpPost]
+        [Route("/api/Project/RemoveMember")]
+        public IActionResult RemoveMember([FromBody] RemoveMember_Request rq)
+        {
+            var result = _projectService.Remove_Member_From_Project(rq.IdProject, rq.IdUser);
+            if (result.Equals(Guid.Empty))
+                return BadRequest($"Cannot remove idUser = {rq.IdUser} from IdProject = {rq.IdProject}");
+            return Ok(result);
         }
     }
 }
