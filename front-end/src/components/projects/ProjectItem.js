@@ -4,54 +4,58 @@ import { useNavigate } from 'react-router-dom'
 import { BASE_URL } from '../../util/constants';
 import { useDispatch, useSelector } from 'react-redux'
 import { getProjects } from '../../redux/apiRequest';
+import EditProjectPopup from '../popup/EditProjectPopup'
+import useModal from '../../hooks/useModal';
 
 function ProjectItem({ project }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [showEdit, setShow, handleClose] = useModal()
     const { currentUser } = useSelector(state => state.auth.login);
     const handleClickName = (key) => {
         navigate(`/projects/${key}`);
     }
+    // handle click star
     const handleClickStar = () => {
-        const postData = async() => {
-            let dataPost = {};
-            if(project.isStared === 0) {
-                dataPost = {
-                    "id": project.id,
-                    "name": project.name,
-                    "key": project.key,
-                    "access": project.access,
-                    "id_Lead": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                    "dateStarted": project.dateStarted,
-                    "dateEnd": project.dateEnd,
-                    "isStared": 1,
-                    "id_Updator": currentUser.id,
-                    "updateDate": new Date()
-                }
-            }else {
-                dataPost = {
-                    "id": project.id,
-                    "name": project.name,
-                    "key": project.key,
-                    "access": project.access,
-                    "id_Lead": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                    "dateStarted": project.dateStarted,
-                    "dateEnd": project.dateEnd,
-                    "isStared": 0,
-                    "id_Updator": currentUser.id,
-                    "updateDate": new Date()
-                }
+        console.log('click');
+        const putData = async() => {
+            const dataPut ={
+                id: project.id,
+                name: project.name,
+                key: project.key,
+                access: project.access,
+                dateEnd: project.dateEnd,
+                dateStarted: project.dateStarted,
+                isStared: project.isStared,
+                id_Lead: currentUser.id,
+                id_Updator: currentUser.id,
+                updateDate: new Date()
             }
-            console.log(dataPost);
-            const resp = await axios.post(`${BASE_URL}/api/Project/Update`, dataPost)
+            if(project.isStared === 0) {
+                dataPut.isStared = 1;
+            }else {
+                dataPut.isStared = 0;
+            }
+            console.log(dataPut);
+            const resp = await axios.put(`${BASE_URL}/api/Project/Update`, dataPut)
             getProjects(dispatch);
             console.log('resp ~ ', resp);
         }
-        postData();
+        putData();
+    }
+    // handle delete project
+    const handleDeleteProject = () => {
+        const deleteApi = async() => {
+            const resp = await axios.delete(`${BASE_URL}/api/Project/${project.id}`)
+            await getProjects(dispatch);
+            console.log('resp ~ ', resp);
+        }
+        deleteApi();
     }
     
   return (
     <div className="item flex py-[8px] hover:bg-gray-main">
+        { showEdit && <EditProjectPopup project={project} onClose={handleClose} setShow={setShow}></EditProjectPopup>}
         <div className='basis-[5%] flex items-center justify-center'>
             {
                 project.isStared ?
@@ -72,8 +76,13 @@ function ProjectItem({ project }) {
         <div className='basis-[20%]'>
             <span>{project.key}</span>
         </div>
-        <div className='basis-[25%]'>
-            <span>Type-of-project</span>
+        <div className='basis-[25%] flex gap-x-2'>
+            <svg onClick={() => setShow(true)} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            <svg onClick={handleDeleteProject} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
         </div>
         <div className='basis-[25%] flex items-center gap-x-3'>
             <img

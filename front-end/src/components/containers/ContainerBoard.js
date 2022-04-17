@@ -1,9 +1,15 @@
+import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import useModal from '../../hooks/useModal';
+import { getProjects } from '../../redux/apiRequest';
+import { BASE_URL } from '../../util/constants';
 import AddMemberPopup from '../popup/AddMemberPopup';
 import './ContainerBoard.scss'
 
 function ContainerBoard({ project }) {
+    const { currentUser } = useSelector(state => state.auth.login);
+    const dispatch = useDispatch();
     const [show, setShow, handleClose] = useModal();
     const [focus, setFocus] = useState(false);
     const inputRef= useRef();
@@ -13,6 +19,33 @@ function ContainerBoard({ project }) {
     }
     const handleBlur = () => {
         setFocus(false);
+    }
+    // handle click star
+    const handleClickStar = () => {
+        const putData = async() => {
+            const dataPut ={
+                id: project.id,
+                name: project.name,
+                key: project.key,
+                access: project.access,
+                dateEnd: project.dateEnd,
+                dateStarted: project.dateStarted,
+                isStared: project.isStared,
+                id_Lead: currentUser.id,
+                id_Updator: currentUser.id,
+                updateDate: new Date()
+            }
+            if(project.isStared === 0) {
+                dataPut.isStared = 1;
+            }else {
+                dataPut.isStared = 0;
+            }
+            console.log(dataPut);
+            const resp = await axios.put(`${BASE_URL}/api/Project/Update`, dataPut)
+            getProjects(dispatch);
+            console.log('resp ~ ', resp);
+        }
+        putData();
     }
 
     useEffect(() => {
@@ -43,11 +76,11 @@ function ContainerBoard({ project }) {
                 <h3 className="key">{project.key} board</h3>
                 {
                     project.isStared ?
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 cursor-pointer" viewBox="0 0 20 20" fill='yellow'>
+                    <svg onClick={handleClickStar} xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 cursor-pointer" viewBox="0 0 20 20" fill='yellow'>
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                     :
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="#ccc" strokeWidth={2}>
+                    <svg onClick={handleClickStar} xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="#ccc" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                     </svg>
                 }
