@@ -15,6 +15,7 @@ export default function Tutorial() {
     const [count, setCount] = useState(1)
     const [show, setShow] = useState(true)
     const [showAnimation, setShowAnimation] = useState(true)
+    const [button, setButton] = useState(true) // True nếu là next
 
     const clickImg = (boolean, backGround) => {
         setShowImg(boolean)
@@ -78,7 +79,7 @@ export default function Tutorial() {
             opacity: 1
         },
         hidden: {
-            x: Math.random() * 1000,
+            x: Math.random() * 100,
             y: Math.random() * 1000,
             opacity: 0.7
         }
@@ -92,7 +93,7 @@ export default function Tutorial() {
         },
         hidden: {
             x: Math.random() * 1000,
-            y: Math.random() * 1000,
+            y: Math.random() * 100,
             opacity: 0.7
         }
     }
@@ -104,8 +105,8 @@ export default function Tutorial() {
             opacity: 1
         },
         hidden: {
-            x: Math.random() * 1000,
-            y: Math.random() * 1000,
+            x: Math.random() * 100,
+            y: Math.random() * 100,
             opacity: 0.7
         }
     }
@@ -118,9 +119,18 @@ export default function Tutorial() {
             opacity: 1
         },
         hidden: {
-            x: Math.random() * 1000,
-            y: Math.random() * 1000,
-            z: Math.random() * 1000,
+            x: Math.random() * 10,
+            y: Math.random() * 10,
+            z: Math.random() * 10,
+            opacity: 0.7
+        }
+    }
+
+    const animationPrev = {
+        show: {
+            opacity: 1
+        },
+        hidden: {
             opacity: 0.7
         }
     }
@@ -139,7 +149,7 @@ export default function Tutorial() {
                             html = <div id='main-tutorial'>
                                 <motion.div className='content-tutorial'
                                     initial={false}
-                                    variants={animationTextContent}
+                                    variants={button ? animationTextContent : animationPrev}
                                     animate={show ? "show" : "hidden"}
                                     transition={{ type: 'spring', stiffness: 60 }}
                                 >
@@ -154,7 +164,7 @@ export default function Tutorial() {
                                 </motion.div>
                                 <motion.div className='image-tutorial'
                                     initial={false}
-                                    variants={animationImageContent}
+                                    variants={button ? animationImageContent : animationPrev}
                                     animate={show ? "show" : "hidden"}
                                     transition={{ type: 'spring', stiffness: 60 }}
                                 >
@@ -165,26 +175,26 @@ export default function Tutorial() {
                                             <p>Trong lĩnh vực Tư vấn chuyển đổi số doanh nghiệp, Chúng tôi thiết kế lộ trình chuyển đổi số tùy chỉnh cho doanh nghiệp dựa trên những điều kiện nền tảng là hệ thống công nghệ thông tin và đội ngũ nhân lực số giúp doanh nghiệp Vận hành xuất sắc, Trải nghiệm khách hàng vượt trội, Mô hình kinh doanh đổi mới, Kích hoạt năng lực công nghệ, Xây dựng đội ngũ nhân lực số.</p>
                                             <p>Trong lĩnh vực Tư vấn cho các tỉnh thành, cùng các đối tác tư vấn chiến lược hàng đầu và các đối tác triển khai công nghệ, FPT cung cấp dịch vụ Tư vấn quy hoạch phát triển kinh tế xã hội và dịch vụ Tư vấn chuyển đổi số hướng tới sự phát triển nhảy vọt và bền vững.</p>
                                         </div></>}
-                                    {booleanImg && <><motion.div  initial={false}
-                                    variants={animationImageLarge}
-                                    animate={show ? "show" : "hidden"}
-                                    transition={{ type: 'spring', stiffness: 60 }}    whileHover={{scale: 1.03, boxShadow: "0px 0px 8px #000"}} className='image-large' style={{ backgroundImage: "url(" + item.imageLager + ")" }} onClick={() => clickImg(true, item.imageLager)}></motion.div>
+                                    {booleanImg && <><motion.div initial={false}
+                                        variants={button ? animationImageLarge : animationPrev}
+                                        animate={show ? "show" : "hidden"}
+                                        transition={{ type: 'spring', stiffness: 60 }} whileHover={{ scale: 1.03, boxShadow: "0px 0px 8px #000" }} className='image-large' style={{ backgroundImage: "url(" + item.imageLager + ")" }} onClick={() => clickImg(true, item.imageLager)}></motion.div>
                                         <motion.div initial={false}
-                                    variants={animationImageChild1}
-                                    animate={show ? "show" : "hidden"}
-                                    transition={{ type: 'spring', stiffness: 60 }}  whileHover={{scale: 1.03, boxShadow: "0px 0px 8px #000"}} className='image-child-1' style={{ backgroundImage: "url(" + item.imageChild1 + ")" }} onClick={() => clickImg(true, item.imageChild1)}></motion.div>
-                                        <motion.div  initial={false}
-                                    variants={animationImageChild2}
-                                    animate={show ? "show" : "hidden"}
-                                    transition={{ type: 'spring', stiffness: 60 }}   whileHover={{scale: 1.03, boxShadow: "0px 0px 8px #000"}} className='image-child-2' style={{ backgroundImage: "url(" + item.imageChild2 + ")" }} onClick={() => clickImg(true, item.imageChild2)}></motion.div>
-                                        <motion.div  initial={false}
-                                    variants={animationImageChild3}
-                                    animate={show ? "show" : "hidden"}
-                                    transition={{ type: 'spring', stiffness: 60 }}   whileHover={{scale: 1.03, boxShadow: "0px 0px 8px #000"}} className='image-child-3' style={{ backgroundImage: "url(" + item.imageChild3 + ")" }} onClick={() => clickImg(true, item.imageChild3)}></motion.div>
-                                        <motion.div  initial={false}
-                                    variants={animationImageChild4}
-                                    animate={show ? "show" : "hidden"}
-                                    transition={{ type: 'spring', stiffness: 60 }}   whileHover={{scale: 1.03, boxShadow: "0px 0px 8px #000"}} className='image-child-4' style={{ backgroundImage: "url(" + item.imageChild4 + ")" }} onClick={() => clickImg(true, item.imageChild4)}></motion.div></>}
+                                            variants={button ? animationImageChild1 : animationPrev}
+                                            animate={show ? "show" : "hidden"}
+                                            transition={{ type: 'spring', stiffness: 60 }} whileHover={{ scale: 1.03, boxShadow: "0px 0px 8px #000" }} className='image-child-1' style={{ backgroundImage: "url(" + item.imageChild1 + ")" }} onClick={() => clickImg(true, item.imageChild1)}></motion.div>
+                                        <motion.div initial={false}
+                                            variants={button ? animationImageChild2 : animationPrev}
+                                            animate={show ? "show" : "hidden"}
+                                            transition={{ type: 'spring', stiffness: 60 }} whileHover={{ scale: 1.03, boxShadow: "0px 0px 8px #000" }} className='image-child-2' style={{ backgroundImage: "url(" + item.imageChild2 + ")" }} onClick={() => clickImg(true, item.imageChild2)}></motion.div>
+                                        <motion.div initial={false}
+                                            variants={button ? animationImageChild3 : animationPrev}
+                                            animate={show ? "show" : "hidden"}
+                                            transition={{ type: 'spring', stiffness: 60 }} whileHover={{ scale: 1.03, boxShadow: "0px 0px 8px #000" }} className='image-child-3' style={{ backgroundImage: "url(" + item.imageChild3 + ")" }} onClick={() => clickImg(true, item.imageChild3)}></motion.div>
+                                        <motion.div initial={false}
+                                            variants={button ? animationImageChild4 : animationPrev}
+                                            animate={show ? "show" : "hidden"}
+                                            transition={{ type: 'spring', stiffness: 60 }} whileHover={{ scale: 1.03, boxShadow: "0px 0px 8px #000" }} className='image-child-4' style={{ backgroundImage: "url(" + item.imageChild4 + ")" }} onClick={() => clickImg(true, item.imageChild4)}></motion.div></>}
                                 </motion.div>
                             </div>
                         }
@@ -192,9 +202,9 @@ export default function Tutorial() {
                         return html
                     })
                 }
-                <BtnNextPrevComponent showAnimation={showAnimation} setShow={setShow} setShowAnimation={setShowAnimation} setCount={setCount} count={count} />
+                <BtnNextPrevComponent setButton={setButton} showAnimation={showAnimation} setShow={setShow} setShowAnimation={setShowAnimation} setCount={setCount} count={count} />
             </div>
-            {showImg && <ShowImageComponent  backGround={backGround} clickImg={clickImg} showImg={showImg} />}
+            {showImg && <ShowImageComponent backGround={backGround} clickImg={clickImg} showImg={showImg} />}
         </>
     )
 }

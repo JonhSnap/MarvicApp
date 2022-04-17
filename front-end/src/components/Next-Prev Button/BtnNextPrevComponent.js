@@ -19,6 +19,7 @@ export default function BtnNextPrevComponent(props) {
         props.setShow(v => !v)
         setTimeout(() => props.setShow(v => !v), -100)
         if (item === 'next') {
+            props.setButton(true)
             props.setCount(count => count + 1)
             if (parseInt(localStorage.getItem('count')) == data.length - 1) {
                 document.querySelector('.btn-next').style.pointerEvents = "none";
@@ -28,6 +29,7 @@ export default function BtnNextPrevComponent(props) {
                 document.querySelector('.btn-prev').style.cursor = "pointer";
             }
         } else {
+            props.setButton(false)
             props.setCount(count => count - 1)
             if (parseInt(localStorage.getItem('count')) == 2) {
                 document.querySelector('.btn-prev').style.pointerEvents = "none";
