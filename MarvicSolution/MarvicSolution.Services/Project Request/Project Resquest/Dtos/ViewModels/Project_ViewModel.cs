@@ -14,5 +14,18 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewMode
         public string Name { get; set; }
         public string Key { get; set; }
         public EnumAccess Access { get; set; } = EnumAccess.Public;
+        public Guid Id_Lead { get; set; }
+        public Guid Id_Creator { get; set; }
+
+        public DateTime DateCreated { get; set; }
+        public DateTime? DateStarted { get; set; }
+        public DateTime? DateEnd { get; set; }
+
+        public Guid Id_Updator { get; set; }
+        public DateTime? UpdateDate { get; set; }
+        public EnumStatus IsStared { get; set; } = EnumStatus.False;
+        public EnumStatus IsDeleted { get; set; } = EnumStatus.False;
+
+
     }
 }
