@@ -27,7 +27,6 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         {
             try
             {
-                var id = UserLogin.Id;
                 var proj = new Project()
                 {
                     Id = Guid.NewGuid(),
@@ -282,7 +281,6 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         public List<Guid> Get_IdMembers_By_IdProject(Guid IdProject)
         {
             return _context.Members.Where(m => m.Id_Project.Equals(IdProject)
-                                            && m.IsDeleted.Equals(EnumStatus.False)
                                         ).Select(m => m.Id_User).ToList();
         }
 
@@ -290,8 +288,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         {
             try
             {
-                return _context.Members.Where(m => m.IsDeleted.Equals(EnumStatus.False))
-                                        .Select(m => m.Id_User).ToList();
+                return _context.Members.Select(m => m.Id_User).ToList();
             }
             catch (Exception e)
             {

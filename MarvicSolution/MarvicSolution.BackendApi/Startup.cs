@@ -2,6 +2,7 @@ using FluentValidation.AspNetCore;
 using MarvicSolution.BackendApi.Constants;
 using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
+using MarvicSolution.Services.Issue_Request.Issue_Request;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest;
 using MarvicSolution.Services.System.Helpers;
@@ -44,6 +45,7 @@ namespace MarvicSolution.BackendApi
             /// AddTransient: Moi lan request la tao moi 1 object
             services.AddTransient<IProjectType_Service, ProjectType_Service>();
             services.AddTransient<IProject_Service, Project_Service>();
+            services.AddTransient<IIssue_Service, Issue_Service>();
             services.AddScoped<Jwt_Service, Jwt_Service>();
             services.AddScoped<IUser_Service, User_Service>();
 

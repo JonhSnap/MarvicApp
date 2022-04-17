@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarvicSolution.DATA.Migrations
 {
     [DbContext(typeof(MarvicDbContext))]
-    [Migration("20220414150758_db-v3")]
+    [Migration("20220417170006_db-v3")]
     partial class dbv3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -421,19 +421,19 @@ namespace MarvicSolution.DATA.Migrations
                     b.Property<string>("Attachment_Path")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime?>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateEnd")
+                    b.Property<DateTime?>("DateEnd")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateStarted")
+                    b.Property<DateTime?>("DateStarted")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("Id_Assignee")
+                    b.Property<Guid?>("Id_Assignee")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("Id_Creator")
@@ -442,52 +442,52 @@ namespace MarvicSolution.DATA.Migrations
                     b.Property<int>("Id_IssueType")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("Id_Label")
+                    b.Property<Guid?>("Id_Label")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id_Linked_Issue")
+                    b.Property<Guid?>("Id_Linked_Issue")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id_Parent_Issue")
+                    b.Property<Guid?>("Id_Parent_Issue")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("Id_Project")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id_Reporter")
+                    b.Property<Guid?>("Id_Reporter")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id_Restrict")
+                    b.Property<Guid?>("Id_Restrict")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id_Sprint")
+                    b.Property<Guid?>("Id_Sprint")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id_Stage")
+                    b.Property<Guid?>("Id_Stage")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id_Updator")
+                    b.Property<Guid?>("Id_Updator")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("IsDeleted")
                         .HasColumnType("int");
 
-                    b.Property<int>("IsFlagged")
+                    b.Property<int?>("IsFlagged")
                         .HasColumnType("int");
 
-                    b.Property<int>("IsWatched")
+                    b.Property<int?>("IsWatched")
                         .HasColumnType("int");
 
-                    b.Property<int>("Priority")
+                    b.Property<int?>("Priority")
                         .HasColumnType("int");
 
-                    b.Property<int>("Story_Point_Estimate")
+                    b.Property<int?>("Story_Point_Estimate")
                         .HasColumnType("int");
 
                     b.Property<string>("Summary")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdateDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -673,7 +673,7 @@ namespace MarvicSolution.DATA.Migrations
                     b.Property<Guid>("Id_User")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("IsDeleted")
+                    b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.HasKey("Id_Project", "Id_User");
@@ -685,31 +685,31 @@ namespace MarvicSolution.DATA.Migrations
                         {
                             Id_Project = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
                             Id_User = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
-                            IsDeleted = 0
+                            Role = 3
                         },
                         new
                         {
                             Id_Project = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
                             Id_User = new Guid("346f2520-6295-4734-8868-6ca75258e7c1"),
-                            IsDeleted = 0
+                            Role = 1
                         },
                         new
                         {
                             Id_Project = new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"),
                             Id_User = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
-                            IsDeleted = 0
+                            Role = 2
                         },
                         new
                         {
                             Id_Project = new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"),
                             Id_User = new Guid("346f2520-6295-4734-8868-6ca75258e7c1"),
-                            IsDeleted = 0
+                            Role = 1
                         },
                         new
                         {
                             Id_Project = new Guid("a5329d06-9d32-4a54-b816-906dfbbd288c"),
                             Id_User = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
-                            IsDeleted = 0
+                            Role = 3
                         });
                 });
 
@@ -747,11 +747,9 @@ namespace MarvicSolution.DATA.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Key")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdateDate")
