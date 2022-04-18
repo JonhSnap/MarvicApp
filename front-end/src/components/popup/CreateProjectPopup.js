@@ -46,7 +46,7 @@ function CreateProjectPopup({ onClose, setIsShowProjectPopup }) {
             if(resp.status === 200) {
               console.log('response data ~ ', resp.data);
               reset();
-              await getProjects(dispatch);
+              getProjects(dispatch);
               resolve();
               setIsShowProjectPopup(false);
             }

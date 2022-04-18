@@ -4,10 +4,9 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import Button from '../button/Button';
-import { BASE_URL, levels } from '../../util/constants'
-import { getProjects } from '../../redux/apiRequest'
+import { levels } from '../../util/constants'
+import { updateProjects } from '../../redux/apiRequest'
 import { useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
 import createKey from '../../util/createKey'
 import getDayBefore from '../../util/getDayBefore'
 
@@ -46,7 +45,7 @@ function EditProjectPopup({ onClose, setShow, project }) {
   // on submit
   const onSubmit = (data) => {
       const dataPut ={
-          id: project.id,
+          ...project,
           ...data,
           isStared: project.isStared,
           id_Lead: currentUser.id,
@@ -54,21 +53,13 @@ function EditProjectPopup({ onClose, setShow, project }) {
           updateDate: new Date()
       }
       console.log('data put ~ ', dataPut);
-    return new Promise((resolve, reject) => {
-      setTimeout(async() => {
-          try {
-            const resp = await axios.put(`${BASE_URL}/api/Project/Update`, dataPut)
-            if(resp.status === 200) {
-              console.log('response data ~ ', resp.data);
-              reset();
-              await getProjects(dispatch);
-              resolve();
-              setShow(false);
-            }
-          }catch (err) {
-            reject(err);
-          }
-          
+    return new Promise((resolve) => {
+      setTimeout(() => {
+            updateProjects(dispatch, dataPut)
+            //getProjects(dispatch);
+            reset();
+            resolve();
+            setShow(false);        
       }, 1000);
   });
   }

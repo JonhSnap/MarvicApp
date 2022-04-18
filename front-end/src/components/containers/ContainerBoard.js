@@ -1,13 +1,12 @@
-import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import useModal from '../../hooks/useModal';
-import { getProjects } from '../../redux/apiRequest';
-import { BASE_URL } from '../../util/constants';
+import { getProjects, updateProjects } from '../../redux/apiRequest';
 import AddMemberPopup from '../popup/AddMemberPopup';
 import './ContainerBoard.scss'
 
 function ContainerBoard({ project }) {
+    console.log('render....');
     const { currentUser } = useSelector(state => state.auth.login);
     const dispatch = useDispatch();
     const [show, setShow, handleClose] = useModal();
@@ -22,16 +21,9 @@ function ContainerBoard({ project }) {
     }
     // handle click star
     const handleClickStar = () => {
-        const putData = async() => {
+        const putData = () => {
             const dataPut ={
-                id: project.id,
-                name: project.name,
-                key: project.key,
-                access: project.access,
-                dateEnd: project.dateEnd,
-                dateStarted: project.dateStarted,
-                isStared: project.isStared,
-                id_Lead: currentUser.id,
+                ...project,
                 id_Updator: currentUser.id,
                 updateDate: new Date()
             }
@@ -41,9 +33,8 @@ function ContainerBoard({ project }) {
                 dataPut.isStared = 0;
             }
             console.log(dataPut);
-            const resp = await axios.put(`${BASE_URL}/api/Project/Update`, dataPut)
+            updateProjects(dispatch, dataPut);
             getProjects(dispatch);
-            console.log('resp ~ ', resp);
         }
         putData();
     }
