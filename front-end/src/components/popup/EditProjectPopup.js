@@ -13,7 +13,7 @@ import getDayBefore from '../../util/getDayBefore'
 
 const schema = yup.object({
   name: yup.string().required('Name is a required field'),
-  dateStarted: yup.date().min(getDayBefore(), 'Please choose future date'),
+  dateStarted: yup.date(),
   dateEnd: yup.date().min(
     yup.ref('dateStarted'),
     'End date has to be more than start date'
@@ -30,6 +30,10 @@ const schema = yup.object({
 })
 
 function EditProjectPopup({ onClose, setShow, project }) {
+  const dateStartedProject = new Date(project.dateCreated);
+  const dateStarted = `${dateStartedProject.getFullYear()}-${String(dateStartedProject.getMonth() + 1).padStart(2, '0')}-${String(dateStartedProject.getDate()).padStart(2, '0')}`
+  const dateEndProject = new Date(project.dateEnd);
+  const dateEnd = `${dateEndProject.getFullYear()}-${String(dateEndProject.getMonth() + 1).padStart(2, '0')}-${String(dateEndProject.getDate()).padStart(2, 0)}`
   const dispatch = useDispatch();
   const {currentUser} = useSelector(state => state.auth.login)
   const { register, handleSubmit, reset, watch, setValue, formState: { errors, isSubmitting }} = useForm({
@@ -38,6 +42,8 @@ function EditProjectPopup({ onClose, setShow, project }) {
         name: project.name,
         key: project.key,
         access: project.access,
+        dateStarted,
+        dateEnd
     }
   });
   const nameValue = watch('name');

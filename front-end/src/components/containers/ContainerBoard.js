@@ -43,6 +43,12 @@ function ContainerBoard({ project }) {
         }
         putData();
     }
+    // handle change show members
+    const handleChangeShowMembers = (e) => {
+        if(e.target.matches('.js-changeshow')) {
+            setShowMembers(prev => !prev);
+        }
+    }
 
     useEffect(() => {
         const inputEl = inputRef.current;
@@ -70,7 +76,7 @@ function ContainerBoard({ project }) {
         }else {
             console.log('id null');
         }
-    }, [id])
+    }, [id, show])
 
     const handleClickAdd = () => {
         setShow(true);
@@ -82,7 +88,14 @@ function ContainerBoard({ project }) {
                 idProject: id,
                 idUser
             })
-            setMembers([]);
+            if(resp.status === 200) {
+                setMembers(prev => {
+                    const prevCopy = [...prev];
+                    const index = prevCopy.findIndex(item => item.id === idUser);
+                    prevCopy.splice(index, 1);
+                    return prevCopy;
+                })
+            }
             console.log('resp ~ ', resp);
         }
         deleteMemberApi()
@@ -123,20 +136,19 @@ function ContainerBoard({ project }) {
                     <div className="avatar">
                         <img src="https://images.unsplash.com/photo-1644982647708-0b2cc3d910b7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60" alt="" />
                     </div>
-                    <div onClick={() => setShowMembers(prev => !prev)} className='avatar relative flex items-center justify-center p-2 bg-[#ccc] cursor-pointer'>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <div onClick={handleChangeShowMembers} className='js-changeshow avatar relative flex items-center justify-center p-2 bg-[#ccc] cursor-pointer'>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 pointer-events-none" viewBox="0 0 20 20" fill="#999">
                         <path fillRule="evenodd" d="M15.707 4.293a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414L10 8.586l4.293-4.293a1 1 0 011.414 0zm0 6a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 14.586l4.293-4.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                         {
                             showMembers && members.length > 0 &&
-                        <div className="absolute top-[calc(100%+10px)] left-0 bg-gray-main shadow-md
-                        w-[160px] p-3 -translate-x-1/2">
+                        <div className="current-members">
                             {
                                 members.length > 0 &&
                                 members.map(item => (
-                                    <div key={v4()} className='w-full flex justify-between items-center'>
-                                        <span>{item.userName}</span>
-                                        <div onClick={() => handleDeleteMember(item.id)} className='text-[#ccc]  hover:text-primary '>delete</div>
+                                    <div key={v4()} className='w-full flex justify-between items-center px-[10px]'>
+                                        <span className='text-primary'>{item.userName}</span>
+                                        <div onClick={() => handleDeleteMember(item.id)} className='text-[#ccc]  hover:text-red-500 '>remove</div>
                                     </div>
                                 ))
                             }
