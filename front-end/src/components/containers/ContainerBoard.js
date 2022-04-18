@@ -3,13 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import useModal from '../../hooks/useModal';
 import { getProjects, updateProjects } from '../../redux/apiRequest';
 import AddMemberPopup from '../popup/AddMemberPopup';
+import { BASE_URL } from '../../util/constants'
+import axios from 'axios'
 import './ContainerBoard.scss'
+import { v4 } from 'uuid';
 
 function ContainerBoard({ project }) {
-    console.log('render....');
+    const { id } = project;
     const { currentUser } = useSelector(state => state.auth.login);
     const dispatch = useDispatch();
     const [show, setShow, handleClose] = useModal();
+    const [showMembers, setShowMembers] = useState(false);
+    const [members, setMembers] = useState([])
     const [focus, setFocus] = useState(false);
     const inputRef= useRef();
 
@@ -49,9 +54,38 @@ function ContainerBoard({ project }) {
             inputEl.removeEventListener('blur', handleBlur);
         }
     }, [])
+    useEffect(() => {
+        const fetchMember = async() => {
+            try {
+                const resp = await axios.get(`${BASE_URL}/api/Project/GetAllMemberByIdProject?IdProject=${project.id}`);
+                const data = resp.data;
+                console.log('data ~ ', data);
+                setMembers(data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        if(id) {
+            fetchMember()
+        }else {
+            console.log('id null');
+        }
+    }, [id])
 
     const handleClickAdd = () => {
         setShow(true);
+    }
+    // handle delete member
+    const handleDeleteMember= (idUser) => {
+        const deleteMemberApi = async() => {
+            const resp = await axios.post(`${BASE_URL}/api/Project/RemoveMember`, {
+                idProject: id,
+                idUser
+            })
+            setMembers([]);
+            console.log('resp ~ ', resp);
+        }
+        deleteMemberApi()
     }
 
   return (
@@ -88,6 +122,26 @@ function ContainerBoard({ project }) {
                 <div className="members">
                     <div className="avatar">
                         <img src="https://images.unsplash.com/photo-1644982647708-0b2cc3d910b7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60" alt="" />
+                    </div>
+                    <div onClick={() => setShowMembers(prev => !prev)} className='avatar relative flex items-center justify-center p-2 bg-[#ccc] cursor-pointer'>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M15.707 4.293a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414L10 8.586l4.293-4.293a1 1 0 011.414 0zm0 6a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 14.586l4.293-4.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                        {
+                            showMembers && members.length > 0 &&
+                        <div className="absolute top-[calc(100%+10px)] left-0 bg-gray-main shadow-md
+                        w-[160px] p-3 -translate-x-1/2">
+                            {
+                                members.length > 0 &&
+                                members.map(item => (
+                                    <div key={v4()} className='w-full flex justify-between items-center'>
+                                        <span>{item.userName}</span>
+                                        <div onClick={() => handleDeleteMember(item.id)} className='text-[#ccc]  hover:text-primary '>delete</div>
+                                    </div>
+                                ))
+                            }
+                        </div>                      
+                        }
                     </div>
                     <div onClick={handleClickAdd} className="add-member">
                     <svg xmlns="http://www.w3.org/2000/svg" className="icon" fill="none" viewBox="0 0 24 24" stroke="#999" strokeWidth={2}>
