@@ -1,9 +1,7 @@
-import axios from 'axios';
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { BASE_URL } from '../../util/constants';
 import { useDispatch, useSelector } from 'react-redux'
-import { getProjects } from '../../redux/apiRequest';
+import { deleteProjects, getProjects, updateProjects } from '../../redux/apiRequest';
 import EditProjectPopup from '../popup/EditProjectPopup'
 import useModal from '../../hooks/useModal';
 
@@ -17,17 +15,9 @@ function ProjectItem({ project }) {
     }
     // handle click star
     const handleClickStar = () => {
-        console.log('click');
-        const putData = async() => {
+        const putData = () => {
             const dataPut ={
-                id: project.id,
-                name: project.name,
-                key: project.key,
-                access: project.access,
-                dateEnd: project.dateEnd,
-                dateStarted: project.dateStarted,
-                isStared: project.isStared,
-                id_Lead: currentUser.id,
+                ...project,
                 id_Updator: currentUser.id,
                 updateDate: new Date()
             }
@@ -37,20 +27,15 @@ function ProjectItem({ project }) {
                 dataPut.isStared = 0;
             }
             console.log(dataPut);
-            const resp = await axios.put(`${BASE_URL}/api/Project/Update`, dataPut)
+            updateProjects(dispatch, dataPut);
             getProjects(dispatch);
-            console.log('resp ~ ', resp);
         }
         putData();
     }
     // handle delete project
     const handleDeleteProject = () => {
-        const deleteApi = async() => {
-            const resp = await axios.delete(`${BASE_URL}/api/Project/${project.id}`)
-            await getProjects(dispatch);
-            console.log('resp ~ ', resp);
-        }
-        deleteApi();
+        deleteProjects(dispatch, project.id);
+        getProjects(dispatch)
     }
     
   return (
