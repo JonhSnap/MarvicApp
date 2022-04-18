@@ -67,7 +67,7 @@ function AddMemberPopup({ onClose, setShow, project }) {
     }, [])
     useEffect(() => {
         const fetchData = async () => {
-            const resp = await axios.get(`${BASE_URL}/api/Project/UserCanAdded`)
+            const resp = await axios.get(`${BASE_URL}/api/Project/UserCanAdded?IdProject=${project.id}`)
             const data = resp.data;
             setMembersSearched(data.filter(item => item.toLowerCase().includes(search.toLowerCase())))
         }

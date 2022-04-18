@@ -4,17 +4,16 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import Button from '../button/Button';
-import { BASE_URL, levels } from '../../util/constants'
-import { getProjects } from '../../redux/apiRequest'
-import { useDispatch } from 'react-redux'
-import axios from 'axios'
+import { levels } from '../../util/constants'
+import { updateProjects } from '../../redux/apiRequest'
+import { useDispatch, useSelector } from 'react-redux'
 import createKey from '../../util/createKey'
 import getDayBefore from '../../util/getDayBefore'
 
 
 const schema = yup.object({
   name: yup.string().required('Name is a required field'),
-  dateStarted: yup.date().min(getDayBefore(), 'Please choose future date'),
+  dateStarted: yup.date(),
   dateEnd: yup.date().min(
     yup.ref('dateStarted'),
     'End date has to be more than start date'
@@ -30,30 +29,43 @@ const schema = yup.object({
   , 'Level is a required field')
 })
 
-function CreateProjectPopup({ onClose, setIsShowProjectPopup }) {
+function EditProjectPopup({ onClose, setShow, project }) {
+  const dateStartedProject = new Date(project.dateCreated);
+  const dateStarted = `${dateStartedProject.getFullYear()}-${String(dateStartedProject.getMonth() + 1).padStart(2, '0')}-${String(dateStartedProject.getDate()).padStart(2, '0')}`
+  const dateEndProject = new Date(project.dateEnd);
+  const dateEnd = `${dateEndProject.getFullYear()}-${String(dateEndProject.getMonth() + 1).padStart(2, '0')}-${String(dateEndProject.getDate()).padStart(2, 0)}`
   const dispatch = useDispatch();
+  const {currentUser} = useSelector(state => state.auth.login)
   const { register, handleSubmit, reset, watch, setValue, formState: { errors, isSubmitting }} = useForm({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    defaultValues: {
+        name: project.name,
+        key: project.key,
+        access: project.access,
+        dateStarted,
+        dateEnd
+    }
   });
   const nameValue = watch('name');
 
   // on submit
   const onSubmit = (data) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(async() => {
-          try {
-            const resp = await axios.post(`${BASE_URL}/api/Project/Create`, data)
-            if(resp.status === 200) {
-              console.log('response data ~ ', resp.data);
-              reset();
-              getProjects(dispatch);
-              resolve();
-              setIsShowProjectPopup(false);
-            }
-          }catch (err) {
-            reject(err);
-          }
-          
+      const dataPut ={
+          ...project,
+          ...data,
+          isStared: project.isStared,
+          id_Lead: currentUser.id,
+          id_Updator: currentUser.id,
+          updateDate: new Date()
+      }
+      console.log('data put ~ ', dataPut);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+            updateProjects(dispatch, dataPut)
+            //getProjects(dispatch);
+            reset();
+            resolve();
+            setShow(false);        
       }, 1000);
   });
   }
@@ -68,12 +80,12 @@ function CreateProjectPopup({ onClose, setIsShowProjectPopup }) {
     onClose={onClose}
     >
         <div className='have-y-scroll relative w-[95vw] max-w-[600px] max-h-[95vh] overflow-auto bg-white rounded p-10 shadow-md select-none'>
-            <div onClick={() => setIsShowProjectPopup(false)} className="absolute top-0 right-0 p-2 cursor-pointer rounded-full hover:bg-primary hover:bg-opacity-30 transition-all">
+            <div onClick={() => setShow(false)} className="absolute top-0 right-0 p-2 cursor-pointer rounded-full hover:bg-primary hover:bg-opacity-30 transition-all">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="#666" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
             </div>
-            <h2 className='text-[25px] text-primary text-center font-semibold mb-10'>Create Project</h2>
+            <h2 className='text-[25px] text-primary text-center font-semibold mb-10'>Edit Project</h2>
             <form
             className='w-full'
             onSubmit={handleSubmit(onSubmit)}>
@@ -153,8 +165,8 @@ function CreateProjectPopup({ onClose, setIsShowProjectPopup }) {
                 <span className='text-[10px] text-red-500 italic'>{errors?.key?.message}</span>
               </div>
               <div className='w-full flex justify-end gap-x-2'>
-                <Button handleClick={() => setIsShowProjectPopup(false)} primary={false}>Cancel</Button>
-                <Button type='submit'>{!isSubmitting ? 'Create' :
+                <Button handleClick={() => setShow(false)} primary={false}>Cancel</Button>
+                <Button type='submit'>{!isSubmitting ? 'Save' :
                 (<div className='w-5 h-5 mx-auto rounded-full border-2 border-white border-t-transparent animate-spin'></div>)}</Button>
             </div>
             </form>         
@@ -163,4 +175,4 @@ function CreateProjectPopup({ onClose, setIsShowProjectPopup }) {
   )
 }
 
-export default CreateProjectPopup
+export default EditProjectPopup

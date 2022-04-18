@@ -5,17 +5,21 @@ import ListProject from '../components/projects/ListProject';
 import useModal from '../hooks/useModal';
 import { getProjects } from '../redux/apiRequest';
 import { useSelector, useDispatch } from 'react-redux'
+import { changeFilters } from '../redux/projectsSlice';
 
 function ProjectsPage() {
   const dispatch = useDispatch();
+  const [search, setSearch] = useState('');
   const {projects, error} = useSelector(state => state.projects);
   const [isShowProjectPopup, setIsShowProjectPopup, handleCloseProjectPopup] = useModal();
   const inputRef = useRef();
   const [isFocusInput, setIsFocusInput] = useState(false);
 
+
   useEffect(() => {
+    dispatch(changeFilters({ name: search}))
     getProjects(dispatch);
-  }, [dispatch])
+  }, [dispatch, search])
   useEffect(() => {
     const inputRefCopy = inputRef.current;
     const handleFoucs = e => {
@@ -40,6 +44,8 @@ function ProjectsPage() {
             <h2 className='text-3xl font-semibold'>Projects</h2>
             <div className={`flex items-center search-wrapper border-2 ${isFocusInput ? 'border-primary' : 'border-[#ccc]'} rounded-[4px] pr-1 transition-all`}>
               <input
+              value={search}
+              onChange={e => setSearch(e.target.value)}
               ref={inputRef}
               className='w-[200px] p-[5px] rounded-[4px] outline-none border-none'
               type="text"

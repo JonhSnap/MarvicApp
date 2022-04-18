@@ -11,16 +11,16 @@ export const levels = [
     {
         id: v4(),
         value: 1,
-        text: 'Low level'
+        text: 'Public'
     },
     {
         id: v4(),
         value: 2,
-        text: 'Medium level'
+        text: 'Limited'
     },
     {
         id: v4(),
         value: 3,
-        text: 'High level'
+        text: 'Private'
     },
 ]

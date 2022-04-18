@@ -1,10 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import useModal from '../../hooks/useModal';
+import { getProjects, updateProjects } from '../../redux/apiRequest';
 import AddMemberPopup from '../popup/AddMemberPopup';
+import { BASE_URL } from '../../util/constants'
+import axios from 'axios'
 import './ContainerBoard.scss'
+import { v4 } from 'uuid';
 
 function ContainerBoard({ project }) {
+    const { id } = project;
+    const { currentUser } = useSelector(state => state.auth.login);
+    const dispatch = useDispatch();
     const [show, setShow, handleClose] = useModal();
+    const [showMembers, setShowMembers] = useState(false);
+    const [members, setMembers] = useState([])
     const [focus, setFocus] = useState(false);
     const inputRef= useRef();
 
@@ -13,6 +23,31 @@ function ContainerBoard({ project }) {
     }
     const handleBlur = () => {
         setFocus(false);
+    }
+    // handle click star
+    const handleClickStar = () => {
+        const putData = () => {
+            const dataPut ={
+                ...project,
+                id_Updator: currentUser.id,
+                updateDate: new Date()
+            }
+            if(project.isStared === 0) {
+                dataPut.isStared = 1;
+            }else {
+                dataPut.isStared = 0;
+            }
+            console.log(dataPut);
+            updateProjects(dispatch, dataPut);
+            getProjects(dispatch);
+        }
+        putData();
+    }
+    // handle change show members
+    const handleChangeShowMembers = (e) => {
+        if(e.target.matches('.js-changeshow')) {
+            setShowMembers(prev => !prev);
+        }
     }
 
     useEffect(() => {
@@ -25,9 +60,45 @@ function ContainerBoard({ project }) {
             inputEl.removeEventListener('blur', handleBlur);
         }
     }, [])
+    useEffect(() => {
+        const fetchMember = async() => {
+            try {
+                const resp = await axios.get(`${BASE_URL}/api/Project/GetAllMemberByIdProject?IdProject=${project.id}`);
+                const data = resp.data;
+                console.log('data ~ ', data);
+                setMembers(data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        if(id) {
+            fetchMember()
+        }else {
+            console.log('id null');
+        }
+    }, [id, show])
 
     const handleClickAdd = () => {
         setShow(true);
+    }
+    // handle delete member
+    const handleDeleteMember= (idUser) => {
+        const deleteMemberApi = async() => {
+            const resp = await axios.post(`${BASE_URL}/api/Project/RemoveMember`, {
+                idProject: id,
+                idUser
+            })
+            if(resp.status === 200) {
+                setMembers(prev => {
+                    const prevCopy = [...prev];
+                    const index = prevCopy.findIndex(item => item.id === idUser);
+                    prevCopy.splice(index, 1);
+                    return prevCopy;
+                })
+            }
+            console.log('resp ~ ', resp);
+        }
+        deleteMemberApi()
     }
 
   return (
@@ -41,9 +112,16 @@ function ContainerBoard({ project }) {
             </div>
             <div className="wrap-key">
                 <h3 className="key">{project.key} board</h3>
-                <svg xmlns="http://www.w3.org/2000/svg" className="icon" fill="none" viewBox="0 0 24 24" stroke="#ccc" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                </svg>
+                {
+                    project.isStared ?
+                    <svg onClick={handleClickStar} xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 cursor-pointer" viewBox="0 0 20 20" fill='yellow'>
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    :
+                    <svg onClick={handleClickStar} xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="#ccc" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                    </svg>
+                }
             </div>
             <div className="actions">
                 <div className={`wrap-input ${focus ? 'expand' : ''}`}>
@@ -57,6 +135,25 @@ function ContainerBoard({ project }) {
                 <div className="members">
                     <div className="avatar">
                         <img src="https://images.unsplash.com/photo-1644982647708-0b2cc3d910b7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60" alt="" />
+                    </div>
+                    <div onClick={handleChangeShowMembers} className='js-changeshow avatar relative flex items-center justify-center p-2 bg-[#ccc] cursor-pointer'>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 pointer-events-none" viewBox="0 0 20 20" fill="#999">
+                        <path fillRule="evenodd" d="M15.707 4.293a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414L10 8.586l4.293-4.293a1 1 0 011.414 0zm0 6a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 14.586l4.293-4.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                        {
+                            showMembers && members.length > 0 &&
+                        <div className="current-members">
+                            {
+                                members.length > 0 &&
+                                members.map(item => (
+                                    <div key={v4()} className='w-full flex justify-between items-center px-[10px]'>
+                                        <span className='text-primary'>{item.userName}</span>
+                                        <div onClick={() => handleDeleteMember(item.id)} className='text-[#ccc]  hover:text-red-500 '>remove</div>
+                                    </div>
+                                ))
+                            }
+                        </div>                      
+                        }
                     </div>
                     <div onClick={handleClickAdd} className="add-member">
                     <svg xmlns="http://www.w3.org/2000/svg" className="icon" fill="none" viewBox="0 0 24 24" stroke="#999" strokeWidth={2}>
