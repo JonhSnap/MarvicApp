@@ -141,16 +141,17 @@ function ContainerBoard({ project }) {
                         <path fillRule="evenodd" d="M15.707 4.293a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414L10 8.586l4.293-4.293a1 1 0 011.414 0zm0 6a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 14.586l4.293-4.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                         {
-                            showMembers && members.length > 0 &&
+                        showMembers &&
                         <div className="current-members">
                             {
-                                members.length > 0 &&
+                                members.length > 0 ?
                                 members.map(item => (
                                     <div key={v4()} className='w-full flex justify-between items-center px-[10px]'>
                                         <span className='text-primary'>{item.userName}</span>
                                         <div onClick={() => handleDeleteMember(item.id)} className='text-[#ccc]  hover:text-red-500 '>remove</div>
                                     </div>
-                                ))
+                                )) :
+                                <p className='text-sm text-center text-[#999]'>Project has no members</p>
                             }
                         </div>                      
                         }

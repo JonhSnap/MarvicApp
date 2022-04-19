@@ -34,8 +34,12 @@ function ProjectItem({ project }) {
     }
     // handle delete project
     const handleDeleteProject = () => {
-        deleteProjects(dispatch, project.id);
-        getProjects(dispatch)
+        if(window.confirm(`Are you sure to delete ${project.name}`)) {
+            deleteProjects(dispatch, project.id);
+            getProjects(dispatch)
+        }else {
+            return
+        }
     }
     
   return (
