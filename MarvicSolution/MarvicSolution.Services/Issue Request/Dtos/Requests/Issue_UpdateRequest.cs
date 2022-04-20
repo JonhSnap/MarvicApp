@@ -1,24 +1,25 @@
 ﻿using MarvicSolution.DATA.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels
+namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
 {
-    public class Issue_ViewModel
+    public class Issue_UpdateRequest
     {
         public Guid Id { get; set; }
         public Guid Id_Project { get; set; }
-        public EnumIssueType Id_IssueType { get; set; }
+        public EnumIssueType Id_IssueType { get; set; } = EnumIssueType.Epic;
         public Guid? Id_Stage { get; set; }
         public Guid? Id_Sprint { get; set; }
         public Guid? Id_Label { get; set; }
         public string Summary { get; set; }
         public string? Description { get; set; }
-        public Guid? Id_Assignee { get; set; }
-        public EnumPoint? Story_Point_Estimate { get; set; }
+        public Guid? Id_Assignee { get; set; } = Guid.Empty;
+        public EnumPoint? Story_Point_Estimate { get; set; } = EnumPoint.One;
         public Guid? Id_Reporter { get; set; } = Guid.Empty;
         public string? Attachment_Path { get; set; } = string.Empty;
         public Guid? Id_Linked_Issue { get; set; } = Guid.Empty;
@@ -33,6 +34,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels
         public DateTime? DateEnd { get; set; }
         public Guid? Id_Updator { get; set; }
         public DateTime? UpdateDate { get; set; }
-        public EnumStatus IsDeleted { get; set; }
+        public EnumStatus IsDeleted { get; set; } = EnumStatus.False;
     }
 }

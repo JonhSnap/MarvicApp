@@ -1,4 +1,5 @@
 ﻿using MarvicSolution.DATA.Entities;
+using MarvicSolution.DATA.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

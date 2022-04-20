@@ -27,31 +27,31 @@ namespace MarvicSolution.DATA.Configurations
                 {
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project A
                     Id_User = new Guid("E341A8F6-DC1B-4829-94FB-316B6BAC99B6"), // User KhanhND
-                    IsDeleted = EnumStatus.False
+                    Role= EnumRole.Developer
                 },
                 new Member
                 {
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project A
                     Id_User = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), // User NhanTT
-                    IsDeleted = EnumStatus.False
+                    Role = EnumRole.ProjectManager
                 },
                 new Member
                 {
                     Id_Project = new Guid("89FAD9A0-690D-46E8-A2FE-C6CC50350EAF"), // Project B
                     Id_User = new Guid("E341A8F6-DC1B-4829-94FB-316B6BAC99B6"), // User KhanhND
-                    IsDeleted = EnumStatus.False
+                    Role = EnumRole.ProductOwner
                 },
                 new Member
                 {
                     Id_Project = new Guid("89FAD9A0-690D-46E8-A2FE-C6CC50350EAF"), // Project B
                     Id_User = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), // User NhanTT
-                    IsDeleted = EnumStatus.False
+                    Role = EnumRole.ProjectManager
                 },
                 new Member
                 {
                     Id_Project = new Guid("A5329D06-9D32-4A54-B816-906DFBBD288C"), // Project C
                     Id_User = new Guid("E341A8F6-DC1B-4829-94FB-316B6BAC99B6"), // User KhanhND
-                    IsDeleted = EnumStatus.False
+                    Role = EnumRole.Developer
                 }
                 );
         }

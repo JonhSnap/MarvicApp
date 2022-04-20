@@ -9,12 +9,11 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewMode
 {
     public class Project_ViewModel
     {
-        ///Các prop cần thiết cho ViewModel này
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Key { get; set; }
         public EnumAccess Access { get; set; } = EnumAccess.Public;
-        public Guid Id_Lead { get; set; }
+        public string Lead { get; set; }
         public Guid Id_Creator { get; set; }
 
         public DateTime DateCreated { get; set; }

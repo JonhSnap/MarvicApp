@@ -2,7 +2,6 @@
 using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
-using MarvicSolution.Services.Project_Request.Dtos;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewModels;
 using MarvicSolution.Utilities.Exceptions;
@@ -27,7 +26,6 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         {
             try
             {
-                var id = UserLogin.Id;
                 var proj = new Project()
                 {
                     Id = Guid.NewGuid(),
@@ -54,24 +52,27 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         {
             try
             {
-                var proj = _context.Projects.FirstOrDefault(p => p.Id.Equals(Id) && p.IsDeleted == EnumStatus.False);
+                var proj = (from p in _context.Projects
+                            join u in _context.App_Users on p.Id_Lead equals u.Id
+                            select new Project_ViewModel()
+                            {
+                                Id = p.Id,
+                                Name = p.Name,
+                                Key = p.Key,
+                                Access = p.Access,
+                                Lead = u.UserName,
+                                Id_Creator = p.Id_Creator,
+                                DateCreated = p.DateCreated,
+                                DateEnd = p.DateEnd,
+                                Id_Updator = p.Id_Updator,
+                                UpdateDate = p.UpdateDate,
+                                IsStared = p.IsStared
+                            }).FirstOrDefault();
+
                 if (proj == null)
                     throw new MarvicException($"Cannot find the project with id: {Id}");
-                var result = new Project_ViewModel()
-                {
-                    Id = proj.Id,
-                    Name = proj.Name,
-                    Key = proj.Key,
-                    Access = proj.Access,
-                    Id_Lead = proj.Id_Lead,
-                    Id_Creator = proj.Id_Creator,
-                    DateCreated = proj.DateCreated,
-                    DateEnd = proj.DateEnd,
-                    Id_Updator = proj.Id_Updator,
-                    UpdateDate = proj.UpdateDate,
-                    IsStared = proj.IsStared
-                };
-                return result;
+
+                return proj;
             }
             catch (Exception e)
             {
@@ -86,15 +87,15 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 var proj = _context.Projects.Find(rq.Id);
                 if (proj == null)
                     throw new MarvicException($"Cannot find the project with id: {rq.Id}");
-                proj.Name = rq.Name;
-                proj.Key = rq.Key;
-                proj.Access = rq.Access;
-                proj.Id_Lead = rq.Id_Lead;
-                proj.DateStarted = rq.DateStarted;
-                proj.DateEnd = rq.DateEnd;
+                proj.Name = String.IsNullOrEmpty(rq.Name) ? proj.Name : rq.Name;
+                proj.Key = String.IsNullOrEmpty(rq.Key) ? proj.Key : rq.Key;
+                proj.Access = rq.Access.Equals(null) ? proj.Access : rq.Access;
+                proj.Id_Lead = rq.Id_Lead.Equals(Guid.Empty) ? proj.Id_Lead : rq.Id_Lead;
+                proj.DateStarted = rq.DateStarted.Equals(null) ? proj.DateStarted: rq.DateStarted;
+                proj.DateEnd = rq.DateEnd.Equals(null) ? proj.DateEnd : rq.DateEnd;
                 proj.Id_Updator = UserLogin.Id;
                 proj.UpdateDate = DateTime.Now;
-                proj.IsStared = rq.IsStared;
+                proj.IsStared = rq.IsStared.Equals(null) ? proj.IsStared : rq.IsStared;
 
                 await _context.SaveChangesAsync();
                 return rq.Id;
@@ -120,35 +121,32 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
         }
 
-        public async Task<Project_PageResult<Project_ViewModel>> GetAllPaging(Get_Project_PagingRequest rq)
-        {
-            throw new NotImplementedException();
-        }
-
         // GetAlls Linq
         public async Task<List<Project_ViewModel>> GetAlls()
         {
             try
             {
-                var query = from proj in _context.Projects select new { proj };
-                var data = await query.Where(d => d.proj.IsDeleted == EnumStatus.False)
-                                        .Select(x => new Project_ViewModel()
-                                        {
-                                            Id = x.proj.Id,
-                                            Name = x.proj.Name,
-                                            Key = x.proj.Key,
-                                            Access = x.proj.Access,
-                                            Id_Lead = x.proj.Id_Lead,
-                                            Id_Creator = x.proj.Id_Creator,
-                                            DateCreated = x.proj.DateCreated,
-                                            DateEnd = x.proj.DateEnd,
-                                            Id_Updator = x.proj.Id_Updator,
-                                            UpdateDate = x.proj.UpdateDate,
-                                            IsStared = x.proj.IsStared
-                                        }).ToListAsync();
+                var data = await (from proj in _context.Projects
+                                  join u in _context.App_Users on proj.Id_Lead equals u.Id
+                                  where proj.IsDeleted.Equals(EnumStatus.False)
+                                  select new Project_ViewModel()
+                                  {
+                                      Id = proj.Id,
+                                      Name = proj.Name,
+                                      Key = proj.Key,
+                                      Access = proj.Access,
+                                      Lead = u.UserName,
+                                      Id_Creator = proj.Id_Creator,
+                                      DateCreated = proj.DateCreated,
+                                      DateEnd = proj.DateEnd,
+                                      Id_Updator = proj.Id_Updator,
+                                      UpdateDate = proj.UpdateDate,
+                                      IsStared = proj.IsStared
+                                  }).ToListAsync();
+
                 return data;
             }
-            catch (NullReferenceException e)
+            catch (Exception e)
             {
                 throw new MarvicException($"Error: {e}");
             }
@@ -222,25 +220,25 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         {
             try
             {
-                var projects = from mem in _context.Members
-                               join u in _context.App_Users on mem.Id_User equals u.Id
-                               join p in _context.Projects on mem.Id_Project equals p.Id
-                               where mem.Id_User.Equals(IdUser) && p.IsDeleted.Equals(EnumStatus.False)
-                               select new Project_ViewModel
-                               {
-                                   Id = p.Id,
-                                   Name = p.Name,
-                                   Key = p.Key,
-                                   Access = p.Access,
-                                   Id_Lead = p.Id_Lead,
-                                   Id_Creator = p.Id_Creator,
-                                   DateCreated = p.DateCreated,
-                                   DateEnd = p.DateEnd,
-                                   Id_Updator = p.Id_Updator,
-                                   UpdateDate = p.UpdateDate,
-                                   IsStared = p.IsStared
-                               };
-                return projects.ToList();
+                var projects = (from u in _context.App_Users
+                                join mem in _context.Members on u.Id equals mem.Id_User
+                                join p in _context.Projects on mem.Id_Project equals p.Id
+                                where p.IsDeleted.Equals(EnumStatus.False) && u.Id.Equals(IdUser)
+                                select new Project_ViewModel
+                                {
+                                    Id = p.Id,
+                                    Name = p.Name,
+                                    Key = p.Key,
+                                    Access = p.Access,
+                                    Lead = u.UserName,
+                                    Id_Creator = p.Id_Creator,
+                                    DateCreated = p.DateCreated,
+                                    DateEnd = p.DateEnd,
+                                    Id_Updator = p.Id_Updator,
+                                    UpdateDate = p.UpdateDate,
+                                    IsStared = p.IsStared
+                                }).ToList();
+                return projects;
             }
             catch (Exception e)
             {
@@ -282,7 +280,6 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         public List<Guid> Get_IdMembers_By_IdProject(Guid IdProject)
         {
             return _context.Members.Where(m => m.Id_Project.Equals(IdProject)
-                                            && m.IsDeleted.Equals(EnumStatus.False)
                                         ).Select(m => m.Id_User).ToList();
         }
 
@@ -290,8 +287,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         {
             try
             {
-                return _context.Members.Where(m => m.IsDeleted.Equals(EnumStatus.False))
-                                        .Select(m => m.Id_User).ToList();
+                return _context.Members.Select(m => m.Id_User).ToList();
             }
             catch (Exception e)
             {
