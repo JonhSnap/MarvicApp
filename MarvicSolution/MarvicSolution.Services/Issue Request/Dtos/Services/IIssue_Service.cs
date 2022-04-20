@@ -17,6 +17,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         Task<Guid> Delete(Guid Id);
 
         // OUTPUT
-        Task<List<Issue_ViewModel>> GetAlls();
+        List<Issue_ViewModel> Get_Issues_By_IdProject(Guid idProject);
+        List<Issue_ViewModel> GroupByAssignee(Guid IdProject, Guid IdUser);
+
     }
 }

@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using MarvicSolution.DATA.Entities;
+﻿using MarvicSolution.DATA.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MarvicSolution.DATA.Configurations
 {
-    class App_User_Configurations : AbstractValidator<App_User>, IEntityTypeConfiguration<App_User>
+    class App_User_Configurations : IEntityTypeConfiguration<App_User>
     {
         /// <summary>
         /// Cac config cho Table - Fluent Api 
@@ -21,10 +20,10 @@ namespace MarvicSolution.DATA.Configurations
         {
             builder.ToTable("App_User");
             builder.HasKey(o => new { o.Id });
-
-            // Create Rules
-            RuleFor(u => u.Email).NotEmpty().WithMessage("Email address is required")
-                     .EmailAddress().WithMessage("A valid email is required");
+            builder.HasIndex(o => o.UserName).IsUnique();
+            builder.HasIndex(o => o.Password).IsUnique();
+            builder.Property(prop => prop.Email).IsRequired();
+            builder.Property(prop => prop.PhoneNumber).IsRequired();
 
             // Data Seeding
             builder.HasData(
@@ -35,6 +34,7 @@ namespace MarvicSolution.DATA.Configurations
                     UserName = "KhanhND",
                     Password = "$2a$11$D57iJclK1BhZgg9B" +
                     "0P4I2.9sq0MoQIRImA8YeDVvbxeKPNG/KuTMK", //pass: KhanhND123@ | Email = "khanhnd@gmail.com",
+                    Email = "khanhnd@gmail.com",
                     JobTitle = "Project Manager",
                     Department = "Khoang 1 HN",
                     Organization = "Company TechNo1",

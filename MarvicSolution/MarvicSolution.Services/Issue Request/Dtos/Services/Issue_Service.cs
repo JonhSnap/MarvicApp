@@ -107,7 +107,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             try
             {
                 var issue = _context.Issues.Find(Id);
-                _context.Remove(issue);
+                issue.IsDeleted = EnumStatus.True;
                 await _context.SaveChangesAsync();
                 return Id;
             }
@@ -118,10 +118,40 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         }
 
 
-        public async Task<List<Issue_ViewModel>> GetAlls()
+        public List<Issue_ViewModel> Get_Issues_By_IdProject(Guid idProject)
+        {
+            var issues = (_context.Issues.Where(i => i.Id_Project.Equals(idProject))
+                                        .Select(x => new Issue_ViewModel()
+                                        {
+                                            Id = x.Id,
+                                            Id_Project = x.Id_Project,
+                                            Id_Stage = x.Id_Stage,
+                                            Id_Sprint = x.Id_Sprint,
+                                            Summary = x.Summary ,
+                                            Description = x.Description,
+                                            Id_Assignee = x.Id_Assignee,
+                                            Story_Point_Estimate = x.Story_Point_Estimate,
+                                            Id_Reporter = x.Id_Reporter,
+                                            Attachment_Path = x.Attachment_Path,
+                                            Id_Linked_Issue = x.Id_Linked_Issue,
+                                            Id_Parent_Issue = x.Id_Parent_Issue,
+                                            Priority = x.Priority,
+                                            Id_Restrict = x.Id_Restrict,
+                                            IsFlagged = x.IsFlagged,
+                                            IsWatched = x.IsWatched,
+                                            Id_Creator = x.Id_Creator,
+                                            DateCreated = x.DateCreated,
+                                            DateStarted = x.DateStarted,
+                                            DateEnd = x.DateEnd,
+                                            Id_Updator = x.Id_Updator
+                                        })).ToList();
+
+            return issues;
+        }
+
+        public List<Issue_ViewModel> GroupByAssignee(Guid IdProject, Guid IdUser)
         {
             throw new NotImplementedException();
         }
-
     }
 }

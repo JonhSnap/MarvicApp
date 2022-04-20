@@ -23,18 +23,18 @@ namespace MarvicSolution.BackendApi.Controllers
             _issueService = issueService;
         }
 
-        //// /api/Issue/
-        //[HttpGet]
-        //[Route("/api/Issue/Get")]// remember to check this route
-        //public async Task<IActionResult> Get()
-        //{
-        //    if (_issueService == null)
-        //    {
-        //        return BadRequest();
-        //    }
-        //    var prjTypes = await _issueService.GetAlls();
-        //    return Ok(prjTypes);
-        //}
+        // /api/Issue/GetIssuesByIdProject
+        [HttpGet]
+        [Route("/api/Issue/GetIssuesByIdProject")]// remember to check this route
+        public IActionResult GetIssuesByIdProject(Guid idProject)
+        {
+            if (_issueService == null)
+            {
+                return BadRequest();
+            }
+            var issues = _issueService.Get_Issues_By_IdProject(idProject);
+            return Ok(issues);
+        }
 
         /// <summary>
         /// DateTime format: 3/29/2022
