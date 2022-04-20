@@ -1,12 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import ContainerBoard from '../components/containers/ContainerBoard'
+import Sidebar from '../components/sidebar/Sidebar'
 import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 
 function ProjectDetailPage() {
-  const idProject = useParams().id;
-  console.log('id project ~', idProject);
+  const key = useParams().key;
+  const { projects } = useSelector(state => state.projects);
+  const [currentProject, setCurrentProject] = useState({});
+  useEffect(() => {
+    const currProject = projects.find(item => item.key === key);
+    setCurrentProject(currProject);
+  }, [projects, key])
 
   return (
-    <div>ProjectDetailPage</div>
+    <div className='project-board flex'>
+      <Sidebar></Sidebar>
+      <ContainerBoard project={currentProject}></ContainerBoard>
+    </div>
   )
 }
 
