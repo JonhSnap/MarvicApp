@@ -84,7 +84,7 @@ const RegisterPage = () => {
                   control={control}
                   type="text"
                 ></InputHook>
-                {errors.fullname && (
+                {errors.username && (
                   <p className="text-sm text-red-500">
                     {errors.fullname.message}
                   </p>
@@ -150,8 +150,8 @@ const RegisterPage = () => {
                   control={control}
                   type="email"
                 ></InputHook>
-                {errors.phone && (
-                  <p className="text-sm text-red-500">{errors.phone.message}</p>
+                {errors.email && (
+                  <p className="text-sm text-red-500">{errors.email.message}</p>
                 )}
               </div>
               <button

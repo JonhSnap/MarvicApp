@@ -4,7 +4,7 @@ import SignFormHeader from "./SignFormHeader";
 
 const SignForm = ({ Children }) => {
   return (
-    <div className="relative inset-0 grid object-cover w-full grid-cols-2 mx-auto cursor-pointer sign-up">
+    <div className="w-full max-w-[1320px]  mx-auto sign-up  relative grid grid-cols-2 inset-0 object-cover cursor-pointer">
       <SignFormHeader></SignFormHeader>
       <SignFormContent Children={Children}></SignFormContent>
     </div>
