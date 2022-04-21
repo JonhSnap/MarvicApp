@@ -42,25 +42,33 @@ const LoginPage = () => {
   });
   const onSubmitHandler = (values) => {
     if (!isValid) return;
-
-    return new Promise((resolve) => {
+    try {
       // resolve();
-      // loginUser(values, dispatch, navigate);
-      // reset({
-      //   username: "",
-      //   password: "",
-      // });
-      setTimeout(() => {
-        resolve();
-        loginUser(values, dispatch, navigate);
-        console.log(values);
-        reset({
-          username: "",
-          email: "",
-          password: "",
-        });
-      }, 1000);
-    });
+      loginUser(values, dispatch, navigate);
+      reset({
+        username: "",
+        password: "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    // return new Promise((resolve) => {
+    //   resolve();
+    //   loginUser(values, dispatch, navigate);
+    //   reset({
+    //     username: "",
+    //     password: "",
+    //   });
+    // setTimeout(() => {
+    //   resolve();
+    //   console.log(values);
+    //   reset({
+    //     username: "",
+    //     email: "",
+    //     password: "",
+    //   });
+    // }, 1000);
+    // });
   };
   return (
     <SignForm
