@@ -10,6 +10,7 @@ const YourWorkPage = lazy(() => import("./pages/YourWorkPage"));
 const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));
+const Backlog = lazy(() => import("./pages/Backlog"));
 const TutorialPage = lazy(() => import("./pages/TutorialPage"));
 const TestPage = lazy(() => import("./pages/TestPage"));
 
@@ -30,6 +31,7 @@ function App() {
         </Route>
         <Route path="/login" element={<LoginPage></LoginPage>}></Route>
         <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
+        <Route path="/backlog" element={<Backlog></Backlog>}></Route>
         <Route path="/tutorial" element={<TutorialPage></TutorialPage>}></Route>
         <Route path="/test" element={<TestPage></TestPage>}></Route>
       </Routes>
