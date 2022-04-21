@@ -29,7 +29,7 @@ const schema = yup
         }
       )
       .required("Please enter your password"),
-    phone: yup.string().required("Please enter your phone number"),
+    phone: yup.number().required("Please enter your phone number"),
   })
   .required();
 const RegisterPage = () => {
