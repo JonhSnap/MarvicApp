@@ -1,4 +1,5 @@
 ﻿
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels;
 using System;
@@ -18,7 +19,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
 
         // OUTPUT
         List<Issue_ViewModel> Get_Issues_By_IdProject(Guid idProject);
-        List<Issue_ViewModel> GroupByAssignee(Guid IdProject, Guid IdUser);
+        List<GroupByAssignee_ViewModel> Group_By_Assignee(Guid IdProject);
 
     }
 }

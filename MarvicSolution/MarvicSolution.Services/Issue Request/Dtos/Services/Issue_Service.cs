@@ -2,6 +2,7 @@
 using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Utilities.Exceptions;
@@ -127,7 +128,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             Id_Project = x.Id_Project,
                                             Id_Stage = x.Id_Stage,
                                             Id_Sprint = x.Id_Sprint,
-                                            Summary = x.Summary ,
+                                            Summary = x.Summary,
                                             Description = x.Description,
                                             Id_Assignee = x.Id_Assignee,
                                             Story_Point_Estimate = x.Story_Point_Estimate,
@@ -149,9 +150,56 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             return issues;
         }
 
-        public List<Issue_ViewModel> GroupByAssignee(Guid IdProject, Guid IdUser)
+        public List<GroupByAssignee_ViewModel> Group_By_Assignee(Guid IdProject)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var groupIdAssignee = from i in _context.Issues.ToList()
+                                      group i by i.Id_Assignee;
+                List<GroupByAssignee_ViewModel> listGroupVM = new List<GroupByAssignee_ViewModel>();
+                foreach (var i_group in groupIdAssignee)
+                {
+                    GroupByAssignee_ViewModel groupVM = new GroupByAssignee_ViewModel();
+                    groupVM.Id_Assignee = i_group.Key;
+                    var item = i_group.Select(g => new Issue_ViewModel()
+                    {
+                        Id = g.Id,
+                        Id_Project = g.Id_Project,
+                        Id_IssueType = g.Id_IssueType,
+                        Id_Stage = g.Id_Stage,
+                        Id_Sprint = g.Id_Sprint,
+                        Id_Label = g.Id_Label,
+                        Summary = g.Summary,
+                        Description = g.Description,
+                        Id_Assignee = g.Id_Assignee,
+                        Story_Point_Estimate = g.Story_Point_Estimate,
+                        Id_Reporter = g.Id_Reporter,
+                        Attachment_Path = g.Attachment_Path,
+                        Id_Linked_Issue = g.Id_Linked_Issue,
+                        Id_Parent_Issue = g.Id_Parent_Issue,
+                        Priority = g.Priority,
+                        Id_Restrict = g.Id_Restrict,
+                        IsFlagged = g.IsFlagged,
+                        IsWatched = g.IsWatched,
+                        Id_Creator = g.Id_Creator,
+                        DateCreated = g.DateCreated,
+                        DateStarted = g.DateStarted,
+                        DateEnd = g.DateEnd,
+                        Id_Updator = g.Id_Updator,
+                        UpdateDate = g.UpdateDate,
+                        IsDeleted = g.IsDeleted
+
+                    });
+                    groupVM.ListIssue.AddRange(item);
+                    listGroupVM.Add(groupVM);
+                }
+
+                return listGroupVM;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
         }
     }
 }
