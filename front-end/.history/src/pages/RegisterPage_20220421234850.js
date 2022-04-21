@@ -41,7 +41,7 @@ const RegisterPage = () => {
     control,
     // setValue,
     // getValues,
-    reset,
+    // reset,
     // watch,
   } = useForm({
     resolver: yupResolver(schema),
@@ -49,15 +49,7 @@ const RegisterPage = () => {
   });
   const onSubmitHandler = (values) => {
     if (!isValid) return;
-
     registerUser(values, dispatch, navigate);
-    reset({
-      fullName: "",
-      userName: "",
-      email: "",
-      password: "",
-      phoneNumber: "",
-    });
   };
 
   //   return new Promise((resolve) => {
@@ -75,7 +67,7 @@ const RegisterPage = () => {
   return (
     <SignForm
       Children={
-        <div className="bg-white w-[400px] h-[500px] overflow-x-auto scroll-smooth relative z-10 m-auto rounded-lg p-5 flex flex-col shadow-md ">
+        <div className="bg-white w-[400px] h-[560px] overflow-x-auto scroll-smooth relative z-10 m-auto rounded-lg p-5 flex flex-col shadow-md ">
           <h2 className="text-[#5E6C84] text-3xl mb-3 text-center mt-5">
             Sign up for your account
           </h2>
@@ -148,20 +140,18 @@ const RegisterPage = () => {
                 )}
               </div>
               <div className="flex flex-col mb-2">
-                <label className="cursor-pointer" htmlFor="phoneNumber">
+                <label className="cursor-pointer" htmlFor="phone">
                   Phone number
                 </label>
                 <InputHook
-                  name="phoneNumber"
+                  name="phone"
                   placeholder="Enter your Phone number"
-                  id="phoneNumber"
+                  id="phone"
                   control={control}
                   type="text"
                 ></InputHook>
-                {errors.phoneNumber && (
-                  <p className="text-sm text-red-500">
-                    {errors.phoneNumber.message}
-                  </p>
+                {errors.phone && (
+                  <p className="text-sm text-red-500">{errors.phone.message}</p>
                 )}
               </div>
               <button

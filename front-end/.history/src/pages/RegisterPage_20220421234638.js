@@ -29,7 +29,7 @@ const schema = yup
         }
       )
       .required("Please enter your password"),
-    phoneNumber: yup.string().required("Please enter your phone number"),
+    phone: yup.string().required("Please enter your phone number"),
   })
   .required();
 const RegisterPage = () => {
@@ -41,7 +41,7 @@ const RegisterPage = () => {
     control,
     // setValue,
     // getValues,
-    reset,
+    // reset,
     // watch,
   } = useForm({
     resolver: yupResolver(schema),
@@ -49,15 +49,7 @@ const RegisterPage = () => {
   });
   const onSubmitHandler = (values) => {
     if (!isValid) return;
-
     registerUser(values, dispatch, navigate);
-    reset({
-      fullName: "",
-      userName: "",
-      email: "",
-      password: "",
-      phoneNumber: "",
-    });
   };
 
   //   return new Promise((resolve) => {
@@ -75,43 +67,43 @@ const RegisterPage = () => {
   return (
     <SignForm
       Children={
-        <div className="bg-white w-[400px] h-[500px] overflow-x-auto scroll-smooth relative z-10 m-auto rounded-lg p-5 flex flex-col shadow-md ">
+        <div className="bg-white w-[400px] h-[560px] overflow-x-auto scroll-smooth relative z-10 m-auto rounded-lg p-5 flex flex-col shadow-md ">
           <h2 className="text-[#5E6C84] text-3xl mb-3 text-center mt-5">
             Sign up for your account
           </h2>
           <form onSubmit={handleSubmit(onSubmitHandler)}>
             <div className="">
               <div className="flex flex-col mb-2">
-                <label className="cursor-pointer" htmlFor="fullName">
+                <label className="cursor-pointer" htmlFor="fullname">
                   Fullname
                 </label>
                 <InputHook
                   name="fullName"
                   placeholder="Enter your full name"
-                  id="fullName"
+                  id="fullname"
                   control={control}
                   type="text"
                 ></InputHook>
-                {errors.fullName && (
+                {errors.fullname && (
                   <p className="text-sm text-red-500">
-                    {errors.fullName.message}
+                    {errors.fullname.message}
                   </p>
                 )}
               </div>
               <div className="flex flex-col mb-2">
-                <label className="cursor-pointer" htmlFor="userName">
+                <label className="cursor-pointer" htmlFor="username">
                   Username
                 </label>
                 <InputHook
-                  name="userName"
+                  name="username"
                   placeholder="Enter your username"
-                  id="userName"
+                  id="username"
                   control={control}
                   type="text"
                 ></InputHook>
-                {errors.userName && (
+                {errors.username && (
                   <p className="text-sm text-red-500">
-                    {errors.userName.message}
+                    {errors.username.message}
                   </p>
                 )}
               </div>
@@ -148,20 +140,18 @@ const RegisterPage = () => {
                 )}
               </div>
               <div className="flex flex-col mb-2">
-                <label className="cursor-pointer" htmlFor="phoneNumber">
+                <label className="cursor-pointer" htmlFor="phone">
                   Phone number
                 </label>
                 <InputHook
-                  name="phoneNumber"
+                  name="phone"
                   placeholder="Enter your Phone number"
-                  id="phoneNumber"
+                  id="phone"
                   control={control}
                   type="text"
                 ></InputHook>
-                {errors.phoneNumber && (
-                  <p className="text-sm text-red-500">
-                    {errors.phoneNumber.message}
-                  </p>
+                {errors.phone && (
+                  <p className="text-sm text-red-500">{errors.phone.message}</p>
                 )}
               </div>
               <button

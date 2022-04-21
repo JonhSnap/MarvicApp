@@ -41,7 +41,7 @@ const RegisterPage = () => {
     control,
     // setValue,
     // getValues,
-    reset,
+    // reset,
     // watch,
   } = useForm({
     resolver: yupResolver(schema),
@@ -49,15 +49,7 @@ const RegisterPage = () => {
   });
   const onSubmitHandler = (values) => {
     if (!isValid) return;
-
     registerUser(values, dispatch, navigate);
-    reset({
-      fullName: "",
-      userName: "",
-      email: "",
-      password: "",
-      phoneNumber: "",
-    });
   };
 
   //   return new Promise((resolve) => {
@@ -75,7 +67,7 @@ const RegisterPage = () => {
   return (
     <SignForm
       Children={
-        <div className="bg-white w-[400px] h-[500px] overflow-x-auto scroll-smooth relative z-10 m-auto rounded-lg p-5 flex flex-col shadow-md ">
+        <div className="bg-white w-[400px] h-[560px] overflow-x-auto scroll-smooth relative z-10 m-auto rounded-lg p-5 flex flex-col shadow-md ">
           <h2 className="text-[#5E6C84] text-3xl mb-3 text-center mt-5">
             Sign up for your account
           </h2>
