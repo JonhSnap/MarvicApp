@@ -11,7 +11,7 @@ const InputHook = ({ control, ...props }) => {
   return (
     <input
       type="text"
-      className="p-3 transition-all bg-white border border-blue-500 rounded-lg outline-none focus:"
+      className="p-3 border border-gray-100 rounded-lg bg-white outline-none transition-all focus: border-blue-500"
       {...field}
       {...props}
     />
