@@ -44,15 +44,14 @@ const LoginPage = () => {
     if (!isValid) return;
 
     return new Promise((resolve) => {
-      // resolve();
-      // loginUser(values, dispatch, navigate);
-      // reset({
-      //   username: "",
-      //   password: "",
-      // });
+      resolve();
+      loginUser(values, dispatch, navigate);
+      reset({
+        username: "",
+        password: "",
+      });
       setTimeout(() => {
         resolve();
-        loginUser(values, dispatch, navigate);
         console.log(values);
         reset({
           username: "",

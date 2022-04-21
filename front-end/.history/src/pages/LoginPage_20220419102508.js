@@ -52,7 +52,6 @@ const LoginPage = () => {
       // });
       setTimeout(() => {
         resolve();
-        loginUser(values, dispatch, navigate);
         console.log(values);
         reset({
           username: "",
