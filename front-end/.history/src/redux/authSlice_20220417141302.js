@@ -28,7 +28,6 @@ const authSlice = createSlice({
       state.login.error = false;
     },
     loginFailed: (state) => {
-      alert("Ten dang nhap hoac mat khau khong chinh xac");
       state.login.isFetching = false;
       state.login.error = true;
     },
