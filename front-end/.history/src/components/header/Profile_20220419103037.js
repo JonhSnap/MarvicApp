@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import useTooltip from "../../hooks/useTooltip";
 import Tooltip from "../tooltip/Tooltip";
 
 function Profile() {
   const { isHover, coord, nodeRef } = useTooltip();
-
+  const [user, setUser] = useState(false);
   return (
     <>
       {isHover && <Tooltip coord={coord}>Your profile and settings</Tooltip>}

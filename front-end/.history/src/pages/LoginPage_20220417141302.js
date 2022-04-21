@@ -4,20 +4,14 @@ import SignForm from "./auth/SignForm";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-// import { registerUser } from "../../redux/apiRequest";
 import { useDispatch } from "react-redux";
-// import InputHook from "../../components/input/InputHook";
-import { registerUser } from "../redux/apiRequest";
+// import InputHook from "../components/input/InputHook";
+import { loginUser } from "../redux/apiRequest";
 import InputHook from "../components/input/InputHook";
 
 const schema = yup
   .object({
-    fullname: yup.string().required("Please enter your fullname"),
     username: yup.string().required("Please enter your username"),
-    email: yup
-      .string()
-      .email("Please enter your email address")
-      .required("Please enter your email address"),
     password: yup
       .string()
       .min(8, "Your password must be at least 8 characters or greater")
@@ -29,10 +23,9 @@ const schema = yup
         }
       )
       .required("Please enter your password"),
-    phone: yup.string().required("Please enter your phone number"),
   })
   .required();
-const RegisterPage = () => {
+const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -41,7 +34,7 @@ const RegisterPage = () => {
     control,
     // setValue,
     // getValues,
-    // reset,
+    reset,
     // watch,
   } = useForm({
     resolver: yupResolver(schema),
@@ -49,54 +42,41 @@ const RegisterPage = () => {
   });
   const onSubmitHandler = (values) => {
     if (!isValid) return;
-    registerUser(values, dispatch, navigate);
+    return new Promise((resolve) => {
+      resolve();
+      loginUser(values, dispatch, navigate);
+      reset({
+        username: "",
+        email: "",
+        password: "",
+      });
+      // setTimeout(() => {
+      //   resolve();
+      //   console.log(values);
+      //   reset({
+      //     username: "",
+      //     email: "",
+      //     password: "",
+      //   });
+      // }, 1000);
+    });
   };
-
-  //   return new Promise((resolve) => {
-  //     setTimeout(() => {
-  //       resolve();
-  //       console.log(values);
-  //       reset({
-  //         username: "",
-  //         email: "",
-  //         password: "",
-  //       });
-  //     }, 1000);
-  //   });
-  // };
   return (
     <SignForm
       Children={
-        <div className="bg-white w-[400px] h-[560px] overflow-x-auto scroll-smooth relative z-10 m-auto rounded-lg p-5 flex flex-col shadow-md ">
+        <div className="bg-white w-[400px] h-[470px] relative z-10 m-auto rounded-lg p-5 flex flex-col shadow-md ">
           <h2 className="text-[#5E6C84] text-3xl mb-3 text-center mt-5">
-            Sign up for your account
+            Sign In
           </h2>
           <form onSubmit={handleSubmit(onSubmitHandler)}>
             <div className="">
-              <div className="flex flex-col mb-2">
-                <label className="cursor-pointer" htmlFor="fullname">
-                  Fullname
-                </label>
-                <InputHook
-                  name="fullname"
-                  placeholder="Enter your full name"
-                  id="fullname"
-                  control={control}
-                  type="text"
-                ></InputHook>
-                {errors.fullname && (
-                  <p className="text-sm text-red-500">
-                    {errors.fullname.message}
-                  </p>
-                )}
-              </div>
               <div className="flex flex-col mb-2">
                 <label className="cursor-pointer" htmlFor="username">
                   Username
                 </label>
                 <InputHook
                   name="username"
-                  placeholder="Enter your username"
+                  placeholder="enter your username"
                   id="username"
                   control={control}
                   type="text"
@@ -108,27 +88,12 @@ const RegisterPage = () => {
                 )}
               </div>
               <div className="flex flex-col mb-2">
-                <label className="cursor-pointer" htmlFor="email">
-                  Email address
-                </label>
-                <InputHook
-                  name="email"
-                  placeholder="Enter your email"
-                  id="email"
-                  control={control}
-                  type="email"
-                ></InputHook>
-                {errors.email && (
-                  <p className="text-sm text-red-500">{errors.email.message}</p>
-                )}
-              </div>
-              <div className="flex flex-col mb-2">
                 <label className="cursor-pointer" htmlFor="password">
                   Password
                 </label>
                 <InputHook
                   name="password"
-                  placeholder="Enter your password"
+                  placeholder="enter your password"
                   id="password"
                   control={control}
                   type="password"
@@ -137,21 +102,6 @@ const RegisterPage = () => {
                   <p className="text-sm text-red-500">
                     {errors.password.message}
                   </p>
-                )}
-              </div>
-              <div className="flex flex-col mb-2">
-                <label className="cursor-pointer" htmlFor="phone">
-                  Phone number
-                </label>
-                <InputHook
-                  name="phone"
-                  placeholder="Enter your Phone number"
-                  id="phone"
-                  control={control}
-                  type="text"
-                ></InputHook>
-                {errors.phone && (
-                  <p className="text-sm text-red-500">{errors.phone.message}</p>
                 )}
               </div>
               <button
@@ -163,7 +113,7 @@ const RegisterPage = () => {
                 {isSubmitting ? (
                   <div className="w-5 h-5 mx-auto border-2 border-t-2 border-white rounded-full border-t-transparent animate-spin"></div>
                 ) : (
-                  "Submit"
+                  "Login"
                 )}
               </button>
             </div>
@@ -198,13 +148,15 @@ const RegisterPage = () => {
               Continue with Google
             </span>
           </button>
-          <div className="flex items-center justify-center pb-5 mt-5">
-            <span className="text-sm text-slate-500">
-              Do you already have an account?
+          <div className="mt-8 border border-1 border-slate-300"></div>
+          <div className="flex items-center justify-center mt-8">
+            <span className="ml-4 text-sm text-blue-700 cursor-pointer">
+              Can't login?
             </span>
-            <Link to="../login">
-              <span className="items-center ml-2 text-sm text-blue-600">
-                Login
+            <div className="w-[4px] h-[4px] rounded-full bg-slate-600 ml-4"></div>
+            <Link to="../register">
+              <span className="ml-4 text-sm text-blue-700 cursor-pointer">
+                Sign up for account
               </span>
             </Link>
           </div>
@@ -214,4 +166,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default LoginPage;

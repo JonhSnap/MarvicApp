@@ -29,7 +29,7 @@ const schema = yup
         }
       )
       .required("Please enter your password"),
-    phone: yup.string().required("Please enter your phone number"),
+    phone: yup.number().required("Please enter your phone number"),
   })
   .required();
 const RegisterPage = () => {
@@ -84,9 +84,9 @@ const RegisterPage = () => {
                   control={control}
                   type="text"
                 ></InputHook>
-                {errors.fullname && (
+                {errors.username && (
                   <p className="text-sm text-red-500">
-                    {errors.fullname.message}
+                    {errors.username.message}
                   </p>
                 )}
               </div>
@@ -148,10 +148,10 @@ const RegisterPage = () => {
                   placeholder="Enter your Phone number"
                   id="phone"
                   control={control}
-                  type="text"
+                  type="email"
                 ></InputHook>
-                {errors.phone && (
-                  <p className="text-sm text-red-500">{errors.phone.message}</p>
+                {errors.email && (
+                  <p className="text-sm text-red-500">{errors.email.message}</p>
                 )}
               </div>
               <button

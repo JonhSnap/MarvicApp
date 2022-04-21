@@ -67,7 +67,7 @@ const RegisterPage = () => {
   return (
     <SignForm
       Children={
-        <div className="bg-white w-[400px] h-[560px] overflow-x-auto scroll-smooth relative z-10 m-auto rounded-lg p-5 flex flex-col shadow-md ">
+        <div className="bg-white w-[400px] h-[560px] register relative z-10 m-auto rounded-lg p-5 flex flex-col shadow-md ">
           <h2 className="text-[#5E6C84] text-3xl mb-3 text-center mt-5">
             Sign up for your account
           </h2>
@@ -84,9 +84,9 @@ const RegisterPage = () => {
                   control={control}
                   type="text"
                 ></InputHook>
-                {errors.fullname && (
+                {errors.username && (
                   <p className="text-sm text-red-500">
-                    {errors.fullname.message}
+                    {errors.username.message}
                   </p>
                 )}
               </div>
@@ -148,10 +148,10 @@ const RegisterPage = () => {
                   placeholder="Enter your Phone number"
                   id="phone"
                   control={control}
-                  type="text"
+                  type="email"
                 ></InputHook>
-                {errors.phone && (
-                  <p className="text-sm text-red-500">{errors.phone.message}</p>
+                {errors.email && (
+                  <p className="text-sm text-red-500">{errors.email.message}</p>
                 )}
               </div>
               <button

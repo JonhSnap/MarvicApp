@@ -12,7 +12,6 @@ import InputHook from "../components/input/InputHook";
 
 const schema = yup
   .object({
-    fullname: yup.string().required("Please enter your fullname"),
     username: yup.string().required("Please enter your username"),
     email: yup
       .string()
@@ -29,7 +28,6 @@ const schema = yup
         }
       )
       .required("Please enter your password"),
-    phone: yup.string().required("Please enter your phone number"),
   })
   .required();
 const RegisterPage = () => {
@@ -67,36 +65,19 @@ const RegisterPage = () => {
   return (
     <SignForm
       Children={
-        <div className="bg-white w-[400px] h-[560px] overflow-x-auto scroll-smooth relative z-10 m-auto rounded-lg p-5 flex flex-col shadow-md ">
+        <div className="bg-white w-[400px] h-[530px] relative z-10 m-auto rounded-lg p-5 flex flex-col shadow-md ">
           <h2 className="text-[#5E6C84] text-3xl mb-3 text-center mt-5">
             Sign up for your account
           </h2>
           <form onSubmit={handleSubmit(onSubmitHandler)}>
             <div className="">
               <div className="flex flex-col mb-2">
-                <label className="cursor-pointer" htmlFor="fullname">
-                  Fullname
-                </label>
-                <InputHook
-                  name="fullname"
-                  placeholder="Enter your full name"
-                  id="fullname"
-                  control={control}
-                  type="text"
-                ></InputHook>
-                {errors.fullname && (
-                  <p className="text-sm text-red-500">
-                    {errors.fullname.message}
-                  </p>
-                )}
-              </div>
-              <div className="flex flex-col mb-2">
                 <label className="cursor-pointer" htmlFor="username">
                   Username
                 </label>
                 <InputHook
                   name="username"
-                  placeholder="Enter your username"
+                  placeholder="enter your username"
                   id="username"
                   control={control}
                   type="text"
@@ -113,7 +94,7 @@ const RegisterPage = () => {
                 </label>
                 <InputHook
                   name="email"
-                  placeholder="Enter your email"
+                  placeholder="enter your email"
                   id="email"
                   control={control}
                   type="email"
@@ -128,7 +109,7 @@ const RegisterPage = () => {
                 </label>
                 <InputHook
                   name="password"
-                  placeholder="Enter your password"
+                  placeholder="enter your password"
                   id="password"
                   control={control}
                   type="password"
@@ -137,21 +118,6 @@ const RegisterPage = () => {
                   <p className="text-sm text-red-500">
                     {errors.password.message}
                   </p>
-                )}
-              </div>
-              <div className="flex flex-col mb-2">
-                <label className="cursor-pointer" htmlFor="phone">
-                  Phone number
-                </label>
-                <InputHook
-                  name="phone"
-                  placeholder="Enter your Phone number"
-                  id="phone"
-                  control={control}
-                  type="text"
-                ></InputHook>
-                {errors.phone && (
-                  <p className="text-sm text-red-500">{errors.phone.message}</p>
                 )}
               </div>
               <button

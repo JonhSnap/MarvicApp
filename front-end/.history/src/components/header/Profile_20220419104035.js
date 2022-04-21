@@ -1,9 +1,11 @@
 import React from "react";
+import useModal from "../../hooks/useModal";
 import useTooltip from "../../hooks/useTooltip";
 import Tooltip from "../tooltip/Tooltip";
 
 function Profile() {
   const { isHover, coord, nodeRef } = useTooltip();
+  const user = useModal();
 
   return (
     <>

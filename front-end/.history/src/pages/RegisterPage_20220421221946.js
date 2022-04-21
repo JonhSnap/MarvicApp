@@ -148,7 +148,7 @@ const RegisterPage = () => {
                   placeholder="Enter your Phone number"
                   id="phone"
                   control={control}
-                  type="text"
+                  type="email"
                 ></InputHook>
                 {errors.phone && (
                   <p className="text-sm text-red-500">{errors.phone.message}</p>
