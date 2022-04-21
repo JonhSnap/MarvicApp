@@ -1,11 +1,16 @@
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using MarvicSolution.BackendApi.Constants;
 using MarvicSolution.DATA.EF;
-using MarvicSolution.DATA.Entities;
+using MarvicSolution.Services.Issue_Request.Issue_Request;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
+using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
+using MarvicSolution.Services.Project_Resquest.Dtos.Validators;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest;
 using MarvicSolution.Services.System.Helpers;
+using MarvicSolution.Services.System.Users.Requests;
 using MarvicSolution.Services.System.Users.Services;
+using MarvicSolution.Services.System.Users.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -44,15 +49,14 @@ namespace MarvicSolution.BackendApi
             /// AddTransient: Moi lan request la tao moi 1 object
             services.AddTransient<IProjectType_Service, ProjectType_Service>();
             services.AddTransient<IProject_Service, Project_Service>();
+            services.AddTransient<IIssue_Service, Issue_Service>();
             services.AddScoped<Jwt_Service, Jwt_Service>();
             services.AddScoped<IUser_Service, User_Service>();
 
-
-            /// Validator Fluent Api
             services.AddControllers()
                 .AddFluentValidation(s =>
                 {
-                    s.RegisterValidatorsFromAssemblyContaining<Startup>();
+                    s.RegisterValidatorsFromAssemblyContaining<Project_Create_Validate>(); // Su dung tat ca class Validator nam trong cung 1 assemblies
                     s.DisableDataAnnotationsValidation = true; // = RunDefaultMvcValidationAfterFluentValidationExecutes = false; 
                 });
 

@@ -32,11 +32,19 @@ namespace MarvicSolution.BackendApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] Register_Request rq)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            bool result = await _userService.Register(rq);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            return Ok("Register success");
+                bool result = await _userService.Register(rq);
+
+                return Ok("Register success");
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
         // /api/user/login
@@ -44,19 +52,26 @@ namespace MarvicSolution.BackendApi.Controllers
         [AllowAnonymous]
         public IActionResult Login([FromBody] Login_Request rq)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            // Tao token theo JWT
-            var jwt = _userService.Authenticate(rq);
-            // Tao cookie
-            Response.Cookies.Append("jwt", jwt, new CookieOptions
+            try
             {
-                HttpOnly = true,
-                Expires = DateTime.Now.AddHours(24)
-            });
-            var user = _userService.GetUserbyUserName(rq.UserName);
-            return Ok(user);
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                // Tao token theo JWT
+                var jwt = _userService.Authenticate(rq);
+                // Tao cookie
+                Response.Cookies.Append("jwt", jwt, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Expires = DateTime.Now.AddHours(24)
+                });
+                var user = _userService.GetUserbyUserName(rq.UserName);
+                return Ok(user);
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
         // /api/user/get
@@ -65,6 +80,9 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 Guid id_User = ValidateUser();
                 var user = await _userService.GetUserbyId(id_User);
                 return Ok(user);
@@ -87,30 +105,60 @@ namespace MarvicSolution.BackendApi.Controllers
         [HttpPut("Update")]
         public IActionResult Update(Update_User_Request rq)
         {
-            var userId = _userService.Update(rq);
-            if (userId.Equals(Guid.Empty))
-                return BadRequest();
-            return Ok("Update user success");
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var userId = _userService.Update(rq);
+                if (userId.Equals(Guid.Empty))
+                    return BadRequest();
+                return Ok("Update user success");
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
         // /api/User/7a370bac-b796-454d-84cf-18c603102ca2
         [HttpDelete("{Id}")]
         public IActionResult Delete(Guid Id)
         {
-            var userId = _userService.Delete(Id);
-            if (userId.Equals(Guid.Empty))
-                return BadRequest();
-            return Ok("Delete user success");
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var userId = _userService.Delete(Id);
+                if (userId.Equals(Guid.Empty))
+                    return BadRequest();
+                return Ok("Delete user success");
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
         // /api/user/recovery-password
         [HttpPut("recovery-password")]
         public IActionResult RecoveryPassword(RecoveryPassword_Request rq)
         {
-            var userId = _userService.RecoveryPassword(rq);
-            if (userId.Equals(Guid.Empty))
-                return BadRequest();
-            return Ok("Recovery password for user success");
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var userId = _userService.RecoveryPassword(rq);
+                if (userId.Equals(Guid.Empty))
+                    return BadRequest();
+                return Ok("Recovery password for user success");
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
         private Guid ValidateUser()

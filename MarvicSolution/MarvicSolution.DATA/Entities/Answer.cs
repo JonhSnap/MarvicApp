@@ -9,6 +9,7 @@ namespace MarvicSolution.DATA.Entities
 {
     public class Answer
     {
+
         public Guid Id { get; set; }
         public Guid Id_Question { get; set; }
         public string Name { get; set; }

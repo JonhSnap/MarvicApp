@@ -49,27 +49,27 @@ namespace MarvicSolution.DATA.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Id_Project = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Id_IssueType = table.Column<int>(type: "int", nullable: false),
-                    Id_Stage = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Id_Sprint = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Id_Label = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id_Stage = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Id_Sprint = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Id_Label = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Id_Assignee = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Story_Point_Estimate = table.Column<int>(type: "int", nullable: false),
-                    Id_Reporter = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id_Assignee = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Story_Point_Estimate = table.Column<int>(type: "int", nullable: true),
+                    Id_Reporter = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Attachment_Path = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Id_Linked_Issue = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Id_Parent_Issue = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Priority = table.Column<int>(type: "int", nullable: false),
-                    Id_Restrict = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsFlagged = table.Column<int>(type: "int", nullable: false),
-                    IsWatched = table.Column<int>(type: "int", nullable: false),
+                    Id_Linked_Issue = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Id_Parent_Issue = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Priority = table.Column<int>(type: "int", nullable: true),
+                    Id_Restrict = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsFlagged = table.Column<int>(type: "int", nullable: true),
+                    IsWatched = table.Column<int>(type: "int", nullable: true),
                     Id_Creator = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateStarted = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Id_Updator = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DateStarted = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DateEnd = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Id_Updator = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -83,7 +83,7 @@ namespace MarvicSolution.DATA.Migrations
                 {
                     Id_Project = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Id_User = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsDeleted = table.Column<int>(type: "int", nullable: false)
+                    Role = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,8 +95,8 @@ namespace MarvicSolution.DATA.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Key = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Key = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Access = table.Column<int>(type: "int", nullable: false),
                     Id_Lead = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Id_Creator = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -232,14 +232,14 @@ namespace MarvicSolution.DATA.Migrations
 
             migrationBuilder.InsertData(
                 table: "Member",
-                columns: new[] { "Id_Project", "Id_User", "IsDeleted" },
+                columns: new[] { "Id_Project", "Id_User", "Role" },
                 values: new object[,]
                 {
-                    { new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"), new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"), 0 },
-                    { new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"), new Guid("346f2520-6295-4734-8868-6ca75258e7c1"), 0 },
-                    { new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"), new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"), 0 },
-                    { new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"), new Guid("346f2520-6295-4734-8868-6ca75258e7c1"), 0 },
-                    { new Guid("a5329d06-9d32-4a54-b816-906dfbbd288c"), new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"), 0 }
+                    { new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"), new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"), 3 },
+                    { new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"), new Guid("346f2520-6295-4734-8868-6ca75258e7c1"), 1 },
+                    { new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"), new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"), 2 },
+                    { new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"), new Guid("346f2520-6295-4734-8868-6ca75258e7c1"), 1 },
+                    { new Guid("a5329d06-9d32-4a54-b816-906dfbbd288c"), new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"), 3 }
                 });
 
             migrationBuilder.InsertData(
