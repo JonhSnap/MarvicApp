@@ -3,6 +3,7 @@ using MarvicSolution.Services.Issue_Request.Issue_Request;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest.Dtos.ViewModels;
+using MarvicSolution.Utilities.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -28,12 +29,50 @@ namespace MarvicSolution.BackendApi.Controllers
         [Route("/api/Issue/GetIssuesByIdProject")]// remember to check this route
         public IActionResult GetIssuesByIdProject(Guid idProject)
         {
-            if (_issueService == null)
+            try
             {
-                return BadRequest();
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                var issues = _issueService.Get_Issues_By_IdProject(idProject);
+                if (issues == null)
+                    return BadRequest($"Cannot get issue by IdProject = {idProject}");
+                return Ok(issues);
             }
-            var issues = _issueService.Get_Issues_By_IdProject(idProject);
-            return Ok(issues);
+            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
+        }
+
+        // /api/Issue/GroupByAssignee
+        [HttpGet]
+        [Route("/api/Issue/GroupByAssignee")]// remember to check this route
+        public IActionResult GroupByAssignee(Guid idProject)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                var groupIssues = _issueService.Group_By_Assignee(idProject);
+                if (groupIssues == null)
+                    return BadRequest($"Cannot get group issue by IdAssignee from IdProject = {idProject}");
+                return Ok(groupIssues);
+            }
+            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
+        }
+
+        // /api/Issue/GroupByIssueType
+        [HttpGet]
+        [Route("/api/Issue/GroupByIssueType")]// remember to check this route
+        public IActionResult GroupByIssueType(Guid idProject)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                var groupIssues = _issueService.Group_By_IssueType(idProject);
+                if (groupIssues == null)
+                    return BadRequest($"Cannot get group issue by issue type from IdProject = {idProject}");
+                return Ok(groupIssues);
+            }
+            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
         }
 
         /// <summary>
@@ -43,34 +82,49 @@ namespace MarvicSolution.BackendApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api/Issue/Create")]// remember to check this route
-        public async Task<IActionResult> Create([FromBody]Issue_CreateRequest rq)
+        public async Task<IActionResult> Create([FromBody] Issue_CreateRequest rq)
         {
-            var id_Issue = await _issueService.Create(rq);
-            if (id_Issue.Equals(Guid.Empty))
-                return BadRequest();
-
-            return Ok(id_Issue);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                var id_Issue = await _issueService.Create(rq);
+                if (id_Issue.Equals(Guid.Empty))
+                    return BadRequest("Cannot create a Issue");
+                return Ok(id_Issue);
+            }
+            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
         }
 
         [HttpPut]
         [Route("/api/Issue/Update")]// remember to check this route
-        public async Task<IActionResult> Update([FromForm] Issue_UpdateRequest rq)
+        public async Task<IActionResult> Update([FromBody] Issue_UpdateRequest rq)
         {
-            var idIssue = await _issueService.Update(rq);
-            if (idIssue.Equals(Guid.Empty))
-                return BadRequest();
-
-            return Ok(idIssue);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                var idIssue = await _issueService.Update(rq);
+                if (idIssue.Equals(Guid.Empty))
+                    return BadRequest();
+                return Ok(idIssue);
+            }
+            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
         }
 
         [HttpDelete("{IdIssue}")]// remember to check this route
         public async Task<IActionResult> Delete(Guid IdIssue)
         {
-            var idIssue = await _issueService.Delete(IdIssue);
-            if (idIssue.Equals(Guid.Empty))
-                return BadRequest();
-
-            return Ok(idIssue);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                var idIssue = await _issueService.Delete(IdIssue);
+                if (idIssue.Equals(Guid.Empty))
+                    return BadRequest();
+                return Ok(idIssue);
+            }
+            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
         }
     }
 }
