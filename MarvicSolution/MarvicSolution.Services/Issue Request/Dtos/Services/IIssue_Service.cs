@@ -20,6 +20,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         // OUTPUT
         List<Issue_ViewModel> Get_Issues_By_IdProject(Guid idProject);
         List<GroupByAssignee_ViewModel> Group_By_Assignee(Guid IdProject);
+        List<GroupByIssueType_ViewModel> Group_By_IssueType(Guid IdProject);
 
     }
 }

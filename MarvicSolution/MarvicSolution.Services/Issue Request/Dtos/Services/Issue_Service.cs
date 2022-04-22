@@ -155,12 +155,66 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             try
             {
                 var groupIdAssignee = from i in _context.Issues.ToList()
+                                      where i.Id_Project.Equals(IdProject)
                                       group i by i.Id_Assignee;
                 List<GroupByAssignee_ViewModel> listGroupVM = new List<GroupByAssignee_ViewModel>();
                 foreach (var i_group in groupIdAssignee)
                 {
                     GroupByAssignee_ViewModel groupVM = new GroupByAssignee_ViewModel();
                     groupVM.Id_Assignee = i_group.Key;
+                    var item = i_group.Select(g => new Issue_ViewModel()
+                    {
+                        Id = g.Id,
+                        Id_Project = g.Id_Project,
+                        Id_IssueType = g.Id_IssueType,
+                        Id_Stage = g.Id_Stage,
+                        Id_Sprint = g.Id_Sprint,
+                        Id_Label = g.Id_Label,
+                        Summary = g.Summary,
+                        Description = g.Description,
+                        Id_Assignee = g.Id_Assignee,
+                        Story_Point_Estimate = g.Story_Point_Estimate,
+                        Id_Reporter = g.Id_Reporter,
+                        Attachment_Path = g.Attachment_Path,
+                        Id_Linked_Issue = g.Id_Linked_Issue,
+                        Id_Parent_Issue = g.Id_Parent_Issue,
+                        Priority = g.Priority,
+                        Id_Restrict = g.Id_Restrict,
+                        IsFlagged = g.IsFlagged,
+                        IsWatched = g.IsWatched,
+                        Id_Creator = g.Id_Creator,
+                        DateCreated = g.DateCreated,
+                        DateStarted = g.DateStarted,
+                        DateEnd = g.DateEnd,
+                        Id_Updator = g.Id_Updator,
+                        UpdateDate = g.UpdateDate,
+                        IsDeleted = g.IsDeleted
+
+                    });
+                    groupVM.ListIssue.AddRange(item);
+                    listGroupVM.Add(groupVM);
+                }
+
+                return listGroupVM;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+        public List<GroupByIssueType_ViewModel> Group_By_IssueType(Guid IdProject)
+        {
+            try
+            {
+                var groupIssueType = from i in _context.Issues.ToList()
+                                     where i.Id_Project.Equals(IdProject)
+                                     group i by i.Id_IssueType;
+                List<GroupByIssueType_ViewModel> listGroupVM = new List<GroupByIssueType_ViewModel>();
+                foreach (var i_group in groupIssueType)
+                {
+                    GroupByIssueType_ViewModel groupVM = new GroupByIssueType_ViewModel();
+                    groupVM.IdType = i_group.Key;
                     var item = i_group.Select(g => new Issue_ViewModel()
                     {
                         Id = g.Id,

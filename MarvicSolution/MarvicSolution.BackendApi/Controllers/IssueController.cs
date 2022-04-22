@@ -58,6 +58,23 @@ namespace MarvicSolution.BackendApi.Controllers
             catch (Exception e) { throw new MarvicException($"Error: {e}"); }
         }
 
+        // /api/Issue/GroupByIssueType
+        [HttpGet]
+        [Route("/api/Issue/GroupByIssueType")]// remember to check this route
+        public IActionResult GroupByIssueType(Guid idProject)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                var groupIssues = _issueService.Group_By_IssueType(idProject);
+                if (groupIssues == null)
+                    return BadRequest($"Cannot get group issue by issue type from IdProject = {idProject}");
+                return Ok(groupIssues);
+            }
+            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
+        }
+
         /// <summary>
         /// DateTime format: 3/29/2022
         /// </summary>
