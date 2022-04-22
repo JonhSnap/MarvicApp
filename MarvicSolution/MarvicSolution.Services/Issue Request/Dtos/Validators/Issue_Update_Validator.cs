@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace MarvicSolution.Services.Issue_Request.Dtos.Validators
 {
-    public class Issue_Create_Validator : AbstractValidator<Issue_CreateRequest>
+    public class Issue_Update_Validator : AbstractValidator<Issue_UpdateRequest>
     {
-        public Issue_Create_Validator()
+        public Issue_Update_Validator()
         {
             RuleFor(x=>x.Id_Project)
                 .NotEmpty().WithMessage("Id Project is required!");

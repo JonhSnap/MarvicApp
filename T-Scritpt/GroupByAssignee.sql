@@ -1,7 +1,10 @@
-select p.Id as IdProject, i.Id as IdIssue, mem.Id_User, i.Id_Assignee, i.Summary
-from Project p, Member mem, Issue i
-where p.Id = mem.Id_Project 
-		and p.Id = i.Id_Project 
-		and mem.Id_User = i.Id_Assignee
+-- Group by id Assignee of Project id = 'a42b223b-faec-48e3-8e28-51fe1b22fa7c'
+select i.Id_Assignee, COUNT(i.Id_Project)
+from Issue i
+where i.Id_Project = 'a42b223b-faec-48e3-8e28-51fe1b22fa7c'
+GROUP BY i.Id_Assignee
+
+
+
 
 
