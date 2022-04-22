@@ -10,6 +10,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
 {
     public class Issue_UpdateRequest
     {
+     
         public Guid Id { get; set; }
         public Guid Id_Project { get; set; }
         public EnumIssueType Id_IssueType { get; set; } = EnumIssueType.Epic;
