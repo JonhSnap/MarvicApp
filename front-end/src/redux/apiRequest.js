@@ -55,12 +55,12 @@ export const logOut = async (dispatch, navigate, id) => {
   }
 };
 
-export const getProjects = async(dispatch) => {
+export const getProjects = async(dispatch, idUser) => {
     dispatch(getProjectsStart);
     try {
-        const resp = await axios.get(`${BASE_URL}/api/Project/GetAlls`);
-        if(resp && resp.data.length > 0) {
-            dispatch(getProjectsSuccess(resp.data));
+        const resp = await axios.get(`${BASE_URL}/api/Project/GetProjectByIdUser/Id?IdUser=${idUser}`);
+        if(resp && resp.data.length >= 0) {
+          dispatch(getProjectsSuccess(resp.data));
         }
     }catch (err) {
         dispatch(getProjectsError());

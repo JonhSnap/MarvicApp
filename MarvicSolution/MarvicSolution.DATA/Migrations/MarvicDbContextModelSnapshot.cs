@@ -342,6 +342,7 @@ namespace MarvicSolution.DATA.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
@@ -357,15 +358,24 @@ namespace MarvicSolution.DATA.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Password")
+                        .IsUnique()
+                        .HasFilter("[Password] IS NOT NULL");
+
+                    b.HasIndex("UserName")
+                        .IsUnique()
+                        .HasFilter("[UserName] IS NOT NULL");
 
                     b.ToTable("App_User");
 
@@ -374,6 +384,7 @@ namespace MarvicSolution.DATA.Migrations
                         {
                             Id = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
                             Department = "Khoang 1 HN",
+                            Email = "khanhnd@gmail.com",
                             FullName = "Nguyen Duy Khanh",
                             IsDeleted = 0,
                             JobTitle = "Project Manager",
@@ -419,19 +430,19 @@ namespace MarvicSolution.DATA.Migrations
                     b.Property<string>("Attachment_Path")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime?>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateEnd")
+                    b.Property<DateTime?>("DateEnd")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateStarted")
+                    b.Property<DateTime?>("DateStarted")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("Id_Assignee")
+                    b.Property<Guid?>("Id_Assignee")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("Id_Creator")
@@ -440,52 +451,52 @@ namespace MarvicSolution.DATA.Migrations
                     b.Property<int>("Id_IssueType")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("Id_Label")
+                    b.Property<Guid?>("Id_Label")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id_Linked_Issue")
+                    b.Property<Guid?>("Id_Linked_Issue")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id_Parent_Issue")
+                    b.Property<Guid?>("Id_Parent_Issue")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("Id_Project")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id_Reporter")
+                    b.Property<Guid?>("Id_Reporter")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id_Restrict")
+                    b.Property<Guid?>("Id_Restrict")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id_Sprint")
+                    b.Property<Guid?>("Id_Sprint")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id_Stage")
+                    b.Property<Guid?>("Id_Stage")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id_Updator")
+                    b.Property<Guid?>("Id_Updator")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("IsDeleted")
                         .HasColumnType("int");
 
-                    b.Property<int>("IsFlagged")
+                    b.Property<int?>("IsFlagged")
                         .HasColumnType("int");
 
-                    b.Property<int>("IsWatched")
+                    b.Property<int?>("IsWatched")
                         .HasColumnType("int");
 
-                    b.Property<int>("Priority")
+                    b.Property<int?>("Priority")
                         .HasColumnType("int");
 
-                    b.Property<int>("Story_Point_Estimate")
+                    b.Property<int?>("Story_Point_Estimate")
                         .HasColumnType("int");
 
                     b.Property<string>("Summary")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdateDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -501,7 +512,6 @@ namespace MarvicSolution.DATA.Migrations
                             DateEnd = new DateTime(2022, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2022, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Des epic Project A",
-                            Id_Assignee = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_IssueType = 1,
                             Id_Label = new Guid("00000000-0000-0000-0000-000000000000"),
@@ -529,7 +539,6 @@ namespace MarvicSolution.DATA.Migrations
                             DateEnd = new DateTime(2022, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2022, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Des Story of Project A",
-                            Id_Assignee = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_IssueType = 2,
                             Id_Label = new Guid("00000000-0000-0000-0000-000000000000"),
@@ -557,7 +566,6 @@ namespace MarvicSolution.DATA.Migrations
                             DateEnd = new DateTime(2022, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2022, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Des Task1 of Project A",
-                            Id_Assignee = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_IssueType = 3,
                             Id_Label = new Guid("00000000-0000-0000-0000-000000000000"),
@@ -585,7 +593,6 @@ namespace MarvicSolution.DATA.Migrations
                             DateEnd = new DateTime(2022, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2022, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Des Task2 of Project A",
-                            Id_Assignee = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_IssueType = 3,
                             Id_Label = new Guid("00000000-0000-0000-0000-000000000000"),
@@ -613,7 +620,6 @@ namespace MarvicSolution.DATA.Migrations
                             DateEnd = new DateTime(2022, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2022, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Des epic of Project B",
-                            Id_Assignee = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_IssueType = 1,
                             Id_Label = new Guid("00000000-0000-0000-0000-000000000000"),
@@ -641,7 +647,6 @@ namespace MarvicSolution.DATA.Migrations
                             DateEnd = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2022, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Des Story of Project B",
-                            Id_Assignee = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_IssueType = 2,
                             Id_Label = new Guid("00000000-0000-0000-0000-000000000000"),
@@ -671,7 +676,7 @@ namespace MarvicSolution.DATA.Migrations
                     b.Property<Guid>("Id_User")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("IsDeleted")
+                    b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.HasKey("Id_Project", "Id_User");
@@ -683,31 +688,31 @@ namespace MarvicSolution.DATA.Migrations
                         {
                             Id_Project = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
                             Id_User = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
-                            IsDeleted = 0
+                            Role = 3
                         },
                         new
                         {
                             Id_Project = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
                             Id_User = new Guid("346f2520-6295-4734-8868-6ca75258e7c1"),
-                            IsDeleted = 0
+                            Role = 1
                         },
                         new
                         {
                             Id_Project = new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"),
                             Id_User = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
-                            IsDeleted = 0
+                            Role = 2
                         },
                         new
                         {
                             Id_Project = new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"),
                             Id_User = new Guid("346f2520-6295-4734-8868-6ca75258e7c1"),
-                            IsDeleted = 0
+                            Role = 1
                         },
                         new
                         {
                             Id_Project = new Guid("a5329d06-9d32-4a54-b816-906dfbbd288c"),
                             Id_User = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
-                            IsDeleted = 0
+                            Role = 3
                         });
                 });
 
@@ -745,11 +750,9 @@ namespace MarvicSolution.DATA.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Key")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdateDate")
@@ -767,9 +770,9 @@ namespace MarvicSolution.DATA.Migrations
                             DateCreated = new DateTime(2021, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateEnd = new DateTime(2021, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Id_Lead = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Creator = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
+                            Id_Lead = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
+                            Id_Updator = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
                             IsDeleted = 0,
                             IsStared = 0,
                             Key = "PA",
@@ -783,9 +786,9 @@ namespace MarvicSolution.DATA.Migrations
                             DateCreated = new DateTime(2021, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateEnd = new DateTime(2021, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2021, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Id_Lead = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Creator = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
+                            Id_Lead = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
+                            Id_Updator = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
                             IsDeleted = 0,
                             IsStared = 1,
                             Key = "PB",
@@ -799,9 +802,9 @@ namespace MarvicSolution.DATA.Migrations
                             DateCreated = new DateTime(2021, 4, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateEnd = new DateTime(2021, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateStarted = new DateTime(2021, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Id_Lead = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Creator = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
+                            Id_Lead = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
+                            Id_Updator = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
                             IsDeleted = 0,
                             IsStared = 1,
                             Key = "PC",
