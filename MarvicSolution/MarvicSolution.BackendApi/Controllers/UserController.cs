@@ -30,14 +30,14 @@ namespace MarvicSolution.BackendApi.Controllers
         // /api/user/register
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] Register_Request rq)
+        public IActionResult Register([FromBody] Register_Request rq)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                bool result = await _userService.Register(rq);
+                bool result = _userService.Register(rq);
 
                 return Ok("Register success");
             }
