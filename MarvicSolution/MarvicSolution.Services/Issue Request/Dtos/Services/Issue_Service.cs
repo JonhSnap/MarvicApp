@@ -144,7 +144,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             DateEnd = x.DateEnd,
                                             Id_Updator = x.Id_Updator
                                         })).ToList();
-
             return issues;
         }
 
@@ -300,6 +299,105 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 }
 
                 return listGroupVM;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+        public List<Issue_ViewModel> Get_Issue_By_IdParent(Guid IdProject, Guid IdParent)
+        {
+            var issues = (_context.Issues.Where(i => i.Id_Project.Equals(IdProject) && i.Id_Parent_Issue.Equals(IdParent))
+                                        .Select(x => new Issue_ViewModel()
+                                        {
+                                            Id = x.Id,
+                                            Id_Project = x.Id_Project,
+                                            Id_Stage = x.Id_Stage,
+                                            Id_Sprint = x.Id_Sprint,
+                                            Summary = x.Summary,
+                                            Description = x.Description,
+                                            Id_Assignee = x.Id_Assignee,
+                                            Story_Point_Estimate = x.Story_Point_Estimate,
+                                            Id_Reporter = x.Id_Reporter,
+                                            Attachment_Path = x.Attachment_Path,
+                                            Id_Linked_Issue = x.Id_Linked_Issue,
+                                            Id_Parent_Issue = x.Id_Parent_Issue,
+                                            Priority = x.Priority,
+                                            Id_Restrict = x.Id_Restrict,
+                                            IsFlagged = x.IsFlagged,
+                                            IsWatched = x.IsWatched,
+                                            Id_Creator = x.Id_Creator,
+                                            DateCreated = x.DateCreated,
+                                            DateStarted = x.DateStarted,
+                                            DateEnd = x.DateEnd,
+                                            Id_Updator = x.Id_Updator
+                                        })).ToList();
+
+            return issues;
+        }
+
+        public List<Issue_ViewModel> Get_Issues_By_IdUser(Guid idProject, Guid idUser)
+        {
+            var issues = (_context.Issues.Where(i => i.Id_Project.Equals(idProject) && (i.Id_Assignee.Equals(idUser) || i.Id_Reporter.Equals(idUser)))
+                                        .Select(x => new Issue_ViewModel()
+                                        {
+                                            Id = x.Id,
+                                            Id_Project = x.Id_Project,
+                                            Id_Stage = x.Id_Stage,
+                                            Id_Sprint = x.Id_Sprint,
+                                            Summary = x.Summary,
+                                            Description = x.Description,
+                                            Id_Assignee = x.Id_Assignee,
+                                            Story_Point_Estimate = x.Story_Point_Estimate,
+                                            Id_Reporter = x.Id_Reporter,
+                                            Attachment_Path = x.Attachment_Path,
+                                            Id_Linked_Issue = x.Id_Linked_Issue,
+                                            Id_Parent_Issue = x.Id_Parent_Issue,
+                                            Priority = x.Priority,
+                                            Id_Restrict = x.Id_Restrict,
+                                            IsFlagged = x.IsFlagged,
+                                            IsWatched = x.IsWatched,
+                                            Id_Creator = x.Id_Creator,
+                                            DateCreated = x.DateCreated,
+                                            DateStarted = x.DateStarted,
+                                            DateEnd = x.DateEnd,
+                                            Id_Updator = x.Id_Updator
+                                        })).ToList();
+
+            return issues;
+        }
+
+        public List<Issue_ViewModel> Get_Issue_By_IdLabel(Guid IdProject, Guid IdLabel)
+        {
+            try
+            {
+                var issues = (_context.Issues.Where(i => i.Id_Project.Equals(IdProject) && i.Id_Label.Equals(IdLabel))
+                                        .Select(x => new Issue_ViewModel()
+                                        {
+                                            Id = x.Id,
+                                            Id_Project = x.Id_Project,
+                                            Id_Stage = x.Id_Stage,
+                                            Id_Sprint = x.Id_Sprint,
+                                            Summary = x.Summary,
+                                            Description = x.Description,
+                                            Id_Assignee = x.Id_Assignee,
+                                            Story_Point_Estimate = x.Story_Point_Estimate,
+                                            Id_Reporter = x.Id_Reporter,
+                                            Attachment_Path = x.Attachment_Path,
+                                            Id_Linked_Issue = x.Id_Linked_Issue,
+                                            Id_Parent_Issue = x.Id_Parent_Issue,
+                                            Priority = x.Priority,
+                                            Id_Restrict = x.Id_Restrict,
+                                            IsFlagged = x.IsFlagged,
+                                            IsWatched = x.IsWatched,
+                                            Id_Creator = x.Id_Creator,
+                                            DateCreated = x.DateCreated,
+                                            DateStarted = x.DateStarted,
+                                            DateEnd = x.DateEnd,
+                                            Id_Updator = x.Id_Updator
+                                        })).ToList();
+                return issues;
             }
             catch (Exception e)
             {

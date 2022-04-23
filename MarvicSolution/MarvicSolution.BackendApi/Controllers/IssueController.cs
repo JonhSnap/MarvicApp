@@ -1,4 +1,6 @@
-﻿using MarvicSolution.DATA.Entities;
+﻿using MarvicSolution.DATA.Common;
+using MarvicSolution.DATA.Entities;
+using MarvicSolution.Services.Issue_Request.Dtos.Requests;
 using MarvicSolution.Services.Issue_Request.Issue_Request;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest;
@@ -34,6 +36,23 @@ namespace MarvicSolution.BackendApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
                 var issues = _issueService.Get_Issues_By_IdProject(idProject);
+                if (issues == null)
+                    return BadRequest($"Cannot get issue by IdProject = {idProject}");
+                return Ok(issues);
+            }
+            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
+        }
+
+        // /api/Issue/GetIssuesByIdUserLogin
+        [HttpGet]
+        [Route("/api/Issue/GetIssuesByIdUserLogin")]// remember to check this route
+        public IActionResult GetIssuesByIdUserLogin(Guid idProject)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                var issues = _issueService.Get_Issues_By_IdUser(idProject, UserLogin.Id);
                 if (issues == null)
                     return BadRequest($"Cannot get issue by IdProject = {idProject}");
                 return Ok(issues);
@@ -86,7 +105,41 @@ namespace MarvicSolution.BackendApi.Controllers
                     return BadRequest(ModelState);
                 var groupIssues = _issueService.Group_By_Priority(idProject);
                 if (groupIssues == null)
-                    return BadRequest($"Cannot get group issue by issue type from IdProject = {idProject}");
+                    return BadRequest($"Cannot get group issue by issue priority from IdProject = {idProject}");
+                return Ok(groupIssues);
+            }
+            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
+        }
+
+        // /api/Issue/GetIssueByIdParent
+        [HttpGet]
+        [Route("/api/Issue/GetIssueByIdParent")]// remember to check this route
+        public IActionResult GetIssueByIdParent([FromQuery] GetIssueByParentRequest rq)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                var groupIssues = _issueService.Get_Issue_By_IdParent(rq.IdProject, rq.IdParent);
+                if (groupIssues == null)
+                    return BadRequest($"Cannot get group issue by IdParent = {rq.IdParent} from IdProject = {rq.IdProject}");
+                return Ok(groupIssues);
+            }
+            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
+        }
+
+        // /api/Issue/GetIssuesByIdLabel
+        [HttpGet]
+        [Route("/api/Issue/GetIssuesByIdLabel")]// remember to check this route
+        public IActionResult GetIssuesByIdLabel([FromQuery] GetIssueByLabelRequest rq)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                var groupIssues = _issueService.Get_Issue_By_IdLabel(rq.IdProject, rq.IdLabel);
+                if (groupIssues == null)
+                    return BadRequest($"Cannot get group issue by Idlabel = {rq.IdLabel} from IdProject = {rq.IdProject}");
                 return Ok(groupIssues);
             }
             catch (Exception e) { throw new MarvicException($"Error: {e}"); }
