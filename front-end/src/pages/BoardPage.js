@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import ContainerBoard from '../components/containers/ContainerBoard'
-import Sidebar from '../components/sidebar/Sidebar'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux';
+import Sidebar from '../components/sidebar/Sidebar';
 
-function ProjectDetailPage() {
+function BoardPage() {
   const key = useParams().key;
   const { projects } = useSelector(state => state.projects);
   const [currentProject, setCurrentProject] = useState({});
@@ -14,11 +14,15 @@ function ProjectDetailPage() {
   }, [projects, key])
 
   return (
-    <div className='project-board flex'>
-      <Sidebar></Sidebar>
-      <ContainerBoard project={currentProject}></ContainerBoard>
-    </div>
+      <div className="flex">
+      <div className='basis-[20%]'>
+        <Sidebar nameProject={currentProject.name}></Sidebar>
+      </div>
+      <div className='basis-[80%]'>
+        <ContainerBoard project={currentProject}></ContainerBoard>
+      </div>
+      </div>
   )
 }
 
-export default ProjectDetailPage
+export default BoardPage

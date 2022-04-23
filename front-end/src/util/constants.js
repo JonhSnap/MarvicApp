@@ -1,6 +1,8 @@
 import { v4 } from 'uuid'
 // Base url
 export const BASE_URL = 'https://localhost:5001';
+// key current project
+export const  KEY_CURRENT_PROJECT = 'key_current_project';
 // Levels
 export const levels = [
     {

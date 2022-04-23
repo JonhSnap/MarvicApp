@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteProjects, getProjects, updateProjects } from '../../redux/apiRequest';
 import EditProjectPopup from '../popup/EditProjectPopup'
 import useModal from '../../hooks/useModal';
+import { KEY_CURRENT_PROJECT } from '../../util/constants';
 
 function ProjectItem({ project }) {
     const navigate = useNavigate();
@@ -11,7 +12,8 @@ function ProjectItem({ project }) {
     const [showEdit, setShow, handleClose] = useModal()
     const { currentUser } = useSelector(state => state.auth.login);
     const handleClickName = (key) => {
-        navigate(`/projects/${key}`);
+        localStorage.setItem(KEY_CURRENT_PROJECT, key);
+        navigate(`/projects/board/${key}`);
     }
     // handle click star
     const handleClickStar = () => {
