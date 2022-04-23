@@ -4,17 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle, faCheck, faFlag, faTimeline } from '@fortawesome/free-solid-svg-icons'
 import MemberComponent from './MemberComponent'
 
-export default function TaskComponent() {
+export default function TaskComponent({ componentOption, componentMember }) {
     return (
         <>
-            <div className='task-item min-h-[5rem]  my-3 w-full  rounded-[10px] cursor-pointer'>
+            <div className='task-item min-h-[5rem] shadow-md my-3 w-full  rounded-[10px] cursor-pointer'>
                 <div className='stage-name w-full flex justify-between bg-[#EB5757] p-2 rounded-t-[10px]'>
-                    <div className='inline-flex items-center text-2xl text-[#fff]'>Tên task</div> 
-                    <div className='option text-[0.1rem] h-full aspect-square inline-flex justify-center items-center border-solid border-[#000] border-2 p-1 rounded-[4px] bg-white text-[#000] cursor-pointer'>
-                        <FontAwesomeIcon size='6x' icon={faCircle} />
-                        <FontAwesomeIcon size='6x' icon={faCircle} />
-                        <FontAwesomeIcon size='6x' icon={faCircle} />
-                    </div>
+                    <div className='inline-flex items-center text-2xl text-[#fff]'>Tên task</div>
+                    {componentOption}
                 </div>
                 <div className='w-full h-auto rounded-b-[10px] bg-white px-3 min-h-[1rem]'>
                     <div className='text-[#000] py-3 text-xl'>
@@ -31,7 +27,7 @@ export default function TaskComponent() {
                             <FontAwesomeIcon color='#17A700' icon={faCheck} />
                             <FontAwesomeIcon color='#EF0000' icon={faFlag} />
                         </div>
-                        <MemberComponent />
+                        {componentMember}
                     </div>
                 </div>
             </div>
