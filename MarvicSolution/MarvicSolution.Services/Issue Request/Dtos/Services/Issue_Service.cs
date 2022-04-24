@@ -77,22 +77,20 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 issue.Id_Label = rq.Id_Label;
                 issue.Summary = rq.Summary;
                 issue.Description = rq.Description;
-                issue.Id_Assignee = rq.Id_Assignee.Equals(Guid.Empty) ? UserLogin.Id : rq.Id;
+                issue.Id_Assignee = rq.Id_Assignee.Equals(Guid.Empty) ? issue.Id_Assignee : rq.Id;
                 issue.Story_Point_Estimate = rq.Story_Point_Estimate;
-                issue.Id_Reporter = rq.Id_Reporter.Equals(Guid.Empty) ? UserLogin.Id : rq.Id;
+                issue.Id_Reporter = rq.Id_Reporter.Equals(Guid.Empty) ? issue.Id_Reporter : rq.Id;
                 issue.Attachment_Path = rq.Attachment_Path;
-                issue.Id_Linked_Issue = rq.Id_Linked_Issue;
-                issue.Id_Parent_Issue = rq.Id_Parent_Issue;
-                issue.Priority = rq.Priority == null ? EnumPriority.Lowest : rq.Priority;
-                issue.Id_Restrict = rq.Id_Restrict;
-                issue.IsFlagged = rq.IsFlagged;
-                issue.IsWatched = rq.IsWatched;
-                issue.Id_Creator = rq.Id_Creator;
-                issue.DateCreated = DateTime.Now;
-                issue.DateStarted = rq.DateStarted;
-                issue.DateEnd = rq.DateEnd;
-                issue.Id_Updator = rq.Id_Updator;
-                issue.UpdateDate = rq.UpdateDate;
+                issue.Id_Linked_Issue = rq.Id_Linked_Issue.Equals(Guid.Empty) ? issue.Id_Linked_Issue : rq.Id_Linked_Issue;
+                issue.Id_Parent_Issue = rq.Id_Parent_Issue.Equals(Guid.Empty) ? issue.Id_Parent_Issue : rq.Id_Parent_Issue;
+                issue.Priority = rq.Priority == null ? issue.Priority : rq.Priority;
+                issue.Id_Restrict = rq.Id_Restrict.Equals(Guid.Empty) ? issue.Id_Restrict : rq.Id_Restrict;
+                issue.IsFlagged = rq.IsFlagged == null ? issue.IsFlagged : rq.IsFlagged;
+                issue.IsWatched = rq.IsWatched == null ? issue.IsWatched : rq.IsWatched;
+                issue.DateStarted = rq.DateStarted == null ? issue.DateStarted : rq.DateStarted;
+                issue.DateEnd = rq.DateEnd == null ? issue.DateEnd : rq.DateEnd;
+                issue.Id_Updator = UserLogin.Id;
+                issue.UpdateDate = DateTime.Now;
 
                 await _context.SaveChangesAsync();
                 return rq.Id;
@@ -146,7 +144,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             DateEnd = x.DateEnd,
                                             Id_Updator = x.Id_Updator
                                         })).ToList();
-
             return issues;
         }
 
@@ -249,6 +246,158 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 }
 
                 return listGroupVM;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+        public List<GroupByPriority_ViewModel> Group_By_Priority(Guid IdProject)
+        {
+            try
+            {
+                var groupPriority = from i in _context.Issues.ToList()
+                                    where i.Id_Project.Equals(IdProject)
+                                    group i by i.Priority;
+                List<GroupByPriority_ViewModel> listGroupVM = new List<GroupByPriority_ViewModel>();
+                foreach (var i_group in groupPriority)
+                {
+                    GroupByPriority_ViewModel groupVM = new GroupByPriority_ViewModel();
+                    groupVM.Priority = i_group.Key;
+                    var item = i_group.Select(g => new Issue_ViewModel()
+                    {
+                        Id = g.Id,
+                        Id_Project = g.Id_Project,
+                        Id_IssueType = g.Id_IssueType,
+                        Id_Stage = g.Id_Stage,
+                        Id_Sprint = g.Id_Sprint,
+                        Id_Label = g.Id_Label,
+                        Summary = g.Summary,
+                        Description = g.Description,
+                        Id_Assignee = g.Id_Assignee,
+                        Story_Point_Estimate = g.Story_Point_Estimate,
+                        Id_Reporter = g.Id_Reporter,
+                        Attachment_Path = g.Attachment_Path,
+                        Id_Linked_Issue = g.Id_Linked_Issue,
+                        Id_Parent_Issue = g.Id_Parent_Issue,
+                        Priority = g.Priority,
+                        Id_Restrict = g.Id_Restrict,
+                        IsFlagged = g.IsFlagged,
+                        IsWatched = g.IsWatched,
+                        Id_Creator = g.Id_Creator,
+                        DateCreated = g.DateCreated,
+                        DateStarted = g.DateStarted,
+                        DateEnd = g.DateEnd,
+                        Id_Updator = g.Id_Updator,
+                        UpdateDate = g.UpdateDate,
+                        IsDeleted = g.IsDeleted
+
+                    });
+                    groupVM.ListIssue.AddRange(item);
+                    listGroupVM.Add(groupVM);
+                }
+
+                return listGroupVM;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+        public List<Issue_ViewModel> Get_Issue_By_IdParent(Guid IdProject, Guid IdParent)
+        {
+            var issues = (_context.Issues.Where(i => i.Id_Project.Equals(IdProject) && i.Id_Parent_Issue.Equals(IdParent))
+                                        .Select(x => new Issue_ViewModel()
+                                        {
+                                            Id = x.Id,
+                                            Id_Project = x.Id_Project,
+                                            Id_Stage = x.Id_Stage,
+                                            Id_Sprint = x.Id_Sprint,
+                                            Summary = x.Summary,
+                                            Description = x.Description,
+                                            Id_Assignee = x.Id_Assignee,
+                                            Story_Point_Estimate = x.Story_Point_Estimate,
+                                            Id_Reporter = x.Id_Reporter,
+                                            Attachment_Path = x.Attachment_Path,
+                                            Id_Linked_Issue = x.Id_Linked_Issue,
+                                            Id_Parent_Issue = x.Id_Parent_Issue,
+                                            Priority = x.Priority,
+                                            Id_Restrict = x.Id_Restrict,
+                                            IsFlagged = x.IsFlagged,
+                                            IsWatched = x.IsWatched,
+                                            Id_Creator = x.Id_Creator,
+                                            DateCreated = x.DateCreated,
+                                            DateStarted = x.DateStarted,
+                                            DateEnd = x.DateEnd,
+                                            Id_Updator = x.Id_Updator
+                                        })).ToList();
+
+            return issues;
+        }
+
+        public List<Issue_ViewModel> Get_Issues_By_IdUser(Guid idProject, Guid idUser)
+        {
+            var issues = (_context.Issues.Where(i => i.Id_Project.Equals(idProject) && (i.Id_Assignee.Equals(idUser) || i.Id_Reporter.Equals(idUser)))
+                                        .Select(x => new Issue_ViewModel()
+                                        {
+                                            Id = x.Id,
+                                            Id_Project = x.Id_Project,
+                                            Id_Stage = x.Id_Stage,
+                                            Id_Sprint = x.Id_Sprint,
+                                            Summary = x.Summary,
+                                            Description = x.Description,
+                                            Id_Assignee = x.Id_Assignee,
+                                            Story_Point_Estimate = x.Story_Point_Estimate,
+                                            Id_Reporter = x.Id_Reporter,
+                                            Attachment_Path = x.Attachment_Path,
+                                            Id_Linked_Issue = x.Id_Linked_Issue,
+                                            Id_Parent_Issue = x.Id_Parent_Issue,
+                                            Priority = x.Priority,
+                                            Id_Restrict = x.Id_Restrict,
+                                            IsFlagged = x.IsFlagged,
+                                            IsWatched = x.IsWatched,
+                                            Id_Creator = x.Id_Creator,
+                                            DateCreated = x.DateCreated,
+                                            DateStarted = x.DateStarted,
+                                            DateEnd = x.DateEnd,
+                                            Id_Updator = x.Id_Updator
+                                        })).ToList();
+
+            return issues;
+        }
+
+        public List<Issue_ViewModel> Get_Issue_By_IdLabel(Guid IdProject, Guid IdLabel)
+        {
+            try
+            {
+                var issues = (_context.Issues.Where(i => i.Id_Project.Equals(IdProject) && i.Id_Label.Equals(IdLabel))
+                                        .Select(x => new Issue_ViewModel()
+                                        {
+                                            Id = x.Id,
+                                            Id_Project = x.Id_Project,
+                                            Id_Stage = x.Id_Stage,
+                                            Id_Sprint = x.Id_Sprint,
+                                            Summary = x.Summary,
+                                            Description = x.Description,
+                                            Id_Assignee = x.Id_Assignee,
+                                            Story_Point_Estimate = x.Story_Point_Estimate,
+                                            Id_Reporter = x.Id_Reporter,
+                                            Attachment_Path = x.Attachment_Path,
+                                            Id_Linked_Issue = x.Id_Linked_Issue,
+                                            Id_Parent_Issue = x.Id_Parent_Issue,
+                                            Priority = x.Priority,
+                                            Id_Restrict = x.Id_Restrict,
+                                            IsFlagged = x.IsFlagged,
+                                            IsWatched = x.IsWatched,
+                                            Id_Creator = x.Id_Creator,
+                                            DateCreated = x.DateCreated,
+                                            DateStarted = x.DateStarted,
+                                            DateEnd = x.DateEnd,
+                                            Id_Updator = x.Id_Updator
+                                        })).ToList();
+                return issues;
             }
             catch (Exception e)
             {
