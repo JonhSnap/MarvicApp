@@ -49,9 +49,6 @@ const RegisterPage = () => {
   });
   const onSubmitHandler = (values) => {
     if (!isValid) return;
-    console.log("====================================");
-    console.log(values);
-    console.log("====================================");
     return new Promise((resolve) => {
       // resolve();
       // loginUser(values, dispatch, navigate);

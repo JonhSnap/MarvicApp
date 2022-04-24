@@ -49,10 +49,9 @@ const RegisterPage = () => {
   });
   const onSubmitHandler = (values) => {
     if (!isValid) return;
-    console.log("====================================");
-    console.log(values);
-    console.log("====================================");
     return new Promise((resolve) => {
+  const onSubmitHandler = (values) => {
+    console.log();
       // resolve();
       // loginUser(values, dispatch, navigate);
       // reset({
@@ -72,7 +71,6 @@ const RegisterPage = () => {
       }, 500);
     });
   };
-
   return (
     <SignForm
       Children={
