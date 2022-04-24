@@ -60,8 +60,10 @@ namespace MarvicSolution.Services.System.Users.Services
                     Id = Guid.NewGuid(),
                     FullName = rq.FullName,
                     UserName = rq.UserName,
+                    Email = rq.Email,
+                    PhoneNumber = rq.PhoneNumber,
                     Password = BCrypt.Net.BCrypt.HashPassword(rq.Password),
-                    IsDeleted = DATA.Enums.EnumStatus.False
+                    IsDeleted = EnumStatus.False
                 };
 
                 _context.App_Users.Add(user);

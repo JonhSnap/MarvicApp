@@ -1,6 +1,8 @@
 import { v4 } from 'uuid'
 // Base url
 export const BASE_URL = 'https://localhost:5001';
+// key current project
+export const  KEY_CURRENT_PROJECT = 'key_current_project';
 // Levels
 export const levels = [
     {
@@ -11,16 +13,16 @@ export const levels = [
     {
         id: v4(),
         value: 1,
-        text: 'Low level'
+        text: 'Public'
     },
     {
         id: v4(),
         value: 2,
-        text: 'Medium level'
+        text: 'Limited'
     },
     {
         id: v4(),
         value: 3,
-        text: 'High level'
+        text: 'Private'
     },
 ]

@@ -10,7 +10,7 @@ namespace MarvicSolution.Services.System.Users.Requests
     public class Create_User_Request
     {
         public string FullName { get; set; }
-        public string UserName { get; set; } // sửa lại unique
+        public string UserName { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
         public string JobTitle { get; set; }

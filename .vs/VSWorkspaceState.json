@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\MarvicSolution",
+    "\\MarvicSolution\\MarvicSolution.BackendApi",
+    "\\MarvicSolution\\MarvicSolution.DATA"
   ],
+  "SelectedNode": "\\MarvicSolution\\MarvicSolution.BackendApi\\appsettings.json",
   "PreviewInSolutionExplorer": false
 }
