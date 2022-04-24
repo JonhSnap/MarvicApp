@@ -1,6 +1,15 @@
 import axios from "axios";
 import { BASE_URL } from "../util/constants";
-import { getProjectsStart, getProjectsError, getProjectsSuccess } from './projectsSlice'
+import {
+getProjectsStart,
+getProjectsError,
+getProjectsSuccess,
+updateProjectsStart,
+updateProjectsSuccess,
+updateProjectsError,
+deleteProjectsStart,
+deleteProjectsSuccess,
+deleteProjectsError } from './projectsSlice'
 import {
   loginFailed,
   loginStart,
@@ -46,14 +55,38 @@ export const logOut = async (dispatch, navigate, id) => {
   }
 };
 
-export const getProjects = async(dispatch) => {
+export const getProjects = async(dispatch, idUser) => {
     dispatch(getProjectsStart);
     try {
-        const resp = await axios.get(`${BASE_URL}/api/Project/GetAlls`);
-        if(resp && resp.data.length > 0) {
-            dispatch(getProjectsSuccess(resp.data));
+        const resp = await axios.get(`${BASE_URL}/api/Project/GetProjectByIdUser/Id?IdUser=${idUser}`);
+        if(resp && resp.data.length >= 0) {
+          dispatch(getProjectsSuccess(resp.data));
         }
     }catch (err) {
         dispatch(getProjectsError());
+    }
+}
+export const updateProjects = async(dispatch, data) => {
+    dispatch(updateProjectsStart());
+    try {
+        const resp = await axios.put(`${BASE_URL}/api/Project/Update`, data);
+        if(resp.status === 200) {
+          dispatch(updateProjectsSuccess(data));
+          console.log('update success');
+        }
+    }catch (err) {
+        dispatch(updateProjectsError());
+    }
+}
+export const deleteProjects = async(dispatch, data) => {
+    dispatch(deleteProjectsStart());
+    try {
+      const resp = await axios.delete(`${BASE_URL}/api/Project/${data}`)
+        if(resp.status === 200) {
+          dispatch(deleteProjectsSuccess(data));
+          console.log('delete success');
+        }
+    }catch (err) {
+        dispatch(deleteProjectsError());
     }
 }

@@ -16,7 +16,7 @@ function ListProject() {
             </div>
             <div className="name">Name</div>
             <div className="key">Key</div>
-            <div className="type">Type</div>
+            <div className="type">Actions</div>
             <div className="lead">Lead</div>
         </div>
         <div className="list-content">
