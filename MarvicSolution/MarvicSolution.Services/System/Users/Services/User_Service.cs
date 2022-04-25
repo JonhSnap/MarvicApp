@@ -29,12 +29,12 @@ namespace MarvicSolution.Services.System.Users.Services
             // Kiem tra tai khoan
             var user = GetUserbyUserName(rq.UserName);
             if (user == null)
-                return "Invalid account";
+                return "Invalid user name";
             // Thiet lap thong tin cho user da login
             UserLogin.SetInfo(user);
             // Kiem tra mat khau
             if (!BCrypt.Net.BCrypt.Verify(rq.Password, user.Password))
-                return "Invalid credential";
+                return "Invalid password";
             // Tao token theo JWT
             var jwt = _jwtService.GenerateToken(user.Id);
 
@@ -43,15 +43,12 @@ namespace MarvicSolution.Services.System.Users.Services
 
         public App_User GetUserbyUserName(string userName)
         {
-            var user = _context.App_Users.FirstOrDefault(u => u.UserName == userName);
-
-            if (user == null)
-                throw new MarvicException($"Cannot find user with username: {userName}");
+            var user = _context.App_Users.SingleOrDefault(u => u.UserName == userName);
 
             return user;
         }
 
-        public async Task<bool> Register(Register_Request rq)
+        public bool Register(Register_Request rq)
         {
             try
             {
@@ -67,7 +64,7 @@ namespace MarvicSolution.Services.System.Users.Services
                 };
 
                 _context.App_Users.Add(user);
-                return await _context.SaveChangesAsync() > 0;
+                return _context.SaveChanges() > 0;
             }
             catch (Exception e)
             {

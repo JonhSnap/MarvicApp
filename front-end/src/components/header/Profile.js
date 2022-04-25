@@ -5,6 +5,8 @@ import useClickOutSide from "../../hooks/useClickOutSide";
 import { logOut } from "../../redux/apiRequest";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import Tooltip from "../tooltip/Tooltip";
+import useTooltip from "../../hooks/useTooltip";
 function Profile() {
   // const { isHover, coord, nodeRef: nodeRef1 } = useTooltip();
   const { show, setShow, nodeRef } = useClickOutSide();

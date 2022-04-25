@@ -11,7 +11,7 @@ namespace MarvicSolution.Services.System.Users.Services
     public interface IUser_Service
     {
         string Authenticate(Login_Request rq);
-        Task<bool> Register(Register_Request rq);
+        bool Register(Register_Request rq);
         //App_User GetUserbyUserName(Login_Request rq);
         App_User GetUserbyUserName(string userName);
         Task<App_User> GetUserbyId(Guid rq);
