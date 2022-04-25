@@ -8,18 +8,23 @@ import { useSelector, useDispatch } from 'react-redux'
 import { changeFilters } from '../redux/projectsSlice';
 
 function ProjectsPage() {
+  const timerRef = useRef();
   const dispatch = useDispatch();
   const [search, setSearch] = useState('');
   const {projects, error} = useSelector(state => state.projects);
+  const { currentUser } = useSelector(state => state.auth.login);
   const [isShowProjectPopup, setIsShowProjectPopup, handleCloseProjectPopup] = useModal();
   const inputRef = useRef();
   const [isFocusInput, setIsFocusInput] = useState(false);
 
 
   useEffect(() => {
-    dispatch(changeFilters({ name: search}))
-    getProjects(dispatch);
-  }, [dispatch, search])
+      timerRef.current = setTimeout(() => {
+      dispatch(changeFilters({ name: search}))
+      getProjects(dispatch, currentUser.id);
+    }, 1000);
+    return () => clearTimeout(timerRef.current)
+  }, [search])
   useEffect(() => {
     const inputRefCopy = inputRef.current;
     const handleFoucs = e => {

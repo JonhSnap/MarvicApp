@@ -24,7 +24,7 @@ const projectsSlice = createSlice({
             state.pending = false;
             state.error = false;
             if(filterName) {
-                const result = action.payload.filter(item => item.name.toLowerCase().includes(filterName));
+                const result = action.payload.filter(item => item.name.toLowerCase().includes(filterName.toLowerCase()));
                 state.projects = [...result];
             }else {
                 state.projects = action.payload;
