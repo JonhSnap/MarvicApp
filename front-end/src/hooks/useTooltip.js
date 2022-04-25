@@ -17,10 +17,10 @@ const useTooltip = () => {
     };
     nodeRefCopy.current.addEventListener("mouseover", handleMouseOver);
     nodeRefCopy.current.addEventListener("mouseleave", handleMouseLeave);
-    return () => {
-      nodeRefCopy.current.addEventListener("mouseover", handleMouseOver);
-      nodeRefCopy.current.addEventListener("mouseleave", handleMouseLeave);
-    };
+    // return () => {
+    //   nodeRefCopy.current.addEventListener("mouseover", handleMouseOver);
+    //   nodeRefCopy.current.addEventListener("mouseleave", handleMouseLeave);
+    // };
   }, []);
   return { isHover, coord, nodeRef };
 };

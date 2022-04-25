@@ -29,16 +29,16 @@ function Search({ setIsSearchFocus }) {
     searchRefCopy.current.addEventListener("mouseover", handleMouseOver);
     searchRefCopy.current.addEventListener("mouseleave", handleMouseLeave);
     //clean up
-    return () => {
-      searchRefCopy.current.removeEventListener("focus", handleSearchFocus);
-      searchRefCopy.current.removeEventListener("blur", handleSearchBlur);
-      searchRefCopy.current.removedEventListener("mouseover", handleMouseOver);
-      searchRefCopy.current.removedEventListener(
-        "mouseleave",
-        handleMouseLeave
-      );
-    };
-  }, [setIsSearchFocus]);
+    // return () => {
+    //   searchRefCopy.current.removeEventListener("focus", handleSearchFocus);
+    //   searchRefCopy.current.removeEventListener("blur", handleSearchBlur);
+    //   searchRefCopy.current.removedEventListener("mouseover", handleMouseOver);
+    //   searchRefCopy.current.removedEventListener(
+    //     "mouseleave",
+    //     handleMouseLeave
+    //   );
+    // };
+  }, []);
 
   return (
     <>
