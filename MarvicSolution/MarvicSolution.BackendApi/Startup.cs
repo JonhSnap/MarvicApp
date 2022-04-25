@@ -1,4 +1,3 @@
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using MarvicSolution.BackendApi.Constants;
 using MarvicSolution.BackendApi.Hubs;
@@ -6,26 +5,17 @@ using MarvicSolution.DATA.EF;
 using MarvicSolution.Services.Comment_Request.Services;
 using MarvicSolution.Services.Issue_Request.Issue_Request;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
-using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Resquest.Dtos.Validators;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest;
 using MarvicSolution.Services.System.Helpers;
-using MarvicSolution.Services.System.Users.Requests;
 using MarvicSolution.Services.System.Users.Services;
-using MarvicSolution.Services.System.Users.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MarvicSolution.BackendApi
 {

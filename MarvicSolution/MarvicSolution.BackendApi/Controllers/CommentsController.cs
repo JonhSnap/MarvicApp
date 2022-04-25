@@ -21,7 +21,7 @@ namespace MarvicSolution.BackendApi.Controllers
             _actionHub = actionHub;
         }
        
-        [HttpGet("{Id_Issue}")]
+        [HttpGet("issue/{Id_Issue}")]
         public async Task<IActionResult> GetComments(Guid Id_Issue)
         {
             var comments= await _comment_Service.GetCommentsById_Issue(Id_Issue);
