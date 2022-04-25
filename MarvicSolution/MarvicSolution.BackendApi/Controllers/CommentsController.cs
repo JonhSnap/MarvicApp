@@ -59,8 +59,11 @@ namespace MarvicSolution.BackendApi.Controllers
         public async Task<IActionResult> Update(Guid Id, [FromBody] Edit_Comment_Request commentRequest)
         {
             var model = _comment_Service.GetCommentById(Id, commentRequest.Id_User);
-            model.Result.Content = commentRequest.Content;
-            model.Result.Update_Date = DateTime.Now;
+            if (model!=null)
+            {
+                model.Result.Content = commentRequest.Content;
+                model.Result.Update_Date = DateTime.Now;
+            }
             if (await _comment_Service.UpdateComment(model.Result))
             {
                 await _actionHub.Clients.All.Update_Comment();
@@ -73,7 +76,7 @@ namespace MarvicSolution.BackendApi.Controllers
         public async Task<IActionResult> Delete(Guid Id,[FromBody] Delete_Comment_Request commentRequest)
         {
             var model = _comment_Service.GetCommentById(Id, commentRequest.Id_User);
-            if (await _comment_Service.DeleteComment(model.Result))
+            if (model!=null && await _comment_Service.DeleteComment(model.Result))
             {
                 await _actionHub.Clients.All.Update_Comment();
                 return Ok();
