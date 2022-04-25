@@ -63,11 +63,11 @@ namespace MarvicSolution.BackendApi.Controllers
             {
                 model.Result.Content = commentRequest.Content;
                 model.Result.Update_Date = DateTime.Now;
-            }
-            if (await _comment_Service.UpdateComment(model.Result))
-            {
-                await _actionHub.Clients.All.Update_Comment();
-                return Ok();
+                if (await _comment_Service.UpdateComment(model.Result))
+                {
+                    await _actionHub.Clients.All.Update_Comment();
+                    return Ok();
+                }
             }
             return BadRequest();
         }
