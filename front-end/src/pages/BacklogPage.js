@@ -1,4 +1,8 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import axios from 'axios'
+
 import Sidebar from '../components/sidebar/Sidebar'
 import MemberComponent from '../components/board/MemberComponent'
 import HeaderPlanComponent from '../components/headerPlanning/HeaderPlanComponent'
@@ -14,7 +18,12 @@ import CKEditorComponent from '../components/CKEditorComponent'
 
 
 function BacklogPage() {
+  const { key } = useParams();
+  
   const [showFlag, setShowFlag] = useState(false)
+  const { projects } = useSelector(state => state.projects);
+  const [currentProject, setCurrentProject] = useState({});
+  console.log('projects ~ ', projects);
 
   const ref = useRef(null)
 
@@ -68,6 +77,14 @@ function BacklogPage() {
   const handleSaveClickCMT = () => {
 
   }
+  
+  useEffect(() => {
+    const currProject = projects.find(item => item?.key === key);
+    if(Object.entries(currProject).length > 0) {
+      setCurrentProject(currProject);
+    }
+  }, [projects])
+  
 
   return (
     <>
