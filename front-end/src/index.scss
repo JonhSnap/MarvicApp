@@ -8,6 +8,13 @@
 $header-height: 60px;
 $max-width: 1320px;
 $main-color: #0052cc;
+$main-backlog: calc(100vh - #{$header-height});
+
+.root,
+#root,
+#docs-root {
+  --header-height: #{$main-backlog};
+}
 
 * {
   margin: 0;
@@ -22,17 +29,17 @@ $main-color: #0052cc;
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 html {
@@ -51,6 +58,7 @@ html {
   background: url("./images/form-register.png");
   background-repeat: no-repeat;
 }
+
 .name-logo {
   font-size: 64px;
   background: linear-gradient(180deg, #344c8b 0%, #8777d9 100%);
@@ -80,9 +88,11 @@ html {
   &::-webkit-scrollbar {
     width: 10px;
   }
+
   &::-webkit-scrollbar-track {
     background-color: #fff;
   }
+
   &::-webkit-scrollbar-thumb {
     @apply bg-gray-main;
     border-radius: 10px;

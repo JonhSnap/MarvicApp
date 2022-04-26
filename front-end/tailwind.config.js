@@ -10,8 +10,9 @@ module.exports = {
       },
       spacing: {
         'full': '100%',
-        '80%' : '80%',
-        '50%' : '50%'
+        '80%': '80%',
+        '50%': '50%',
+        'main-backlog': "var(--header-height)",
       }
     },
   },
