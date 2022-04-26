@@ -11,6 +11,7 @@ import OptionHeaderBacklogComponent from '../components/option/OptionHeaderBackl
 import OptionItemBacklogComponent from '../components/option/OptionItemBacklogComponent'
 import ButtonBacklogComponent from '../components/backlog/ButtonBacklogComponent'
 import CKEditorComponent from '../components/CKEditorComponent'
+import TaskItemComponent from '../components/backlog/TaskItemComponent'
 
 
 function BacklogPage() {
@@ -65,9 +66,30 @@ function BacklogPage() {
     setShowCKEditorDescription(false)
   }
 
-  const handleSaveClickCMT = () => {
+  // const handleSaveClickCMT = () => {
+  //   var html = `<div className='my-5 flex'>
+  //   <MemberComponent />
+  //   <div className='flex flex-col px-2'>
+  //     <div className='flex '>
+  //       <div className='pr-4 flex-1 font-bold'>
+  //         thinhquocle524
+  //       </div>
+  //       <div className='ml-4'>
+  //         54 minutes ago
+  //       </div>
+  //     </div>
+  //     <div className='py-3' contentEditable="">
+  //       dsfsdfsdfs
+  //     </div>
+  //     <div className='font-bold text-[#838383]'>
+  //       Delete
+  //     </div>
+  //   </div>
+  // </div>`
+  //   document.getElementById('comment').insertAdjacentHTML("afterend", html);
+  //   // document.getElementById('comment').appendChild(html)
 
-  }
+  // }
 
   return (
     <>
@@ -102,7 +124,7 @@ function BacklogPage() {
                   </div>
                   <CreateComponent createWhat={"epic"} />
                 </div>
-                <div className='main-backlog pb-9 overflow-y-auto flex-[3] w-full h-fit  flex justify-center mb-10'>
+                <div className='main-backlog pb-9 overflow-auto flex-[3] w-full h-full  flex justify-center mb-10'>
                   <div className='backlog-item py-2 flex-1 mx-4 min-h-[10rem] bg-[#f4f5f7] rounded-[5px] flex items-center flex-col '>
                     <div className='header-backlog-item w-[98%] py-3 flex justify-between items-center'>
                       <div className='header-right'>
@@ -116,7 +138,7 @@ function BacklogPage() {
                         </div>
                       </div>
                       <div className='header-left flex items-center h-9'>
-                        <div className='state-sprint'>
+                        <div className='state-sprint flex'>
                           <div className='rounded-full  inline-flex w-5 h-5 text-xs bg-[#dfe1e6] mx-[0.2rem]'>
                             <span className='m-auto'>4</span>
                           </div>
@@ -135,62 +157,11 @@ function BacklogPage() {
                       </div>
                     </div>
                     <div className='main w-[98%] h-fit min-h-[5rem]'>
-                      <div ref={ref} className='item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border-[1px] border-[#ccc] flex justify-between items-center'>
-                        <div className='left-item h-full flex items-center'>
-                          <div className='icon mx-1 inline-block'>
-                            <FontAwesomeIcon size='1x' className='text-[#4bade8]' icon={faSquareCheck} />
-                          </div>
-                          <div className='mx-1 inline-block text-[#acacac]'>
-                            <span>MPM-2</span>
-                          </div>
-                          <div className='mx-1 inline-block'>
-                            <span>Name</span>
-                          </div>
-                          <div className='parent bg-[#eae6ff] uppercase inline-block px-1 mx-1 rounded-[2px] font-medium'>
-                            <span>parent</span>
-                          </div>
-                        </div>
-                        <div className='right-item h-full w-fit flex items-center'>
-                          <div className='rounded-full  inline-flex w-5 h-5 text-xs bg-[#dfe1e6] mx-[0.2rem]'>
-                            <span className='m-auto'>4</span>
-                          </div>
-                          {showFlag && <FontAwesomeIcon color='#EF0000' className='mx-2' icon={faFlag} />}
-                          <div className='h-4 w-auto uppercase text-xs font-bold  mx-2 border-solid border-[0.5px] border-[#ccc] flex justify-center items-center py-3 px-2 bg-[#ccc]'>
-                            to do
-                            <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
-                          </div>
-                          <MemberComponent />
-                          <OptionComponent child={<OptionItemBacklogComponent editHTMLAddFlag={editHTMLAddFlag} handleClickAddFlag={handleClickAddFlag} />} />
-                        </div>
-                      </div>
-                      {/* <div ref={ref[2]} className='item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border-[1px] border-[#ccc] flex justify-between items-center'>
-                                    <div className='left-item h-full'>
-                                        <div className='icon mx-1 inline-block'>
-                                            <FontAwesomeIcon size='1x' className='text-[#4bade8]' icon={faSquareCheck} />
-                                        </div>
-                                        <div className='mx-1 inline-block text-[#acacac]'>
-                                            <span>MPM-2</span>
-                                        </div>
-                                        <div className='mx-1 inline-block'>
-                                            <span>Name</span>
-                                        </div>
-                                        <div className='parent bg-[#eae6ff] uppercase inline-block px-1 mx-1 rounded-[2px] font-medium'>
-                                            <span>parent</span>
-                                        </div>
-                                    </div>
-                                    <div className='right-item h-full w-fit flex items-center'>
-                                        <div className='rounded-full  inline-flex w-5 h-5 text-xs bg-[#dfe1e6] mx-[0.2rem]'>
-                                            <span className='m-auto'>4</span>
-                                        </div>
-                                        {showFlag && <FontAwesomeIcon color='#EF0000' className='mx-2' icon={faFlag} />}
-                                        <div className='h-4 w-auto uppercase text-xs font-bold  mx-2 border-solid border-[0.5px] border-[#ccc] flex justify-center items-center py-3 px-2 bg-[#ccc]'>
-                                            to do
-                                            <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
-                                        </div>
-                                        <MemberComponent />
-                                        <OptionComponent child={<OptionItemBacklogComponent editHTMLAddFlag={editHTMLAddFlag} handleClickAddFlag={handleClickAddFlag} />} />
-                                    </div>
-                                </div> */}
+                      <TaskItemComponent />
+                      <TaskItemComponent />
+                      <TaskItemComponent />
+                      <TaskItemComponent />
+                      <TaskItemComponent />
                       <CreateComponent createWhat={"issues"} />
                     </div>
                   </div>
@@ -198,7 +169,7 @@ function BacklogPage() {
                 <div className='h-[calc(100%-15%)] overflow-y-auto mb-10 overflow-x-hidden flex flex-col flex-[2]  mx-4 relative p-2'>
                   <div className='flex justify-between sticky'>
                     <div className='flex items-center'>
-                      <div className='flex items-center'>
+                      <div className='flex items-center whitespace-nowrap'>
                         <FontAwesomeIcon size='1x' className='mx-1 p-[0.2rem] text-white text-[10px] inline-block bg-[#904ee2]' icon={faBolt} />
                         Tên epic
                       </div>
@@ -209,15 +180,15 @@ function BacklogPage() {
                       </div>
                     </div>
                     <div className='flex items-center'>
-                      <FontAwesomeIcon size='2x' className='mx-4 text-[1.5rem]' icon={faLock} />
-                      <FontAwesomeIcon size='2x' className='mx-4 text-[1.5rem]' icon={faEye} />
-                      <FontAwesomeIcon size='2x' className='mx-4 text-[1.5rem]' icon={faThumbsUp} />
-                      <FontAwesomeIcon size='2x' className='mx-4 text-[1.5rem]' icon={faTimeline} />
+                      <FontAwesomeIcon size='2x' className='mx-1 text-[1.5rem]' icon={faLock} />
+                      <FontAwesomeIcon size='2x' className='mx-1 text-[1.5rem]' icon={faEye} />
+                      <FontAwesomeIcon size='2x' className='mx-1 text-[1.5rem]' icon={faThumbsUp} />
+                      <FontAwesomeIcon size='2x' className='mx-1  text-[1.5rem]' icon={faTimeline} />
                       <OptionComponent />
                       <FontAwesomeIcon size='2x' className='mx-4 text-[1.5rem]' icon={faTimes} />
                     </div>
                   </div>
-                  <div className='text-[2rem]'>
+                  <div className='text-[2rem] whitespace-nowrap'>
                     Tên task
                   </div>
                   <div className='flex items-center'>
@@ -227,7 +198,7 @@ function BacklogPage() {
                   </div>
                   <div className='flex items-center'>
                     <div className='inline-flex flex-col my-4 w-fit'>
-                      <div className='uppercase flex items-center p-2 bg-[#ccc] w-fit rounded-[5px] mx-4'>
+                      <div className='uppercase flex items-center p-2 bg-[#ccc] w-fit rounded-[5px] mx-4 whitespace-nowrap'>
                         to do
                         <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
                       </div>
@@ -255,7 +226,7 @@ function BacklogPage() {
                         Child issue
                       </div>
                       <div className='flex h-full w-fit items-center'>
-                        <div className='uppercase flex items-center p-2 bg-[#ccc] w-fit rounded-[5px] mx-4'>
+                        <div className='uppercase flex items-center p-2 bg-[#ccc] w-fit rounded-[5px] mx-4 whitespace-nowrap'>
                           to do
                           <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
                         </div>
@@ -280,7 +251,7 @@ function BacklogPage() {
                           <span className='m-auto'>4</span>
                         </div>
                         {showFlag && <FontAwesomeIcon color='#EF0000' className='mx-2' icon={faFlag} />}
-                        <div className='h-4 w-auto uppercase text-xs font-bold  mx-2 border-solid border-[0.5px] border-[#ccc] flex justify-center items-center py-3 px-2 bg-[#ccc]'>
+                        <div className='whitespace-nowrap h-4 w-auto uppercase text-xs font-bold  mx-2 border-solid border-[0.5px] border-[#ccc] flex justify-center items-center py-3 px-2 bg-[#ccc]'>
                           to do
                           <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
                         </div>
@@ -314,7 +285,7 @@ function BacklogPage() {
                           <span className='m-auto'>4</span>
                         </div>
                         {showFlag && <FontAwesomeIcon color='#EF0000' className='mx-2' icon={faFlag} />}
-                        <div className='h-4 w-auto uppercase text-xs font-bold  mx-2 border-solid border-[0.5px] border-[#ccc] flex justify-center items-center py-3 px-2 bg-[#ccc]'>
+                        <div className='whitespace-nowrap h-4 w-auto uppercase text-xs font-bold  mx-2 border-solid border-[0.5px] border-[#ccc] flex justify-center items-center py-3 px-2 bg-[#ccc]'>
                           to do
                           <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
                         </div>
@@ -399,7 +370,7 @@ function BacklogPage() {
                       {showCKEditorCMT && <CKEditorComponent hidden={hiddenCKEditorCMTClick} />}
                     </div>
                   </div>
-                  <div className='flex flex-col'>
+                  <div id='comment' className='flex flex-col'>
                     <div className='my-5 flex'>
                       <MemberComponent />
                       <div className='flex flex-col px-2'>

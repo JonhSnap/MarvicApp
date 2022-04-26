@@ -4,7 +4,7 @@ export default function OptionItemBacklogComponent(props) {
     return (
         <>
             <div className='relative'>
-                <div className='absolute right-0 border-solid border-[1px] border-[#ccc] rounded-[2px] shadow-2xl z-10 bg-white whitespace-nowrap w-fit h-auto flex flex-col'>
+                <div className='absolute right-0 border-solid border-[1px] border-[#ccc] rounded-[2px] shadow-2xl z-50 visible bg-white whitespace-nowrap w-fit h-auto flex flex-col'>
                     <div className='p-2 uppercase text-[#ccc]'>
                         action
                     </div>
