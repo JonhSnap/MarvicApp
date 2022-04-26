@@ -29,7 +29,6 @@ function App() {
         <Route path="/board" element={<Board></Board>}></Route>
         <Route path="/tutorial" element={<TutorialPage></TutorialPage>}></Route>
         <Route path="/test" element={<TestPage></TestPage>}></Route>
-        <Route path="/backlog" element={<Backlog></Backlog>}></Route>
       </Routes>
     </Suspense>
   );
