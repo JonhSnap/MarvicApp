@@ -7,6 +7,11 @@ module.exports = {
       colors: {
         primary: '#0052cc',
         'gray-main': '#f4f5f7'
+      },
+      spacing: {
+        'full': '100%',
+        '80%' : '80%',
+        '50%' : '50%'
       }
     },
   },
