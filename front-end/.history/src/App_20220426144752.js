@@ -40,12 +40,7 @@ function App() {
         <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
         <Route path="/tutorial" element={<TutorialPage></TutorialPage>}></Route>
         <Route path="/test" element={<TestPage></TestPage>}></Route>
-        <Route
-          path="/comment"
-          element={
-            <Comments commentURL="https://localhost:5001/api/Comments"></Comments>
-          }
-        ></Route>
+        <Route path="/comment" element={<Comments></Comments>}></Route>
       </Routes>
     </Suspense>
   );

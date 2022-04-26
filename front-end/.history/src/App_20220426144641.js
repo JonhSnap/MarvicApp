@@ -11,7 +11,6 @@ const TestPage = lazy(() => import("./pages/TestPage"));
 const BoardPage = lazy(() => import("./pages/BoardPage"));
 const BacklogPage = lazy(() => import("./pages/BacklogPage"));
 const RoadmapPage = lazy(() => import("./pages/RoadmapPage"));
-const Comments = lazy(() => import("./components/comments/Comments"));
 
 function App() {
   return (
@@ -40,12 +39,7 @@ function App() {
         <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
         <Route path="/tutorial" element={<TutorialPage></TutorialPage>}></Route>
         <Route path="/test" element={<TestPage></TestPage>}></Route>
-        <Route
-          path="/comment"
-          element={
-            <Comments commentURL="https://localhost:5001/api/Comments"></Comments>
-          }
-        ></Route>
+        <Route path="/comment" element={<Comments></Comments>}></Route>
       </Routes>
     </Suspense>
   );

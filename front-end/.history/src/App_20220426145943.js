@@ -43,7 +43,9 @@ function App() {
         <Route
           path="/comment"
           element={
-            <Comments commentURL="https://localhost:5001/api/Comments"></Comments>
+            <Comments
+              commentURL={"https://localhost:5001/api/Comments"}
+            ></Comments>
           }
         ></Route>
       </Routes>

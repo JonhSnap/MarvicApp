@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
+import Comments from "./components/comments/Comments";
 import Main from "./components/layouts/Main";
 
 const YourWorkPage = lazy(() => import("./pages/YourWorkPage"));
@@ -40,12 +41,7 @@ function App() {
         <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
         <Route path="/tutorial" element={<TutorialPage></TutorialPage>}></Route>
         <Route path="/test" element={<TestPage></TestPage>}></Route>
-        <Route
-          path="/comment"
-          element={
-            <Comments commentURL="https://localhost:5001/api/Comments"></Comments>
-          }
-        ></Route>
+        <Route path="/comment" element={<Comments></Comments>}></Route>
       </Routes>
     </Suspense>
   );
