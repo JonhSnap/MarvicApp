@@ -39,7 +39,7 @@ function BacklogPage() {
   const [showCKEditorCMT, setShowCKEditorCMT] = useState(false)
 
   const showCKEditorDescriptionClick = () => {
-    setShowCKEditorDescription(true)
+    setShowCKEditorDescription(true);
   }
 
   const showCKEditorCMTClick = () => {
@@ -52,14 +52,22 @@ function BacklogPage() {
   const hiddenCKEditorCMTClick = () => {
     setShowCKEditorCMT(false)
   }
+  const desription = document.querySelector('#description')
+  var tempDescription
 
   const getValueCKEditor = (event, editor) => {
-    return editor.getData()
+    tempDescription = editor.getData()
   }
 
-  var text = getValueCKEditor()
+  const handleSaveClick = () => {
+    if (tempDescription != undefined)
+      document.querySelector('#description').innerHTML = tempDescription
+    setShowCKEditorDescription(false)
+  }
 
-  console.log(text)
+  const handleSaveClickCMT = () => {
+
+  }
 
   return (
     <>
@@ -232,10 +240,15 @@ function BacklogPage() {
                   <div className='font-bold m-1'>
                     Description
                   </div>
-                  {!showCKEditorDescription && <div id='description' onClick={() => showCKEditorDescriptionClick()} className='m-1 py-2' contentEditable="">
+                  {showCKEditorDescription ? (<div id='description' style={{ display: "none" }} onClick={() => showCKEditorDescriptionClick()} className='m-1 py-2' contentEditable="">
+                    Add a description...
+                  </div>) : <div id='description' style={{ display: "block" }} onClick={() => showCKEditorDescriptionClick()} className='m-1 py-2' contentEditable="">
                     Add a description...
                   </div>}
-                  {showCKEditorDescription && <CKEditorComponent getValueCKEditor={getValueCKEditor} hidden={hiddenCKEditorDescriptionClick} />}
+                  {/* {!showCKEditorDescription && <div id='description' onClick={() => showCKEditorDescriptionClick()} className='m-1 py-2' contentEditable="">
+                    Add a description...
+                  </div>} */}
+                  {showCKEditorDescription && <CKEditorComponent save={handleSaveClick} dataCKEditor={desription.innerHTML} getValueCKEditor={getValueCKEditor} hidden={hiddenCKEditorDescriptionClick} />}
                   <div className='child-isue'>
                     <div className='flex justify-between w-full h-11 items-center my-2'>
                       <div className='font-bold m-1'>
@@ -384,6 +397,27 @@ function BacklogPage() {
                     <div>
 
                       {showCKEditorCMT && <CKEditorComponent hidden={hiddenCKEditorCMTClick} />}
+                    </div>
+                  </div>
+                  <div className='flex flex-col'>
+                    <div className='my-5 flex'>
+                      <MemberComponent />
+                      <div className='flex flex-col px-2'>
+                        <div className='flex '>
+                          <div className='pr-4 flex-1 font-bold'>
+                            thinhquocle524
+                          </div>
+                          <div className='ml-4'>
+                            54 minutes ago
+                          </div>
+                        </div>
+                        <div className='py-3' contentEditable="">
+                          dsfsdfsdfs
+                        </div>
+                        <div className='font-bold text-[#838383]'>
+                          Delete
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
