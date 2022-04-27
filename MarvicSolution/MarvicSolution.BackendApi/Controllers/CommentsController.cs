@@ -32,10 +32,10 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok(comments);
         }
 
-        [HttpGet("{Id}")]
-        public async Task<IActionResult> GetCommentsById(Guid Id)
+        [HttpGet("{parentId}")]
+        public async Task<IActionResult> GetCommentsByParentId(Guid parentId)
         {
-            var comments = await _comment_Service.GetCommenstById(Id);
+            var comments = await _comment_Service.GetCommentsByParentId(parentId);
             if (comments.Count == 0)
             {
                 return NotFound();
@@ -49,7 +49,7 @@ namespace MarvicSolution.BackendApi.Controllers
             var model = new Comment(commentRequest.Id_User, commentRequest.Id_Issue, commentRequest.Content, commentRequest.Id_ParentComment);
             if (await _comment_Service.AddComment(model))
             {
-                await _actionHub.Clients.All.Add_Comment();
+                await _actionHub.Clients.All.Comment();
                 return Ok();
             }
             return BadRequest();
@@ -65,7 +65,7 @@ namespace MarvicSolution.BackendApi.Controllers
                 model.Result.Update_Date = DateTime.Now;
                 if (await _comment_Service.UpdateComment(model.Result))
                 {
-                    await _actionHub.Clients.All.Update_Comment();
+                    await _actionHub.Clients.All.Comment();
                     return Ok();
                 }
             }
@@ -78,7 +78,7 @@ namespace MarvicSolution.BackendApi.Controllers
             var model = _comment_Service.GetCommentById(Id, commentRequest.Id_User);
             if (model!=null && await _comment_Service.DeleteComment(model.Result))
             {
-                await _actionHub.Clients.All.Update_Comment();
+                await _actionHub.Clients.All.Comment();
                 return Ok();
             }
             return BadRequest();
