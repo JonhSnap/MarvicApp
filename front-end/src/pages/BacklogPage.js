@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { BASE_URL} from '../util/constants'
+import { BASE_URL } from '../util/constants'
 import axios from 'axios'
 
 import Sidebar from '../components/sidebar/Sidebar'
@@ -21,12 +21,11 @@ import TaskItemComponent from '../components/backlog/TaskItemComponent'
 
 function BacklogPage() {
   const { key } = useParams();
-  
+
   const [showFlag, setShowFlag] = useState(false)
   const { projects } = useSelector(state => state.projects);
   const [currentProject, setCurrentProject] = useState({});
   const [listIssue, setListIssue] = useState([]);
-  console.log('projects ~ ', projects);
 
   const ref = useRef(null)
 
@@ -77,13 +76,13 @@ function BacklogPage() {
     setShowCKEditorDescription(false)
   }
 
-  
+
   useEffect(() => {
     const currProject = projects.find(item => item?.key === key);
-    if(Object.entries(currProject).length > 0) {
-      const fetchIssue = async() => {
+    if (Object.entries(currProject).length > 0) {
+      const fetchIssue = async () => {
         const resp = await axios.get(`${BASE_URL}/api/Issue/GetIssuesByIdProject?idProject=${currProject.id}`)
-        if(resp.status === 200) {
+        if (resp.status === 200) {
           setListIssue([...resp.data]);
         }
       }
@@ -91,7 +90,7 @@ function BacklogPage() {
       setCurrentProject(currProject);
     }
   }, [projects])
-  
+
 
   return (
     <>
@@ -159,12 +158,12 @@ function BacklogPage() {
                       </div>
                     </div>
                     <div className='main w-[98%] h-fit min-h-[5rem]'>
-                    {
-                      listIssue.length > 0 &&
-                      listIssue.map(item => (
-                        <TaskItemComponent key={item.id} issue={item} />            
-                      ))
-                    }
+                      {
+                        listIssue.length > 0 &&
+                        listIssue.map(item => (
+                          <TaskItemComponent key={item.id} issue={item} />
+                        ))
+                      }
                       <CreateComponent createWhat={"issues"} />
                     </div>
                   </div>

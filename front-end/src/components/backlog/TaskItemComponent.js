@@ -36,7 +36,7 @@ export default function TaskItemComponent({ issue }) {
                         <FontAwesomeIcon size='1x' className='text-[#4bade8]' icon={faSquareCheck} />
                     </div>
                     <div className='mx-1 inline-block text-[#acacac]'>
-                        <span>MPM-2</span>
+                        <span>{issue.summary}</span>
                     </div>
                     <div className='mx-1 inline-block'>
                         <span>Name</span>
