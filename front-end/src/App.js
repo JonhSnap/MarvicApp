@@ -20,7 +20,7 @@ function App() {
           <Route path="/" element={<YourWorkPage></YourWorkPage>}></Route>
           <Route path="/projects" element={<ProjectsPage></ProjectsPage>}></Route>
           <Route path="/projects/roadmap" element={<RoadmapPage></RoadmapPage>}></Route>
-          <Route path="/projects/backlog" element={<BacklogPage></BacklogPage>}></Route>
+          <Route path="/projects/backlog/:key" element={<BacklogPage></BacklogPage>}></Route>
           <Route path="/projects/board/:key" element={<BoardPage></BoardPage>}></Route>
         </Route>
         <Route path="/login" element={<LoginPage></LoginPage>}></Route>

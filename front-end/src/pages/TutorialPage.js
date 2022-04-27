@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import '../scss/Tutorial.scss'
 import '../../src/index.scss'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faAngleRight, faAngleLeft, faTimes } from '@fortawesome/free-solid-svg-icons'
 import ShowImageComponent from '../components/show-image/ShowImageComponent'
 import { data } from '../tutorial/data-tutorial'
 import BtnNextPrevComponent from '../components/Next-Prev Button/BtnNextPrevComponent'
