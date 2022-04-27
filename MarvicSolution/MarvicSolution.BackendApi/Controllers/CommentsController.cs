@@ -21,7 +21,7 @@ namespace MarvicSolution.BackendApi.Controllers
             _actionHub = actionHub;
         }
        
-        [HttpGet("{Id_Issue}")]
+        [HttpGet("issue/{Id_Issue}")]
         public async Task<IActionResult> GetComments(Guid Id_Issue)
         {
             var comments= await _comment_Service.GetCommentsById_Issue(Id_Issue);
@@ -63,11 +63,11 @@ namespace MarvicSolution.BackendApi.Controllers
             {
                 model.Result.Content = commentRequest.Content;
                 model.Result.Update_Date = DateTime.Now;
-            }
-            if (await _comment_Service.UpdateComment(model.Result))
-            {
-                await _actionHub.Clients.All.Update_Comment();
-                return Ok();
+                if (await _comment_Service.UpdateComment(model.Result))
+                {
+                    await _actionHub.Clients.All.Update_Comment();
+                    return Ok();
+                }
             }
             return BadRequest();
         }
