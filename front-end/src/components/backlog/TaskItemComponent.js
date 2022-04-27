@@ -1,13 +1,16 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faSquareCheck, faTimes, faAngleRight, faFlag, faBolt, faCheck, faLock, faEye, faThumbsUp, faTimeline, faPaperclip, faLink, faPlus, faArrowDownShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons'
 import MemberComponent from '../board/MemberComponent'
 import OptionComponent from '../option/OptionComponent'
 import OptionItemBacklogComponent from '../option/OptionItemBacklogComponent'
+import useModal from '../../hooks/useModal'
+import EditIssuePopup from '../popup/EditIssuePopup'
 
 
 
 export default function TaskItemComponent({ issue }) {
+    const [showEdit, setShow, handleClose] = useModal();
     const [showFlag, setShowFlag] = useState(false)
 
     const ref = useRef(null)
@@ -28,9 +31,19 @@ export default function TaskItemComponent({ issue }) {
         else
             return "Add flag"
     }
+    // handle click item
+    const handleClickItem = (e) => {
+        if(e.target.matches('.item')) {
+            setShow(true);
+        }
+    }
+    
     return (
-        <>
-            <div ref={ref} className='item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border-[1px] border-[#ccc] flex justify-between items-center'>
+        <>  
+            {
+                showEdit && <EditIssuePopup setShow={setShow} handleClose={handleClose}  issue={issue}></EditIssuePopup>
+            }
+            <div onClick={handleClickItem} ref={ref} className='item hover:bg-[#eee] cursor-pointer w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border-[1px] border-[#ccc] flex justify-between items-center'>
                 <div className='left-item h-full flex items-center'>
                     <div className='icon mx-1 inline-block'>
                         <FontAwesomeIcon size='1x' className='text-[#4bade8]' icon={faSquareCheck} />
@@ -39,7 +52,7 @@ export default function TaskItemComponent({ issue }) {
                         <span>{issue.summary}</span>
                     </div>
                     <div className='mx-1 inline-block'>
-                        <span>Name</span>
+                        <span>{issue?.summary}</span>
                     </div>
                     <div className='parent bg-[#eae6ff] uppercase inline-block px-1 mx-1 rounded-[2px] font-medium'>
                         <span>parent</span>
