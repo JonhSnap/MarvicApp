@@ -26,3 +26,20 @@ export const levels = [
         text: 'Private'
     },
 ]
+export const issueTypes = [
+    {
+        id: 1,
+        value: 1,
+        title: 'story'
+    },
+    {
+        id: 2,
+        value: 2,
+        title: 'stask'
+    },
+    {
+        id: 3,
+        value: 3,
+        title: 'bug'
+    },
+]

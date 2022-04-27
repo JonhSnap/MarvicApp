@@ -176,7 +176,7 @@ function ContainerBacklog({ project, listIssue }) {
             </div>
         </div>
         <div className="bottom">
-        <div className='wrap-backlog w-full h-full flex flex-col'>
+        <div className='wrap-backlog w-full max-h-[250px] flex flex-col'>
             <div className='w-full h-full flex-1 flex-col'>
               <div className='flex h-full w-full flex-[3] items-start'>
                 {
