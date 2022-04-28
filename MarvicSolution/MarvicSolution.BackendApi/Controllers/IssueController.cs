@@ -130,7 +130,7 @@ namespace MarvicSolution.BackendApi.Controllers
 
         // /api/Issue/GetIssuesByIdLabel
         [HttpGet]
-        [Route("/api/Issue/GetIssuesByIdLabel")]// remember to check this route
+        [Route("/api/Issue/GetIssuesByIdLabel")]// remember to check this route 
         public IActionResult GetIssuesByIdLabel([FromQuery] GetIssueByLabelRequest rq)
         {
             try

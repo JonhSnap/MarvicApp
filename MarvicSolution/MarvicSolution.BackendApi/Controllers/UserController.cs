@@ -1,8 +1,11 @@
-﻿using MarvicSolution.BackendApi.Constants;
+﻿using FluentValidation.AspNetCore;
+using MarvicSolution.BackendApi.Constants;
+using MarvicSolution.DATA.Common;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.Services.System.Helpers;
 using MarvicSolution.Services.System.Users.Requests;
 using MarvicSolution.Services.System.Users.Services;
+using MarvicSolution.Services.System.Users.Validators;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -57,15 +60,23 @@ namespace MarvicSolution.BackendApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
+                // Kiem tra tai khoan
+                var user = _userService.GetUserbyUserName(rq.UserName);
+                if (user == null)
+                    return BadRequest("User name does not exsist");
+                // Kiem tra mat khau
+                if (!BCrypt.Net.BCrypt.Verify(rq.Password, user.Password))
+                    return BadRequest("Password incorrect");
+                // Thiet lap thong tin cho user da login
+                UserLogin.SetInfo(user);
                 // Tao token theo JWT
-                var jwt = _userService.Authenticate(rq);
+                var jwt = _userService.Authenticate(rq, user);
                 // Tao cookie
                 Response.Cookies.Append("jwt", jwt, new CookieOptions
                 {
                     HttpOnly = true,
                     Expires = DateTime.Now.AddHours(24)
                 });
-                var user = _userService.GetUserbyUserName(rq.UserName);
                 return Ok(user);
             }
             catch (Exception e)

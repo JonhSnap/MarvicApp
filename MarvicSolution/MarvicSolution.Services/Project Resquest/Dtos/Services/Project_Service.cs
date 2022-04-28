@@ -38,8 +38,16 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                     DateStarted = rq.DateStarted,
                     DateEnd = rq.DateEnd
                 };
-
                 _context.Projects.Add(proj);
+
+                var mem = new Member()
+                {
+                    Id_Project = proj.Id,
+                    Id_User = UserLogin.Id,
+                    Role = EnumRole.ProjectManager
+                };
+                _context.Members.Add(mem);
+
                 await _context.SaveChangesAsync();
                 return proj.Id;
             }
