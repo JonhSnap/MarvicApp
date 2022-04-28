@@ -10,7 +10,7 @@ namespace MarvicSolution.Services.System.Users.Services
 {
     public interface IUser_Service
     {
-        string Authenticate(Login_Request rq);
+        string Authenticate(Login_Request rq, App_User user);
         bool Register(Register_Request rq);
         //App_User GetUserbyUserName(Login_Request rq);
         App_User GetUserbyUserName(string userName);

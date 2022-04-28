@@ -6,7 +6,7 @@ import * as yup from 'yup'
 import Button from '../button/Button';
 import { BASE_URL, levels } from '../../util/constants'
 import { getProjects } from '../../redux/apiRequest'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import createKey from '../../util/createKey'
 import getDayBefore from '../../util/getDayBefore'
@@ -32,6 +32,7 @@ const schema = yup.object({
 
 function CreateProjectPopup({ onClose, setIsShowProjectPopup }) {
   const dispatch = useDispatch();
+  const { currentUser } = useSelector(state => state.auth.login);
   const { register, handleSubmit, reset, watch, setValue, formState: { errors, isSubmitting }} = useForm({
     resolver: yupResolver(schema)
   });
@@ -46,9 +47,9 @@ function CreateProjectPopup({ onClose, setIsShowProjectPopup }) {
             if(resp.status === 200) {
               console.log('response data ~ ', resp.data);
               reset();
-              getProjects(dispatch);
+              getProjects(dispatch, currentUser.id);
               resolve();
-              setIsShowProjectPopup(false);
+              setIsShowProjectPopup(false); 
             }
           }catch (err) {
             reject(err);
