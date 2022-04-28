@@ -1,6 +1,21 @@
 import React from 'react'
+import { useListIssueContext } from '../../contexts/listIssueContext';
+import { updateIssues } from '../../reducers/listIssueReducer';
 
-export default function OptionItemBacklogComponent(props) {
+export default function OptionItemBacklogComponent({ issue }) {
+    const [, dispatch] = useListIssueContext();
+
+    // handle change flagg
+    const handleChangeFlag = () => {
+        const issueUpdate = {...issue};
+        if(issue.isFlagged) {
+            issueUpdate.isFlagged = 0
+        }else {
+            issueUpdate.isFlagged = 1
+        }
+        updateIssues(issueUpdate, dispatch);
+    }
+
     return (
         <>
             <div className='relative'>
@@ -8,8 +23,8 @@ export default function OptionItemBacklogComponent(props) {
                     <div className='p-2 uppercase text-[#ccc]'>
                         action
                     </div>
-                    <div onClick={() => props.handleClickAddFlag()} role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                        {props.editHTMLAddFlag()}
+                    <div onClick={handleChangeFlag} role="button" className='p-2 hover:bg-[#f4f5f7]'>
+                        {issue?.isFlagged ? 'Remove flag' : 'Add flag'}
                     </div>
                     <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
                         Change parent

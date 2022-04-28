@@ -17,18 +17,21 @@ import ButtonBacklogComponent from '../backlog/ButtonBacklogComponent'
 import TaskItemComponent from '../backlog/TaskItemComponent'
 import { useListIssueContext } from '../../contexts/listIssueContext';
 import { fetchIssue } from '../../reducers/listIssueReducer';
-
-function ContainerBacklog({ project }) {
+import { CHANGE_FILTERS_NAME } from '../../reducers/actions';
+//project, listIssue, setListIssue
+function ContainerBacklog({project}) {
     const { id } = project;
-    const [listIssue, dispatchIssue] = useListIssueContext();
+    const [{issues}, dispatchIssue] = useListIssueContext();
     const { currentUser } = useSelector(state => state.auth.login);
     const dispatch = useDispatch();
     const [show, setShow, handleClose] = useModal();
+    const timer = useRef();
+    const [search, setSearch] = useState('')
     const [showEpic, setShowEpic] = useState(false);
     const [showMembers, setShowMembers] = useState(false);
     const [members, setMembers] = useState([])
     const [focus, setFocus] = useState(false);
-    const inputRef= useRef();
+    const inputRef = useRef();
 
     const handleFocus = () => {
         setFocus(true);
@@ -36,17 +39,18 @@ function ContainerBacklog({ project }) {
     const handleBlur = () => {
         setFocus(false);
     }
+
     // handle click star
     const handleClickStar = () => {
         const putData = () => {
-            const dataPut ={
+            const dataPut = {
                 ...project,
                 id_Updator: currentUser.id,
                 updateDate: new Date()
             }
-            if(project.isStared === 0) {
+            if (project.isStared === 0) {
                 dataPut.isStared = 1;
-            }else {
+            } else {
                 dataPut.isStared = 0;
             }
             console.log(dataPut);
@@ -57,7 +61,7 @@ function ContainerBacklog({ project }) {
     }
     // handle change show members
     const handleChangeShowMembers = (e) => {
-        if(e.target.matches('.js-changeshow')) {
+        if (e.target.matches('.js-changeshow')) {
             setShowMembers(prev => !prev);
         }
     }
@@ -78,7 +82,7 @@ function ContainerBacklog({ project }) {
         }
     }, [])
     useEffect(() => {
-        const fetchMember = async() => {
+        const fetchMember = async () => {
             try {
                 const resp = await axios.get(`${BASE_URL}/api/Project/GetAllMemberByIdProject?IdProject=${project.id}`);
                 const data = resp.data;
@@ -87,24 +91,36 @@ function ContainerBacklog({ project }) {
                 console.log(error);
             }
         }
-        if(id) {
+        if (id) {
             fetchMember()
-        }else {
+        } else {
             console.log('id null');
         }
     }, [id, show])
-
+    // dispatch search
+    useEffect(() => {
+        if(project?.id) {
+            timer.current = setTimeout(() => {
+                dispatchIssue({
+                type: CHANGE_FILTERS_NAME,
+                payload: search
+                })
+                fetchIssue(project.id, dispatchIssue)          
+            }, 1000);
+        }
+        return () => clearTimeout(timer.current)
+    }, [search])
     const handleClickAdd = () => {
         setShow(true);
     }
     // handle delete member
-    const handleDeleteMember= (idUser) => {
-        const deleteMemberApi = async() => {
+    const handleDeleteMember = (idUser) => {
+        const deleteMemberApi = async () => {
             const resp = await axios.post(`${BASE_URL}/api/Project/RemoveMember`, {
                 idProject: id,
                 idUser
             })
-            if(resp.status === 200) {
+            if (resp.status === 200) {
                 setMembers(prev => {
                     const prevCopy = [...prev];
                     const index = prevCopy.findIndex(item => item.id === idUser);
@@ -121,6 +137,15 @@ function ContainerBacklog({ project }) {
         e.stopPropagation();
         setShowEpic(false);
     }
+    // handle change search
+    // const handleChangeSearch = e => {
+    //    setSearch(e.target.value)
+    //    dispatchIssue({
+    //        type: CHANGE_FILTERS_NAME,
+    //        payload: e.target.value
+    //    })
+    //    fetchIssue(project.id, dispatchIssue)
+    // }
   return (
     <div className='container'>
         <div className="top">
@@ -144,42 +169,46 @@ function ContainerBacklog({ project }) {
                 }
             </div>
             <div className="actions">
-                <div className={`wrap-input ${focus ? 'expand' : ''}`}>
-                    <input
-                    placeholder={focus ? 'Search this board' : ''}
-                    ref={inputRef} type="text" />
-                    <svg xmlns="http://www.w3.org/2000/svg" className="icon" viewBox="0 0 20 20" fill="#ccc">
-                    <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                    </svg>
-                </div>
-                <div className="members">
-                    <div className="avatar">
-                        <img src="https://images.unsplash.com/photo-1644982647708-0b2cc3d910b7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60" alt="" />
-                    </div>
-                    <div onClick={handleChangeShowMembers} className='js-changeshow avatar relative flex items-center justify-center p-2 bg-[#ccc] cursor-pointer'>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 pointer-events-none" viewBox="0 0 20 20" fill="#999">
-                        <path fillRule="evenodd" d="M15.707 4.293a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414L10 8.586l4.293-4.293a1 1 0 011.414 0zm0 6a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 14.586l4.293-4.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                <div className="actions">
+                    <div className={`wrap-input ${focus ? 'expand' : ''}`}>
+                        <input
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                        placeholder={focus ? 'Search this board' : ''}
+                        ref={inputRef} type="text" />
+                        <svg xmlns="http://www.w3.org/2000/svg" className="icon" viewBox="0 0 20 20" fill="#ccc">
+                            <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                         </svg>
-                        {
-                        showMembers &&
-                        <div className="current-members">
-                            {
-                                members.length > 0 ?
-                                members.map(item => (
-                                    <div key={v4()} className='w-full flex justify-between items-center px-[10px]'>
-                                        <span className='text-primary'>{item.userName}</span>
-                                        <div onClick={() => handleDeleteMember(item.id)} className='text-[#ccc]  hover:text-red-500 '>remove</div>
-                                    </div>
-                                )) :
-                                <p className='text-sm text-center text-[#999]'>Project has no members</p>
-                            }
-                        </div>                      
-                        }
                     </div>
-                    <div onClick={handleClickAdd} className="add-member">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="icon" fill="none" viewBox="0 0 24 24" stroke="#999" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                    </svg>
+                    <div className="members">
+                        <div className="avatar">
+                            <img src="https://images.unsplash.com/photo-1644982647708-0b2cc3d910b7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60" alt="" />
+                        </div>
+                        <div onClick={handleChangeShowMembers} className='js-changeshow avatar relative flex items-center justify-center p-2 bg-[#ccc] cursor-pointer'>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 pointer-events-none" viewBox="0 0 20 20" fill="#999">
+                                <path fillRule="evenodd" d="M15.707 4.293a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414L10 8.586l4.293-4.293a1 1 0 011.414 0zm0 6a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 14.586l4.293-4.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                            {
+                                showMembers &&
+                                <div className="current-members">
+                                    {
+                                        members.length > 0 ?
+                                            members.map(item => (
+                                                <div key={v4()} className='w-full flex justify-between items-center px-[10px]'>
+                                                    <span className='text-primary'>{item.userName}</span>
+                                                    <div onClick={() => handleDeleteMember(item.id)} className='text-[#ccc]  hover:text-red-500 '>remove</div>
+                                                </div>
+                                            )) :
+                                            <p className='text-sm text-center text-[#999]'>Project has no members</p>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <div onClick={handleClickAdd} className="add-member">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="icon" fill="none" viewBox="0 0 24 24" stroke="#999" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
                 <div className="filters">              
@@ -215,7 +244,7 @@ function ContainerBacklog({ project }) {
                                 </div>
                             </div>
                             </div>
-                            <CreateComponent createWhat={"epic"} />
+                            <CreateComponent project={project} createWhat={"epic"} />
                         </div>
                     </div>
                 </div>
@@ -236,7 +265,7 @@ function ContainerBacklog({ project }) {
                         </div>
                         <div className='create-day inline-block font-light pl-2'>
                           {/* <span className='day pr-1'>19 Apr - 17 May</span> */}
-                          <span> ({listIssue.length} issues) </span>
+                          <span> ({issues.length} issues) </span>
                         </div>
                       </div>
                       <div className='header-left flex items-center h-9'>
@@ -260,12 +289,12 @@ function ContainerBacklog({ project }) {
                     </div>
                     <div className='main w-[98%] h-fit min-h-[5rem]'>
                     {
-                      listIssue.length > 0 &&
-                      listIssue.map(item => (
-                        <TaskItemComponent key={item.id} project={project} issue={item} />            
+                      issues.length > 0 &&
+                      issues.map(item => (
+                        <TaskItemComponent key={v4()} project={project} issue={item} />            
                       ))
                     }
-                      <CreateComponent createWhat={"issues"} />
+                      <CreateComponent project={project} createWhat={"issues"} />
                     </div>
                   </div>
                 </div>            
@@ -273,8 +302,8 @@ function ContainerBacklog({ project }) {
             </div>
         </div>
         </div>
-    </div>
-  )
+        </div>
+    )
 }
 
 export default ContainerBacklog

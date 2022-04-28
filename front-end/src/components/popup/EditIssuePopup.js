@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, memo } from 'react'
 import axios from 'axios'
 import { BASE_URL } from '../../util/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -27,6 +27,11 @@ function EditIssuePopup({ project, issue, handleClose, setShow }) {
                 ...values,
                 [e.target.name]: e.target.value
             })
+        }else if(e.target.name === 'description') {
+            setValues({
+                ...values,
+                [e.target.name]: e.target.value
+            })
         }
     }
     // handle focus
@@ -40,6 +45,7 @@ function EditIssuePopup({ project, issue, handleClose, setShow }) {
         }else {
             const issueUpdate = {...issue, ...values}
             updateIssues(issueUpdate, dispatch);
+            fetchIssue(project.id, dispatch);
         }
     }
     const handleClickAddFlag = function () {
@@ -84,13 +90,13 @@ function EditIssuePopup({ project, issue, handleClose, setShow }) {
         return editor.getData();
       }
     
-      const handleSaveClick = () => {
-        setValues({
-            ...values,
-            description: getValueCKEditor()
-        })
-        setShowCKEditorDescription(false)
-        }
+    //   const handleSaveClick = () => {
+    //     setValues({
+    //         ...values,
+    //         description: getValueCKEditor()
+    //     })
+    //     setShowCKEditorDescription(false)
+    //     }
     //   const handleSaveClick = () => {
     //     if (tempDescription != undefined)
     //       document.querySelector('#description').innerHTML = tempDescription
@@ -149,23 +155,34 @@ function EditIssuePopup({ project, issue, handleClose, setShow }) {
                             <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
                         </div>
                         </div>
-                        <div className='flex items-center w-fit'>
-                        <FontAwesomeIcon color='#EF0000' className='mx-2' icon={faFlag} />
-                        Flagged
-                        </div>
+                        {
+                            issue?.isFlagged === 1 &&
+                            <div className='flex items-center w-fit'>
+                            <FontAwesomeIcon color='#EF0000' className='mx-2' icon={faFlag} />
+                            Flagged
+                            </div>
+                        }
                     </div>
                     <div className='font-bold m-1'>
                         Description
                     </div>
-                    {showCKEditorDescription ? (<div id='description' style={{ display: "none" }} onClick={() => showCKEditorDescriptionClick()} className='m-1 py-2' contentEditable="">
+                    <div>
+                        <input
+                        value={values.description}
+                        onChange={handleValuesChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                        placeholder='Enter description...'
+                        className='w-full outline-none border-2 border-transparent p-2 rounded-md focus:border-primary'
+                        name='description'
+                        type="text" />
+                    </div>
+                    {/* {showCKEditorDescription ? (<div id='description' style={{ display: "none" }} onClick={() => showCKEditorDescriptionClick()} className='m-1 py-2' contentEditable="">
                         {issue?.description}
                     </div>) : <div id='description' style={{ display: "block" }} onClick={() => showCKEditorDescriptionClick()} className='m-1 py-2' contentEditable="">
-                        {issue?.description}
-                    </div>}
-                    {/* {!showCKEditorDescription && <div id='description' onClick={() => showCKEditorDescriptionClick()} className='m-1 py-2' contentEditable="">
-                        Add a description...
-                    </div>} */}
-                    {showCKEditorDescription && <CKEditorComponent save={handleSaveClick} dataCKEditor={values.description} getValueCKEditor={getValueCKEditor} hidden={hiddenCKEditorDescriptionClick} />}
+                        {issue?.description} */}
+                    {/* </div>}
+                    {showCKEditorDescription && <CKEditorComponent save={handleSaveClick} dataCKEditor={values.description} getValueCKEditor={getValueCKEditor} hidden={hiddenCKEditorDescriptionClick} />} */}
                     <div className='child-isue'>
                         <div className='flex justify-between w-full h-11 items-center my-2'>
                         <div className='font-bold m-1'>
@@ -342,4 +359,4 @@ function EditIssuePopup({ project, issue, handleClose, setShow }) {
   )
 }
 
-export default EditIssuePopup
+export default memo(EditIssuePopup)
