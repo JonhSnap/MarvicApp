@@ -37,7 +37,7 @@ function BacklogPage() {
           <Sidebar nameProject={currentProject.name}></Sidebar>
         </div>
         <div className='basis-[80%] h-main-backlog'>
-          <ContainerBacklog project={currentProject} listIssue={listIssue}></ContainerBacklog>
+          <ContainerBacklog setListIssue={setListIssue} project={currentProject} listIssue={listIssue}></ContainerBacklog>
         </div>
       </div>
     </>
