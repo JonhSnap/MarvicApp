@@ -3,13 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus, faCircleDot, faClipboard, faSquareCheck } from '@fortawesome/free-solid-svg-icons'
 import DropDownComponent from './dropdown/DropDownComponent'
 
-function InputComponent({ setShow }) {
+function InputComponent({ show, setShow }) {
   const inputRef = useRef(null)
 
   useEffect(() => {
     const handleClick2 = (e) => {
-      if (!inputRef.current.contains(e.target)) {
-        setShow(false)
+      e.preventDefault()
+      if (inputRef.current && !inputRef.current.contains(e.target)) {
+        setShow(false);
+      }else {
+        setShow(true);
       }
     }
     document.addEventListener('click', handleClick2)
@@ -36,7 +39,7 @@ export default function CreateIssuesComponent({ createWhat }) {
   return (
     <>
       <div id='wrap-create' className='w-full h-14 py-3 flex items-center cursor-pointer'>
-        {show ? (<InputComponent setShow={setShow} />) : (<div onClick={handleClick} className='w-full h-full flex items-center'>
+        {show ? (<InputComponent show={show} setShow={setShow} />) : (<div onClick={handleClick} className='w-full h-full flex items-center'>
           <FontAwesomeIcon className='px-2' size='2x' icon={faCirclePlus} />
           <div className='pl-4'>Create {createWhat}</div>
         </div>)}

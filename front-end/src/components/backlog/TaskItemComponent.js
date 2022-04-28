@@ -9,7 +9,7 @@ import EditIssuePopup from '../popup/EditIssuePopup'
 
 
 
-export default function TaskItemComponent({ issue }) {
+export default function TaskItemComponent({ issue, project }) {
     const [showEdit, setShow, handleClose] = useModal();
     const [showFlag, setShowFlag] = useState(false)
 
@@ -41,7 +41,7 @@ export default function TaskItemComponent({ issue }) {
     return (
         <>  
             {
-                showEdit && <EditIssuePopup setShow={setShow} handleClose={handleClose}  issue={issue}></EditIssuePopup>
+                showEdit && <EditIssuePopup project={project} setShow={setShow} handleClose={handleClose}  issue={issue}></EditIssuePopup>
             }
             <div onClick={handleClickItem} ref={ref} className='item hover:bg-[#eee] cursor-pointer w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border-[1px] border-[#ccc] flex justify-between items-center'>
                 <div className='left-item h-full flex items-center'>
@@ -60,7 +60,7 @@ export default function TaskItemComponent({ issue }) {
                 </div>
                 <div className='right-item h-full w-fit flex items-center'>
                     <div className='rounded-full  inline-flex w-5 h-5 text-xs bg-[#dfe1e6] mx-[0.2rem]'>
-                        <span className='m-auto'>4</span>
+                        <span className='m-auto'>{issue?.story_Point_Estimate}</span>
                     </div>
                     {showFlag && <FontAwesomeIcon color='#EF0000' className='mx-2' icon={faFlag} />}
                     <div className='whitespace-nowrap h-4 w-auto uppercase text-xs font-bold  mx-2 border-solid border-[0.5px] border-[#ccc] flex justify-center items-center py-3 px-2 bg-[#ccc]'>

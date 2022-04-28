@@ -1,4 +1,6 @@
 import React, { useRef, useState } from 'react'
+import axios from 'axios'
+import { BASE_URL } from '../../util/constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faSquareCheck, faTimes, faAngleRight, faFlag, faBolt, faCheck, faLock, faEye, faThumbsUp, faTimeline, faPaperclip, faLink, faPlus, faArrowDownShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons'
 import OptionComponent from '../option/OptionComponent'
@@ -6,10 +8,40 @@ import ButtonBacklogComponent from '../backlog/ButtonBacklogComponent'
 import MemberComponent from '../board/MemberComponent'
 import CKEditorComponent from '../CKEditorComponent'
 import ModalBase from '../modal/ModalBase'
+import { fetchIssue, updateIssues } from '../../reducers/listIssueReducer'
+import { useListIssueContext } from '../../contexts/listIssueContext'
 
-function EditIssuePopup({ issue, handleClose, setShow }) {
+function EditIssuePopup({ project, issue, handleClose, setShow }) {
     const ref = useRef(null)
+    const [, dispatch] = useListIssueContext();
     const [showFlag, setShowFlag] = useState(false);
+    const [valueStore, setValueStore] = useState('');
+    const [values, setValues] = useState({
+        summary: issue?.summary,
+        description: issue?.description
+    });
+    // handle values change
+    const handleValuesChange = (e) => {
+        if(e.target.name === 'summary') {
+            setValues({
+                ...values,
+                [e.target.name]: e.target.value
+            })
+        }
+    }
+    // handle focus
+    const handleFocus = (e) => {
+        setValueStore(e.target.value);
+    }
+    // handle blur
+    const handleBlur = (e) => {
+        if(valueStore === e.target.value) {
+            setValueStore('');
+        }else {
+            const issueUpdate = {...issue, ...values}
+            updateIssues(issueUpdate, dispatch);
+        }
+    }
     const handleClickAddFlag = function () {
         if (!showFlag) {
           setShowFlag(true)
@@ -49,13 +81,21 @@ function EditIssuePopup({ issue, handleClose, setShow }) {
     
       const getValueCKEditor = (event, editor) => {
         tempDescription = editor.getData()
+        return editor.getData();
       }
     
       const handleSaveClick = () => {
-        if (tempDescription != undefined)
-          document.querySelector('#description').innerHTML = tempDescription
+        setValues({
+            ...values,
+            description: getValueCKEditor()
+        })
         setShowCKEditorDescription(false)
-      }
+        }
+    //   const handleSaveClick = () => {
+    //     if (tempDescription != undefined)
+    //       document.querySelector('#description').innerHTML = tempDescription
+    //     setShowCKEditorDescription(false)
+    //   }
 
 
   return (
@@ -70,13 +110,13 @@ function EditIssuePopup({ issue, handleClose, setShow }) {
                         <div className='flex items-center'>
                         <div className='flex items-center whitespace-nowrap'>
                             <FontAwesomeIcon size='1x' className='mx-1 p-[0.2rem] text-white text-[10px] inline-block bg-[#904ee2]' icon={faBolt} />
-                            Tên epic
+                            Add epic
                         </div>
-                        <span className='mx-2'> / </span>
+                        {/* <span className='mx-2'> / </span>
                         <div className='flex items-center'>
                             <FontAwesomeIcon size='1x' className='text-[#4bade8]' icon={faSquareCheck} />
                             Name
-                        </div>
+                        </div> */}
                         </div>
                         <div className='flex items-center'>
                         <FontAwesomeIcon size='2x' className='mx-1 text-[1.5rem]' icon={faLock} />
@@ -87,8 +127,15 @@ function EditIssuePopup({ issue, handleClose, setShow }) {
                         <FontAwesomeIcon onClick={() => setShow(false)} size='2x' className='mx-4 text-[1.5rem] cursor-pointer' icon={faTimes} />
                         </div>
                     </div>
-                    <div className='text-[2rem] whitespace-nowrap'>
-                        {issue?.summary}
+                    <div className='text-2xl font-bold mb-5 mt-2'>
+                    <input
+                    value={values.summary}
+                    onChange={handleValuesChange}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    name='summary'
+                    className='w-full outline-none border-2 border-transparent p-2 rounded-md focus:border-primary'
+                    type="text" />
                     </div>
                     <div className='flex items-center'>
                         <ButtonBacklogComponent icon={<FontAwesomeIcon size='2x' className='m-1 text-[1.5rem]' icon={faPaperclip} />} text={"Attach"} />
@@ -102,7 +149,7 @@ function EditIssuePopup({ issue, handleClose, setShow }) {
                             <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
                         </div>
                         </div>
-                        <div className='inline-flex w-fit'>
+                        <div className='flex items-center w-fit'>
                         <FontAwesomeIcon color='#EF0000' className='mx-2' icon={faFlag} />
                         Flagged
                         </div>
@@ -118,7 +165,7 @@ function EditIssuePopup({ issue, handleClose, setShow }) {
                     {/* {!showCKEditorDescription && <div id='description' onClick={() => showCKEditorDescriptionClick()} className='m-1 py-2' contentEditable="">
                         Add a description...
                     </div>} */}
-                    {showCKEditorDescription && <CKEditorComponent save={handleSaveClick} dataCKEditor={desription.innerHTML} getValueCKEditor={getValueCKEditor} hidden={hiddenCKEditorDescriptionClick} />}
+                    {showCKEditorDescription && <CKEditorComponent save={handleSaveClick} dataCKEditor={values.description} getValueCKEditor={getValueCKEditor} hidden={hiddenCKEditorDescriptionClick} />}
                     <div className='child-isue'>
                         <div className='flex justify-between w-full h-11 items-center my-2'>
                         <div className='font-bold m-1'>

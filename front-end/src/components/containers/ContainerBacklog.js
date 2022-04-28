@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import useModal from '../../hooks/useModal';
 import { getProjects, updateProjects } from '../../redux/apiRequest';
@@ -13,13 +13,14 @@ import { faAngleDown, faSquareCheck, faTimes, faAngleRight, faFlag, faBolt, faCh
 import OptionComponent from '../option/OptionComponent'
 import CreateComponent from '../CreateComponent'
 import OptionHeaderBacklogComponent from '../option/OptionHeaderBacklogComponent'
-// import OptionItemBacklogComponent from '../components/option/OptionItemBacklogComponent'
 import ButtonBacklogComponent from '../backlog/ButtonBacklogComponent'
-// import CKEditorComponent from '../components/CKEditorComponent'
 import TaskItemComponent from '../backlog/TaskItemComponent'
+import { useListIssueContext } from '../../contexts/listIssueContext';
+import { fetchIssue } from '../../reducers/listIssueReducer';
 
-function ContainerBacklog({ project, listIssue }) {
+function ContainerBacklog({ project }) {
     const { id } = project;
+    const [listIssue, dispatchIssue] = useListIssueContext();
     const { currentUser } = useSelector(state => state.auth.login);
     const dispatch = useDispatch();
     const [show, setShow, handleClose] = useModal();
@@ -60,7 +61,12 @@ function ContainerBacklog({ project, listIssue }) {
             setShowMembers(prev => !prev);
         }
     }
-
+    // useEffect get issues
+    useEffect(() => {
+        if(project && Object.entries(project).length > 0) {
+            fetchIssue(project.id, dispatchIssue);
+        }
+    }, [project])
     useEffect(() => {
         const inputEl = inputRef.current;
         inputEl.addEventListener('focus', handleFocus);
@@ -76,7 +82,6 @@ function ContainerBacklog({ project, listIssue }) {
             try {
                 const resp = await axios.get(`${BASE_URL}/api/Project/GetAllMemberByIdProject?IdProject=${project.id}`);
                 const data = resp.data;
-                console.log('data ~ ', data);
                 setMembers(data);
             } catch (error) {
                 console.log(error);
@@ -111,7 +116,11 @@ function ContainerBacklog({ project, listIssue }) {
         }
         deleteMemberApi()
     }
-
+    // handle close epic
+    const handleCloseEpic = (e) => {
+        e.stopPropagation();
+        setShowEpic(false);
+    }
   return (
     <div className='container'>
         <div className="top">
@@ -173,48 +182,61 @@ function ContainerBacklog({ project, listIssue }) {
                     </svg>
                     </div>
                 </div>
+                <div className="filters">              
+                    <div onClick={() => setShowEpic(true)} style={showEpic ? {backgroundColor: '#8777D9', color: 'white'} : {}} className="epic">
+                        <span className='title'>Epic</span>
+                        <span className="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                        </span>
+
+                        <div
+                        style={showEpic ? { transform: 'translateX(-40%) scale(1)',opacity: 1} : {}}
+                        className='epic-dropdown p-2 w-[300px] mx-4 bg-white rounded-[5px] flex items-center flex-col'>
+                            <div className='flex justify-between w-full px-4 py-2'>
+                                <span>Epic</span>
+                                <span onClick={handleCloseEpic} className='inline-flex items-center justify-center w-[20px] h-20px] rounded-full hover:bg-primary hover:bg-opacity-20'>
+                                <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faTimes} />
+                                </span>
+                            </div>
+                            <div className='w-full p-3 m-[0.2rem] min-h-[3rem] h-fit bg-white flex items-center shadow-md rounded-[5px]'>
+                                issues without epic
+                            </div>
+                            <div className='w-full p-3 m-[0.2rem] min-h-[3rem] h-fit bg-white flex flex-col justify-center shadow-md rounded-[5px]'>
+                                <div className='flex items-center'>
+                                <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleRight} />
+                                <div className='h-5 w-5 inline-block bg-[#d0c6ff] rounded-[5px] mx-2'></div>
+                                issues without epic
+                                </div>
+                                <div className='h-2 w-full bg-[#ddd] rounded-[5px] my-2 relative'>
+                                <div className='absolute top-0 left-0  bottom-0 bg-blue-600 rounded-[10px]' style={{ width: "40%" }}>
+
+                                </div>
+                            </div>
+                            </div>
+                            <CreateComponent createWhat={"epic"} />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div className="bottom">
         <div className='wrap-backlog w-full max-h-[250px] flex flex-col'>
             <div className='w-full h-full flex-1 flex-col'>
               <div className='flex h-full w-full flex-[3] items-start'>
-                {
-                    showEpic &&
-                    <div className='p-2 flex-1 max-w-[300px] mx-4 bg-[#f4f5f7] rounded-[5px] flex items-center flex-col'>
-                    <div className='flex justify-between w-full px-4 py-2'>
-                        <span>Epic</span>
-                        <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faTimes} />
-                    </div>
-                    <div className='w-full p-3 m-[0.2rem] min-h-[3rem] h-fit bg-white flex items-center shadow-md rounded-[5px]'>
-                        issues without epic
-                    </div>
-                    <div className='w-full p-3 m-[0.2rem] min-h-[3rem] h-fit bg-white flex flex-col justify-center shadow-md rounded-[5px]'>
-                        <div className='flex items-center'>
-                        <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleRight} />
-                        <div className='h-5 w-5 inline-block bg-[#d0c6ff] rounded-[5px] mx-2'></div>
-                        issues without epic
-                        </div>
-                        <div className='h-2 w-full bg-[#ddd] rounded-[5px] my-2 relative'>
-                        <div className='absolute top-0 left-0  bottom-0 bg-blue-600 rounded-[10px]' style={{ width: "40%" }}>
 
-                        </div>
-                        </div>
-                    </div>
-                    <CreateComponent createWhat={"epic"} />
-                    </div>
-                }
                 <div className='main-backlog overflow-auto grow flex justify-center transition-all'>
                   <div className='backlog-item py-2 flex-1 mx-4 min-h-[10rem] bg-[#f4f5f7] rounded-[5px] flex items-center flex-col '>
                     <div className='header-backlog-item w-[98%] py-3 flex justify-between items-center'>
                       <div className='header-right'>
                         <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
                         <div className='name-sprint inline-block'>
-                          <span className='name font-medium pr-2'>MPM Sprint 1</span>
+                          <span className='name font-medium pr-2'>Backlog</span>
                         </div>
                         <div className='create-day inline-block font-light pl-2'>
-                          <span className='day pr-1'>19 Apr - 17 May</span>
-                          <span> (5 issues) </span>
+                          {/* <span className='day pr-1'>19 Apr - 17 May</span> */}
+                          <span> ({listIssue.length} issues) </span>
                         </div>
                       </div>
                       <div className='header-left flex items-center h-9'>
@@ -232,7 +254,7 @@ function ContainerBacklog({ project, listIssue }) {
                         {/* <div className='btn-main rounded-[5px] py-1 px-2  w-fit h-full mx-4 border-solid border-[#000] border-[1px]'>
                                         <span>Complete sprint</span>
                                     </div> */}
-                        <ButtonBacklogComponent text={"Complete sprint"} />
+                        <ButtonBacklogComponent text={"Create sprint"} />
                         <OptionComponent child={<OptionHeaderBacklogComponent />} />
                       </div>
                     </div>
@@ -240,7 +262,7 @@ function ContainerBacklog({ project, listIssue }) {
                     {
                       listIssue.length > 0 &&
                       listIssue.map(item => (
-                        <TaskItemComponent key={item.id} issue={item} />            
+                        <TaskItemComponent key={item.id} project={project} issue={item} />            
                       ))
                     }
                       <CreateComponent createWhat={"issues"} />
