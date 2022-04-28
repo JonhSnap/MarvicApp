@@ -23,7 +23,6 @@ namespace MarvicSolution.Services.System.Users.Validators
                 .Matches(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?").WithMessage("Invalid email!");
             RuleFor(x => x.PhoneNumber)
                 .NotEmpty().WithMessage("Phone number is required!");
-
         }
     }
 }

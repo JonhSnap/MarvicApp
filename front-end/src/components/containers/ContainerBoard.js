@@ -39,7 +39,7 @@ function ContainerBoard({ project }) {
             }
             console.log(dataPut);
             updateProjects(dispatch, dataPut);
-            getProjects(dispatch);
+            getProjects(dispatch, currentUser.id);
         }
         putData();
     }
