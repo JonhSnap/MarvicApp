@@ -7,6 +7,8 @@ using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Resquest.Dtos.Validators;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest;
+using MarvicSolution.Services.SendMail_Request.Dtos.Services;
+using MarvicSolution.Services.SendMail_Request.Dtos.Settings;
 using MarvicSolution.Services.System.Helpers;
 using MarvicSolution.Services.System.Users.Requests;
 using MarvicSolution.Services.System.Users.Services;
@@ -44,6 +46,7 @@ namespace MarvicSolution.BackendApi
 
             services.AddDbContext<MarvicDbContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.ConnectionString)));
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 
             /// Declare DI
             /// AddTransient: Moi lan request la tao moi 1 object
@@ -52,6 +55,7 @@ namespace MarvicSolution.BackendApi
             services.AddTransient<IIssue_Service, Issue_Service>();
             services.AddScoped<Jwt_Service, Jwt_Service>();
             services.AddScoped<IUser_Service, User_Service>();
+            services.AddTransient<IMailService, MailService>();
 
             services.AddControllers()
                 .AddFluentValidation(s =>
