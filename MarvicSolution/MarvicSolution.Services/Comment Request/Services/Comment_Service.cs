@@ -72,39 +72,55 @@ namespace MarvicSolution.Services.Comment_Request.Services
 
         public async Task<IList<CommentVM>> GetCommentsById_Issue(Guid id_Issue)
         {
-            //load only parent comment
-            var commments = await _context.Comments
-                .Where(cmt => cmt.Id_Issue == id_Issue && cmt.Is_Delete == EnumStatus.False && cmt.Id_ParentComment == Guid.Empty)
-                .OrderBy(comt => comt.Create_Date)
-                .Select(comt => new CommentVM(comt.Id, comt.Id_User, comt.Id_Issue, comt.Content, comt.Update_Date, comt.Create_Date, comt.Id_ParentComment))
-                .ToListAsync();
-            return await CountChildComment(commments);
+            try
+            {
+                //load only parent comment
+                var commments = await _context.Comments
+                    .Where(cmt => cmt.Id_Issue == id_Issue && cmt.Is_Delete == EnumStatus.False && cmt.Id_ParentComment == Guid.Empty)
+                    .OrderBy(comt => comt.Create_Date)
+                    .Select(comt => new CommentVM(comt.Id, comt.Id_User, comt.Id_Issue, comt.Content, comt.Update_Date, comt.Create_Date, comt.Id_ParentComment))
+                    .ToListAsync();
+                return await CountChildComment(commments);
+            }
+            catch (Exception ex)
+            {
+                //log here....
+                throw;
+            }
         }
         public async Task<IList<CommentVM>> GetCommentsByParentId(Guid parentId)
         {
-            var commments = await _context.Comments
-                .Where(cmt => cmt.Id_ParentComment == parentId && cmt.Is_Delete == EnumStatus.False)
-                .Select(comt =>
-                   new CommentVM(comt.Id, comt.Id_User, comt.Id_Issue, comt.Content, comt.Update_Date, comt.Create_Date, comt.Id_ParentComment)
-                )
-                .ToListAsync();
-            return await CountChildComment(commments);
+            try
+            {
+                var commments = await _context.Comments
+                    .Where(cmt => cmt.Id_ParentComment == parentId && cmt.Is_Delete == EnumStatus.False)
+                    .Select(comt =>
+                       new CommentVM(comt.Id, comt.Id_User, comt.Id_Issue, comt.Content, comt.Update_Date, comt.Create_Date, comt.Id_ParentComment)
+                    )
+                    .ToListAsync();
+                return await CountChildComment(commments);
+            }
+            catch (Exception ex)
+            {
+                //log here....
+                throw;
+            }
         }
 
         private async Task<IList<CommentVM>> CountChildComment(IList<CommentVM> commments)
         {
-            foreach (var parent in commments)
+            if (commments!=null)
             {
-                parent.CountChild = await _context.Comments
-                    .Where(cmt => cmt.Id_ParentComment == parent.Id)
-                    .OrderBy(comt => comt.Create_Date)
-                    .Select(comt => new CommentVM(comt.Id, comt.Id_User, comt.Id_Issue, comt.Content, comt.Update_Date, comt.Create_Date, comt.Id_ParentComment))
-                    .CountAsync();
+                foreach (var parent in commments)
+                {
+                    parent.CountChild = await _context.Comments
+                        .Where(cmt => cmt.Id_ParentComment == parent.Id)
+                        .OrderBy(comt => comt.Create_Date)
+                        .Select(comt => new CommentVM(comt.Id, comt.Id_User, comt.Id_Issue, comt.Content, comt.Update_Date, comt.Create_Date, comt.Id_ParentComment))
+                        .CountAsync();
+                }
             }
             return commments;
-
         }
-
-
     }
 }
