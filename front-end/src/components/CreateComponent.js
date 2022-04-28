@@ -6,8 +6,11 @@ import { v4 } from 'uuid'
 import axios from 'axios'
 import { BASE_URL } from '../util/constants'
 import { useSelector } from 'react-redux'
+import { createIssue, fetchIssue } from '../reducers/listIssueReducer'
+import { useListIssueContext} from '../contexts/listIssueContext'
 
-function InputComponent({ setShow, listIssue, setListIssue, project }) {
+function InputComponent({ setShow, project }) {
+  const [, dispatch] = useListIssueContext()
   const inputRef = useRef(null)
   const [selectedValue, setSelectedValue] = useState(1);
   const [valueInput, setValueInput] = useState('');
@@ -25,9 +28,9 @@ function InputComponent({ setShow, listIssue, setListIssue, project }) {
     const createIssues = async () => {
 
       const issuesPOST = {
-        "id_Project": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "id_Project": project.id,
         " id_IssueType": selectedValue,
-        "story_Point_Estimate": 5,
+        "story_Point_Estimate": 0,
         "priority": 3,
         "id_Stage": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         "summary": input.value,
@@ -38,13 +41,9 @@ function InputComponent({ setShow, listIssue, setListIssue, project }) {
       };
 
       try {
-        const respose = await axios.post(`${BASE_URL}/api/Issue/Create`, issuesPOST);
-        if (respose.data === 200) {
-          const data = respose.data;
-          console.log(data);
-
-          // setListIssue([...listIssue, data])
-        }
+        createIssue(issuesPOST, dispatch)
+        fetchIssue(project.id, dispatch)
+        setShow(false);
       } catch (error) {
         console.log(error);
       }
@@ -66,15 +65,10 @@ function InputComponent({ setShow, listIssue, setListIssue, project }) {
     }
     input.addEventListener("keypress", handleKeyBoardEnter);
     document.addEventListener('click', handleClick2)
-
-
-
     return () => {
       input.removeEventListener("keypress", handleKeyBoardEnter);
       document.removeEventListener('click', handleClick2);
     }
-
-
   }, [])
 
 

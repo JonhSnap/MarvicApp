@@ -107,6 +107,68 @@
                 }
             }
         }
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-left: 20px;
+            cursor: pointer;
+            transition: all linear 0.1s;
+            .epic {
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+                width: 80px;
+                height: 35px;
+                border-radius: 4px;
+                &:hover {
+                    @apply bg-epic-color;
+                    color: #fff;
+                }
+                .title {
+                    font-size: 14px;
+                    font-weight: 500;
+                }
+                .icon {
+                    display: inline-block;
+                    width: 15px;
+                    height: 15px;
+                    color: inherit;
+                }
+                .epic-dropdown {
+                    position: absolute;
+                    top: calc(100% + 20px);
+                    left: 0;
+                    color: #000;
+                    transform: translateX(-40%) scale(0.2);
+                    transform-origin: top center;
+                    opacity: 0;
+                    box-shadow: 1px 1px 5px 0 #8777D9;
+                    transition: all linear 0.1s;
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 50%;
+                        width: 20px;
+                        height: 20px;
+                        background-color: #fff;
+                        box-shadow: 1px 1px 5px 0 #8777D9;
+                        transform: translate(-50%, -40%) rotate(45deg);
+                    }
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 50%;
+                        width: 100px;
+                        height: 25px;
+                        background-color: #fff;
+                        transform: translateX(-50%);
+                    }
+                }
+            }
+        }
     }
     .bottom {
         flex-grow: 1;
