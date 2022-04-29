@@ -35,13 +35,14 @@ const Comment = ({
         .get(`${BASE_URL}/api/Comments/${commentID}`)
         .then((res) => {
           setReply(res.data);
+          loadComment();
         })
         .catch((err) => console.log(err));
     };
     if (comment.countChild > 0) {
       replies(comment.id);
     }
-  }, [comment]);
+  }, [comment.countChild, comment.id, loadComment]);
 
   return (
     <div key={comment.id} className="comment">

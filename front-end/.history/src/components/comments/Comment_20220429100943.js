@@ -36,12 +36,13 @@ const Comment = ({
         .then((res) => {
           setReply(res.data);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => alert(err));
     };
     if (comment.countChild > 0) {
       replies(comment.id);
+      loadComment();
     }
-  }, [comment]);
+  }, [comment.countChild, comment.id]);
 
   return (
     <div key={comment.id} className="comment">

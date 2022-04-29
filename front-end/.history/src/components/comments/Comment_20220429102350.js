@@ -11,7 +11,6 @@ const Comment = ({
   deleteComment,
   addComment,
   id_ParentComment = null,
-  loadComment,
 }) => {
   const [reply, setReply] = useState([]);
   const fiveMinutes = 300000;

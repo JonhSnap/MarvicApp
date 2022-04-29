@@ -7,11 +7,10 @@ const Comment = ({
   currentUserId,
   setActiveComment,
   activeComment,
-  updateComment,
+  // updateComment,
   deleteComment,
-  addComment,
-  id_ParentComment = null,
-  loadComment,
+  // addComment,
+  // parentId = null,
 }) => {
   const [reply, setReply] = useState([]);
   const fiveMinutes = 300000;
@@ -19,15 +18,6 @@ const Comment = ({
   const canReply = Boolean(currentUserId);
   const canEdit = currentUserId === comment.id_User && !timePassed;
   const canDelete = currentUserId === comment.id_User && !timePassed;
-  const isReplying =
-    activeComment &&
-    activeComment.type === "replying" &&
-    activeComment.id === comment.id;
-  const isEditting =
-    activeComment &&
-    activeComment.type === "editting" &&
-    activeComment.id === comment.id;
-  const replyId = id_ParentComment ? id_ParentComment : comment.id;
   // const create_Date = new Date(comment.create_Date).toLocaleDateString();
   useEffect(() => {
     const replies = async (commentID) => {
@@ -36,12 +26,12 @@ const Comment = ({
         .then((res) => {
           setReply(res.data);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => alert(err));
     };
     if (comment.countChild > 0) {
       replies(comment.id);
     }
-  }, [comment]);
+  }, []);
 
   return (
     <div key={comment.id} className="comment">
@@ -56,37 +46,10 @@ const Comment = ({
           <div className="comment-author">{comment.id_User}</div>
           <div>{comment.create_Date}</div>
         </div>
-        {!isEditting && <div className="comment-text">{comment.content}</div>}
-        {isEditting && (
-          <CommentForm
-            submitLabel="Update"
-            hasCancelButton
-            initialText={comment.content}
-            handleSubmit={(text) => updateComment(text, comment.id)}
-            handleCancel={() => setActiveComment(null)}
-          />
-        )}
+        <div className="comment-text">{comment.content}</div>
         <div className="comment-actions">
-          {canReply && (
-            <div
-              className="comment-action"
-              onClick={() =>
-                setActiveComment({ id: comment.id, type: "replying" })
-              }
-            >
-              Reply
-            </div>
-          )}
-          {canEdit && (
-            <div
-              className="comment-action"
-              onClick={() =>
-                setActiveComment({ id: comment.id, type: "editting" })
-              }
-            >
-              Edit
-            </div>
-          )}
+          {canReply && <div className="comment-action">Reply</div>}
+          {canEdit && <div className="comment-action">Edit</div>}
           {canDelete && (
             <div
               className="comment-action"
@@ -96,12 +59,6 @@ const Comment = ({
             </div>
           )}
         </div>
-        {isReplying && (
-          <CommentForm
-            submitLabel="Reply"
-            handleSubmit={(text) => addComment(text, replyId)}
-          />
-        )}
         {comment.countChild > 0 && (
           <div className="replies">
             {reply.length > 0 &&
@@ -111,12 +68,6 @@ const Comment = ({
                   key={reply.id}
                   currentUserId={currentUserId}
                   deleteComment={deleteComment}
-                  id_ParentComment={comment.id}
-                  activeComment={activeComment}
-                  setActiveComment={setActiveComment}
-                  addComment={addComment}
-                  replies={[]}
-                  updateComment={updateComment}
                 />
               ))}
           </div>

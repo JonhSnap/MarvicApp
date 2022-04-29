@@ -40,8 +40,9 @@ const Comment = ({
     };
     if (comment.countChild > 0) {
       replies(comment.id);
+      loadComment();
     }
-  }, [comment]);
+  }, [comment.countChild, comment.id, loadComment]);
 
   return (
     <div key={comment.id} className="comment">

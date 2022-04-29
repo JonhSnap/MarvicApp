@@ -20,7 +20,7 @@ const Comments = ({ commentURL }) => {
       })
       .catch((err) => alert(err));
   };
-
+  
   const connection = new HubConnectionBuilder()
     .withUrl(commentURL)
     .configureLogging(LogLevel.Information)
@@ -54,25 +54,25 @@ const Comments = ({ commentURL }) => {
     if (window.confirm("Are you sure that you want to remove comment")) {
       await axios
         .delete(`https://localhost:5001/api/Comments/${commentId}`, {
-          data: { id_User: id_User },
+          data: {"id_User": "e341a8f6-dc1b-4829-94fb-316b6bac99b6"}
         })
         .then(() => {
-          loadComment();
+        loadComment()
         });
     }
   };
 
   const updateComment = async (text, commentId) => {
-    await axios
-      .put(`${BASE_URL}/api/Comments/${commentId}`, {
-        id_User: id_User,
-        content: text,
-      })
-      .then(() => {
-        console.log("success");
-        loadComment();
-        setActiveComment(null);
+    await axios.put(`${BASE_URL}/api/Comments/${commentId}`, text).then(() => {
+      const updateComment = comments.map((comment) => {
+        if (comment.id === commentId) {
+          return { ...comment, content: text };
+        }
+        return comment;
       });
+      setComments(updateComment);
+      setActiveComment(null);
+    });
   };
 
   return (

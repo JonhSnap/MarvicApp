@@ -63,16 +63,16 @@ const Comments = ({ commentURL }) => {
   };
 
   const updateComment = async (text, commentId) => {
-    await axios
-      .put(`${BASE_URL}/api/Comments/${commentId}`, {
-        id_User: id_User,
-        content: text,
-      })
-      .then(() => {
-        console.log("success");
-        loadComment();
-        setActiveComment(null);
+    await axios.put(`${BASE_URL}/api/Comments/${commentId}`, text).then(() => {
+      const updateComment = comments.map((comment) => {
+        if (comment.id === commentId) {
+          return { ...comment, content: text };
+        }
+        return comment;
       });
+      setComments(updateComment);
+      setActiveComment(null);
+    });
   };
 
   return (

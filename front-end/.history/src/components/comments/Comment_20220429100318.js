@@ -11,7 +11,6 @@ const Comment = ({
   deleteComment,
   addComment,
   id_ParentComment = null,
-  loadComment,
 }) => {
   const [reply, setReply] = useState([]);
   const fiveMinutes = 300000;
@@ -28,7 +27,7 @@ const Comment = ({
     activeComment.type === "editting" &&
     activeComment.id === comment.id;
   const replyId = id_ParentComment ? id_ParentComment : comment.id;
-  // const create_Date = new Date(comment.create_Date).toLocaleDateString();
+  const create_Date = new Date(comment.create_Date).toLocaleDateString();
   useEffect(() => {
     const replies = async (commentID) => {
       await axios
@@ -36,12 +35,12 @@ const Comment = ({
         .then((res) => {
           setReply(res.data);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => alert(err));
     };
     if (comment.countChild > 0) {
       replies(comment.id);
     }
-  }, [comment]);
+  }, [comment.countChild, comment.id]);
 
   return (
     <div key={comment.id} className="comment">

@@ -7,11 +7,10 @@ const Comment = ({
   currentUserId,
   setActiveComment,
   activeComment,
-  updateComment,
+  // updateComment,
   deleteComment,
   addComment,
   id_ParentComment = null,
-  loadComment,
 }) => {
   const [reply, setReply] = useState([]);
   const fiveMinutes = 300000;
@@ -36,12 +35,12 @@ const Comment = ({
         .then((res) => {
           setReply(res.data);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => alert(err));
     };
     if (comment.countChild > 0) {
       replies(comment.id);
     }
-  }, [comment]);
+  }, []);
 
   return (
     <div key={comment.id} className="comment">
@@ -57,15 +56,6 @@ const Comment = ({
           <div>{comment.create_Date}</div>
         </div>
         {!isEditting && <div className="comment-text">{comment.content}</div>}
-        {isEditting && (
-          <CommentForm
-            submitLabel="Update"
-            hasCancelButton
-            initialText={comment.content}
-            handleSubmit={(text) => updateComment(text, comment.id)}
-            handleCancel={() => setActiveComment(null)}
-          />
-        )}
         <div className="comment-actions">
           {canReply && (
             <div
@@ -116,7 +106,6 @@ const Comment = ({
                   setActiveComment={setActiveComment}
                   addComment={addComment}
                   replies={[]}
-                  updateComment={updateComment}
                 />
               ))}
           </div>

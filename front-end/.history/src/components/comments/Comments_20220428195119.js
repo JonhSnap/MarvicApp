@@ -20,7 +20,6 @@ const Comments = ({ commentURL }) => {
       })
       .catch((err) => alert(err));
   };
-
   const connection = new HubConnectionBuilder()
     .withUrl(commentURL)
     .configureLogging(LogLevel.Information)
@@ -36,7 +35,19 @@ const Comments = ({ commentURL }) => {
       })
       .catch((e) => console.log("Connecttion faild", e));
   }, []);
-  const addComment = async (content, id_ParentComment) => {
+  const addCommentParent = async (content) => {
+    await axios
+      .post(`${BASE_URL}/api/Comments`, {
+        content,
+        id_User,
+        id_Issue,
+      })
+      .then((cmt) => {
+        setComments([cmt, ...comments]);
+        setActiveComment(null);
+      });
+  };
+  const addComment = async (content, id_ParentComment = null) => {
     await axios
       .post(`${BASE_URL}/api/Comments`, {
         content,
@@ -53,33 +64,27 @@ const Comments = ({ commentURL }) => {
   const deleteComment = async (commentId) => {
     if (window.confirm("Are you sure that you want to remove comment")) {
       await axios
-        .delete(`https://localhost:5001/api/Comments/${commentId}`, {
-          data: { id_User: id_User },
-        })
+        .delete(`${BASE_URL}/api/Comments/${commentId}`, { id_User })
         .then(() => {
-          loadComment();
+          console.log("delete comment success");
         });
     }
   };
 
   const updateComment = async (text, commentId) => {
     await axios
-      .put(`${BASE_URL}/api/Comments/${commentId}`, {
-        id_User: id_User,
-        content: text,
-      })
+      .put(`${BASE_URL}/api/Comments/${commentId}`, { text })
       .then(() => {
-        console.log("success");
-        loadComment();
-        setActiveComment(null);
+        const updateComment = comments.map((comment) => {});
       });
+    setActiveComment(null);
   };
 
   return (
     <div className="comments w-full max-w-[1320px] mx-auto">
       <h3 className="comments-title">Comments</h3>
       <div className="comment-form-title">Write comment</div>
-      <CommentForm submitLabel="Write" handleSubmit={addComment} />
+      <CommentForm submitLabel="Write" handleSubmit={addCommentParent} />
       <div className="comments-container">
         {comments.length > 0 &&
           comments.map((item) => (
@@ -92,7 +97,6 @@ const Comments = ({ commentURL }) => {
               activeComment={activeComment}
               setActiveComment={setActiveComment}
               updateComment={updateComment}
-              loadComment={loadComment}
             />
           ))}
       </div>

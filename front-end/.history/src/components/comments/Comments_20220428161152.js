@@ -12,20 +12,19 @@ const Comments = ({ commentURL }) => {
   const user = useSelector((state) => state.auth.login.currentUser);
   const id_User = user?.id;
   const id_Issue = "7c2cc804-4aae-4af2-9191-4268fc02edc0";
-  const loadComment = async () => {
-    await axios
-      .get(`${BASE_URL}/api/Comments/issue/${id_Issue}`)
-      .then((res) => {
-        setComments(res.data);
-      })
-      .catch((err) => alert(err));
-  };
-
   const connection = new HubConnectionBuilder()
     .withUrl(commentURL)
     .configureLogging(LogLevel.Information)
     .build();
   useEffect(() => {
+    const loadComment = async () => {
+      await axios
+        .get(`${BASE_URL}/api/Comments/issue/${id_Issue}`)
+        .then((res) => {
+          setComments(res.data);
+        })
+        .catch((err) => alert(err));
+    };
     loadComment();
     connection
       .start()
@@ -36,7 +35,7 @@ const Comments = ({ commentURL }) => {
       })
       .catch((e) => console.log("Connecttion faild", e));
   }, []);
-  const addComment = async (content, id_ParentComment) => {
+  const addComment = async (content, id_ParentComment = null) => {
     await axios
       .post(`${BASE_URL}/api/Comments`, {
         content,
@@ -53,26 +52,11 @@ const Comments = ({ commentURL }) => {
   const deleteComment = async (commentId) => {
     if (window.confirm("Are you sure that you want to remove comment")) {
       await axios
-        .delete(`https://localhost:5001/api/Comments/${commentId}`, {
-          data: { id_User: id_User },
-        })
+        .delete(`${BASE_URL}/api/Comments/${commentId}`, { id_User })
         .then(() => {
-          loadComment();
+          console.log("delete comment success");
         });
     }
-  };
-
-  const updateComment = async (text, commentId) => {
-    await axios
-      .put(`${BASE_URL}/api/Comments/${commentId}`, {
-        id_User: id_User,
-        content: text,
-      })
-      .then(() => {
-        console.log("success");
-        loadComment();
-        setActiveComment(null);
-      });
   };
 
   return (
@@ -91,8 +75,6 @@ const Comments = ({ commentURL }) => {
               deleteComment={deleteComment}
               activeComment={activeComment}
               setActiveComment={setActiveComment}
-              updateComment={updateComment}
-              loadComment={loadComment}
             />
           ))}
       </div>

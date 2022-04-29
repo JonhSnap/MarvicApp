@@ -70,6 +70,12 @@ const Comments = ({ commentURL }) => {
       })
       .then(() => {
         console.log("success");
+        // const updateComment = comments.map((comment) => {
+        //   if (comment.id === commentId) {
+        //     return { ...comment, content: text };
+        //   }
+        //   return comment;
+        // });
         loadComment();
         setActiveComment(null);
       });

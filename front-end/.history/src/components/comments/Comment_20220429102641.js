@@ -11,7 +11,6 @@ const Comment = ({
   deleteComment,
   addComment,
   id_ParentComment = null,
-  loadComment,
 }) => {
   const [reply, setReply] = useState([]);
   const fiveMinutes = 300000;
@@ -41,7 +40,7 @@ const Comment = ({
     if (comment.countChild > 0) {
       replies(comment.id);
     }
-  }, [comment]);
+  }, []);
 
   return (
     <div key={comment.id} className="comment">

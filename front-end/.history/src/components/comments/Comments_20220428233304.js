@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 const Comments = ({ commentURL }) => {
   const [comments, setComments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
+  const [change, setChang] = useState(false);
   const user = useSelector((state) => state.auth.login.currentUser);
   const id_User = user?.id;
   const id_Issue = "7c2cc804-4aae-4af2-9191-4268fc02edc0";
@@ -20,7 +21,6 @@ const Comments = ({ commentURL }) => {
       })
       .catch((err) => alert(err));
   };
-
   const connection = new HubConnectionBuilder()
     .withUrl(commentURL)
     .configureLogging(LogLevel.Information)
@@ -36,50 +36,62 @@ const Comments = ({ commentURL }) => {
       })
       .catch((e) => console.log("Connecttion faild", e));
   }, []);
-  const addComment = async (content, id_ParentComment) => {
+  const addCommentParent = async (content) => {
     await axios
       .post(`${BASE_URL}/api/Comments`, {
         content,
         id_User,
         id_Issue,
-        id_ParentComment,
       })
       .then((cmt) => {
         setComments([cmt, ...comments]);
         setActiveComment(null);
       });
   };
+  const addComment = async (content, id_ParentComment = null) => {
+    const cmt = await axios.post(`${BASE_URL}/api/Comments`, {
+      content,
+      id_User,
+      id_Issue,
+      id_ParentComment,
+    });
+    cmt && setComments((pre) => [...pre, cmt]);
+    setActiveComment(null);
+    // .then((cmt) => {
+    //   setComments([cmt, ...comments]);
+    //   setActiveComment(null);
+    //   setChang(!change);
+    // });
+  };
   // https://localhost:5001/api/Comments/90c871a8-4f30-4a0a-6276-08da28bd73fd
   const deleteComment = async (commentId) => {
     if (window.confirm("Are you sure that you want to remove comment")) {
       await axios
-        .delete(`https://localhost:5001/api/Comments/${commentId}`, {
-          data: { id_User: id_User },
-        })
+        .delete(`${BASE_URL}/api/Comments/${commentId}`, { id_User })
         .then(() => {
-          loadComment();
+          console.log("delete comment success");
         });
     }
   };
 
   const updateComment = async (text, commentId) => {
-    await axios
-      .put(`${BASE_URL}/api/Comments/${commentId}`, {
-        id_User: id_User,
-        content: text,
-      })
-      .then(() => {
-        console.log("success");
-        loadComment();
-        setActiveComment(null);
+    await axios.put(`${BASE_URL}/api/Comments/${commentId}`, text).then(() => {
+      const updateComment = comments.map((comment) => {
+        if (comment.id === commentId) {
+          return { ...comment, content: text };
+        }
+        return comment;
       });
+      setComments(updateComment);
+      setActiveComment(null);
+    });
   };
 
   return (
     <div className="comments w-full max-w-[1320px] mx-auto">
       <h3 className="comments-title">Comments</h3>
       <div className="comment-form-title">Write comment</div>
-      <CommentForm submitLabel="Write" handleSubmit={addComment} />
+      <CommentForm submitLabel="Write" handleSubmit={addCommentParent} />
       <div className="comments-container">
         {comments.length > 0 &&
           comments.map((item) => (
@@ -92,7 +104,6 @@ const Comments = ({ commentURL }) => {
               activeComment={activeComment}
               setActiveComment={setActiveComment}
               updateComment={updateComment}
-              loadComment={loadComment}
             />
           ))}
       </div>

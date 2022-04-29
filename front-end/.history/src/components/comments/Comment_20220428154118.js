@@ -7,11 +7,10 @@ const Comment = ({
   currentUserId,
   setActiveComment,
   activeComment,
-  updateComment,
+  // updateComment,
   deleteComment,
-  addComment,
-  id_ParentComment = null,
-  loadComment,
+  // addComment,
+  // parentId = null,
 }) => {
   const [reply, setReply] = useState([]);
   const fiveMinutes = 300000;
@@ -27,7 +26,6 @@ const Comment = ({
     activeComment &&
     activeComment.type === "editting" &&
     activeComment.id === comment.id;
-  const replyId = id_ParentComment ? id_ParentComment : comment.id;
   // const create_Date = new Date(comment.create_Date).toLocaleDateString();
   useEffect(() => {
     const replies = async (commentID) => {
@@ -36,12 +34,12 @@ const Comment = ({
         .then((res) => {
           setReply(res.data);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => alert(err));
     };
     if (comment.countChild > 0) {
       replies(comment.id);
     }
-  }, [comment]);
+  }, []);
 
   return (
     <div key={comment.id} className="comment">
@@ -56,16 +54,7 @@ const Comment = ({
           <div className="comment-author">{comment.id_User}</div>
           <div>{comment.create_Date}</div>
         </div>
-        {!isEditting && <div className="comment-text">{comment.content}</div>}
-        {isEditting && (
-          <CommentForm
-            submitLabel="Update"
-            hasCancelButton
-            initialText={comment.content}
-            handleSubmit={(text) => updateComment(text, comment.id)}
-            handleCancel={() => setActiveComment(null)}
-          />
-        )}
+        <div className="comment-text">{comment.content}</div>
         <div className="comment-actions">
           {canReply && (
             <div
@@ -99,7 +88,7 @@ const Comment = ({
         {isReplying && (
           <CommentForm
             submitLabel="Reply"
-            handleSubmit={(text) => addComment(text, replyId)}
+            handleSubmit={() => addComment(text, replyId)}
           />
         )}
         {comment.countChild > 0 && (
@@ -111,12 +100,6 @@ const Comment = ({
                   key={reply.id}
                   currentUserId={currentUserId}
                   deleteComment={deleteComment}
-                  id_ParentComment={comment.id}
-                  activeComment={activeComment}
-                  setActiveComment={setActiveComment}
-                  addComment={addComment}
-                  replies={[]}
-                  updateComment={updateComment}
                 />
               ))}
           </div>
