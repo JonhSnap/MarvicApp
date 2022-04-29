@@ -75,11 +75,11 @@ namespace MarvicSolution.Services.Comment_Request.Services
             try
             {
                 //load only parent comment
-                var commments = await _context.Comments
-                    .Where(cmt => cmt.Id_Issue == id_Issue && cmt.Is_Delete == EnumStatus.False && cmt.Id_ParentComment == Guid.Empty)
-                    .OrderBy(comt => comt.Create_Date)
-                    .Select(comt => new CommentVM(comt.Id, comt.Id_User, comt.Id_Issue, comt.Content, comt.Update_Date, comt.Create_Date, comt.Id_ParentComment))
-                    .ToListAsync();
+                var commments = await (from user in _context.App_Users
+                                      join comt in _context.Comments on user.Id equals comt.Id_User
+                                      where comt.Id_Issue == id_Issue && comt.Id_ParentComment==Guid.Empty
+                                      select new CommentVM(comt.Id, comt.Id_User, comt.Id_Issue, user.UserName, comt.Content, comt.Update_Date, comt.Create_Date, comt.Id_ParentComment))
+                                      .ToListAsync();
                 return await CountChildComment(commments);
             }
             catch (Exception ex)
