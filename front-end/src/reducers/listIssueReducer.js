@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "../util/constants";
-import { CHANGE_FILTERS_NAME, CREATE_ISSUE, GET_ISSUES, UPDATE_ISSUES } from "./actions";
+import { CHANGE_FILTERS_EPIC, CHANGE_FILTERS_NAME, CHANGE_FILTERS_TYPE, CREATE_ISSUE, DELETE_ISSUE, GET_ISSUES, UPDATE_ISSUES } from "./actions";
 
 // fetch issue
 const fetchIssue = async(projectId, dispatch) => {
@@ -36,11 +36,25 @@ const createIssue = async(issuePost, dispatch) => {
         })
     }   
 }
+// delete issue
+const deleteIssue = async(idIssue, dispatch) => {
+    const resp = await axios.delete(`${BASE_URL}/api/Issue/${idIssue}`);
+    if (resp.status === 200) {
+        dispatch({
+            type: DELETE_ISSUE,
+            payload: idIssue
+        })
+    }   
+}
 
 const initialIssues = {
     issues: [],
+    issueEpics: [],
+    issueNormals: [],
     filters: {
-        name: ''
+        name: '',
+        type: [],
+        epics: []
     }
 }
 
@@ -48,31 +62,92 @@ const listIssueReducer = (state, action) => {
     let stateCopy = {...state};
     switch (action.type) {
         case GET_ISSUES:
-            const nameFilter = stateCopy.filters.name
+            // lấy ra các epic
+            let issueEpicsData = action.payload.filter(item => item.id_IssueType === 1);
+            // lấy ra các issue normal
+            let issueNormalData = action.payload.filter(item => item.id_IssueType !== 1);
+            const nameFilter = stateCopy.filters.name;
+            const epicFilter = stateCopy.filters.epics;
+            const typeFilter = stateCopy.filters.type;
+            // filter name
             if(nameFilter) {
-                const result = action.payload.filter(item => item.summary.toLowerCase().includes(nameFilter.toLowerCase()))
-                state = {
-                    ...state,
-                    issues: [...result]
+                const result = issueNormalData.filter(item => item.summary.toLowerCase().includes(nameFilter.toLowerCase()))
+                stateCopy = {
+                    ...stateCopy,
+                    issues: [...action.payload],
+                    issueEpics: [...issueEpicsData],
+                    issueNormals: [...result]
                 }
             }else {
-                state = {
+                stateCopy = {
                     ...stateCopy,
-                    issues: action.payload
+                    issues: [...action.payload],
+                    issueEpics: [...issueEpicsData],
+                    issueNormals: [...issueNormalData]
                 }
             }
+            // filter epic
+            if(epicFilter.length > 0) {
+                let result = [];
+                if(epicFilter.includes('issues without epic')) {
+                    result = stateCopy.issueNormals.filter(item => {
+                        return !item.id_Parent_Issue || item.id_Parent_Issue === '00000000-0000-0000-0000-000000000000';
+                    })
+                }
+                result = [
+                    ...result,
+                    ...stateCopy.issueNormals.filter(item => {
+                        return epicFilter.includes(item.id_Parent_Issue)
+                    })
+                ]
+                stateCopy = {
+                    ...stateCopy,
+                   issueNormals: [...result]
+                }
+            }else {
+                stateCopy = {
+                    ...stateCopy
+                }
+            }
+            // filter type
+            if(typeFilter.length > 0) {
+                const result = stateCopy.issueNormals.filter(item => typeFilter.includes(item.id_IssueType));
+                stateCopy = {
+                    ...stateCopy,
+                    issueNormals: [...result]
+                }
+            }else {
+                stateCopy = {
+                    ...stateCopy
+                }
+            }
+            state = {...stateCopy};
             break;
         case UPDATE_ISSUES:
-            const index = stateCopy.issues.findIndex(item => item.id === action.payload.id);
+            let index = stateCopy.issues.findIndex(item => item.id === action.payload.id);
             stateCopy.issues.splice(index, 1, action.payload);
+            if(action.payload.id_IssueType === 1) {
+                index = stateCopy.issueEpics.findIndex(item => item.id === action.payload.id);
+                stateCopy.issueEpics.splice(index, 1, action.payload);
+            }else {
+                index = stateCopy.issueNormals.findIndex(item => item.id === action.payload.id);
+                stateCopy.issueNormals.splice(index, 1, action.payload);
+            }
             state = {...stateCopy};
             break;
         case CREATE_ISSUE:
-            stateCopy = {
-                ...stateCopy,
-                issues: [...stateCopy.issues, action.payload]
+            stateCopy.issues = [...stateCopy.issueEpics, action.payload];
+            if(action.payload.id_IssueType === 1) {
+                stateCopy.issueEpics = [...stateCopy.issueEpics, action.payload];
+            }else {
+                stateCopy.issueNormals = [...stateCopy.issueNormals, action.payload];
             }
             state = {...stateCopy}
+            break;
+        case DELETE_ISSUE:
+            stateCopy.issues = stateCopy.issues.filter(item => item.id !== action.payload)  
+            console.log('list issue ~ ', stateCopy.issues);
+            state = {...stateCopy};
             break;
         case CHANGE_FILTERS_NAME:
             state = {
@@ -83,9 +158,67 @@ const listIssueReducer = (state, action) => {
                 }
             }
             break;
+        case CHANGE_FILTERS_TYPE:
+            const filterType = stateCopy.filters.type;
+            if(filterType.length > 0) {
+                if(filterType.includes(action.payload)) {
+                    const result = filterType.filter(item => item !== action.payload);
+                    stateCopy = {
+                        ...stateCopy,
+                        filters: {
+                            ...stateCopy.filters,
+                            type: [...result]
+                        }
+                    }
+                }else {
+                    stateCopy = {
+                        ...stateCopy,
+                        filters: {
+                            ...stateCopy.filters,
+                            type: [...stateCopy.filters.type, action.payload]
+                        }
+                    }
+                }
+            }else {
+                stateCopy = {
+                    ...stateCopy,
+                    filters: {
+                        ...stateCopy.filters,
+                        type: [action.payload]
+                    }
+                }
+            }
+            state = {...stateCopy}
+            break;
+        case CHANGE_FILTERS_EPIC:
+            let filtersEpic = stateCopy.filters.epics;
+            if(filtersEpic.length > 0) {
+                if(filtersEpic.includes(action.payload)) {
+                    filtersEpic = filtersEpic.filter(item => item !== action.payload)
+                }else {
+                    filtersEpic = [...filtersEpic, action.payload]
+                }
+                stateCopy = {
+                    ...stateCopy,
+                    filters: {
+                        ...stateCopy.filters,
+                        epics: [...filtersEpic]
+                    }
+                }
+            }else {
+                stateCopy = {
+                    ...stateCopy,
+                    filters: {
+                        ...stateCopy.filters,
+                        epics: [...stateCopy.filters.epics, action.payload]
+                    }
+                }
+            }
+            state = {...stateCopy}
+            break;
         default:
             break
     }
     return state;
 }
-export { initialIssues, listIssueReducer, fetchIssue, updateIssues, createIssue}
+export { initialIssues, listIssueReducer, fetchIssue, updateIssues, createIssue, deleteIssue}

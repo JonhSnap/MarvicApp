@@ -1,8 +1,9 @@
 import React from 'react'
 import { useListIssueContext } from '../../contexts/listIssueContext';
-import { updateIssues } from '../../reducers/listIssueReducer';
+import { deleteIssue, fetchIssue, updateIssues } from '../../reducers/listIssueReducer';
+import createToast from '../../util/createToast';
 
-export default function OptionItemBacklogComponent({ issue }) {
+export default function OptionItemBacklogComponent({ issue, project }) {
     const [, dispatch] = useListIssueContext();
 
     // handle change flagg
@@ -14,6 +15,18 @@ export default function OptionItemBacklogComponent({ issue }) {
             issueUpdate.isFlagged = 1
         }
         updateIssues(issueUpdate, dispatch);
+        createToast('success', issueUpdate.isFlagged ? 'Add flag successfully!' : 'Remove flag successfully!')
+        setTimeout(() => {
+            fetchIssue(project.id, dispatch);
+        }, 500);
+    }
+    // handleDeleteIssue
+    const handleDeleteIssue = () => {
+        if(window.confirm(`Are you sure to delete issue ${issue.summary}?`)) {
+            deleteIssue(issue.id, dispatch);
+        }else {
+            return;
+        }
     }
 
     return (
@@ -32,7 +45,7 @@ export default function OptionItemBacklogComponent({ issue }) {
                     <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
                         Copy issue link
                     </div>
-                    <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
+                    <div onClick={handleDeleteIssue} role="button" className='p-2 hover:bg-[#f4f5f7]'>
                         Delete
                     </div>
                     <div className='p-2 uppercase text-[#ccc]'>
