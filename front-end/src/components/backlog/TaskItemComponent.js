@@ -1,4 +1,7 @@
-import React, { useEffect, useRef, useState, memo } from 'react'
+import React, { useRef, useState, memo } from 'react'
+import { fetchIssue, updateIssues } from '../../reducers/listIssueReducer'
+import { issueTypes } from '../../util/constants'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faSquareCheck, faTimes, faAngleRight, faFlag, faBolt, faCheck, faLock, faEye, faThumbsUp, faTimeline, faPaperclip, faLink, faPlus, faArrowDownShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons'
 import MemberComponent from '../board/MemberComponent'
@@ -6,61 +9,79 @@ import OptionComponent from '../option/OptionComponent'
 import OptionItemBacklogComponent from '../option/OptionItemBacklogComponent'
 import useModal from '../../hooks/useModal'
 import EditIssuePopup from '../popup/EditIssuePopup'
+import { useListIssueContext } from '../../contexts/listIssueContext'
+import createToast from '../../util/createToast'
 
 
 
-function TaskItemComponent({ issue, project }) {
+function TaskItemComponent({members, issue, project, issueEpics }) {
     const [showEdit, setShow, handleClose] = useModal();
+    const [, dispatch] = useListIssueContext();
     const [showFlag, setShowFlag] = useState(false);
     const [showInputPoint, setShowInputPoint] = useState(false);
+    const [valuePointStore, setValuePointStore] = useState('');
+    const [showEditEpic, setShowEditEpic, handleCloseEpic] = useModal();
+    const [valuePoint, setValuePoint] = useState(issue?.story_Point_Estimate || 0);
 
     const ref = useRef(null)
+    const timer = useRef();
 
-    const handleClickAddFlag = function () {
-        if (!showFlag) {
-            setShowFlag(true)
-            ref.current.style.backgroundColor = "#ffbdad"
-        } else {
-            setShowFlag(false)
-            ref.current.style.backgroundColor = "#fff"
-        }
-    }
-
-    const editHTMLAddFlag = () => {
-        if (showFlag)
-            return "Remove flag"
-        else
-            return "Add flag"
-    }
     // handle click item
     const handleClickItem = (e) => {
         if(e.target.matches('.item')) {
             setShow(true);
         }
     }
-    
+    // handle blur input poit
+    const handleBlurInputPoint = () => {
+        if(valuePointStore === valuePoint) {
+            setValuePointStore('');
+            setShowInputPoint(false);
+            return;
+        }
+        const issueUpdate = {...issue}
+        issueUpdate.story_Point_Estimate = Number(valuePoint);
+        updateIssues(issueUpdate, dispatch);
+        setShowInputPoint(false);
+        createToast('success', 'Update point estimate successfully!')
+        setTimeout(() => {
+            fetchIssue(project.id, dispatch);
+        }, 500);
+    }
+    // handle click parent
+    const currentEpic = issueEpics.find(item => item.id === issue.id_Parent_Issue)
+    const handleClickParent = (e) => {
+        if(e.target.matches('.parent')) {
+            setShowEditEpic(true);
+        }
+    }
     return (
         <>  
             {
                 showEdit && <EditIssuePopup project={project} setShow={setShow} handleClose={handleClose}  issue={issue}></EditIssuePopup>
             }
+            {
+                showEditEpic && <EditIssuePopup project={project} setShow={setShowEditEpic} handleClose={handleCloseEpic}  issue={currentEpic}></EditIssuePopup>
+            }
             <div onClick={handleClickItem} ref={ref}
-            className={`item hover:bg-[#eee] cursor-pointer w-full h-13 p-1
+            className={`item hover:bg-[#eee] cursor-pointer w-full h-[50px] p-1
             px-4 mt-[-1px] border-solid border-[1px] border-[#ccc]
             flex justify-between items-center ${issue.isFlagged ? 'bg-[#ffe8e6] hover:bg-[#ffb9b3]' : 'bg-white'}`}>
                 <div className='left-item h-full flex items-center'>
-                    <div className='icon mx-1 inline-block'>
-                        <FontAwesomeIcon size='1x' className='text-[#4bade8]' icon={faSquareCheck} />
-                    </div>
-                    <div className='mx-1 inline-block text-[#acacac]'>
-                        <span>{issue.summary}</span>
+                    <div className='w-5 h-5'>
+                        <img
+                        className='w-full h-full object-cover rounded'
+                        src={issueTypes.find(item => item.value === issue.id_IssueType)?.thumbnail} alt="" />
                     </div>
                     <div className='mx-1 inline-block'>
                         <span>{issue?.summary}</span>
                     </div>
-                    <div className='parent bg-[#eae6ff] uppercase inline-block px-1 mx-1 rounded-[2px] font-medium'>
-                        <span>parent</span>
-                    </div>
+                    {
+                        issue?.id_Parent_Issue && issue?.id_Parent_Issue !== '00000000-0000-0000-0000-000000000000' &&
+                        <div onClick={handleClickParent} className='parent ml-5 bg-[#8777D9] bg-opacity-60 hover:bg-[#8777D9] flex items-center justify-center p-1 rounded-[2px]'>
+                            <span className='text-[10px] pointer-events-none text-white font-semibold'>{currentEpic?.summary}</span>
+                        </div>
+                    }
                 </div>
                 <div className='right-item h-full w-fit flex items-center'>
                     {
@@ -74,19 +95,28 @@ function TaskItemComponent({ issue, project }) {
                     {
                     !showInputPoint &&
                     (issue?.story_Point_Estimate?
-                    <div onClick={() => setShowInputPoint(true)} className='rounded-full inline-flex items-center justify-center w-fit p-1 text-xs bg-[#dfe1e6] mx-[0.2rem]'>
-                        <span className='inline-block w-3 h-3'>{issue?.story_Point_Estimate}</span>
+                    <div onClick={() => setShowInputPoint(true)} className='rounded-full cursor-pointer flex items-center justify-center w-[20px] h-[20px] p-1 text-xs bg-[#dfe1e6] mx-[0.2rem]'>
+                        <span>{issue?.story_Point_Estimate}</span>
                     </div> :
-                    <div onClick={() => setShowInputPoint(true)} className='rounded-full inline-flex items-center justify-center w-fit p-1 text-xs bg-[#dfe1e6] mx-[0.2rem]'>
-                        <span className='cursor-pointer inline-block w-3 h-3'>-</span>
+                    <div onClick={() => setShowInputPoint(true)} className='rounded-full cursor-pointer flex items-center justify-center w-[20px] h-[20px] p-1 text-xs bg-[#dfe1e6] mx-[0.2rem]'>
+                        <span>-</span>
                     </div>)
                     }
                     {
                         showInputPoint &&
                         <input
-                        value={issue.story_Point_Estimate}
+                        onChange={e => {
+                            const pointPrev = e.target.value;
+                            if(pointPrev < 0) {
+                                setValuePoint(0)
+                            }else {
+                                setValuePoint(pointPrev)
+                            }
+                        }}
+                        value={valuePoint}
                         autoFocus={true}
-                        onBlur={() => setShowInputPoint(false)}
+                        onFocus={() => setValuePointStore(valuePoint)}
+                        onBlur={handleBlurInputPoint}
                         className='w-[50px] p-2 border-2 border-primary'
                         type="number" />
                     }
@@ -95,8 +125,8 @@ function TaskItemComponent({ issue, project }) {
                         to do
                         <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
                     </div>
-                    <MemberComponent />
-                    <OptionComponent child={<OptionItemBacklogComponent issue={issue} />} />
+                    <MemberComponent project={project} issue={issue} members={members}></MemberComponent>
+                    <OptionComponent child={<OptionItemBacklogComponent project={project} issue={issue} />} />
                 </div>
             </div>
         </>

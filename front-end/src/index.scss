@@ -23,24 +23,6 @@ $main-backlog: calc(100vh - #{$header-height});
   font-size: 14px;
 }
 
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
 
 html {
   font-size: 14px;
@@ -82,7 +64,10 @@ html {
 .continue-btn {
   background: linear-gradient(180deg, #344c8b 0%, #8777d9 100%);
 }
-
+// translate x -50%
+.-translate-x-50 {
+  transform: translateX(-50%);
+}
 // custom y scroll
 .have-y-scroll {
   &::-webkit-scrollbar {

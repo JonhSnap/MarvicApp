@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Main from "./components/layouts/Main";
+import { ToastContainer } from 'react-toastify'
 
 const YourWorkPage = lazy(() => import("./pages/YourWorkPage"));
 const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
@@ -15,6 +16,17 @@ const RoadmapPage = lazy(() => import("./pages/RoadmapPage"));
 function App() {
   return (
     <Suspense fallback={<>Fall back component</>}>
+      <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss={false}
+      draggable
+      pauseOnHover={false}
+      ></ToastContainer>
       <Routes>
         <Route path="/" element={<Main></Main>}>
           <Route path="/" element={<YourWorkPage></YourWorkPage>}></Route>

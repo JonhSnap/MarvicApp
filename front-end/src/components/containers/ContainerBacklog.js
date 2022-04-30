@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import useModal from '../../hooks/useModal';
 import { getProjects, updateProjects } from '../../redux/apiRequest';
 import AddMemberPopup from '../popup/AddMemberPopup';
-import { BASE_URL } from '../../util/constants'
+import { BASE_URL, issueTypes } from '../../util/constants'
 import axios from 'axios'
 import './ContainerBacklog.scss'
 import { v4 } from 'uuid';
@@ -17,17 +17,20 @@ import ButtonBacklogComponent from '../backlog/ButtonBacklogComponent'
 import TaskItemComponent from '../backlog/TaskItemComponent'
 import { useListIssueContext } from '../../contexts/listIssueContext';
 import { fetchIssue } from '../../reducers/listIssueReducer';
-import { CHANGE_FILTERS_NAME } from '../../reducers/actions';
+import { CHANGE_FILTERS_EPIC, CHANGE_FILTERS_NAME, CHANGE_FILTERS_TYPE } from '../../reducers/actions';
+import WrapperTask from '../backlog/WrapperTask';
 //project, listIssue, setListIssue
 function ContainerBacklog({project}) {
     const { id } = project;
-    const [{issues}, dispatchIssue] = useListIssueContext();
+    const [{issueEpics, issueNormals, filters: {epics, type}}, dispatchIssue] = useListIssueContext();
     const { currentUser } = useSelector(state => state.auth.login);
     const dispatch = useDispatch();
     const [show, setShow, handleClose] = useModal();
     const timer = useRef();
+
     const [search, setSearch] = useState('')
     const [showEpic, setShowEpic] = useState(false);
+    const [showType, setShowType] = useState(false);
     const [showMembers, setShowMembers] = useState(false);
     const [members, setMembers] = useState([])
     const [focus, setFocus] = useState(false);
@@ -82,6 +85,7 @@ function ContainerBacklog({project}) {
         }
     }, [])
     useEffect(() => {
+        console.log('chay vao useeffect');
         const fetchMember = async () => {
             try {
                 const resp = await axios.get(`${BASE_URL}/api/Project/GetAllMemberByIdProject?IdProject=${project.id}`);
@@ -110,6 +114,8 @@ function ContainerBacklog({project}) {
         }
         return () => clearTimeout(timer.current)
     }, [search])
+    
+
     const handleClickAdd = () => {
         setShow(true);
     }
@@ -134,18 +140,48 @@ function ContainerBacklog({project}) {
     }
     // handle close epic
     const handleCloseEpic = (e) => {
-        e.stopPropagation();
-        setShowEpic(false);
+        if(!e.target.matches('.epic')) return;
+        if(!showEpic && !showType) {
+            setShowEpic(true);
+        }else if(!showEpic && showType) {
+            setShowEpic(true);
+            setShowType(false);
+        }else if(showEpic) {
+            setShowEpic(false);
+        }
     }
-    // handle change search
-    // const handleChangeSearch = e => {
-    //    setSearch(e.target.value)
-    //    dispatchIssue({
-    //        type: CHANGE_FILTERS_NAME,
-    //        payload: e.target.value
-    //    })
-    //    fetchIssue(project.id, dispatchIssue)
-    // }
+    // handle close type
+    const handleCloseType = (e) => {
+        if(!e.target.matches('.type')) return;
+        if(!showType && !showEpic) {
+            setShowType(true);
+        }else if(!showType && showEpic) {
+            setShowType(true);
+            setShowEpic(false);
+        }else if(showType) {
+            setShowType(false);
+        }
+    }
+    // handle choose epic
+    const handleChooseEpic = (idEpic) => {
+        dispatchIssue({
+            type: CHANGE_FILTERS_EPIC,
+            payload: idEpic
+        })
+        setTimeout(() => {
+            fetchIssue(project.id, dispatchIssue);        
+        }, 500);
+    }
+    // handle choose type
+    const handleChooseType = (idType) => {
+        dispatchIssue({
+            type: CHANGE_FILTERS_TYPE,
+            payload: idType
+        });
+        setTimeout(() => {
+            fetchIssue(project.id, dispatchIssue);
+        }, 500);
+    }
   return (
     <div className='container'>
         <div className="top">
@@ -212,9 +248,10 @@ function ContainerBacklog({project}) {
                     </div>
                 </div>
                 <div className="filters">              
-                    <div onClick={() => setShowEpic(true)} style={showEpic ? {backgroundColor: '#8777D9', color: 'white'} : {}} className="epic">
-                        <span className='title'>Epic</span>
-                        <span className="icon">
+                    <div onClick={handleCloseEpic} style={showEpic ? {backgroundColor: '#8777D9', color: 'white'} : {}} className="epic">
+                        <span className={`epic-number ${showEpic ? 'active' : ''}`}>{epics.length}</span>
+                        <span className='title pointer-events-none'>Epic</span>
+                        <span className="icon pointer-events-none">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
@@ -222,83 +259,109 @@ function ContainerBacklog({project}) {
 
                         <div
                         style={showEpic ? { transform: 'translateX(-40%) scale(1)',opacity: 1} : {}}
-                        className='epic-dropdown p-2 w-[300px] mx-4 bg-white rounded-[5px] flex items-center flex-col'>
+                        className='epic-dropdown have-y-scroll p-2 w-[300px] h-[200px] overflow-y-auto mx-4 bg-white rounded-[5px] flex items-center flex-col'>
                             <div className='flex justify-between w-full px-4 py-2'>
-                                <span>Epic</span>
-                                <span onClick={handleCloseEpic} className='inline-flex items-center justify-center w-[20px] h-20px] rounded-full hover:bg-primary hover:bg-opacity-20'>
-                                <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faTimes} />
-                                </span>
+                                <span className='font-bold text-lg text-[#8777D9]'>Epic</span>
                             </div>
-                            <div className='w-full p-3 m-[0.2rem] min-h-[3rem] h-fit bg-white flex items-center shadow-md rounded-[5px]'>
+                            <div
+                            onClick={() => handleChooseEpic('issues without epic')}
+                            className={`w-full p-3 mb-2 flex items-center font-semibold
+                            shadow-md rounded-[5px] ${epics.includes('issues without epic') ? 'bg-[#8777D9] text-white' : 'bg-white'}`}>
                                 issues without epic
                             </div>
-                            <div className='w-full p-3 m-[0.2rem] min-h-[3rem] h-fit bg-white flex flex-col justify-center shadow-md rounded-[5px]'>
-                                <div className='flex items-center'>
-                                <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleRight} />
-                                <div className='h-5 w-5 inline-block bg-[#d0c6ff] rounded-[5px] mx-2'></div>
-                                issues without epic
+                            {
+                                issueEpics.length > 0 &&
+                                issueEpics.map(item => (
+                                <div key={v4()} onClick={() => handleChooseEpic(item.id)}
+                                className={`w-full p-3 flex flex-col font-semibold shadow-md rounded-[5px] mb-2
+                                ${epics.includes(item.id) ? 'bg-[#8777D9] text-white' : 'bg-white'}`}>
+                                    <div className='flex items-center'>
+                                    <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleRight} />
+                                    <div className='h-5 w-5 inline-block bg-[#d0c6ff] rounded-[5px] mx-2'></div>
+                                    {item.summary}
+                                    </div>
+                                    <div className='h-2 w-full bg-[#ddd] rounded-[5px] my-2 relative'>
+                                    <div className='absolute top-0 left-0  bottom-0 bg-blue-600 rounded-[10px]' style={{ width: "40%" }}>
+                                    </div>
+                                    </div>
                                 </div>
-                                <div className='h-2 w-full bg-[#ddd] rounded-[5px] my-2 relative'>
-                                <div className='absolute top-0 left-0  bottom-0 bg-blue-600 rounded-[10px]' style={{ width: "40%" }}>
+                                ))
+                            }
+                            <CreateComponent idIssueType={1} project={project} createWhat={"epic"} />
+                        </div>
+                    </div>
+                    <div
+                    style={showType ? {backgroundColor: '#4BADE8', color: 'white'} : {}}
+                    onClick={handleCloseType} className="type">
+                        <span className={`type-number ${showType ? 'active' : ''}`}>{type.length}</span>
+                        <span className='title pointer-events-none'>Type</span>
+                        <span className="icon pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                        </span>
 
-                                </div>
-                            </div>
-                            </div>
-                            <CreateComponent project={project} createWhat={"epic"} />
+                        <div
+                        style={showType ? { transform: 'translateX(-15%) scale(1)',opacity: 1} : {}}
+                        className='type-dropdown'>                       
+                            {
+                                issueTypes.length > 0 &&
+                                issueTypes.map(item => (
+                                    <div
+                                    key={item.id}
+                                    onClick={() => handleChooseType(item.value)}
+                                    className={`flex items-center gap-x-2 p-1 rounded hover:bg-gray-300 mb-2 ${type.includes(item.value) ? 'bg-[#e2e2e2]' : 'bg-white'}`}>
+                                        <div className="w-5 h-5">
+                                            <img className='block w-full h-full object-cover rounded-md' src={item.thumbnail} alt="" />
+                                        </div>
+                                        <span className='inline-block'>{item.title}</span>
+                                    </div>
+                                ))
+                            }
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div className="bottom">
-        <div className='wrap-backlog w-full max-h-[250px] flex flex-col'>
-            <div className='w-full h-full flex-1 flex-col'>
-              <div className='flex h-full w-full flex-[3] items-start'>
-
-                <div className='main-backlog overflow-auto grow flex justify-center transition-all'>
-                  <div className='backlog-item py-2 flex-1 mx-4 min-h-[10rem] bg-[#f4f5f7] rounded-[5px] flex items-center flex-col '>
-                    <div className='header-backlog-item w-[98%] py-3 flex justify-between items-center'>
-                      <div className='header-right'>
-                        <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
-                        <div className='name-sprint inline-block'>
-                          <span className='name font-medium pr-2'>Backlog</span>
-                        </div>
-                        <div className='create-day inline-block font-light pl-2'>
-                          {/* <span className='day pr-1'>19 Apr - 17 May</span> */}
-                          <span> ({issues.length} issues) </span>
-                        </div>
-                      </div>
-                      <div className='header-left flex items-center h-9'>
-                        <div className='state-sprint flex'>
-                          <div className='rounded-full  inline-flex w-5 h-5 text-xs bg-[#dfe1e6] mx-[0.2rem]'>
-                            <span className='m-auto'>4</span>
-                          </div>
-                          <div className='rounded-full  inline-flex w-5 h-5 text-xs bg-[#0052cc]  mx-[0.2rem] text-white'>
-                            <span className='m-auto'>4</span>
-                          </div>
-                          <div className='rounded-full  inline-flex w-5 h-5 text-xs bg-[#00875a]  mx-[0.2rem] text-white'>
-                            <span className='m-auto'>4</span>
-                          </div>
-                        </div>
-                        {/* <div className='btn-main rounded-[5px] py-1 px-2  w-fit h-full mx-4 border-solid border-[#000] border-[1px]'>
-                                        <span>Complete sprint</span>
-                                    </div> */}
-                        <ButtonBacklogComponent text={"Create sprint"} />
-                        <OptionComponent child={<OptionHeaderBacklogComponent />} />
-                      </div>
+        <div className="bottom have-y-scroll">
+        <div className='wrap-backlog'>
+            <div className='main-backlog'>
+                <div className='backlog-item'>
+                <div className='header-backlog-item w-[98%] py-3 flex justify-between items-center'>
+                    <div className='header-right'>
+                    <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
+                    <div className='name-sprint inline-block'>
+                        <span className='name font-medium pr-2'>Backlog</span>
                     </div>
-                    <div className='main w-[98%] h-fit min-h-[5rem]'>
-                    {
-                      issues.length > 0 &&
-                      issues.map(item => (
-                        <TaskItemComponent key={v4()} project={project} issue={item} />            
-                      ))
-                    }
-                      <CreateComponent project={project} createWhat={"issues"} />
+                    <div className='create-day inline-block font-light pl-2'>
+                        {/* <span className='day pr-1'>19 Apr - 17 May</span> */}
+                        <span> ({issueNormals.length} issues) </span>
                     </div>
-                  </div>
-                </div>            
-              </div>
+                    </div>
+                    <div className='header-left flex items-center h-9'>
+                    <div className='state-sprint flex'>
+                        <div className='rounded-full  inline-flex w-5 h-5 text-xs bg-[#dfe1e6] mx-[0.2rem]'>
+                        <span className='m-auto'>4</span>
+                        </div>
+                        <div className='rounded-full  inline-flex w-5 h-5 text-xs bg-[#0052cc]  mx-[0.2rem] text-white'>
+                        <span className='m-auto'>4</span>
+                        </div>
+                        <div className='rounded-full  inline-flex w-5 h-5 text-xs bg-[#00875a]  mx-[0.2rem] text-white'>
+                        <span className='m-auto'>4</span>
+                        </div>
+                    </div>
+                    {/* <div className='btn-main rounded-[5px] py-1 px-2  w-fit h-full mx-4 border-solid border-[#000] border-[1px]'>
+                                    <span>Complete sprint</span>
+                                </div> */}
+                    <ButtonBacklogComponent text={"Create sprint"} />
+                    <OptionComponent child={<OptionHeaderBacklogComponent />} />
+                    </div>
+                </div>
+                <div className='main w-[98%] h-fit min-h-[5rem]'>
+                    <WrapperTask members={members} project={project}></WrapperTask>              
+                    <CreateComponent project={project} createWhat={"issues"} />
+                </div>
+                </div>
             </div>
         </div>
         </div>

@@ -20,11 +20,11 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         // OUTPUT
         List<Issue_ViewModel> Get_Issues_By_IdProject(Guid idProject);
         List<Issue_ViewModel> Get_Issues_By_IdUser(Guid idProject, Guid idUser);
+        List<Issue_ViewModel> Get_Issue_By_IdParent(Guid IdProject, Guid IdParent);
+        List<Issue_ViewModel> Get_Issue_By_IdLabel(Guid IdProject, Guid IdLabel);
         List<GroupByAssignee_ViewModel> Group_By_Assignee(Guid IdProject);
         List<GroupByIssueType_ViewModel> Group_By_IssueType(Guid IdProject);
         List<GroupByPriority_ViewModel> Group_By_Priority(Guid IdProject);
-        List<Issue_ViewModel> Get_Issue_By_IdParent(Guid IdProject, Guid IdParent);
-        List<Issue_ViewModel> Get_Issue_By_IdLabel(Guid IdProject, Guid IdLabel);
 
     }
 }

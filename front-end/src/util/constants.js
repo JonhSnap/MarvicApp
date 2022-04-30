@@ -1,4 +1,7 @@
 import { v4 } from 'uuid'
+import StoryImage  from '../images/type-issues/story.jpg'
+import TaskImage from '../images/type-issues/task.jpg'
+import BugImage from '../images/type-issues/bug.jpg'
 // Base url
 export const BASE_URL = 'https://localhost:5001';
 // key current project
@@ -28,18 +31,21 @@ export const levels = [
 ]
 export const issueTypes = [
     {
-        id: 1,
-        value: 1,
-        title: 'story'
-    },
-    {
         id: 2,
         value: 2,
-        title: 'stask'
+        title: 'story',
+        thumbnail: StoryImage
     },
     {
         id: 3,
         value: 3,
-        title: 'bug'
+        title: 'stask',
+        thumbnail: TaskImage
+    },
+    {
+        id: 4,
+        value: 4,
+        title: 'bug',
+        thumbnail: BugImage
     },
 ]

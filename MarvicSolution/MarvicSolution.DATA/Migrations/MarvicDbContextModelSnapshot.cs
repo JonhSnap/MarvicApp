@@ -421,6 +421,63 @@ namespace MarvicSolution.DATA.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MarvicSolution.DATA.Entities.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Create_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Id_Issue")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id_ParentComment")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id_User")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Is_Delete")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Update_Date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Comment");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("6bc52009-c246-4d54-a739-5d826ea3a7cc"),
+                            Content = "NhanTTT1 comment",
+                            Create_Date = new DateTime(2022, 4, 23, 22, 41, 10, 419, DateTimeKind.Local).AddTicks(2090),
+                            Id_Issue = new Guid("7c2cc804-4aae-4af2-9191-4268fc02edc0"),
+                            Id_ParentComment = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_User = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
+                            Is_Delete = 0,
+                            Update_Date = new DateTime(2022, 4, 23, 22, 41, 10, 419, DateTimeKind.Local).AddTicks(6890)
+                        },
+                        new
+                        {
+                            Id = new Guid("d6581c11-c147-420e-9d2b-c47564fc013a"),
+                            Content = "KhanhND comment",
+                            Create_Date = new DateTime(2022, 4, 23, 23, 41, 10, 419, DateTimeKind.Local).AddTicks(7768),
+                            Id_Issue = new Guid("7c2cc804-4aae-4af2-9191-4268fc02edc0"),
+                            Id_ParentComment = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_User = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
+                            Is_Delete = 0,
+                            Update_Date = new DateTime(2022, 4, 23, 23, 41, 10, 419, DateTimeKind.Local).AddTicks(7875)
+                        });
+                });
+
             modelBuilder.Entity("MarvicSolution.DATA.Entities.Issue", b =>
                 {
                     b.Property<Guid>("Id")

@@ -29,7 +29,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels
         public EnumStatus? IsWatched { get; set; } = EnumStatus.False;
         public Guid Id_Creator { get; set; }
         public DateTime? DateCreated { get; set; }
-        public DateTime? DateStarted { get; set; }
+        public DateTime? DateStarted { get; set; } = new DateTime();
         public DateTime? DateEnd { get; set; }
         public Guid? Id_Updator { get; set; }
         public DateTime? UpdateDate { get; set; }

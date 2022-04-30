@@ -24,17 +24,11 @@ namespace MarvicSolution.Services.System.Users.Services
             _jwtService = jwtService;
         }
 
-        public string Authenticate(Login_Request rq)
+        public string Authenticate(Login_Request rq, App_User user)
         {
-            // Kiem tra tai khoan
-            var user = GetUserbyUserName(rq.UserName);
-            if (user == null)
-                return "Invalid user name";
-            // Thiet lap thong tin cho user da login
-            UserLogin.SetInfo(user);
             // Kiem tra mat khau
             if (!BCrypt.Net.BCrypt.Verify(rq.Password, user.Password))
-                return "Invalid password";
+                return "Password does not exsist";
             // Tao token theo JWT
             var jwt = _jwtService.GenerateToken(user.Id);
 

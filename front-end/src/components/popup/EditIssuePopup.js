@@ -1,6 +1,4 @@
-import React, { useRef, useState, memo } from 'react'
-import axios from 'axios'
-import { BASE_URL } from '../../util/constants'
+import React, { useEffect, useState, memo, useMemo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faSquareCheck, faTimes, faAngleRight, faFlag, faBolt, faCheck, faLock, faEye, faThumbsUp, faTimeline, faPaperclip, faLink, faPlus, faArrowDownShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons'
 import OptionComponent from '../option/OptionComponent'
@@ -10,16 +8,50 @@ import CKEditorComponent from '../CKEditorComponent'
 import ModalBase from '../modal/ModalBase'
 import { fetchIssue, updateIssues } from '../../reducers/listIssueReducer'
 import { useListIssueContext } from '../../contexts/listIssueContext'
+import createToast from '../../util/createToast'
 
 function EditIssuePopup({ project, issue, handleClose, setShow }) {
-    const ref = useRef(null)
-    const [, dispatch] = useListIssueContext();
+    const [{issueEpics}, dispatch] = useListIssueContext();
     const [showFlag, setShowFlag] = useState(false);
-    const [valueStore, setValueStore] = useState('');
+    const [showEpic, setShowEpic] = useState(false);
+    const [valuesStore, setValuesStore] = useState({});
+    const [showCKEditorCMT, setShowCKEditorCMT] = useState(false)
     const [values, setValues] = useState({
         summary: issue?.summary,
-        description: issue?.description
+        description: issue?.description || ''
     });
+
+    // create issue update
+    const issueUpdate = useMemo(() => {
+        const issueCopy = {...issue, ...values};
+        return issueCopy;
+    }, [values.description, values.summary])
+     // handle close edit
+     const handleCloseEditByButton = async() => {
+         if(issueUpdate.summary === valuesStore.summary && issueUpdate.description === valuesStore.description) {
+             setShow(false);
+             return;
+         }
+        await updateIssues(issueUpdate, dispatch);
+        await fetchIssue(project.id, dispatch);
+        createToast('success', 'Update issue successfully!');
+        setShow(false);
+    }
+    // handle close edit by click outside
+    const handleCloseEditByClickOutside = async(e) => {
+        if(!e.target.closest('.content')) {
+            if(issueUpdate.summary === valuesStore.summary && issueUpdate.description === valuesStore.description) {
+                setShow(false);
+                return;
+            }
+            await updateIssues(issueUpdate, dispatch);
+            await fetchIssue(project.id, dispatch);
+            createToast('success', 'Update issue successfully!');
+            setShow(false);
+        }
+    }
+    // current epic
+    const currentEpic = issueEpics.find(item => item.id === issue.id_Parent_Issue);
     // handle values change
     const handleValuesChange = (e) => {
         if(e.target.name === 'summary') {
@@ -34,111 +66,139 @@ function EditIssuePopup({ project, issue, handleClose, setShow }) {
             })
         }
     }
+    // useEffect
+    useEffect(() => {
+        setValuesStore({
+            summary: values.summary,
+            description: values.description
+        })
+    }, [issue])
+
     // handle focus
-    const handleFocus = (e) => {
-        setValueStore(e.target.value);
-    }
+    // const handleFocus = (e) => {
+    //     setValueStore(e.target.value);
+    // }
     // handle blur
-    const handleBlur = (e) => {
-        if(valueStore === e.target.value) {
-            setValueStore('');
+    // const handleBlur = async(e) => {
+    //     if(valueStore === e.target.value) {
+    //         setValueStore('');
+    //     }else {
+    //         const issueUpdate = {...issue, ...values}
+    //         await updateIssues(issueUpdate, dispatch);
+    //         await fetchIssue(project.id, dispatch);
+    //         createToast('success', `Update ${e.target.name} successfully!`);
+    //     }
+    // }
+
+    // handle toggle epic
+    const handleToggleEpic = (e) => {
+        if(e.target.matches('.epic-dropdown')) {
+            setShowEpic(prev => !prev);
         }else {
-            const issueUpdate = {...issue, ...values}
-            updateIssues(issueUpdate, dispatch);
-            fetchIssue(project.id, dispatch);
+            return;
         }
     }
-    const handleClickAddFlag = function () {
-        if (!showFlag) {
-          setShowFlag(true)
-          ref.current.style.backgroundColor = "#ffbdad"
-        } else {
-          setShowFlag(false)
-          ref.current.style.backgroundColor = "#fff"
-        }
-      }
-    
-      const editHTMLAddFlag = () => {
-        if (showFlag)
-          return "Remove flag"
-        else
-          return "Add flag"
-      }
-    
-      const [showCKEditorDescription, setShowCKEditorDescription] = useState(false)
-      const [showCKEditorCMT, setShowCKEditorCMT] = useState(false)
-    
-      const showCKEditorDescriptionClick = () => {
-        setShowCKEditorDescription(true);
-      }
-    
+    // handle choose epic
+    const handleChooseEpic = (epic) => {
+        const issueUpdate = {...issue}
+        issueUpdate.id_Parent_Issue = epic.id;
+        updateIssues(issueUpdate, dispatch);
+        createToast('success', `Update epic successfully!`);
+        setTimeout(() => {
+            fetchIssue(project.id, dispatch);
+        }, 500);
+    }
+    // handle remove epic
+    const handleRemoveEpic = () => {
+        const issueUpdate = {...issue};
+        issueUpdate.id_Parent_Issue = null;
+        updateIssues(issueUpdate, dispatch);
+        createToast('success', 'Remove epic successfully!');
+        setTimeout(() => {
+            fetchIssue(project.id, dispatch);
+        }, 500);
+    }
+
       const showCKEditorCMTClick = () => {
         setShowCKEditorCMT(true)
       }
-      const hiddenCKEditorDescriptionClick = () => {
-        setShowCKEditorDescription(false)
-      }
-    
       const hiddenCKEditorCMTClick = () => {
         setShowCKEditorCMT(false)
       }
-      const desription = document.querySelector('#description')
-      var tempDescription
-    
-      const getValueCKEditor = (event, editor) => {
-        tempDescription = editor.getData()
-        return editor.getData();
-      }
-    
-    //   const handleSaveClick = () => {
-    //     setValues({
-    //         ...values,
-    //         description: getValueCKEditor()
-    //     })
-    //     setShowCKEditorDescription(false)
-    //     }
-    //   const handleSaveClick = () => {
-    //     if (tempDescription != undefined)
-    //       document.querySelector('#description').innerHTML = tempDescription
-    //     setShowCKEditorDescription(false)
-    //   }
-
-
   return (
     <ModalBase
     containerclassName='fixed inset-0 z-10 flex items-center justify-center'
     bodyClassname='relative content-modal'
-    onClose={handleClose}>
+    onClose={handleCloseEditByClickOutside}>
         <div
-        className='h-[80vh] overflow-auto bg-white overflow-y-auto mb-10 overflow-x-hidden
+        className='have-y-scroll h-[80vh] overflow-auto bg-white  mb-10 overflow-x-hidden
         flex flex-col flex-[2]  mx-4 relative p-5 rounded-md'>
                     <div className='flex justify-between sticky'>
-                        <div className='flex items-center'>
-                        <div className='flex items-center whitespace-nowrap'>
-                            <FontAwesomeIcon size='1x' className='mx-1 p-[0.2rem] text-white text-[10px] inline-block bg-[#904ee2]' icon={faBolt} />
-                            Add epic
+                    {
+                        issue.id_IssueType !== 1 &&
+                        <div className='flex items-center'>                          
+                            <div
+                            onClick={handleToggleEpic}
+                            className='epic-dropdown relative flex items-center gap-x-2 p-2 rounded
+                            cursor-pointer bg-[#8777D9] bg-opacity-20 hover:bg-opacity-50'>                        
+                                <FontAwesomeIcon size='1x' className='pointer-events-none mx-1 p-[0.2rem] text-white text-[10px] inline-block bg-[#904ee2]' icon={faBolt} />
+                                <span className='pointer-events-none'>
+                                    {currentEpic ?
+                                        currentEpic.summary :
+                                        'Add epic'
+                                    }
+                                </span>
+                                <span className='pointer-events-none inline-block h-5 w-5'>
+                                <svg xmlns="http://www.w3.org/2000/svg"  fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
+                                </span>
+                                {
+                                    showEpic &&
+                                    <div
+                                    className="have-y-scroll absolute w-fit max-h-[150px] overflow-auto p-2 rounded bg-white shadow-md shadow-[#8777D9] left-0 top-[calc(100%+10px)]">
+                                    {
+                                        issueEpics.length > 0 &&
+                                        issueEpics.filter(epicItem => epicItem.id !== issue.id_Parent_Issue).map(item => (
+                                            <div
+                                            onClick={() => handleChooseEpic(item)}
+                                            className='w-[150px] mb-2 p-3 bg-white rounded shadow-md font-semibold
+                                            hover:bg-[#8777D9] hover:text-white'
+                                            key={item.id}>{item.summary}</div>
+                                        ))
+                                    }
+                                    {
+                                        issue.id_Parent_Issue && issue.id_Parent_Issue !== '00000000-0000-0000-0000-000000000000' &&
+                                        <div
+                                        onClick={handleRemoveEpic}
+                                        className='flex items-center gap-x-2 w-[150px] mb-2 p-3 bg-red-500 text-white rounded shadow-md font-semibold'
+                                        >
+                                            <span className='inline-block w-5 h-5'>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </span>
+                                            <span>Remove epic</span>
+                                        </div>
+                                    }
+                                    </div>
+                                }
+                            </div>
                         </div>
-                        {/* <span className='mx-2'> / </span>
-                        <div className='flex items-center'>
-                            <FontAwesomeIcon size='1x' className='text-[#4bade8]' icon={faSquareCheck} />
-                            Name
-                        </div> */}
-                        </div>
-                        <div className='flex items-center'>
+                    }
+                        <div className='flex items-center ml-auto'>
                         <FontAwesomeIcon size='2x' className='mx-1 text-[1.5rem]' icon={faLock} />
                         <FontAwesomeIcon size='2x' className='mx-1 text-[1.5rem]' icon={faEye} />
                         <FontAwesomeIcon size='2x' className='mx-1 text-[1.5rem]' icon={faThumbsUp} />
                         <FontAwesomeIcon size='2x' className='mx-1  text-[1.5rem]' icon={faTimeline} />
                         <OptionComponent />
-                        <FontAwesomeIcon onClick={() => setShow(false)} size='2x' className='mx-4 text-[1.5rem] cursor-pointer' icon={faTimes} />
+                        <FontAwesomeIcon onClick={handleCloseEditByButton} size='2x' className='mx-4 text-[1.5rem] cursor-pointer' icon={faTimes} />
                         </div>
                     </div>
                     <div className='text-2xl font-bold mb-5 mt-2'>
                     <input
                     value={values.summary}
                     onChange={handleValuesChange}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
                     name='summary'
                     className='w-full outline-none border-2 border-transparent p-2 rounded-md focus:border-primary'
                     type="text" />
@@ -169,20 +229,12 @@ function EditIssuePopup({ project, issue, handleClose, setShow }) {
                     <div>
                         <input
                         value={values.description}
-                        onChange={handleValuesChange}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
+                        onChange={handleValuesChange}                       
                         placeholder='Enter description...'
                         className='w-full outline-none border-2 border-transparent p-2 rounded-md focus:border-primary'
                         name='description'
                         type="text" />
                     </div>
-                    {/* {showCKEditorDescription ? (<div id='description' style={{ display: "none" }} onClick={() => showCKEditorDescriptionClick()} className='m-1 py-2' contentEditable="">
-                        {issue?.description}
-                    </div>) : <div id='description' style={{ display: "block" }} onClick={() => showCKEditorDescriptionClick()} className='m-1 py-2' contentEditable="">
-                        {issue?.description} */}
-                    {/* </div>}
-                    {showCKEditorDescription && <CKEditorComponent save={handleSaveClick} dataCKEditor={values.description} getValueCKEditor={getValueCKEditor} hidden={hiddenCKEditorDescriptionClick} />} */}
                     <div className='child-isue'>
                         <div className='flex justify-between w-full h-11 items-center my-2'>
                         <div className='font-bold m-1'>
