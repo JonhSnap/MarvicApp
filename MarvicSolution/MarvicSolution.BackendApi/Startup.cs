@@ -7,6 +7,7 @@ using MarvicSolution.Services.Issue_Request.Issue_Request;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.Project_Resquest.Dtos.Validators;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest;
+using MarvicSolution.Services.Sprint_Request.Services;
 using MarvicSolution.Services.System.Helpers;
 using MarvicSolution.Services.System.Users.Services;
 using Microsoft.AspNetCore.Builder;
@@ -46,6 +47,7 @@ namespace MarvicSolution.BackendApi
             services.AddScoped<Jwt_Service, Jwt_Service>();
             services.AddScoped<IUser_Service, User_Service>();
             services.AddScoped<IComment_Service, Comment_Service>();
+            services.AddScoped<ISprint_Service, Sprint_Service>();
 
             services.AddControllers()
                 .AddFluentValidation(s =>
