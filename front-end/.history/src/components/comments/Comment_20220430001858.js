@@ -126,7 +126,7 @@ const Comment = ({
         {comment.countChild === 0
           ? null
           : !showReply && (
-              <div className="flex items-center text-sm transition-all">
+              <div className="flex items-center text-sm">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"

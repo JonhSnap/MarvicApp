@@ -14,10 +14,11 @@ const Comment = ({
   loadComment,
 }) => {
   const [reply, setReply] = useState([]);
-  const [showReply, setShowReply] = useState(false);
   const fiveMinutes = 300000;
   const timePassed =
-    new Date().toISOString() - new Date(comment.create_Date) > fiveMinutes;
+    new Date().toUTCString() - comment.create_Date > fiveMinutes;
+  console.log(new Date().toISOString() - comment.create_Date);
+  console.log(comment.create_Date.toISOString());
   const canReply = Boolean(currentUserId);
   const canEdit = currentUserId === comment.id_User && !timePassed;
   const canDelete = currentUserId === comment.id_User && !timePassed;
@@ -36,7 +37,7 @@ const Comment = ({
       await axios
         .get(`${BASE_URL}/api/Comments/${commentID}`)
         .then((res) => {
-          setReply(res.data.reverse());
+          setReply(res.data);
         })
         .catch((err) => console.log(err));
     };
@@ -68,7 +69,7 @@ const Comment = ({
             handleCancel={() => setActiveComment(null)}
           />
         )}
-        <div className="comment-actions font-semibold text-[#65676B]">
+        <div className="comment-actions">
           {canReply && (
             <div
               className="comment-action"
@@ -104,8 +105,8 @@ const Comment = ({
             handleSubmit={(text) => addComment(text, replyId)}
           />
         )}
-        {showReply && comment.countChild > 0 && (
-          <div className="replies transition-all">
+        {comment.countChild > 0 && (
+          <div className="replies">
             {reply.length > 0 &&
               reply.map((reply) => (
                 <Comment
@@ -123,32 +124,6 @@ const Comment = ({
               ))}
           </div>
         )}
-        {comment.countChild === 0
-          ? null
-          : !showReply && (
-              <div className="flex items-center text-sm transition-all">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
-                  />
-                </svg>
-
-                <span
-                  className="text-slate-600 font-semibold ml-2 cursor-pointer hover:underline"
-                  onClick={() => setShowReply(true)}
-                >{`${comment.countChild} Phản hồi`}</span>
-              </div>
-            )}
-        {/* <span>{if(comment.countChild}</span> */}
       </div>
     </div>
   );

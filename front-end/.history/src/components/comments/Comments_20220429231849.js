@@ -19,7 +19,7 @@ const Comments = ({ commentURL }) => {
         const testData = res.data.reverse();
         console.log(testData);
 
-        setComments(testData);
+        setComments(res.data);
       })
       .catch((err) => alert(err));
   };

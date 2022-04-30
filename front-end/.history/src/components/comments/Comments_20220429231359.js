@@ -16,10 +16,10 @@ const Comments = ({ commentURL }) => {
     await axios
       .get(`${BASE_URL}/api/Comments/issue/${id_Issue}`)
       .then((res) => {
-        const testData = res.data.reverse();
-        console.log(testData);
-
-        setComments(testData);
+        const sortDate = res.data.map((ress) => {
+          console.log(ress.create_Date);
+        });
+        setComments(res.data);
       })
       .catch((err) => alert(err));
   };

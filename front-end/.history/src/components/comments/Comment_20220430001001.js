@@ -36,7 +36,7 @@ const Comment = ({
       await axios
         .get(`${BASE_URL}/api/Comments/${commentID}`)
         .then((res) => {
-          setReply(res.data.reverse());
+          setReply(res.data);
         })
         .catch((err) => console.log(err));
     };
@@ -68,7 +68,7 @@ const Comment = ({
             handleCancel={() => setActiveComment(null)}
           />
         )}
-        <div className="comment-actions font-semibold text-[#65676B]">
+        <div className="comment-actions mt-[-4px]">
           {canReply && (
             <div
               className="comment-action"
@@ -105,7 +105,7 @@ const Comment = ({
           />
         )}
         {showReply && comment.countChild > 0 && (
-          <div className="replies transition-all">
+          <div className="replies">
             {reply.length > 0 &&
               reply.map((reply) => (
                 <Comment
@@ -126,7 +126,7 @@ const Comment = ({
         {comment.countChild === 0
           ? null
           : !showReply && (
-              <div className="flex items-center text-sm transition-all">
+              <div className="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
@@ -143,7 +143,7 @@ const Comment = ({
                 </svg>
 
                 <span
-                  className="text-slate-600 font-semibold ml-2 cursor-pointer hover:underline"
+                  className="text-slate-600 font-semibold ml-2 cursor-pointer"
                   onClick={() => setShowReply(true)}
                 >{`${comment.countChild} Phản hồi`}</span>
               </div>
