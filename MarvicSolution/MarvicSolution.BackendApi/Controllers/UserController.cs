@@ -1,6 +1,4 @@
-﻿using MarvicSolution.BackendApi.Constants;
-using MarvicSolution.DATA.Entities;
-using MarvicSolution.Services.System.Helpers;
+﻿using MarvicSolution.Services.System.Helpers;
 using MarvicSolution.Services.System.Users.Requests;
 using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Utilities.Exceptions;
@@ -8,8 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MarvicSolution.BackendApi.Controllers
