@@ -69,6 +69,75 @@ namespace MarvicSolution.DATA.Configurations
                     PhoneNumber = "0345677456",
                     IsDeleted = Enums.EnumStatus.False
                 }
+                // New 5 user
+                //=======================================
+                ,
+                new App_User
+                {
+                    Id = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"),
+                    FullName = "Phan Thanh Khiet",
+                    UserName = "KhietPT",
+                    Password = @"$2a$12$d5mRmftqnckozmamy17PDefhN9OxdlssO2zN4UvDBbDlNF08wk176", // pass KhietPT@123
+                    Email = "thanhkhiet1999brvt@gmail.com",
+                    JobTitle = "Product Onwer",
+                    Department = "Toa G Block A",
+                    Organization = "Company International Z",
+                    PhoneNumber = "0213515845",
+                    IsDeleted = Enums.EnumStatus.False
+                },
+                new App_User
+                {
+                    Id = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"),
+                    FullName = "Vo Duy Thang",
+                    UserName = "ThangVD",
+                    Password = @"$2a$12$bTnbEkHdZ9./UutRXu2c2eiF5GwtTDYkOsjIfLB8lKTAJbXDRSk2.", // pass ThangVD@123
+                    Email = "19130203@st.hcmuaf.edu.vn",
+                    JobTitle = "Product Onwer",
+                    Department = "Toa G Block B",
+                    Organization = "Company International B",
+                    PhoneNumber = "0321235648",
+                    IsDeleted = Enums.EnumStatus.False
+                },
+                new App_User
+                {
+                    Id = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"),
+                    FullName = "Le Quoc Thinh",
+                    UserName = "ThinhLQ",
+                    Password = @"$2a$12$aTvfHwnaGNGRMdS3xAvse.VcC/KdRVFxwVtJlkfJDJFL0fYFTUH7i", // pass ThinhLQ@123
+                    Email = "19130215@st.hcmuaf.edu.vn",
+                    JobTitle = "Product Onwer",
+                    Department = "Toa G Block C",
+                    Organization = "Company International C",
+                    PhoneNumber = "5687956148",
+                    IsDeleted = Enums.EnumStatus.False
+                },
+                new App_User
+                {
+                    Id = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"),
+                    FullName = "Nguyen Thanh Nhan",
+                    UserName = "NhanNT",
+                    Password = @"$2a$12$PxNXwTisjUP2sugrcRFc/.pZcTpnsQzfBABlBYjnE428tyUj874BC", // pass NhanNT@123
+                    Email = "NhanNT@gmail.com",
+                    JobTitle = "Product Onwer",
+                    Department = "Toa G Block D",
+                    Organization = "Company International D",
+                    PhoneNumber = "1266587859",
+                    IsDeleted = Enums.EnumStatus.False
+                },
+                new App_User
+                {
+                    Id = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"),
+                    FullName = "Nguyen Van Tung",
+                    UserName = "TungNV",
+                    Password = @"$2a$12$0RoG8q7DjIv8yV3HKrzNqOh52lgNIRGiARNXghEM84GhFtP.P/.52", // pass TungNV@123
+                    Email = "19130260@st.hcmuaf.edu.vn",
+                    JobTitle = "Product Onwer",
+                    Department = "Toa G Block E",
+                    Organization = "Company International E",
+                    PhoneNumber = "0326598452",
+                    IsDeleted = Enums.EnumStatus.False
+                }
+
                 );
         }
     }
