@@ -16,8 +16,6 @@ namespace MarvicSolution.Services.Issue_Request.Dtos.Validators
             RuleFor(x=>x.Id_Project)
                 .NotEmpty().WithMessage("Id Project is required!");
             RuleFor(x => x.Id_IssueType)
-                .NotEmpty().WithMessage("Id Project Type is required!");
-            RuleFor(x => x.Id_Stage)
                 .NotEmpty().WithMessage("Id Stage required!");            
             RuleFor(x => x.Summary)
                 .NotEmpty().WithMessage("Summary is required!");

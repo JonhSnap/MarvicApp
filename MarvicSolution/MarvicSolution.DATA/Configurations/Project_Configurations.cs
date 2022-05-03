@@ -71,6 +71,70 @@ namespace MarvicSolution.DATA.Configurations
                 UpdateDate = DateTime.Parse("2021-4-26"),
                 IsStared = EnumStatus.True,
                 IsDeleted = EnumStatus.False
+            },
+            new Project
+            {
+                Id = new Guid("FCAFF326-620B-4B6C-96AB-BDFE7B2DD952"),
+                Name = "Project D",
+                Key = "PD",
+                Access = EnumAccess.Public,
+                Id_Lead = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
+                Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
+                DateCreated = DateTime.Parse("2022-5-14"),
+                DateStarted = DateTime.Parse("2022-6-21"),
+                DateEnd = DateTime.Parse("2023-6-1"),
+                Id_Updator = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
+                UpdateDate = DateTime.Parse("2022-7-26"),
+                IsStared = EnumStatus.True,
+                IsDeleted = EnumStatus.False
+            },
+            new Project
+            {
+                Id = new Guid("FCAFF326-620B-4B6C-96AB-BDFE7B2DD952"),
+                Name = "Project Editor Super",
+                Key = "PES",
+                Access = EnumAccess.Public,
+                Id_Lead = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
+                Id_Creator = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
+                DateCreated = DateTime.Parse("2022-5-14"),
+                DateStarted = DateTime.Parse("2022-6-21"),
+                DateEnd = DateTime.Parse("2023-6-1"),
+                Id_Updator = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // NhanNT
+                UpdateDate = DateTime.Parse("2022-7-26"),
+                IsStared = EnumStatus.True,
+                IsDeleted = EnumStatus.False
+            },
+            new Project
+            {
+                Id = new Guid("7C50EED0-4083-46E2-9C2C-65AE53FE4D88"),
+                Name = "Project Dior Champange",
+                Key = "PDC",
+                Access = EnumAccess.Limited,
+                Id_Lead = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // NhanNT
+                Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
+                DateCreated = DateTime.Parse("2022-5-14"),
+                DateStarted = DateTime.Parse("2022-6-21"),
+                DateEnd = DateTime.Parse("2023-6-1"),
+                Id_Updator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
+                UpdateDate = DateTime.Parse("2022-7-26"),
+                IsStared = EnumStatus.True,
+                IsDeleted = EnumStatus.False
+            },
+            new Project
+            {
+                Id = new Guid("CF0A0FE2-F1CA-4941-B691-6BABE389DF99"),
+                Name = "Project Efferent Tower",
+                Key = "PET",
+                Access = EnumAccess.Limited,
+                Id_Lead = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
+                Id_Creator = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
+                DateCreated = DateTime.Parse("2022-5-14"),
+                DateStarted = DateTime.Parse("2022-6-21"),
+                DateEnd = DateTime.Parse("2023-6-1"),
+                Id_Updator = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV
+                UpdateDate = DateTime.Parse("2022-7-26"),
+                IsStared = EnumStatus.True,
+                IsDeleted = EnumStatus.False
             }
             );
         }
