@@ -89,19 +89,16 @@ namespace MarvicSolution.BackendApi.Controllers
         [HttpGet("get")]
         public async Task<IActionResult> Get()
         {
-            try
-            {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
                 Guid id_User = ValidateUser();
-                var user = await _userService.GetUserbyId(id_User);
+                var user = _userService.GetUserbyId(id_User);
+                if (user == null)
+                    return BadRequest($"Cannot find user with id = {id_User}");
+
                 return Ok(user);
-            }
-            catch (Exception)
-            {
-                return Unauthorized();
-            }
+            
         }
 
         // /api/user/logout

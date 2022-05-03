@@ -1,7 +1,10 @@
 ﻿using MarvicSolution.DATA.Common;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
+using MarvicSolution.Services.SendMail_Request.Dtos.Requests;
+using MarvicSolution.Services.SendMail_Request.Dtos.Services;
 using MarvicSolution.Services.System.Helpers;
+using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +21,15 @@ namespace MarvicSolution.BackendApi.Controllers
     {
         // Must declare DI in startup
         private readonly IProject_Service _projectService;
-        public ProjectController(IProject_Service projectService)
+        private readonly IUser_Service _userService;
+        private readonly IMailService _mailService;
+        public ProjectController(IProject_Service projectService
+            , IMailService mailService
+            , IUser_Service userService)
         {
             _projectService = projectService;
+            _mailService = mailService;
+            _userService = userService;
         }
 
         // /api/Project/GetAlls
@@ -30,11 +39,9 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
             var project = await _projectService.GetAlls();
             if (project == null)
                 return BadRequest("Cannot get all projects");
-
             return Ok(project);
         }
 
@@ -45,7 +52,6 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
             // get project by user has login
             var projects = _projectService.GetProjectByIdUser(IdUser);
             if (projects == null)
@@ -60,7 +66,6 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
             // get project by user has login
             var projects = _projectService.GetProjectByIdUser(UserLogin.Id);
             if (projects == null)
@@ -75,7 +80,6 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
             var listUserName = _projectService.Get_List_UserName_Can_Added_By_IdProject(IdProject);
             if (!listUserName.Any()) // Kiem tra list ko rong
                 return BadRequest($"Cannot get list username by IdProject = {IdProject}");
@@ -87,21 +91,12 @@ namespace MarvicSolution.BackendApi.Controllers
         [Route("/api/Project/GetAllMemberByIdProject")]
         public IActionResult GetAllMemberByIdProject(Guid IdProject)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
-                var members = _projectService.Get_AllMembers_By_IdProject(IdProject);
-                if (!members.Any())
-                    return BadRequest($"Cannot find any member from IdProject = {IdProject}");
-                return Ok(members);
-            }
-            catch (Exception e)
-            {
-                throw new MarvicException($"Error: {e}");
-            }
-
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var members = _projectService.Get_AllMembers_By_IdProject(IdProject);
+            if (!members.Any())
+                return BadRequest($"Cannot find any member from IdProject = {IdProject}");
+            return Ok(members);
         }
 
         /// <summary>
@@ -113,22 +108,14 @@ namespace MarvicSolution.BackendApi.Controllers
         [Route("/api/Project/Create")]// remember to check this route
         public async Task<IActionResult> Create([FromBody] Project_CreateRequest rq)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
-                var proj_Id = await _projectService.Create(rq);
-                if (proj_Id.Equals(Guid.Empty))
-                    return BadRequest();
-
-                return Ok("Create project success");
-            }
-            catch (Exception e)
-            {
-                throw new MarvicException($"Error: {e}");
-            }
-
+            // Check model state
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            // Create a project
+            var IdProj = await _projectService.Create(rq);
+            if (IdProj.Equals(Guid.Empty))
+                return BadRequest();
+            return Ok("Create project success");
         }
 
         // api/Project/AddMember?IdProject=xxx-xxx-xx
@@ -137,21 +124,12 @@ namespace MarvicSolution.BackendApi.Controllers
         //public IActionResult AddMember(Guid IdProject, params string[] userNames)
         public IActionResult AddMember([FromBody] AddMember_Request rq)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
-                var idProject = _projectService.AddMembers(rq.IdProject, rq.UserNames);
-                if (idProject.Equals(Guid.Empty))
-                    return BadRequest($"Cannot get projects of idUser = {UserLogin.Id}");
-                return Ok(idProject);
-            }
-            catch (Exception e)
-            {
-                throw new MarvicException($"Error: {e}");
-            }
-
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var idProject = _projectService.AddMembers(rq.IdProject, rq.UserNames);
+            if (idProject.Equals(Guid.Empty))
+                return BadRequest($"Cannot get projects of idUser = {UserLogin.Id}");
+            return Ok(idProject);
         }
 
         // api/Project/RemoveMember
@@ -179,46 +157,24 @@ namespace MarvicSolution.BackendApi.Controllers
         [Route("/api/Project/Update")]// remember to check this route
         public async Task<IActionResult> Update([FromBody] Project_UpdateRequest rq)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
-                var affectedResutl = await _projectService.Update(rq);
-                if (affectedResutl.Equals(Guid.Empty))
-                    return BadRequest();
-
-                return Ok("Update project success");
-            }
-            catch (Exception e)
-            {
-                throw new MarvicException($"Error: {e}");
-            }
-
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var affectedResult = await _projectService.Update(rq);
+            if (affectedResult.Equals(Guid.Empty))
+                return BadRequest();
+            return Ok("Update project success");
         }
 
         [HttpDelete("{proj_Id}")]
         public async Task<IActionResult> Delete(Guid proj_Id)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
-                var affectedResutl = await _projectService.Delete(proj_Id);
-                if (affectedResutl.Equals(Guid.Empty))
-                    return BadRequest();
-
-                return Ok("Delete project success");
-            }
-            catch (Exception e)
-            {
-                throw new MarvicException($"Error: {e}");
-            }
-
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var affectedResutl = await _projectService.Delete(proj_Id);
+            if (affectedResutl.Equals(Guid.Empty))
+                return BadRequest();
+            return Ok("Delete project success");
         }
-
-
 
     }
 }
