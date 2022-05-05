@@ -1,6 +1,8 @@
-﻿using MarvicSolution.Services.System.Helpers;
+﻿using MarvicSolution.DATA.Common;
+using MarvicSolution.Services.System.Helpers;
 using MarvicSolution.Services.System.Users.Requests;
 using MarvicSolution.Services.System.Users.Services;
+using MarvicSolution.Services.System.Users.Validators;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -53,15 +55,23 @@ namespace MarvicSolution.BackendApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
+                // Kiem tra tai khoan
+                var user = _userService.GetUserbyUserName(rq.UserName);
+                if (user == null)
+                    return BadRequest("User name does not exsist");
+                // Kiem tra mat khau
+                if (!BCrypt.Net.BCrypt.Verify(rq.Password, user.Password))
+                    return BadRequest("Password incorrect");
+                // Thiet lap thong tin cho user da login
+                UserLogin.SetInfo(user);
                 // Tao token theo JWT
-                var jwt = _userService.Authenticate(rq);
+                var jwt = _userService.Authenticate(rq, user);
                 // Tao cookie
                 Response.Cookies.Append("jwt", jwt, new CookieOptions
                 {
                     HttpOnly = true,
                     Expires = DateTime.Now.AddHours(24)
                 });
-                var user = _userService.GetUserbyUserName(rq.UserName);
                 return Ok(user);
             }
             catch (Exception e)
@@ -74,19 +84,16 @@ namespace MarvicSolution.BackendApi.Controllers
         [HttpGet("get")]
         public async Task<IActionResult> Get()
         {
-            try
-            {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
                 Guid id_User = ValidateUser();
-                var user = await _userService.GetUserbyId(id_User);
+                var user = _userService.GetUserbyId(id_User);
+                if (user == null)
+                    return BadRequest($"Cannot find user with id = {id_User}");
+
                 return Ok(user);
-            }
-            catch (Exception)
-            {
-                return Unauthorized();
-            }
+            
         }
 
         // /api/user/logout

@@ -43,7 +43,7 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             try
             {
-                var sprint = new Sprint(model.Id_Project,model.Sprint_Name, model.Creator);
+                var sprint = new Sprint(model.Id_Project,model.Sprint_Name, model.Id_Creator);
                 if (await _sprint_Service.AddSprint(sprint))
                 {
                     return Ok();
@@ -95,7 +95,7 @@ namespace MarvicSolution.BackendApi.Controllers
                 {
                     sprint.Id_Project = model.Id_Project;
                     sprint.SprintName = model.Sprint_Name;
-                    sprint.Creator = model.Creator;
+                    sprint.Id_Creator = model.Id_Creator;
                     sprint.Start_Date = model.Start_Date;
                     sprint.End_Date = model.End_Date;
                     sprint.Update_Date = DateTime.Now;

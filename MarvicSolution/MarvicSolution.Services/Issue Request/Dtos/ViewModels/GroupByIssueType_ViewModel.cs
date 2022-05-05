@@ -10,12 +10,12 @@ namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels
 {
     public class GroupByIssueType_ViewModel
     {
-        public EnumIssueType IdType { get; set; }
+        public string TypeName{ get; set; }
         public List<Issue_ViewModel> ListIssue { get; set; }
 
         public GroupByIssueType_ViewModel()
         {
-            this.IdType = EnumIssueType.Epic;
+            this.TypeName = string.Empty;
             this.ListIssue = new List<Issue_ViewModel>();
         }
     }

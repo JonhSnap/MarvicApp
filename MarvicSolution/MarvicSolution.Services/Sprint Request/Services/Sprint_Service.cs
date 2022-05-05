@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MarvicSolution.Services.Sprint_Request.Services
@@ -70,8 +69,8 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             try
             {
                 var sprints = await _context.Sprints
-                    .Where(spr=>spr.Id_Project==id_Project && spr.Is_Delete== EnumStatus.False)
-                    .Select(spr=> new SprintVM(spr.Id,spr.Id_Project,spr.SprintName, spr.Creator, spr.Update_Date,spr.Create_Date,spr.Start_Date,spr.End_Date))
+                    .Where(spr => spr.Id_Project == id_Project && spr.Is_Delete == EnumStatus.False)
+                    .Select(spr => new SprintVM(spr.Id, spr.Id_Project, spr.SprintName, spr.Id_Creator, spr.Update_Date, spr.Create_Date, spr.Start_Date, spr.End_Date))
                     .ToListAsync();
                 return sprints;
             }
@@ -81,6 +80,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 throw;
             }
         }
+
         public async Task<bool> UpdateSprint(Sprint sprint)
         {
             try
@@ -96,5 +96,6 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 throw;
             }
         }
+
     }
 }

@@ -27,7 +27,7 @@ namespace MarvicSolution.DATA.Configurations
                 {
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project A
                     Id_User = new Guid("E341A8F6-DC1B-4829-94FB-316B6BAC99B6"), // User KhanhND
-                    Role= EnumRole.Developer
+                    Role = EnumRole.Developer
                 },
                 new Member
                 {
@@ -51,6 +51,72 @@ namespace MarvicSolution.DATA.Configurations
                 {
                     Id_Project = new Guid("A5329D06-9D32-4A54-B816-906DFBBD288C"), // Project C
                     Id_User = new Guid("E341A8F6-DC1B-4829-94FB-316B6BAC99B6"), // User KhanhND
+                    Role = EnumRole.Developer
+                },
+                // =======Group 2=======
+                // #####Project D#####
+                new Member
+                {
+                    Id_Project = new Guid("FCAFF326-620B-4B6C-96AB-BDFE7B2DD952"), // Project D
+                    Id_User = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // User KhietPT
+                    Role = EnumRole.ProductOwner
+                },
+                new Member
+                {
+                    Id_Project = new Guid("FCAFF326-620B-4B6C-96AB-BDFE7B2DD952"), // Project D
+                    Id_User = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // User ThangVD
+                    Role = EnumRole.Developer
+                },
+                // #####Project Editor Super#####
+                new Member
+                {
+                    Id_Project = new Guid("1A24B90F-2585-404B-9E93-7128D96F8A93"), // Project Editor Super
+                    Id_User = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // User ThangVD
+                    Role = EnumRole.ProductOwner
+                },
+                new Member
+                {
+                    Id_Project = new Guid("1A24B90F-2585-404B-9E93-7128D96F8A93"), // Project Editor Super
+                    Id_User = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // User ThinhLQ
+                    Role = EnumRole.ProjectManager
+                },
+                new Member
+                {
+                    Id_Project = new Guid("1A24B90F-2585-404B-9E93-7128D96F8A93"), // Project Editor Super
+                    Id_User = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // User NhanNT
+                    Role = EnumRole.Developer
+                },
+                // #####Project Dior Champange#####
+                new Member
+                {
+                    Id_Project = new Guid("7C50EED0-4083-46E2-9C2C-65AE53FE4D88"), // Project Dior Champange
+                    Id_User = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // User NhanNT
+                    Role = EnumRole.ProjectManager
+                },
+                new Member
+                {
+                    Id_Project = new Guid("7C50EED0-4083-46E2-9C2C-65AE53FE4D88"), // Project Dior Champange
+                    Id_User = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // User KhietPT
+                    Role = EnumRole.Developer
+                }
+                ,
+                // #####Project Efferent Tower#####
+                new Member
+                {
+                    Id_Project = new Guid("CF0A0FE2-F1CA-4941-B691-6BABE389DF99"), // Project Efferent Tower
+                    Id_User = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // User ThangVD
+                    Role = EnumRole.ProductOwner
+                },
+                new Member
+                {
+                    Id_Project = new Guid("CF0A0FE2-F1CA-4941-B691-6BABE389DF99"), // Project Efferent Tower
+                    Id_User = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // User ThinhLQ
+                    Role = EnumRole.ProjectManager
+                },
+                new Member
+                {
+                    Id_Project = new Guid("CF0A0FE2-F1CA-4941-B691-6BABE389DF99"), // Project Efferent Tower
+                    Id_User = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // User TungNV
                     Role = EnumRole.Developer
                 }
                 );

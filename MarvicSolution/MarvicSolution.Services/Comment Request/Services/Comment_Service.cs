@@ -67,7 +67,7 @@ namespace MarvicSolution.Services.Comment_Request.Services
 
         public async Task<Comment> GetCommentById(Guid id, Guid id_User)
         {
-            return await _context.Comments.FirstOrDefaultAsync(cmt => cmt.Id == id && cmt.Id_User == id_User && cmt.Is_Delete == EnumStatus.False); ;
+            return await _context.Comments.FirstOrDefaultAsync(cmt => cmt.Id == id && cmt.Id_User == id_User && cmt.Is_Delete == EnumStatus.False);
         }
 
         public async Task<IList<CommentVM>> GetCommentsById_Issue(Guid id_Issue)

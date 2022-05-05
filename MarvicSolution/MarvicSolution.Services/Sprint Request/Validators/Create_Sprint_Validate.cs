@@ -11,7 +11,7 @@ namespace MarvicSolution.Services.Sprint_Request.Validators
                 .NotEmpty().WithMessage("Id_Project id is required!");
             RuleFor(x => x.Sprint_Name)
                .NotEmpty().WithMessage("Sprint_Name id is required!");
-            RuleFor(x => x.Creator)
+            RuleFor(x => x.Id_Creator)
                .NotEmpty().WithMessage("Creator id is required!");
         }
     }

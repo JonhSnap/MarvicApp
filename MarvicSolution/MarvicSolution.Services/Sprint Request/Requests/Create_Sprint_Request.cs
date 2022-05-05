@@ -6,6 +6,6 @@ namespace MarvicSolution.Services.Sprint_Request.Requests
     {
         public Guid Id_Project { get; set; }
         public string Sprint_Name { get; set; }
-        public string Creator { get; set; }
+        public Guid Id_Creator { get; set; }
     }
 }
