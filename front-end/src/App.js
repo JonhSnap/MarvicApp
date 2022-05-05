@@ -12,6 +12,7 @@ const TestPage = lazy(() => import("./pages/TestPage"));
 const BoardPage = lazy(() => import("./pages/BoardPage"));
 const BacklogPage = lazy(() => import("./pages/BacklogPage"));
 const RoadmapPage = lazy(() => import("./pages/RoadmapPage"));
+const Comments = lazy(() => import("./components/comments/Comments"));
 
 function App() {
   return (
@@ -30,15 +31,40 @@ function App() {
       <Routes>
         <Route path="/" element={<Main></Main>}>
           <Route path="/" element={<YourWorkPage></YourWorkPage>}></Route>
+<<<<<<< HEAD
+          <Route
+            path="/projects"
+            element={<ProjectsPage></ProjectsPage>}
+          ></Route>
+          <Route
+            path="/projects/roadmap"
+            element={<RoadmapPage></RoadmapPage>}
+          ></Route>
+          <Route
+            path="/projects/backlog"
+            element={<BacklogPage></BacklogPage>}
+          ></Route>
+          <Route
+            path="/projects/board/:key"
+            element={<BoardPage></BoardPage>}
+          ></Route>
+=======
           <Route path="/projects" element={<ProjectsPage></ProjectsPage>}></Route>
           <Route path="/projects/roadmap" element={<RoadmapPage></RoadmapPage>}></Route>
           <Route path="/projects/backlog/:key" element={<BacklogPage></BacklogPage>}></Route>
           <Route path="/projects/board/:key" element={<BoardPage></BoardPage>}></Route>
+>>>>>>> FE
         </Route>
         <Route path="/login" element={<LoginPage></LoginPage>}></Route>
         <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
         <Route path="/tutorial" element={<TutorialPage></TutorialPage>}></Route>
         <Route path="/test" element={<TestPage></TestPage>}></Route>
+        <Route
+          path="/comment"
+          element={
+            <Comments commentURL="https://localhost:5001/hubs/marvic"></Comments>
+          }
+        ></Route>
       </Routes>
     </Suspense>
   );
