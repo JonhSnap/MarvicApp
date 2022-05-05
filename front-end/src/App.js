@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Main from "./components/layouts/Main";
+import { ToastContainer } from 'react-toastify'
 
 const YourWorkPage = lazy(() => import("./pages/YourWorkPage"));
 const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
@@ -16,9 +17,21 @@ const Comments = lazy(() => import("./components/comments/Comments"));
 function App() {
   return (
     <Suspense fallback={<>Fall back component</>}>
+      <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss={false}
+      draggable
+      pauseOnHover={false}
+      ></ToastContainer>
       <Routes>
         <Route path="/" element={<Main></Main>}>
           <Route path="/" element={<YourWorkPage></YourWorkPage>}></Route>
+<<<<<<< HEAD
           <Route
             path="/projects"
             element={<ProjectsPage></ProjectsPage>}
@@ -35,6 +48,12 @@ function App() {
             path="/projects/board/:key"
             element={<BoardPage></BoardPage>}
           ></Route>
+=======
+          <Route path="/projects" element={<ProjectsPage></ProjectsPage>}></Route>
+          <Route path="/projects/roadmap" element={<RoadmapPage></RoadmapPage>}></Route>
+          <Route path="/projects/backlog/:key" element={<BacklogPage></BacklogPage>}></Route>
+          <Route path="/projects/board/:key" element={<BoardPage></BoardPage>}></Route>
+>>>>>>> FE
         </Route>
         <Route path="/login" element={<LoginPage></LoginPage>}></Route>
         <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
