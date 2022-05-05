@@ -1,5 +1,6 @@
 import React, { memo, useEffect, useState } from 'react'
 import '../../../src/index.scss'
+import { NIL } from 'uuid'
 import { useListIssueContext } from '../../contexts/listIssueContext';
 import { fetchIssue, updateIssues } from '../../reducers/listIssueReducer';
 
@@ -17,7 +18,7 @@ function MemberComponent({project, members, issue}) {
     // handle Unassignee
     const handleUnassignee = () => {
         const issueUpdate = {...issue}
-        issueUpdate.id_Assignee = '00000000-0000-0000-0000-000000000000';
+        issueUpdate.id_Assignee = NIL;
         issueUpdate.updateDate = new Date();
         updateIssues(issueUpdate, dispatch);
         setTimeout(() => {
