@@ -1,15 +1,11 @@
 ﻿using MarvicSolution.DATA.Common;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
-using MarvicSolution.Services.SendMail_Request.Dtos.Requests;
 using MarvicSolution.Services.SendMail_Request.Dtos.Services;
-using MarvicSolution.Services.System.Helpers;
 using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Utilities.Exceptions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 

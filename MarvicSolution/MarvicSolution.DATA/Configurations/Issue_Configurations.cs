@@ -3,10 +3,6 @@ using MarvicSolution.DATA.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarvicSolution.DATA.Configurations
 {
@@ -396,7 +392,7 @@ namespace MarvicSolution.DATA.Configurations
                 },
                 new Issue
                 {
-                    Id = new Guid("73454F75-A16B-464E-99DC-4891086CB81F"),
+                    Id = new Guid("92BAF164-333F-49C7-B5DF-6C91BD9F405E"),
                     Id_Project = new Guid("FCAFF326-620B-4B6C-96AB-BDFE7B2DD952"), // Project Editor Super
                     Id_IssueType = EnumIssueType.Task,
                     Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
