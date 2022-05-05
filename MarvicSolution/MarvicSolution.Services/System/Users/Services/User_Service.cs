@@ -10,6 +10,7 @@ using MarvicSolution.Services.System.Helpers;
 using Microsoft.AspNetCore.Http;
 using MarvicSolution.DATA.Common;
 using MarvicSolution.DATA.Enums;
+using System.Collections.Generic;
 
 namespace MarvicSolution.Services.System.Users.Services
 {
@@ -23,7 +24,6 @@ namespace MarvicSolution.Services.System.Users.Services
             _context = context;
             _jwtService = jwtService;
         }
-
         public string Authenticate(Login_Request rq, App_User user)
         {
             // Kiem tra mat khau
@@ -34,14 +34,6 @@ namespace MarvicSolution.Services.System.Users.Services
 
             return jwt;
         }
-
-        public App_User GetUserbyUserName(string userName)
-        {
-            var user = _context.App_Users.SingleOrDefault(u => u.UserName == userName);
-
-            return user;
-        }
-
         public bool Register(Register_Request rq)
         {
             try
@@ -65,7 +57,39 @@ namespace MarvicSolution.Services.System.Users.Services
                 throw new MarvicException($"Error: {e}");
             }
         }
-
+        public Guid UpdatePassword(RecoveryPassword_Request rq)
+        {
+            try
+            {
+                var user = GetUserbyUserName(rq.UserName);
+                user.Password = BCrypt.Net.BCrypt.HashPassword(rq.NewPassword);
+                _context.SaveChanges();
+                return user.Id;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+        public Guid RecoveryPassword(RecoveryPassword_Request rq)
+        {
+            try
+            {
+                var user = GetUserbyUserName(rq.UserName);
+                var hasUser = user != null ? true : false;
+                var validEmail = user.Email.Equals(rq.Email) ? true : false;
+                if (hasUser && validEmail)
+                {
+                    UpdatePassword(rq);
+                    return user.Id;
+                }
+                return Guid.Empty;
+            }
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+        }
         public async Task<Guid> Create(Create_User_Request rq)
         {
             try
@@ -93,17 +117,6 @@ namespace MarvicSolution.Services.System.Users.Services
                 throw new MarvicException($"Error: {e}");
             }
         }
-
-        public async Task<App_User> GetUserbyId(Guid Id)
-        {
-            var user = await _context.App_Users.FindAsync(Id);
-
-            if (user == null)
-                throw new MarvicException($"Cannot find user with Id: {Id}");
-
-            return user;
-        }
-
         public Guid Update(Update_User_Request rq)
         {
             try
@@ -128,41 +141,6 @@ namespace MarvicSolution.Services.System.Users.Services
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public Guid UpdatePassword(RecoveryPassword_Request rq)
-        {
-            try
-            {
-                var user = GetUserbyUserName(rq.UserName);
-                user.Password = BCrypt.Net.BCrypt.HashPassword(rq.NewPassword);
-                _context.SaveChanges();
-                return user.Id;
-            }
-            catch (Exception e)
-            {
-                throw new MarvicException($"Error: {e}");
-            }
-        }
-
-        public Guid RecoveryPassword(RecoveryPassword_Request rq)
-        {
-            try
-            {
-                var user = GetUserbyUserName(rq.UserName);
-                var hasUser = user != null ? true : false;
-                var validEmail = user.Email.Equals(rq.Email) ? true : false;
-                if (hasUser && validEmail)
-                {
-                    UpdatePassword(rq);
-                    return user.Id;
-                }
-                return Guid.Empty;
-            }
-            catch (Exception e)
-            {
-                throw new MarvicException($"Error: {e}");
-            }
-        }
-
         public Guid Delete(Guid Id)
         {
             try
@@ -177,9 +155,15 @@ namespace MarvicSolution.Services.System.Users.Services
                 throw new MarvicException($"Error: {e}");
             }
         }
+        public App_User GetUserbyUserName(string userName)
+        {
+            var user = _context.App_Users.SingleOrDefault(u => u.UserName == userName);
 
-
-
-
+            return user;
+        }
+        public App_User GetUserbyId(Guid Id)
+        {
+            return _context.App_Users.SingleOrDefault(x => x.Id.Equals(Id));
+        }
     }
 }
