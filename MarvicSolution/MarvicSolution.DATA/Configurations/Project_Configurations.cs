@@ -90,7 +90,7 @@ namespace MarvicSolution.DATA.Configurations
             },
             new Project
             {
-                Id = new Guid("FCAFF326-620B-4B6C-96AB-BDFE7B2DD952"),
+                Id = new Guid("1A24B90F-2585-404B-9E93-7128D96F8A93"),
                 Name = "Project Editor Super",
                 Key = "PES",
                 Access = EnumAccess.Public,

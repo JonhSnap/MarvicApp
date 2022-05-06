@@ -421,6 +421,63 @@ namespace MarvicSolution.DATA.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MarvicSolution.DATA.Entities.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Create_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Id_Issue")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id_ParentComment")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id_User")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Is_Delete")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Update_Date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Comment");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ab5af8f5-ce63-45ef-bd57-ec74c71069ae"),
+                            Content = "NhanTTT1 comment",
+                            Create_Date = new DateTime(2022, 4, 30, 21, 37, 38, 104, DateTimeKind.Local).AddTicks(8794),
+                            Id_Issue = new Guid("7c2cc804-4aae-4af2-9191-4268fc02edc0"),
+                            Id_ParentComment = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_User = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
+                            Is_Delete = 0,
+                            Update_Date = new DateTime(2022, 4, 30, 21, 37, 38, 105, DateTimeKind.Local).AddTicks(5658)
+                        },
+                        new
+                        {
+                            Id = new Guid("e4203184-f6c1-4a40-9d1a-167f9bed6390"),
+                            Content = "KhanhND comment",
+                            Create_Date = new DateTime(2022, 4, 30, 22, 37, 38, 105, DateTimeKind.Local).AddTicks(6709),
+                            Id_Issue = new Guid("7c2cc804-4aae-4af2-9191-4268fc02edc0"),
+                            Id_ParentComment = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_User = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
+                            Is_Delete = 0,
+                            Update_Date = new DateTime(2022, 4, 30, 22, 37, 38, 106, DateTimeKind.Local).AddTicks(612)
+                        });
+                });
+
             modelBuilder.Entity("MarvicSolution.DATA.Entities.Issue", b =>
                 {
                     b.Property<Guid>("Id")
@@ -969,6 +1026,42 @@ namespace MarvicSolution.DATA.Migrations
                             Name = "Question B5",
                             Scores = 1
                         });
+                });
+
+            modelBuilder.Entity("MarvicSolution.DATA.Entities.Sprint", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Create_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("End_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Id_Project")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Is_Delete")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SprintName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Start_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Update_Date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sprint");
                 });
 
             modelBuilder.Entity("MarvicSolution.DATA.Entities.Test", b =>
