@@ -7,9 +7,10 @@ using MarvicSolution.Services.Issue_Request.Issue_Request;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.Project_Resquest.Dtos.Validators;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest;
+using MarvicSolution.Services.Sprint_Request.Services;
+using MarvicSolution.Services.System.Helpers;
 using MarvicSolution.Services.SendMail_Request.Dtos.Services;
 using MarvicSolution.Services.SendMail_Request.Dtos.Settings;
-using MarvicSolution.Services.System.Helpers;
 using MarvicSolution.Services.System.Users.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,6 +19,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using MarvicSolution.Services.Label_Request.Services;
+using MarvicSolution.Services.Stage_Request.Services;
 
 namespace MarvicSolution.BackendApi
 {
@@ -50,6 +53,9 @@ namespace MarvicSolution.BackendApi
             services.AddScoped<IUser_Service, User_Service>();
             services.AddTransient<IMailService, MailService>();
             services.AddScoped<IComment_Service, Comment_Service>();
+            services.AddScoped<ISprint_Service, Sprint_Service>();
+            services.AddScoped<ILabel_Service, Label_Service>();
+            services.AddScoped<IStage_Service, Stage_Service>();
 
             services.AddControllers()
                 .AddFluentValidation(s =>

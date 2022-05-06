@@ -67,7 +67,7 @@ namespace MarvicSolution.Services.Comment_Request.Services
 
         public async Task<Comment> GetCommentById(Guid id, Guid id_User)
         {
-            return await _context.Comments.FirstOrDefaultAsync(cmt => cmt.Id == id && cmt.Id_User == id_User && cmt.Is_Delete == EnumStatus.False); ;
+            return await _context.Comments.FirstOrDefaultAsync(cmt => cmt.Id == id && cmt.Id_User == id_User && cmt.Is_Delete == EnumStatus.False);
         }
 
         public async Task<IList<CommentVM>> GetCommentsById_Issue(Guid id_Issue)
@@ -97,6 +97,12 @@ namespace MarvicSolution.Services.Comment_Request.Services
                                        where comt.Id_ParentComment == parentId && comt.Is_Delete == 0
                                        select new CommentVM(comt.Id, comt.Id_User, comt.Id_Issue, user.UserName, comt.Content, comt.Update_Date, comt.Create_Date, comt.Id_ParentComment))
                                       .ToListAsync();
+               /* var commments = await _context.Comments
+                    .Where(cmt => cmt.Id_ParentComment == parentId && cmt.Is_Delete == EnumStatus.False)
+                    .Select(comt =>
+                       new CommentVM(comt.Id, comt.Id_User, comt.Id_Issue, comt.Content, comt.Update_Date, comt.Create_Date, comt.Id_ParentComment)
+                    )
+                    .ToListAsync();*/
                 return await CountChildComment(commments);
             }
             catch (Exception ex)
@@ -113,7 +119,7 @@ namespace MarvicSolution.Services.Comment_Request.Services
                 foreach (var parent in commments)
                 {
                     parent.CountChild = await _context.Comments
-                        .Where(cmt => cmt.Id_ParentComment == parent.Id && cmt.Is_Delete==0)
+                        .Where(cmt => cmt.Id_ParentComment == parent.Id)
                         .OrderBy(comt => comt.Create_Date)
                         .Select(comt => new CommentVM(comt.Id, comt.Id_User, comt.Id_Issue, comt.Content, comt.Update_Date, comt.Create_Date, comt.Id_ParentComment))
                         .CountAsync();

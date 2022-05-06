@@ -70,19 +70,19 @@ namespace MarvicSolution.DATA.Configurations
                 // #####Project Editor Super#####
                 new Member
                 {
-                    Id_Project = new Guid("FCAFF326-620B-4B6C-96AB-BDFE7B2DD952"), // Project Editor Super
+                    Id_Project = new Guid("1A24B90F-2585-404B-9E93-7128D96F8A93"), // Project Editor Super
                     Id_User = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // User ThangVD
                     Role = EnumRole.ProductOwner
                 },
                 new Member
                 {
-                    Id_Project = new Guid("FCAFF326-620B-4B6C-96AB-BDFE7B2DD952"), // Project Editor Super
+                    Id_Project = new Guid("1A24B90F-2585-404B-9E93-7128D96F8A93"), // Project Editor Super
                     Id_User = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // User ThinhLQ
                     Role = EnumRole.ProjectManager
                 },
                 new Member
                 {
-                    Id_Project = new Guid("FCAFF326-620B-4B6C-96AB-BDFE7B2DD952"), // Project Editor Super
+                    Id_Project = new Guid("1A24B90F-2585-404B-9E93-7128D96F8A93"), // Project Editor Super
                     Id_User = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // User NhanNT
                     Role = EnumRole.Developer
                 },
