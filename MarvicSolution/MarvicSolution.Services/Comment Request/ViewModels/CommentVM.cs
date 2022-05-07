@@ -1,6 +1,4 @@
-﻿using MarvicSolution.DATA.Entities;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace MarvicSolution.Services.Comment_Request.ViewModels
 {
