@@ -418,6 +418,71 @@ namespace MarvicSolution.DATA.Migrations
                             Password = "$2a$11$IM2wFUFnOP.TYaxfqYjEluUatAmE95HIFZcElLoLGRmdUYkBFujCm",
                             PhoneNumber = "0345677456",
                             UserName = "NhanTTT1"
+                        },
+                        new
+                        {
+                            Id = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Department = "Toa G Block A",
+                            Email = "thanhkhiet1999brvt@gmail.com",
+                            FullName = "Phan Thanh Khiet",
+                            IsDeleted = 0,
+                            JobTitle = "Product Onwer",
+                            Organization = "Company International Z",
+                            Password = "$2a$12$d5mRmftqnckozmamy17PDefhN9OxdlssO2zN4UvDBbDlNF08wk176",
+                            PhoneNumber = "0213515845",
+                            UserName = "KhietPT"
+                        },
+                        new
+                        {
+                            Id = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            Department = "Toa G Block B",
+                            Email = "19130203@st.hcmuaf.edu.vn",
+                            FullName = "Vo Duy Thang",
+                            IsDeleted = 0,
+                            JobTitle = "Product Onwer",
+                            Organization = "Company International B",
+                            Password = "$2a$12$bTnbEkHdZ9./UutRXu2c2eiF5GwtTDYkOsjIfLB8lKTAJbXDRSk2.",
+                            PhoneNumber = "0321235648",
+                            UserName = "ThangVD"
+                        },
+                        new
+                        {
+                            Id = new Guid("71fbd467-6496-412c-b6fa-b461cab6dd05"),
+                            Department = "Toa G Block C",
+                            Email = "19130215@st.hcmuaf.edu.vn",
+                            FullName = "Le Quoc Thinh",
+                            IsDeleted = 0,
+                            JobTitle = "Product Onwer",
+                            Organization = "Company International C",
+                            Password = "$2a$12$aTvfHwnaGNGRMdS3xAvse.VcC/KdRVFxwVtJlkfJDJFL0fYFTUH7i",
+                            PhoneNumber = "5687956148",
+                            UserName = "ThinhLQ"
+                        },
+                        new
+                        {
+                            Id = new Guid("d6c6033a-89e4-4217-b33b-95ee39ec4c5c"),
+                            Department = "Toa G Block D",
+                            Email = "NhanNT@gmail.com",
+                            FullName = "Nguyen Thanh Nhan",
+                            IsDeleted = 0,
+                            JobTitle = "Product Onwer",
+                            Organization = "Company International D",
+                            Password = "$2a$12$PxNXwTisjUP2sugrcRFc/.pZcTpnsQzfBABlBYjnE428tyUj874BC",
+                            PhoneNumber = "1266587859",
+                            UserName = "NhanNT"
+                        },
+                        new
+                        {
+                            Id = new Guid("a21973b7-eb51-4141-a7f8-be3e9071bf9a"),
+                            Department = "Toa G Block E",
+                            Email = "19130260@st.hcmuaf.edu.vn",
+                            FullName = "Nguyen Van Tung",
+                            IsDeleted = 0,
+                            JobTitle = "Product Onwer",
+                            Organization = "Company International E",
+                            Password = "$2a$12$0RoG8q7DjIv8yV3HKrzNqOh52lgNIRGiARNXghEM84GhFtP.P/.52",
+                            PhoneNumber = "0326598452",
+                            UserName = "TungNV"
                         });
                 });
 
@@ -456,25 +521,25 @@ namespace MarvicSolution.DATA.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ab5af8f5-ce63-45ef-bd57-ec74c71069ae"),
+                            Id = new Guid("c923ecc4-8672-4365-96d9-905f0e4669cb"),
                             Content = "NhanTTT1 comment",
-                            Create_Date = new DateTime(2022, 4, 30, 21, 37, 38, 104, DateTimeKind.Local).AddTicks(8794),
+                            Create_Date = new DateTime(2022, 5, 7, 23, 28, 19, 749, DateTimeKind.Local).AddTicks(5240),
                             Id_Issue = new Guid("7c2cc804-4aae-4af2-9191-4268fc02edc0"),
                             Id_ParentComment = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_User = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
                             Is_Delete = 0,
-                            Update_Date = new DateTime(2022, 4, 30, 21, 37, 38, 105, DateTimeKind.Local).AddTicks(5658)
+                            Update_Date = new DateTime(2022, 5, 7, 23, 28, 19, 749, DateTimeKind.Local).AddTicks(8785)
                         },
                         new
                         {
-                            Id = new Guid("e4203184-f6c1-4a40-9d1a-167f9bed6390"),
+                            Id = new Guid("a67804fd-7de3-4b92-90c6-47a3748c450d"),
                             Content = "KhanhND comment",
-                            Create_Date = new DateTime(2022, 4, 30, 22, 37, 38, 105, DateTimeKind.Local).AddTicks(6709),
+                            Create_Date = new DateTime(2022, 5, 8, 0, 28, 19, 749, DateTimeKind.Local).AddTicks(9416),
                             Id_Issue = new Guid("7c2cc804-4aae-4af2-9191-4268fc02edc0"),
                             Id_ParentComment = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_User = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
                             Is_Delete = 0,
-                            Update_Date = new DateTime(2022, 4, 30, 22, 37, 38, 106, DateTimeKind.Local).AddTicks(612)
+                            Update_Date = new DateTime(2022, 5, 8, 0, 28, 19, 749, DateTimeKind.Local).AddTicks(9487)
                         });
                 });
 
@@ -544,6 +609,9 @@ namespace MarvicSolution.DATA.Migrations
                     b.Property<int?>("IsWatched")
                         .HasColumnType("int");
 
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
                     b.Property<int?>("Priority")
                         .HasColumnType("int");
 
@@ -573,7 +641,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_IssueType = 1,
                             Id_Label = new Guid("ee7d776c-4c13-4cb9-a4fa-79b2d096a267"),
-                            Id_Linked_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Linked_Issue = new Guid("ca95e9cc-ccf6-4772-b788-9c56feceb8a1"),
                             Id_Parent_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Project = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
                             Id_Reporter = new Guid("346f2520-6295-4734-8868-6ca75258e7c1"),
@@ -584,6 +652,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
+                            Order = 0,
                             Priority = 5,
                             Story_Point_Estimate = 8,
                             Summary = "The epic of Project A",
@@ -612,6 +681,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
+                            Order = 1,
                             Priority = 3,
                             Story_Point_Estimate = 9,
                             Summary = "The Story of Project A",
@@ -640,6 +710,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
+                            Order = 0,
                             Priority = 3,
                             Story_Point_Estimate = 5,
                             Summary = "The Task1 of Project A",
@@ -668,6 +739,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
+                            Order = 2,
                             Priority = 4,
                             Story_Point_Estimate = 2,
                             Summary = "The Task2 of Project A",
@@ -690,12 +762,13 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Project = new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"),
                             Id_Reporter = new Guid("346f2520-6295-4734-8868-6ca75258e7c1"),
                             Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Id_Sprint = new Guid("87038ca8-11a7-4392-9c3e-86fd04f75223"),
+                            Id_Sprint = new Guid("aed1ab4d-d742-47d8-8400-e86b13c009e2"),
                             Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
+                            Order = 1,
                             Priority = 2,
                             Story_Point_Estimate = 6,
                             Summary = "The epic of Project B",
@@ -718,17 +791,341 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Project = new Guid("89fad9a0-690d-46e8-a2fe-c6cc50350eaf"),
                             Id_Reporter = new Guid("346f2520-6295-4734-8868-6ca75258e7c1"),
                             Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Sprint = new Guid("aed1ab4d-d742-47d8-8400-e86b13c009e2"),
+                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IsDeleted = 0,
+                            IsFlagged = 0,
+                            IsWatched = 0,
+                            Order = 2,
+                            Priority = 5,
+                            Story_Point_Estimate = 1,
+                            Summary = "The Story of Project B",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("76b20622-ad82-4d0d-9719-7b0cf5f33b58"),
+                            Attachment_Path = "",
+                            DateCreated = new DateTime(2022, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateEnd = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStarted = new DateTime(2022, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Des Story of Project D",
+                            Id_Assignee = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            Id_Creator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_IssueType = 2,
+                            Id_Label = new Guid("ee7d776c-4c13-4cb9-a4fa-79b2d096a267"),
+                            Id_Linked_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Parent_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Project = new Guid("fcaff326-620b-4b6c-96ab-bdfe7b2dd952"),
+                            Id_Reporter = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Sprint = new Guid("87038ca8-11a7-4392-9c3e-86fd04f75223"),
                             Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
+                            Order = 3,
                             Priority = 5,
                             Story_Point_Estimate = 1,
-                            Summary = "The Story of Project B",
+                            Summary = "The Story of Project D",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("461f25e5-e68c-4947-842b-f924c4786624"),
+                            Attachment_Path = "",
+                            DateCreated = new DateTime(2022, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateEnd = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStarted = new DateTime(2022, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Des Task of Project D 1",
+                            Id_Assignee = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            Id_Creator = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Id_IssueType = 3,
+                            Id_Label = new Guid("ee7d776c-4c13-4cb9-a4fa-79b2d096a267"),
+                            Id_Linked_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Parent_Issue = new Guid("76b20622-ad82-4d0d-9719-7b0cf5f33b58"),
+                            Id_Project = new Guid("fcaff326-620b-4b6c-96ab-bdfe7b2dd952"),
+                            Id_Reporter = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Sprint = new Guid("87038ca8-11a7-4392-9c3e-86fd04f75223"),
+                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IsDeleted = 0,
+                            IsFlagged = 1,
+                            IsWatched = 0,
+                            Order = 2,
+                            Priority = 5,
+                            Story_Point_Estimate = 1,
+                            Summary = "The Task of Project D 1",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("fd1ed50a-53fb-43e5-9536-5e6ae641636c"),
+                            Attachment_Path = "",
+                            DateCreated = new DateTime(2022, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateEnd = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStarted = new DateTime(2022, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Des Task of Project D 2",
+                            Id_Assignee = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            Id_Creator = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Id_IssueType = 3,
+                            Id_Label = new Guid("ee7d776c-4c13-4cb9-a4fa-79b2d096a267"),
+                            Id_Linked_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Parent_Issue = new Guid("76b20622-ad82-4d0d-9719-7b0cf5f33b58"),
+                            Id_Project = new Guid("fcaff326-620b-4b6c-96ab-bdfe7b2dd952"),
+                            Id_Reporter = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Sprint = new Guid("87038ca8-11a7-4392-9c3e-86fd04f75223"),
+                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IsDeleted = 0,
+                            IsFlagged = 1,
+                            IsWatched = 0,
+                            Order = 1,
+                            Priority = 5,
+                            Story_Point_Estimate = 1,
+                            Summary = "The Task of Project D 2",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("128495fb-ff10-4d63-baf0-afe3e9b9bd6b"),
+                            Attachment_Path = "",
+                            DateCreated = new DateTime(2022, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateEnd = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStarted = new DateTime(2022, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Des Task of Project D 3",
+                            Id_Assignee = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            Id_Creator = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Id_IssueType = 3,
+                            Id_Label = new Guid("ee7d776c-4c13-4cb9-a4fa-79b2d096a267"),
+                            Id_Linked_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Parent_Issue = new Guid("76b20622-ad82-4d0d-9719-7b0cf5f33b58"),
+                            Id_Project = new Guid("fcaff326-620b-4b6c-96ab-bdfe7b2dd952"),
+                            Id_Reporter = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Sprint = new Guid("87038ca8-11a7-4392-9c3e-86fd04f75223"),
+                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IsDeleted = 0,
+                            IsFlagged = 1,
+                            IsWatched = 0,
+                            Order = 1,
+                            Priority = 5,
+                            Story_Point_Estimate = 9,
+                            Summary = "The Task of Project D 3",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("82e2d2a6-b8e4-417a-8883-a8c7790ec45f"),
+                            Attachment_Path = "",
+                            DateCreated = new DateTime(2022, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateEnd = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStarted = new DateTime(2022, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Des Task of Project D 4",
+                            Id_Assignee = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            Id_Creator = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Id_IssueType = 3,
+                            Id_Label = new Guid("ee7d776c-4c13-4cb9-a4fa-79b2d096a267"),
+                            Id_Linked_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Parent_Issue = new Guid("76b20622-ad82-4d0d-9719-7b0cf5f33b58"),
+                            Id_Project = new Guid("fcaff326-620b-4b6c-96ab-bdfe7b2dd952"),
+                            Id_Reporter = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Sprint = new Guid("87038ca8-11a7-4392-9c3e-86fd04f75223"),
+                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IsDeleted = 0,
+                            IsFlagged = 1,
+                            IsWatched = 0,
+                            Order = 3,
+                            Priority = 5,
+                            Story_Point_Estimate = 7,
+                            Summary = "The Task of Project D 4",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("f56cdf9a-2e07-4de1-8d5f-a3d8c19e7628"),
+                            Attachment_Path = "",
+                            DateCreated = new DateTime(2022, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateEnd = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStarted = new DateTime(2022, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Des Epic of Project Editor Super",
+                            Id_Assignee = new Guid("d6c6033a-89e4-4217-b33b-95ee39ec4c5c"),
+                            Id_Creator = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            Id_IssueType = 1,
+                            Id_Label = new Guid("ee7d776c-4c13-4cb9-a4fa-79b2d096a267"),
+                            Id_Linked_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Parent_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Project = new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"),
+                            Id_Reporter = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Sprint = new Guid("79f4fe9f-028f-4c2d-afa8-28601272b031"),
+                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IsDeleted = 0,
+                            IsFlagged = 0,
+                            IsWatched = 0,
+                            Order = 3,
+                            Priority = 3,
+                            Story_Point_Estimate = 7,
+                            Summary = "The Epic of Project Editor Super",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("73454f75-a16b-464e-99dc-4891086cb81f"),
+                            Attachment_Path = "",
+                            DateCreated = new DateTime(2022, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateEnd = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStarted = new DateTime(2022, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Des Story of Project Editor Super",
+                            Id_Assignee = new Guid("71fbd467-6496-412c-b6fa-b461cab6dd05"),
+                            Id_Creator = new Guid("71fbd467-6496-412c-b6fa-b461cab6dd05"),
+                            Id_IssueType = 2,
+                            Id_Label = new Guid("ee7d776c-4c13-4cb9-a4fa-79b2d096a267"),
+                            Id_Linked_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Parent_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Project = new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"),
+                            Id_Reporter = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Sprint = new Guid("79f4fe9f-028f-4c2d-afa8-28601272b031"),
+                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IsDeleted = 0,
+                            IsFlagged = 0,
+                            IsWatched = 0,
+                            Order = 4,
+                            Priority = 3,
+                            Story_Point_Estimate = 5,
+                            Summary = "The Story of Project Editor Super",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("92baf164-333f-49c7-b5df-6c91bd9f405e"),
+                            Attachment_Path = "",
+                            DateCreated = new DateTime(2022, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateEnd = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStarted = new DateTime(2022, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Des Task of Project Editor Super 1",
+                            Id_Assignee = new Guid("d6c6033a-89e4-4217-b33b-95ee39ec4c5c"),
+                            Id_Creator = new Guid("71fbd467-6496-412c-b6fa-b461cab6dd05"),
+                            Id_IssueType = 3,
+                            Id_Label = new Guid("ee7d776c-4c13-4cb9-a4fa-79b2d096a267"),
+                            Id_Linked_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Parent_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Project = new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"),
+                            Id_Reporter = new Guid("71fbd467-6496-412c-b6fa-b461cab6dd05"),
+                            Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Sprint = new Guid("79f4fe9f-028f-4c2d-afa8-28601272b031"),
+                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IsDeleted = 0,
+                            IsFlagged = 0,
+                            IsWatched = 0,
+                            Order = 2,
+                            Priority = 3,
+                            Story_Point_Estimate = 5,
+                            Summary = "The Task of Project Editor Super 1",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("bbbd307d-cbdc-41d0-be8a-7e7bc0a0d1f9"),
+                            Attachment_Path = "",
+                            DateCreated = new DateTime(2022, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateEnd = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStarted = new DateTime(2022, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Des Task of Project Editor Super 2",
+                            Id_Assignee = new Guid("d6c6033a-89e4-4217-b33b-95ee39ec4c5c"),
+                            Id_Creator = new Guid("71fbd467-6496-412c-b6fa-b461cab6dd05"),
+                            Id_IssueType = 3,
+                            Id_Label = new Guid("ee7d776c-4c13-4cb9-a4fa-79b2d096a267"),
+                            Id_Linked_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Parent_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Project = new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"),
+                            Id_Reporter = new Guid("a21973b7-eb51-4141-a7f8-be3e9071bf9a"),
+                            Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Sprint = new Guid("79f4fe9f-028f-4c2d-afa8-28601272b031"),
+                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IsDeleted = 0,
+                            IsFlagged = 0,
+                            IsWatched = 0,
+                            Order = 1,
+                            Priority = 3,
+                            Story_Point_Estimate = 5,
+                            Summary = "The Task of Project Editor Super 2",
+                            UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("5b9382f3-cccd-412b-a6e3-b26bec2a97ab"),
+                            Attachment_Path = "",
+                            DateCreated = new DateTime(2022, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateEnd = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStarted = new DateTime(2022, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Des Task of Project Editor Super 3",
+                            Id_Assignee = new Guid("a21973b7-eb51-4141-a7f8-be3e9071bf9a"),
+                            Id_Creator = new Guid("71fbd467-6496-412c-b6fa-b461cab6dd05"),
+                            Id_IssueType = 3,
+                            Id_Label = new Guid("ee7d776c-4c13-4cb9-a4fa-79b2d096a267"),
+                            Id_Linked_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Parent_Issue = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Project = new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"),
+                            Id_Reporter = new Guid("71fbd467-6496-412c-b6fa-b461cab6dd05"),
+                            Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Id_Sprint = new Guid("79f4fe9f-028f-4c2d-afa8-28601272b031"),
+                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IsDeleted = 0,
+                            IsFlagged = 0,
+                            IsWatched = 0,
+                            Order = 5,
+                            Priority = 3,
+                            Story_Point_Estimate = 5,
+                            Summary = "The Task of Project Editor Super 3",
                             UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
+                });
+
+            modelBuilder.Entity("MarvicSolution.DATA.Entities.Label", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Id_Creator")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id_Project")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id_Updator")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("isDeleted")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Label");
                 });
 
             modelBuilder.Entity("MarvicSolution.DATA.Entities.Member", b =>
@@ -775,6 +1172,72 @@ namespace MarvicSolution.DATA.Migrations
                         {
                             Id_Project = new Guid("a5329d06-9d32-4a54-b816-906dfbbd288c"),
                             Id_User = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
+                            Role = 3
+                        },
+                        new
+                        {
+                            Id_Project = new Guid("fcaff326-620b-4b6c-96ab-bdfe7b2dd952"),
+                            Id_User = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Role = 2
+                        },
+                        new
+                        {
+                            Id_Project = new Guid("fcaff326-620b-4b6c-96ab-bdfe7b2dd952"),
+                            Id_User = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            Role = 3
+                        },
+                        new
+                        {
+                            Id_Project = new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"),
+                            Id_User = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            Role = 2
+                        },
+                        new
+                        {
+                            Id_Project = new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"),
+                            Id_User = new Guid("71fbd467-6496-412c-b6fa-b461cab6dd05"),
+                            Role = 1
+                        },
+                        new
+                        {
+                            Id_Project = new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"),
+                            Id_User = new Guid("d6c6033a-89e4-4217-b33b-95ee39ec4c5c"),
+                            Role = 3
+                        },
+                        new
+                        {
+                            Id_Project = new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"),
+                            Id_User = new Guid("a21973b7-eb51-4141-a7f8-be3e9071bf9a"),
+                            Role = 3
+                        },
+                        new
+                        {
+                            Id_Project = new Guid("7c50eed0-4083-46e2-9c2c-65ae53fe4d88"),
+                            Id_User = new Guid("d6c6033a-89e4-4217-b33b-95ee39ec4c5c"),
+                            Role = 1
+                        },
+                        new
+                        {
+                            Id_Project = new Guid("7c50eed0-4083-46e2-9c2c-65ae53fe4d88"),
+                            Id_User = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Role = 3
+                        },
+                        new
+                        {
+                            Id_Project = new Guid("cf0a0fe2-f1ca-4941-b691-6babe389df99"),
+                            Id_User = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            Role = 2
+                        },
+                        new
+                        {
+                            Id_Project = new Guid("cf0a0fe2-f1ca-4941-b691-6babe389df99"),
+                            Id_User = new Guid("71fbd467-6496-412c-b6fa-b461cab6dd05"),
+                            Role = 1
+                        },
+                        new
+                        {
+                            Id_Project = new Guid("cf0a0fe2-f1ca-4941-b691-6babe389df99"),
+                            Id_User = new Guid("a21973b7-eb51-4141-a7f8-be3e9071bf9a"),
                             Role = 3
                         });
                 });
@@ -873,6 +1336,70 @@ namespace MarvicSolution.DATA.Migrations
                             Key = "PC",
                             Name = "Project C",
                             UpdateDate = new DateTime(2021, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("fcaff326-620b-4b6c-96ab-bdfe7b2dd952"),
+                            Access = 1,
+                            DateCreated = new DateTime(2022, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateEnd = new DateTime(2023, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStarted = new DateTime(2022, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id_Creator = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Id_Lead = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Id_Updator = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            IsDeleted = 0,
+                            IsStared = 1,
+                            Key = "PD",
+                            Name = "Project D",
+                            UpdateDate = new DateTime(2022, 7, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"),
+                            Access = 1,
+                            DateCreated = new DateTime(2022, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateEnd = new DateTime(2023, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStarted = new DateTime(2022, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id_Creator = new Guid("71fbd467-6496-412c-b6fa-b461cab6dd05"),
+                            Id_Lead = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            Id_Updator = new Guid("d6c6033a-89e4-4217-b33b-95ee39ec4c5c"),
+                            IsDeleted = 0,
+                            IsStared = 1,
+                            Key = "PES",
+                            Name = "Project Editor Super",
+                            UpdateDate = new DateTime(2022, 7, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("7c50eed0-4083-46e2-9c2c-65ae53fe4d88"),
+                            Access = 2,
+                            DateCreated = new DateTime(2022, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateEnd = new DateTime(2023, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStarted = new DateTime(2022, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id_Creator = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Id_Lead = new Guid("d6c6033a-89e4-4217-b33b-95ee39ec4c5c"),
+                            Id_Updator = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            IsDeleted = 0,
+                            IsStared = 1,
+                            Key = "PDC",
+                            Name = "Project Dior Champange",
+                            UpdateDate = new DateTime(2022, 7, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("cf0a0fe2-f1ca-4941-b691-6babe389df99"),
+                            Access = 2,
+                            DateCreated = new DateTime(2022, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateEnd = new DateTime(2023, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStarted = new DateTime(2022, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id_Creator = new Guid("71fbd467-6496-412c-b6fa-b461cab6dd05"),
+                            Id_Lead = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            Id_Updator = new Guid("a21973b7-eb51-4141-a7f8-be3e9071bf9a"),
+                            IsDeleted = 0,
+                            IsStared = 1,
+                            Key = "PET",
+                            Name = "Project Efferent Tower",
+                            UpdateDate = new DateTime(2022, 7, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -1037,11 +1564,11 @@ namespace MarvicSolution.DATA.Migrations
                     b.Property<DateTime>("Create_Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("End_Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Id_Creator")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("Id_Project")
                         .HasColumnType("uniqueidentifier");
@@ -1062,6 +1589,77 @@ namespace MarvicSolution.DATA.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Sprint");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d2da18bc-3f2d-4558-acc8-480df6d770f4"),
+                            Create_Date = new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            End_Date = new DateTime(2021, 7, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id_Creator = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
+                            Id_Project = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
+                            Is_Delete = 0,
+                            SprintName = "Sprint A",
+                            Start_Date = new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Update_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("87038ca8-11a7-4392-9c3e-86fd04f75223"),
+                            Create_Date = new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            End_Date = new DateTime(2022, 6, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id_Creator = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
+                            Id_Project = new Guid("fcaff326-620b-4b6c-96ab-bdfe7b2dd952"),
+                            Is_Delete = 0,
+                            SprintName = "Sprint First PD",
+                            Start_Date = new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Update_Date = new DateTime(2022, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("79f4fe9f-028f-4c2d-afa8-28601272b031"),
+                            Create_Date = new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            End_Date = new DateTime(2022, 6, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id_Creator = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
+                            Id_Project = new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"),
+                            Is_Delete = 0,
+                            SprintName = "Project Editor Super",
+                            Start_Date = new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Update_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
+            modelBuilder.Entity("MarvicSolution.DATA.Entities.Stage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Id_Creator")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id_Project")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Id_Updator")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Stage_Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("isDeleted")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Stage");
                 });
 
             modelBuilder.Entity("MarvicSolution.DATA.Entities.Test", b =>

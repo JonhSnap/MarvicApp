@@ -113,5 +113,24 @@ namespace MarvicSolution.BackendApi.Controllers
                 throw;
             }
         }
+        [HttpPut]
+        [Route("/api/Sprints/AddIssuesToSprint")]
+        public IActionResult AddIssuesToSprint([FromBody]AddIssue_Request rq)
+        {
+            var idSprint = _sprint_Service.AddIssuesToSprint(rq);
+            if (idSprint == Guid.Empty)
+                return BadRequest($"Cannot add issues to Sprint = {rq.IdSprint}");
+            return Ok(idSprint);
+        }
+
+        [HttpPut]
+        [Route("/api/Sprints/RemoveIssuesFromSprint")]
+        public IActionResult RemoveIssuesFromSprint([FromBody] RemoveIssue_Request rq)
+        {
+            var result = _sprint_Service.RemoveIssuesFromSprint(rq);
+            if (result == false)
+                return BadRequest($"Cannot find one or more id in ListIdIssue");
+            return Ok(result);
+        }
     }
 }

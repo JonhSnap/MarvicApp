@@ -85,6 +85,11 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("1A24B90F-2585-404B-9E93-7128D96F8A93"), // Project Editor Super
                     Id_User = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // User NhanNT
                     Role = EnumRole.Developer
+                }, new Member
+                {
+                    Id_Project = new Guid("1A24B90F-2585-404B-9E93-7128D96F8A93"), // Project Editor Super
+                    Id_User = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // User TungNV
+                    Role = EnumRole.Developer
                 },
                 // #####Project Dior Champange#####
                 new Member

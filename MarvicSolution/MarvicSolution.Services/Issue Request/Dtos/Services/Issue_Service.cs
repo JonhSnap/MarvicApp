@@ -58,6 +58,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Id_Creator = UserLogin.Id,
                         DateCreated = DateTime.Now,
                         DateStarted = rq.DateStarted,
+                        Order = rq.Order,
                         DateEnd = rq.DateEnd
                     };
 
@@ -103,6 +104,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     issue.DateStarted = rq.DateStarted;
                     issue.DateEnd = rq.DateEnd;
                     issue.Id_Updator = UserLogin.Id;
+                    issue.Order = rq.Order;
                     issue.UpdateDate = DateTime.Now;
 
                     await _context.SaveChangesAsync();
@@ -164,6 +166,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             DateCreated = x.DateCreated,
                                             DateStarted = x.DateStarted,
                                             DateEnd = x.DateEnd,
+                                            Order = x.Order,
                                             Id_Updator = x.Id_Updator
                                         })).ToList();
             return issues;
@@ -215,8 +218,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         DateEnd = g.DateEnd,
                         Id_Updator = g.Id_Updator,
                         UpdateDate = g.UpdateDate,
-                        IsDeleted = g.IsDeleted
-
+                        Order = g.Order
                     });
                     groupVM.ListIssue.AddRange(item);
                     listGroupVM.Add(groupVM);
@@ -284,8 +286,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         DateEnd = g.DateEnd,
                         Id_Updator = g.Id_Updator,
                         UpdateDate = g.UpdateDate,
-                        IsDeleted = g.IsDeleted
-
+                        Order = g.Order
                     });
                     groupVM.ListIssue.AddRange(item);
                     listGroupVM.Add(groupVM);
@@ -357,8 +358,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         DateEnd = g.DateEnd,
                         Id_Updator = g.Id_Updator,
                         UpdateDate = g.UpdateDate,
-                        IsDeleted = g.IsDeleted
-
+                        Order = g.Order
                     });
                     groupVM.ListIssue.AddRange(item);
                     listGroupVM.Add(groupVM);
@@ -399,6 +399,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             DateCreated = x.DateCreated,
                                             DateStarted = x.DateStarted,
                                             DateEnd = x.DateEnd,
+                                            Order = x.Order,
                                             Id_Updator = x.Id_Updator
                                         })).ToList();
 
@@ -432,7 +433,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             DateCreated = x.DateCreated,
                                             DateStarted = x.DateStarted,
                                             DateEnd = x.DateEnd,
-                                            Id_Updator = x.Id_Updator
+                                            Id_Updator = x.Id_Updator,
+                                            Order = x.Order
                                         })).ToList();
 
             return issues;
@@ -466,7 +468,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             DateCreated = x.DateCreated,
                                             DateStarted = x.DateStarted,
                                             DateEnd = x.DateEnd,
-                                            Id_Updator = x.Id_Updator
+                                            Id_Updator = x.Id_Updator,
+                                            Order = x.Order
                                         })).ToList();
                 return issues;
             }
@@ -520,13 +523,84 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     DateEnd = g.DateEnd,
                     Id_Updator = g.Id_Updator,
                     UpdateDate = g.UpdateDate,
-                    IsDeleted = g.IsDeleted
-
+                    Order = g.Order
                 });
                 groupVM.ListIssue.AddRange(item);
                 listGroupVM.Add(groupVM);
             }
             return listGroupVM;
+        }
+
+        public List<Issue_ViewModel> Get_Issues_By_IdSprint(Guid idSprint)
+        {
+            try
+            {
+                var issues = _context.Issues.Where(i => i.Id_Sprint.Equals(idSprint)
+                                                        && i.IsDeleted.Equals(EnumStatus.False))
+                                            .Select(i => new Issue_ViewModel()
+                                            {
+                                                Id = i.Id,
+                                                Id_Project = i.Id_Project,
+                                                Id_Stage = i.Id_Stage,
+                                                Id_Sprint = i.Id_Sprint,
+                                                Id_IssueType = i.Id_IssueType,
+                                                Summary = i.Summary,
+                                                Description = i.Description,
+                                                Id_Assignee = i.Id_Assignee,
+                                                Story_Point_Estimate = i.Story_Point_Estimate,
+                                                Id_Reporter = i.Id_Reporter,
+                                                Attachment_Path = i.Attachment_Path,
+                                                Id_Linked_Issue = i.Id_Linked_Issue,
+                                                Id_Parent_Issue = i.Id_Parent_Issue,
+                                                Priority = i.Priority,
+                                                Id_Restrict = i.Id_Restrict,
+                                                IsFlagged = i.IsFlagged,
+                                                IsWatched = i.IsWatched,
+                                                Id_Creator = i.Id_Creator,
+                                                DateCreated = i.DateCreated,
+                                                DateStarted = i.DateStarted,
+                                                DateEnd = i.DateEnd,
+                                                Id_Updator = i.Id_Updator,
+                                                Order = i.Order
+                                            });
+                return issues.ToList();
+            }
+            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
+        }
+
+        public List<Issue_ViewModel> Get_Issues_NotInSprint_By_IdProject(Guid idProject)
+        {
+            // get issues have idSprint = 000 of Project idProject
+            var issues = _context.Issues.Where(i => i.Id_Project.Equals(idProject)
+                                                    && i.IsDeleted.Equals(EnumStatus.False)
+                                                    && i.Id_Sprint.Equals(Guid.Empty))
+                                        .Select(i => new Issue_ViewModel()
+                                        {
+                                            Id = i.Id,
+                                            Id_Project = i.Id_Project,
+                                            Id_Stage = i.Id_Stage,
+                                            Id_Sprint = i.Id_Sprint,
+                                            Id_IssueType = i.Id_IssueType,
+                                            Summary = i.Summary,
+                                            Description = i.Description,
+                                            Id_Assignee = i.Id_Assignee,
+                                            Story_Point_Estimate = i.Story_Point_Estimate,
+                                            Id_Reporter = i.Id_Reporter,
+                                            Attachment_Path = i.Attachment_Path,
+                                            Id_Linked_Issue = i.Id_Linked_Issue,
+                                            Id_Parent_Issue = i.Id_Parent_Issue,
+                                            Priority = i.Priority,
+                                            Id_Restrict = i.Id_Restrict,
+                                            IsFlagged = i.IsFlagged,
+                                            IsWatched = i.IsWatched,
+                                            Id_Creator = i.Id_Creator,
+                                            DateCreated = i.DateCreated,
+                                            DateStarted = i.DateStarted,
+                                            DateEnd = i.DateEnd,
+                                            Id_Updator = i.Id_Updator,
+                                            Order = i.Order
+                                        });
+            return issues.ToList();
         }
     }
 }

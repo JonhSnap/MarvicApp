@@ -35,6 +35,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
         public DateTime? DateEnd { get; set; }
         public Guid? Id_Updator { get; set; }
         public DateTime? UpdateDate { get; set; }
+        public int Order { get; set; }
         public EnumStatus IsDeleted { get; set; }
 
         public Issue_UpdateRequest()
@@ -63,9 +64,10 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
             DateEnd = new DateTime();
             Id_Updator = new Guid();
             UpdateDate = new DateTime();
+            Order = 0;
             IsDeleted =  EnumStatus.False;
         }
-        public Issue_UpdateRequest(Guid id, Guid id_Project, EnumIssueType id_IssueType, Guid? id_Stage, Guid? id_Sprint, Guid? id_Label, string summary, string description, Guid? id_Assignee, EnumPoint? story_Point_Estimate, Guid? id_Reporter, string attachment_Path, Guid? id_Linked_Issue, Guid? id_Parent_Issue, EnumPriority? priority, Guid? id_Restrict, EnumStatus? isFlagged, EnumStatus? isWatched, Guid id_Creator, DateTime? dateCreated, DateTime? dateStarted, DateTime? dateEnd, Guid? id_Updator, DateTime? updateDate, EnumStatus isDeleted)
+        public Issue_UpdateRequest(Guid id, Guid id_Project, EnumIssueType id_IssueType, Guid? id_Stage, Guid? id_Sprint, Guid? id_Label, string summary, string description, Guid? id_Assignee, EnumPoint? story_Point_Estimate, Guid? id_Reporter, string attachment_Path, Guid? id_Linked_Issue, Guid? id_Parent_Issue, EnumPriority? priority, Guid? id_Restrict, EnumStatus? isFlagged, EnumStatus? isWatched, Guid id_Creator, DateTime? dateCreated, DateTime? dateStarted, DateTime? dateEnd, Guid? id_Updator, DateTime? updateDate, int order, EnumStatus isDeleted)
         {
             Id = id;
             Id_Project = id_Project;
@@ -91,6 +93,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
             DateEnd = dateEnd;
             Id_Updator = id_Updator;
             UpdateDate = updateDate;
+            Order = order;
             IsDeleted = isDeleted;
         }
     }

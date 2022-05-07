@@ -1,7 +1,10 @@
 ﻿using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
+using MarvicSolution.Services.Issue_Request.Issue_Request;
+using MarvicSolution.Services.Sprint_Request.Requests;
 using MarvicSolution.Services.Sprint_Request.ViewModels;
+using MarvicSolution.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,11 +16,31 @@ namespace MarvicSolution.Services.Sprint_Request.Services
     public class Sprint_Service : ISprint_Service
     {
         private readonly MarvicDbContext _context;
+        private readonly IIssue_Service _issue_Service;
 
-        public Sprint_Service(MarvicDbContext context)
+        public Sprint_Service(MarvicDbContext context, IIssue_Service issue_Service)
         {
             _context = context;
+            _issue_Service = issue_Service;
         }
+
+        public Guid AddIssuesToSprint(AddIssue_Request rq)
+        {
+            try
+            {
+                foreach (var i_id in rq.ListIdIssue)
+                {
+                    var issue = _context.Issues.SingleOrDefault(i => i.Id.Equals(i_id));
+                    if (issue == null)
+                        throw new MarvicException($"Cannot find issue = {i_id}");
+                    issue.Id_Sprint = rq.IdSprint;
+                    _context.SaveChanges();
+                }
+                return rq.IdSprint;
+            }
+            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
+        }
+
         public async Task<bool> AddSprint(Sprint sprint)
         {
             try
@@ -54,7 +77,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
         {
             try
             {
-                var sprint = await _context.Sprints.FirstOrDefaultAsync(sprt=> sprt.Id==id && sprt.Is_Delete==EnumStatus.False);
+                var sprint = await _context.Sprints.FirstOrDefaultAsync(sprt => sprt.Id == id && sprt.Is_Delete == EnumStatus.False);
                 return sprint;
             }
             catch (Exception ex)
@@ -79,6 +102,23 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 // log here...
                 throw;
             }
+        }
+
+        public bool RemoveIssuesFromSprint(RemoveIssue_Request rq)
+        {
+            try
+            {
+                foreach (var i_id in rq.ListIdIssue)
+                {
+                    var issue = _context.Issues.SingleOrDefault(i => i.Id.Equals(i_id));
+                    if (issue == null)
+                        throw new MarvicException($"Cannot find issue = {i_id}");
+                    issue.Id_Sprint = Guid.Empty;
+                    _context.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
         }
 
         public async Task<bool> UpdateSprint(Sprint sprint)
