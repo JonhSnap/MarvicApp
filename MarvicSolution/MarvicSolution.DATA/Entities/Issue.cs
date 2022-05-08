@@ -37,6 +37,7 @@ namespace MarvicSolution.DATA.Entities
         public DateTime? DateEnd { get; set; }
         public Guid? Id_Updator { get; set; }
         public DateTime? UpdateDate { get; set; }
+        public int Order { get; set; }
         public EnumStatus IsDeleted { get; set; }
         public Issue()
         {
@@ -65,35 +66,8 @@ namespace MarvicSolution.DATA.Entities
             Id_Updator = Guid.Empty;
             UpdateDate = new DateTime();
             IsDeleted = EnumStatus.False;
+            Order = 0;
+        }
 
-        }
-        public Issue(Guid id, Guid id_Project, EnumIssueType id_IssueType, Guid? id_Stage, Guid? id_Sprint, Guid? id_Label, string summary, string description, Guid? id_Assignee, EnumPoint? story_Point_Estimate, Guid? id_Reporter, string attachment_Path, Guid? id_Linked_Issue, Guid? id_Parent_Issue, EnumPriority? priority, Guid? id_Restrict, EnumStatus? isFlagged, EnumStatus? isWatched, Guid id_Creator, DateTime? dateCreated, DateTime? dateStarted, DateTime? dateEnd, Guid? id_Updator, DateTime? updateDate, EnumStatus isDeleted)
-        {
-            Id = id;
-            Id_Project = id_Project;
-            Id_IssueType = id_IssueType;
-            Id_Stage = id_Stage;
-            Id_Sprint = id_Sprint;
-            Id_Label = id_Label;
-            Summary = summary ?? throw new ArgumentNullException(nameof(summary));
-            Description = description;
-            Id_Assignee = id_Assignee;
-            Story_Point_Estimate = story_Point_Estimate;
-            Id_Reporter = id_Reporter;
-            Attachment_Path = attachment_Path;
-            Id_Linked_Issue = id_Linked_Issue;
-            Id_Parent_Issue = id_Parent_Issue;
-            Priority = priority;
-            Id_Restrict = id_Restrict;
-            IsFlagged = isFlagged;
-            IsWatched = isWatched;
-            Id_Creator = id_Creator;
-            DateCreated = dateCreated;
-            DateStarted = dateStarted;
-            DateEnd = dateEnd;
-            Id_Updator = id_Updator;
-            UpdateDate = updateDate;
-            IsDeleted = isDeleted;
-        }
     }
 }

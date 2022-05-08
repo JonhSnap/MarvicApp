@@ -29,6 +29,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
         public EnumStatus? IsWatched { get; set; }
         public DateTime? DateStarted { get; set; }
         public DateTime? DateEnd { get; set; }
+        public int Order { get; set; }
         public EnumStatus IsDeleted { get; set; }
 
         public Issue_CreateRequest()
@@ -52,31 +53,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
             IsWatched =  EnumStatus.False;
             DateStarted = new DateTime();
             DateEnd = new DateTime();
+            Order = 0;
             IsDeleted =  EnumStatus.False;
-        }
-
-        public Issue_CreateRequest(Guid id_Project, EnumIssueType id_IssueType, Guid? id_Stage, Guid? id_Sprint, Guid? id_Label, string summary, string description, Guid? id_Assignee, EnumPoint? story_Point_Estimate, Guid? id_Reporter, string attachment_Path, Guid? id_Linked_Issue, Guid? id_Parent_Issue, EnumPriority? priority, Guid? id_Restrict, EnumStatus? isFlagged, EnumStatus? isWatched, Guid id_Creator, DateTime? dateCreated, DateTime? dateStarted, DateTime? dateEnd, Guid? id_Updator, DateTime? updateDate, EnumStatus isDeleted)
-        {
-            Id_Project = id_Project;
-            Id_IssueType = id_IssueType;
-            Id_Stage = id_Stage;
-            Id_Sprint = id_Sprint;
-            Id_Label = id_Label;
-            Summary = summary ?? throw new ArgumentNullException(nameof(summary));
-            Description = description;
-            Id_Assignee = id_Assignee;
-            Story_Point_Estimate = story_Point_Estimate;
-            Id_Reporter = id_Reporter;
-            Attachment_Path = attachment_Path;
-            Id_Linked_Issue = id_Linked_Issue;
-            Id_Parent_Issue = id_Parent_Issue;
-            Priority = priority;
-            Id_Restrict = id_Restrict;
-            IsFlagged = isFlagged;
-            IsWatched = isWatched;
-            DateStarted = dateStarted;
-            DateEnd = dateEnd;
-            IsDeleted = isDeleted;
         }
     }
 }

@@ -5,6 +5,8 @@ namespace MarvicSolution.DATA.Entities
 {
     public class Label
     {
+        public Label() { }
+
         public Label(Guid id_Project, string name, Guid id_Creator)
         {
             Id_Project = id_Project;

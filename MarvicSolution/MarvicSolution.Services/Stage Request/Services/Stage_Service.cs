@@ -53,7 +53,7 @@ namespace MarvicSolution.Services.Stage_Request.Services
             {
                 var stages = await _context.Stages
                     .Where(stage => stage.Id_Project == id_Project && stage.isDeleted == EnumStatus.False)
-                    .Select(tg => new StageVM(tg.Id, tg.Id_Project, tg.Stage_Name, tg.Id_Creator, tg.DateCreated, tg.UpdateDate, tg.Id_Updator))
+                    .Select(tg => new StageVM(tg.Id, tg.Id_Project, tg.Stage_Name, tg.Id_Creator, tg.DateCreated, tg.UpdateDate, tg.Id_Updator, tg.Order))
                     .ToListAsync();
                 return stages;
             }
