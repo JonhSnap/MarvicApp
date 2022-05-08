@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MarvicSolution.DATA.Entities;
+using MarvicSolution.Services.Sprint_Request.Requests;
 using MarvicSolution.Services.Sprint_Request.ViewModels;
 
 namespace MarvicSolution.Services.Sprint_Request.Services
@@ -13,5 +14,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
         Task<bool> DeleteSprint(Sprint sprint);
         Task<IList<SprintVM>> GetSprintsById_Project(Guid id_Project);
         Task<Sprint> GetSprintById(Guid id);
+        Guid AddIssuesToSprint(AddIssue_Request rq);
+        bool RemoveIssuesFromSprint(RemoveIssue_Request rq);
     }
 }
