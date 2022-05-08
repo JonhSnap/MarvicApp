@@ -23,10 +23,11 @@ namespace MarvicSolution.DATA.Configurations
             builder.HasData(
                 new Sprint()
                 {
+                    // ===Project ABC===
                     Id = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"),
-                    Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project A
-                    SprintName = "Sprint A",
-                    Id_Creator = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"), // NhanTTT1
+                    Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), 
+                    SprintName = "Sprint A1",
+                    Id_Creator = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
                     Create_Date = DateTime.Parse("2021-7-21"),
                     Update_Date = new DateTime(),
                     Start_Date = DateTime.Parse("2021-7-21"),
