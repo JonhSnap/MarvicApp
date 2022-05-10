@@ -136,7 +136,7 @@ namespace MarvicSolution.BackendApi.Controllers
 
         [HttpPut]
         [Route("/api/Issue/Update")]// remember to check this route
-        public async Task<IActionResult> Update([FromForm] Issue_UpdateRequest rq)
+        public async Task<IActionResult> Update([FromBody] Issue_UpdateRequest rq)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

@@ -21,7 +21,7 @@ export default function OptionComponent({ child }) {
 
     return (
         <>
-            <div ref={ref} className='flex flex-col h-full'>
+            <div ref={ref} className='relative flex flex-col h-full'>
                 <div onClick={handleClick} className='option relative p-1  text-[0.1rem] h-full aspect-square inline-flex justify-center items-center  rounded-[4px] bg-white text-[#000] cursor-pointer'>
                     <FontAwesomeIcon size='4x' className='p-[0.1rem]' icon={faCircle} />
                     <FontAwesomeIcon size='4x' className='p-[0.1rem]' icon={faCircle} />

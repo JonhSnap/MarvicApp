@@ -8,10 +8,10 @@ export default function OptionItemBacklogComponent({ issue, project }) {
 
     // handle change flagg
     const handleChangeFlag = () => {
-        const issueUpdate = {...issue};
-        if(issue.isFlagged) {
+        const issueUpdate = { ...issue };
+        if (issue.isFlagged) {
             issueUpdate.isFlagged = 0
-        }else {
+        } else {
             issueUpdate.isFlagged = 1
         }
         updateIssues(issueUpdate, dispatch);
@@ -21,10 +21,11 @@ export default function OptionItemBacklogComponent({ issue, project }) {
         }, 500);
     }
     // handleDeleteIssue
-    const handleDeleteIssue = () => {
-        if(window.confirm(`Are you sure to delete issue ${issue.summary}?`)) {
-            deleteIssue(issue.id, dispatch);
-        }else {
+    const handleDeleteIssue = async () => {
+        if (window.confirm(`Are you sure to delete issue ${issue.summary}?`)) {
+            await deleteIssue(issue.id, dispatch);
+            fetchIssue(project.id, dispatch);
+        } else {
             return;
         }
     }

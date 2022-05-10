@@ -1,20 +1,21 @@
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
+import { NIL } from 'uuid';
 import { v4 } from 'uuid'
 import { useListIssueContext } from '../../contexts/listIssueContext';
 import TaskItemComponent from './TaskItemComponent'
 
-function WrapperTask({ members, project }) {
-  const [{ issueEpics, issueNormals}] = useListIssueContext();
-  console.log('wrapper task render');
+function WrapperTask({ members, project, issues }) {
+  const [{ issueEpics }] = useListIssueContext();
+
   return (
-    <>
-        {
-            issueNormals.length > 0 &&
-            issueNormals.map(item => (
-            <TaskItemComponent members={members} key={v4()} project={project} issueEpics={issueEpics} issue={item} />            
-            ))
-        }
-    </>
+    <div className='min-h-[40px] bg-white'>
+      {
+        issues?.length > 0 &&
+        issues.map(item => (
+          <TaskItemComponent members={members} key={v4()} project={project} issueEpics={issueEpics} issue={item} />
+        ))
+      }
+    </div>
   )
 }
 
