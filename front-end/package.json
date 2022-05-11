@@ -15,17 +15,16 @@
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
-<<<<<<< HEAD
-    "emoji-picker-react": "^3.5.1",
-=======
+    "date-fns": "^2.28.0",
     "ddslick": "^1.0.3",
->>>>>>> FE
     "font-awesome": "^4.7.0",
     "framer-motion": "^6.2.9",
     "jquery": "^3.6.0",
     "jwt-decode": "^3.1.2",
     "node-sass": "^7.0.1",
     "react": "^18.0.0",
+    "react-big-calendar": "^0.40.1",
+    "react-datepicker": "^4.7.0",
     "react-dom": "^18.0.0",
     "react-hook-form": "^7.29.0",
     "react-redux": "^7.2.8",
