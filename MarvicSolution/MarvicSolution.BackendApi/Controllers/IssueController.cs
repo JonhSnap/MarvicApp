@@ -165,5 +165,16 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest();
             return Ok(idIssue);
         }
+        [HttpGet]
+        [Route("/api/Issue/GetIssueForBoard")]
+        public IActionResult GetIssueForBoard(Guid idSprint)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var groupIssues = _issueService.GetInforBoardByIdSprint(idSprint);
+            if (groupIssues == null)
+                return BadRequest($"Cannot get group issue by issue priority from idSprint = {idSprint}");
+            return Ok(groupIssues);
+        }
     }
 }
