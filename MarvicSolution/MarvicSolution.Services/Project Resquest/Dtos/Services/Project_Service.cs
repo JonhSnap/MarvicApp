@@ -6,6 +6,7 @@ using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewModels;
 using MarvicSolution.Services.SendMail_Request.Dtos.Requests;
 using MarvicSolution.Services.SendMail_Request.Dtos.Services;
+using MarvicSolution.Services.Stage_Request.Services;
 using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -66,14 +67,17 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         private readonly MarvicDbContext _context;
         private readonly IUser_Service _userService;
         private readonly IMailService _mailService;
+        private readonly IStage_Service _stage_Service;
 
         public Project_Service(MarvicDbContext context
             , IUser_Service userService
-            , IMailService mailService)
+            , IMailService mailService
+            , IStage_Service stage_Service)
         {
             _context = context;
             _userService = userService;
             _mailService = mailService;
+            _stage_Service = stage_Service;
         }
         public async Task<Guid> Create(Project_CreateRequest rq)
         {
@@ -97,6 +101,15 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                     _context.Projects.Add(proj);
                     await _context.SaveChangesAsync();
 
+                    // add 3 stage
+                    var stageTodo = new Stage(proj.Id, "To do", UserLogin.Id);
+                    var stageInprogress = new Stage(proj.Id, "In progress", UserLogin.Id);
+                    var stageDone = new Stage(proj.Id, "Done", UserLogin.Id);
+                    _context.Stages.Add(stageTodo);
+                    _context.Stages.Add(stageInprogress);
+                    _context.Stages.Add(stageDone);
+                    await _context.SaveChangesAsync();
+                    // Send Email
                     // Add Members
                     AddMembers(proj.Id, proj.Id_Lead, proj.Id_Creator);
 
@@ -116,7 +129,6 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                         $"You are an member of it." +
                         $" Link: <a href=\"http://localhost:3000/projects/board/{proj.Key} \">Click here</a>";
                     List<ProjectMailRequest> list_PMRequest = _mailService.ConvertTo_PMRequest(listRemoveDuplicate);
-                    // Send Email
                     _mailService.SendEmail(proj, list_PMRequest, message);
                     tran.Commit();
 
