@@ -1,5 +1,6 @@
 ﻿
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Board;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels;
 using System;
@@ -28,6 +29,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         List<GroupByIssueType_ViewModel> Group_By_IssueType(Guid IdProject);
         List<GroupByPriority_ViewModel> Group_By_Priority(Guid IdProject);
         List<GroupByProject_ViewModel> Group_By_IdUser(Guid IdUser);
+        List<BoardViewModel> GetInforBoardByIdSprint(Guid IdSprint);
+        List<Guid> GetListIssueOrderByIdStage(Guid idStage);
 
     }
 }

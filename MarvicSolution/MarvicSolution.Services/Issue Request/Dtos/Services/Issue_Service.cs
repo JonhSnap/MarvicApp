@@ -3,6 +3,7 @@ using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Board;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
@@ -304,7 +305,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             try
             {
                 var groupPriority = from i in _context.Issues.ToList()
-                                    where i.Id_Project.Equals(IdProject) && i.IsDeleted.Equals(EnumStatus.False)
+                                    where i.Id_Project.Equals(IdProject)
+                                        && i.IsDeleted.Equals(EnumStatus.False)
                                     orderby i.Priority descending
                                     group i by i.Priority;
                 List<GroupByPriority_ViewModel> listGroupVM = new List<GroupByPriority_ViewModel>();
@@ -530,7 +532,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
             return listGroupVM;
         }
-
         public List<Issue_ViewModel> Get_Issues_By_IdSprint(Guid idSprint)
         {
             try
@@ -567,7 +568,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
             catch (Exception e) { throw new MarvicException($"Error: {e}"); }
         }
-
         public List<Issue_ViewModel> Get_Issues_NotInSprint_By_IdProject(Guid idProject)
         {
             // get issues have idSprint = 000 of Project idProject
@@ -601,6 +601,89 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             Order = i.Order
                                         });
             return issues.ToList();
+        }
+        public List<BoardViewModel> GetInforBoardByIdSprint(Guid IdSprint)
+        {
+            // find Sprint
+            var sprint = _context.Sprints.Find(IdSprint);
+            // get ListStageOrder by idProject
+            var listStageOrder = _context.Stages.Where(s => s.Id_Project.Equals(sprint.Id_Project)
+                                                            && s.isDeleted.Equals(EnumStatus.False))
+                                                .OrderBy(s => s.Order)
+                                                .Select(s => s.Id).ToList();
+            // group issue by idStage
+            var groupIssue = from i in _context.Issues.ToList()
+                             join s in _context.Stages.ToList() on i.Id_Stage equals s.Id
+                             join spr in _context.Sprints.ToList() on i.Id_Sprint equals spr.Id
+                             join pro in _context.Projects.ToList() on i.Id_Project equals pro.Id
+                             where i.IsDeleted.Equals(EnumStatus.False)
+                             && s.isDeleted.Equals(EnumStatus.False)
+                             && spr.Is_Delete.Equals(EnumStatus.False)
+                             && s.Id_Project.Equals(pro.Id)
+                             && spr.Id_Project.Equals(s.Id_Project)
+                             orderby i.Order
+                             group i by i.Id_Stage;
+            // prepare variable VM
+            var listBoardVM = new List<BoardViewModel>();
+            var boardVM = new BoardViewModel();
+            var listStageVM = new List<StageViewModel>();
+
+            foreach (var i_group in groupIssue)
+            {
+                // find stage by key
+                var stage = _context.Stages.FirstOrDefault(s => s.Id.Equals(i_group.Key));
+                var stageVM = new StageViewModel(stage.Id, stage.Id_Project, stage.Stage_Name, stage.Id_Creator, stage.DateCreated, stage.UpdateDate, stage.Order);
+
+                // add ListIssueOrder
+                var listIssueOrder = GetListIssueOrderByIdStage(stage.Id);
+                stageVM.ListIssueOrder.AddRange(listIssueOrder);
+                var listIssueVM = i_group.Select(g => new Issue_ViewModel()
+                {
+                    Id = g.Id,
+                    Id_Project = g.Id_Project,
+                    Id_IssueType = g.Id_IssueType,
+                    Id_Stage = g.Id_Stage,
+                    Id_Sprint = g.Id_Sprint,
+                    Id_Label = g.Id_Label,
+                    Summary = g.Summary,
+                    Description = g.Description,
+                    Id_Assignee = g.Id_Assignee,
+                    Story_Point_Estimate = g.Story_Point_Estimate,
+                    Id_Reporter = g.Id_Reporter,
+                    Attachment_Path = g.Attachment_Path,
+                    Id_Linked_Issue = g.Id_Linked_Issue,
+                    Id_Parent_Issue = g.Id_Parent_Issue,
+                    Priority = g.Priority,
+                    Id_Restrict = g.Id_Restrict,
+                    IsFlagged = g.IsFlagged,
+                    IsWatched = g.IsWatched,
+                    Id_Creator = g.Id_Creator,
+                    DateCreated = g.DateCreated,
+                    DateStarted = g.DateStarted,
+                    DateEnd = g.DateEnd,
+                    Id_Updator = g.Id_Updator,
+                    UpdateDate = g.UpdateDate,
+                    Order = g.Order
+                }).ToList();
+                // add ListIssue
+                stageVM.ListIssue.AddRange(listIssueVM);
+                listStageVM.Add(stageVM);
+            }
+
+
+            boardVM.ListStageOrder.AddRange(listStageOrder);
+            boardVM.ListStage.AddRange(listStageVM);
+            listBoardVM.Add(boardVM);
+            return listBoardVM;
+        }
+
+        public List<Guid> GetListIssueOrderByIdStage(Guid idStage)
+        {
+            var issues = _context.Issues.Where(i => i.Id_Stage.Equals(idStage)
+                                                && i.IsDeleted.Equals(EnumStatus.False))
+                                        .OrderBy(i => i.Order)
+                                        .Select(i => i.Id).ToList();
+            return issues;
         }
     }
 }
