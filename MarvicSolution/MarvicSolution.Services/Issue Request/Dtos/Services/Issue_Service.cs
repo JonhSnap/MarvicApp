@@ -9,9 +9,13 @@ using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Utilities.Exceptions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,13 +27,16 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         private readonly MarvicDbContext _context;
         private readonly IUser_Service _userService;
         private readonly IProject_Service _projectService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         public Issue_Service(MarvicDbContext context
             , IUser_Service userService
-            , IProject_Service projectService)
+            , IProject_Service projectService
+            , IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _userService = userService;
             _projectService = projectService;
+            _webHostEnvironment = webHostEnvironment;
         }
         public async Task<Guid> Create(Issue_CreateRequest rq)
         {
@@ -37,6 +44,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             {
                 try
                 {
+                    string uniqueFileName = UploadedFile(rq.Attachment_Path);
                     var issue = new Issue()
                     {
                         Id_Project = rq.Id_Project,
@@ -49,7 +57,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Id_Assignee = rq.Id_Assignee,
                         Story_Point_Estimate = rq.Story_Point_Estimate,
                         Id_Reporter = rq.Id_Reporter.Equals(Guid.Empty) ? UserLogin.Id : rq.Id_Reporter,
-                        Attachment_Path = rq.Attachment_Path,
+                        Attachment_Path = uniqueFileName,
                         Id_Linked_Issue = rq.Id_Linked_Issue,
                         Id_Parent_Issue = rq.Id_Parent_Issue,
                         Priority = rq.Priority,
@@ -82,6 +90,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             {
                 try
                 {
+                    //string uniqueFileName = UploadedFile(rq.Attachment_Path);
                     var issue = _context.Issues.Find(rq.Id);
                     if (issue == null)
                         throw new MarvicException($"Cannot find the issue with id: {rq.Id}");
@@ -95,7 +104,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     issue.Id_Assignee = rq.Id_Assignee;
                     issue.Story_Point_Estimate = rq.Story_Point_Estimate;
                     issue.Id_Reporter = rq.Id_Reporter;
-                    issue.Attachment_Path = rq.Attachment_Path;
+                    //issue.Attachment_Path = uniqueFileName;
                     issue.Id_Linked_Issue = rq.Id_Linked_Issue;
                     issue.Id_Parent_Issue = rq.Id_Parent_Issue;
                     issue.Priority = rq.Priority;
@@ -676,7 +685,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             listBoardVM.Add(boardVM);
             return listBoardVM;
         }
-
         public List<Guid> GetListIssueOrderByIdStage(Guid idStage)
         {
             var issues = _context.Issues.Where(i => i.Id_Stage.Equals(idStage)
@@ -685,5 +693,28 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                         .Select(i => i.Id).ToList();
             return issues;
         }
+        private string UploadedFile(IList<IFormFile> files)
+        {
+            string uniqueFileName = null;
+            int count = 0;
+            if (files.Count > 0)
+            {
+                foreach (var i_file in files)
+                {
+                    string fileName = null;
+                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "upload files");
+                    fileName = Guid.NewGuid().ToString() + "_" + i_file.FileName;
+                    string filePath = Path.Combine(uploadsFolder, fileName);
+                    i_file.CopyTo(new FileStream(filePath, FileMode.Create));
+                    if (count >= 1)
+                        uniqueFileName += " " + fileName;
+                    else
+                        uniqueFileName = fileName;
+                    count++;
+                }
+            }
+            return uniqueFileName;
+        }
+
     }
 }
