@@ -164,7 +164,7 @@ namespace MarvicSolution.DATA.Configurations
                     DateEnd = new DateTime(2022, 5, 12),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 1,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -193,7 +193,7 @@ namespace MarvicSolution.DATA.Configurations
                     DateEnd = new DateTime(2022, 5, 12),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 2,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -222,7 +222,7 @@ namespace MarvicSolution.DATA.Configurations
                     DateEnd = new DateTime(2022, 5, 12),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 3,
                     IsDeleted = EnumStatus.False
                 },
             #endregion
@@ -253,7 +253,7 @@ namespace MarvicSolution.DATA.Configurations
                     DateEnd = new DateTime(2022, 5, 12),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 4,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -282,7 +282,7 @@ namespace MarvicSolution.DATA.Configurations
                     DateEnd = new DateTime(2022, 5, 12),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 5,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -340,7 +340,7 @@ namespace MarvicSolution.DATA.Configurations
                     DateEnd = new DateTime(2022, 5, 12),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 1,
                     IsDeleted = EnumStatus.False
                 },
             #endregion
@@ -371,7 +371,7 @@ namespace MarvicSolution.DATA.Configurations
                     DateEnd = new DateTime(2022, 5, 12),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 2,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -400,7 +400,7 @@ namespace MarvicSolution.DATA.Configurations
                     DateEnd = new DateTime(2022, 5, 12),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 3,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -429,7 +429,7 @@ namespace MarvicSolution.DATA.Configurations
                     DateEnd = new DateTime(2022, 5, 12),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 4,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -458,7 +458,7 @@ namespace MarvicSolution.DATA.Configurations
                     DateEnd = new DateTime(2022, 5, 12),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 5,
                     IsDeleted = EnumStatus.False
                 },
             #endregion
@@ -518,7 +518,7 @@ namespace MarvicSolution.DATA.Configurations
                     DateEnd = new DateTime(2022, 5, 12),
                     Id_Updator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 1,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -547,7 +547,7 @@ namespace MarvicSolution.DATA.Configurations
                     DateEnd = new DateTime(2022, 5, 12),
                     Id_Updator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 2,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -576,7 +576,7 @@ namespace MarvicSolution.DATA.Configurations
                     DateEnd = new DateTime(2022, 5, 12),
                     Id_Updator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 3,
                     IsDeleted = EnumStatus.False
                 },
             #endregion
@@ -706,7 +706,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("BBBE8F8E-A735-4A4C-BDED-E4CE2405E8E1"),
                     Id_Project = new Guid("89FAD9A0-690D-46E8-A2FE-C6CC50350EAF"),
                     Id_IssueType = EnumIssueType.Epic,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("8BB2E3AE-EF1C-4474-855F-EE12C53D4496"), // Stage To do
                     Id_Sprint = new Guid("AED1AB4D-D742-47D8-8400-E86B13C009E2"), // Sprint B
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "The epic of Project B",
@@ -735,7 +735,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("BFFC9087-DE0D-4BF8-97A1-F97A26D6FDA4"),
                     Id_Project = new Guid("89FAD9A0-690D-46E8-A2FE-C6CC50350EAF"),
                     Id_IssueType = EnumIssueType.Story,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("8BB2E3AE-EF1C-4474-855F-EE12C53D4496"), // Stage To do
                     Id_Sprint = new Guid("AED1AB4D-D742-47D8-8400-E86B13C009E2"), // Sprint B
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "The Story of Project B",
@@ -765,7 +765,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("76B20622-AD82-4D0D-9719-7B0CF5F33B58"),
                     Id_Project = new Guid("FCAFF326-620B-4B6C-96AB-BDFE7B2DD952"),
                     Id_IssueType = EnumIssueType.Story,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("8BB2E3AE-EF1C-4474-855F-EE12C53D4496"), // Stage To do
                     Id_Sprint = new Guid("87038CA8-11A7-4392-9C3E-86FD04F75223"), // Sprint First PD
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "The Story of Project D",
@@ -797,7 +797,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("461F25E5-E68C-4947-842B-F924C4786624"),
                     Id_Project = new Guid("FCAFF326-620B-4B6C-96AB-BDFE7B2DD952"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("8BB2E3AE-EF1C-4474-855F-EE12C53D4496"), // Stage To do
                     Id_Sprint = new Guid("87038CA8-11A7-4392-9C3E-86FD04F75223"), // Sprint First PD
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "The Task of Project D 1",
@@ -826,7 +826,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("FD1ED50A-53FB-43E5-9536-5E6AE641636C"),
                     Id_Project = new Guid("FCAFF326-620B-4B6C-96AB-BDFE7B2DD952"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("8BB2E3AE-EF1C-4474-855F-EE12C53D4496"), // Stage To do
                     Id_Sprint = new Guid("87038CA8-11A7-4392-9C3E-86FD04F75223"), // Sprint First PD
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "The Task of Project D 2",
@@ -857,7 +857,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("128495FB-FF10-4D63-BAF0-AFE3E9B9BD6B"),
                     Id_Project = new Guid("FCAFF326-620B-4B6C-96AB-BDFE7B2DD952"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("8BB2E3AE-EF1C-4474-855F-EE12C53D4496"), // Stage To do
                     Id_Sprint = new Guid("87038CA8-11A7-4392-9C3E-86FD04F75223"), // Sprint First PD
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "The Task of Project D 3",
@@ -886,7 +886,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("82E2D2A6-B8E4-417A-8883-A8C7790EC45F"),
                     Id_Project = new Guid("FCAFF326-620B-4B6C-96AB-BDFE7B2DD952"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("8BB2E3AE-EF1C-4474-855F-EE12C53D4496"), // Stage To do
                     Id_Sprint = new Guid("87038CA8-11A7-4392-9C3E-86FD04F75223"), // Sprint First PD
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "The Task of Project D 4",
@@ -917,7 +917,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("F56CDF9A-2E07-4DE1-8D5F-A3D8C19E7628"),
                     Id_Project = new Guid("1A24B90F-2585-404B-9E93-7128D96F8A93"),
                     Id_IssueType = EnumIssueType.Epic,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("8BB2E3AE-EF1C-4474-855F-EE12C53D4496"), // Stage To do
                     Id_Sprint = new Guid("79F4FE9F-028F-4C2D-AFA8-28601272B031"), // Sprint Project Editor Super
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "The Epic of Project Editor Super",
@@ -946,7 +946,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("73454F75-A16B-464E-99DC-4891086CB81F"),
                     Id_Project = new Guid("1A24B90F-2585-404B-9E93-7128D96F8A93"),
                     Id_IssueType = EnumIssueType.Story,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("8BB2E3AE-EF1C-4474-855F-EE12C53D4496"), // Stage To do
                     Id_Sprint = new Guid("79F4FE9F-028F-4C2D-AFA8-28601272B031"), // Sprint Project Editor Super
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "The Story of Project Editor Super",
@@ -975,7 +975,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("92BAF164-333F-49C7-B5DF-6C91BD9F405E"),
                     Id_Project = new Guid("1A24B90F-2585-404B-9E93-7128D96F8A93"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("8BB2E3AE-EF1C-4474-855F-EE12C53D4496"), // Stage To do
                     Id_Sprint = new Guid("79F4FE9F-028F-4C2D-AFA8-28601272B031"), // Sprint Project Editor Super
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "The Task of Project Editor Super 1",
@@ -1004,7 +1004,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("BBBD307D-CBDC-41D0-BE8A-7E7BC0A0D1F9"),
                     Id_Project = new Guid("1A24B90F-2585-404B-9E93-7128D96F8A93"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("8BB2E3AE-EF1C-4474-855F-EE12C53D4496"), // Stage To do
                     Id_Sprint = new Guid("79F4FE9F-028F-4C2D-AFA8-28601272B031"), // Sprint Project Editor Super
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "The Task of Project Editor Super 2",
@@ -1033,7 +1033,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("5B9382F3-CCCD-412B-A6E3-B26BEC2A97AB"),
                     Id_Project = new Guid("1A24B90F-2585-404B-9E93-7128D96F8A93"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("8BB2E3AE-EF1C-4474-855F-EE12C53D4496"), // Stage To do
                     Id_Sprint = new Guid("79F4FE9F-028F-4C2D-AFA8-28601272B031"), // Sprint Project Editor Super
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "The Task of Project Editor Super 3",

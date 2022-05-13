@@ -521,25 +521,25 @@ namespace MarvicSolution.DATA.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("de06597c-ee95-41ed-ab8b-e23021ba43bd"),
+                            Id = new Guid("80e5281a-4161-4b0d-9459-4e35072306bb"),
                             Content = "NhanTTT1 comment",
-                            Create_Date = new DateTime(2022, 5, 8, 13, 0, 23, 262, DateTimeKind.Local).AddTicks(1693),
+                            Create_Date = new DateTime(2022, 5, 11, 23, 42, 15, 121, DateTimeKind.Local).AddTicks(9823),
                             Id_Issue = new Guid("7c2cc804-4aae-4af2-9191-4268fc02edc0"),
                             Id_ParentComment = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_User = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
                             Is_Delete = 0,
-                            Update_Date = new DateTime(2022, 5, 8, 13, 0, 23, 262, DateTimeKind.Local).AddTicks(5318)
+                            Update_Date = new DateTime(2022, 5, 11, 23, 42, 15, 122, DateTimeKind.Local).AddTicks(3452)
                         },
                         new
                         {
-                            Id = new Guid("f97f1868-42c4-4710-8387-4de195c9815b"),
+                            Id = new Guid("dad02944-4f97-455e-97ae-6b478091b278"),
                             Content = "KhanhND comment",
-                            Create_Date = new DateTime(2022, 5, 8, 14, 0, 23, 262, DateTimeKind.Local).AddTicks(5961),
+                            Create_Date = new DateTime(2022, 5, 12, 0, 42, 15, 122, DateTimeKind.Local).AddTicks(4068),
                             Id_Issue = new Guid("7c2cc804-4aae-4af2-9191-4268fc02edc0"),
                             Id_ParentComment = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_User = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
                             Is_Delete = 0,
-                            Update_Date = new DateTime(2022, 5, 8, 14, 0, 23, 262, DateTimeKind.Local).AddTicks(6042)
+                            Update_Date = new DateTime(2022, 5, 12, 0, 42, 15, 122, DateTimeKind.Local).AddTicks(4137)
                         });
                 });
 
@@ -768,7 +768,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
-                            Order = 0,
+                            Order = 1,
                             Priority = 3,
                             Story_Point_Estimate = 5,
                             Summary = "The Task Legendary A1.1",
@@ -797,7 +797,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
-                            Order = 0,
+                            Order = 2,
                             Priority = 3,
                             Story_Point_Estimate = 5,
                             Summary = "The Task Legendary A1.1",
@@ -826,7 +826,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
-                            Order = 0,
+                            Order = 3,
                             Priority = 3,
                             Story_Point_Estimate = 5,
                             Summary = "The Task Legendary A1.1",
@@ -855,7 +855,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
-                            Order = 0,
+                            Order = 4,
                             Priority = 3,
                             Story_Point_Estimate = 5,
                             Summary = "The Task Legendary A1.2",
@@ -884,7 +884,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
-                            Order = 0,
+                            Order = 5,
                             Priority = 3,
                             Story_Point_Estimate = 5,
                             Summary = "The Task Legendary A1.2",
@@ -942,7 +942,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
-                            Order = 0,
+                            Order = 1,
                             Priority = 3,
                             Story_Point_Estimate = 5,
                             Summary = "The Task Legendary A1.2",
@@ -971,7 +971,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
-                            Order = 0,
+                            Order = 2,
                             Priority = 4,
                             Story_Point_Estimate = 6,
                             Summary = "The Task Legendary A1.3",
@@ -1000,7 +1000,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
-                            Order = 0,
+                            Order = 3,
                             Priority = 4,
                             Story_Point_Estimate = 6,
                             Summary = "The Task Legendary A1.3",
@@ -1029,7 +1029,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
-                            Order = 0,
+                            Order = 4,
                             Priority = 4,
                             Story_Point_Estimate = 6,
                             Summary = "The Task Legendary A1.3",
@@ -1058,7 +1058,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 0,
                             IsWatched = 0,
-                            Order = 0,
+                            Order = 5,
                             Priority = 4,
                             Story_Point_Estimate = 6,
                             Summary = "The Task Legendary A1.3",
@@ -1116,7 +1116,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 1,
                             IsWatched = 0,
-                            Order = 0,
+                            Order = 1,
                             Priority = 2,
                             Story_Point_Estimate = 6,
                             Summary = "The Task Legendary A1.4",
@@ -1145,7 +1145,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 1,
                             IsWatched = 0,
-                            Order = 0,
+                            Order = 2,
                             Priority = 2,
                             Story_Point_Estimate = 6,
                             Summary = "The Task Legendary A1.4",
@@ -1174,7 +1174,7 @@ namespace MarvicSolution.DATA.Migrations
                             IsDeleted = 0,
                             IsFlagged = 1,
                             IsWatched = 0,
-                            Order = 0,
+                            Order = 3,
                             Priority = 2,
                             Story_Point_Estimate = 6,
                             Summary = "The Task Legendary A1.4",
@@ -1314,7 +1314,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Reporter = new Guid("346f2520-6295-4734-8868-6ca75258e7c1"),
                             Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Sprint = new Guid("aed1ab4d-d742-47d8-8400-e86b13c009e2"),
-                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Stage = new Guid("8bb2e3ae-ef1c-4474-855f-ee12c53d4496"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             IsFlagged = 0,
@@ -1343,7 +1343,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Reporter = new Guid("346f2520-6295-4734-8868-6ca75258e7c1"),
                             Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Sprint = new Guid("aed1ab4d-d742-47d8-8400-e86b13c009e2"),
-                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Stage = new Guid("8bb2e3ae-ef1c-4474-855f-ee12c53d4496"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             IsFlagged = 0,
@@ -1372,7 +1372,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Reporter = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
                             Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Sprint = new Guid("87038ca8-11a7-4392-9c3e-86fd04f75223"),
-                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Stage = new Guid("8bb2e3ae-ef1c-4474-855f-ee12c53d4496"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             IsFlagged = 0,
@@ -1401,7 +1401,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Reporter = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
                             Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Sprint = new Guid("87038ca8-11a7-4392-9c3e-86fd04f75223"),
-                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Stage = new Guid("8bb2e3ae-ef1c-4474-855f-ee12c53d4496"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             IsFlagged = 1,
@@ -1430,7 +1430,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Reporter = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
                             Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Sprint = new Guid("87038ca8-11a7-4392-9c3e-86fd04f75223"),
-                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Stage = new Guid("8bb2e3ae-ef1c-4474-855f-ee12c53d4496"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             IsFlagged = 1,
@@ -1459,7 +1459,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Reporter = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
                             Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Sprint = new Guid("87038ca8-11a7-4392-9c3e-86fd04f75223"),
-                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Stage = new Guid("8bb2e3ae-ef1c-4474-855f-ee12c53d4496"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             IsFlagged = 1,
@@ -1488,7 +1488,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Reporter = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
                             Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Sprint = new Guid("87038ca8-11a7-4392-9c3e-86fd04f75223"),
-                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Stage = new Guid("8bb2e3ae-ef1c-4474-855f-ee12c53d4496"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             IsFlagged = 1,
@@ -1517,7 +1517,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Reporter = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
                             Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Sprint = new Guid("79f4fe9f-028f-4c2d-afa8-28601272b031"),
-                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Stage = new Guid("8bb2e3ae-ef1c-4474-855f-ee12c53d4496"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             IsFlagged = 0,
@@ -1546,7 +1546,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Reporter = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
                             Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Sprint = new Guid("79f4fe9f-028f-4c2d-afa8-28601272b031"),
-                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Stage = new Guid("8bb2e3ae-ef1c-4474-855f-ee12c53d4496"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             IsFlagged = 0,
@@ -1575,7 +1575,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Reporter = new Guid("71fbd467-6496-412c-b6fa-b461cab6dd05"),
                             Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Sprint = new Guid("79f4fe9f-028f-4c2d-afa8-28601272b031"),
-                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Stage = new Guid("8bb2e3ae-ef1c-4474-855f-ee12c53d4496"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             IsFlagged = 0,
@@ -1604,7 +1604,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Reporter = new Guid("a21973b7-eb51-4141-a7f8-be3e9071bf9a"),
                             Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Sprint = new Guid("79f4fe9f-028f-4c2d-afa8-28601272b031"),
-                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Stage = new Guid("8bb2e3ae-ef1c-4474-855f-ee12c53d4496"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             IsFlagged = 0,
@@ -1633,7 +1633,7 @@ namespace MarvicSolution.DATA.Migrations
                             Id_Reporter = new Guid("71fbd467-6496-412c-b6fa-b461cab6dd05"),
                             Id_Restrict = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_Sprint = new Guid("79f4fe9f-028f-4c2d-afa8-28601272b031"),
-                            Id_Stage = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
+                            Id_Stage = new Guid("8bb2e3ae-ef1c-4474-855f-ee12c53d4496"),
                             Id_Updator = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = 0,
                             IsFlagged = 0,
@@ -2166,7 +2166,10 @@ namespace MarvicSolution.DATA.Migrations
                     b.Property<Guid>("Id_Project")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Is_Delete")
+                    b.Property<int>("Is_Archieved")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Is_Started")
                         .HasColumnType("int");
 
                     b.Property<string>("SprintName")
@@ -2191,7 +2194,8 @@ namespace MarvicSolution.DATA.Migrations
                             End_Date = new DateTime(2021, 7, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Id_Creator = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
                             Id_Project = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
-                            Is_Delete = 0,
+                            Is_Archieved = 0,
+                            Is_Started = 0,
                             SprintName = "Sprint A1",
                             Start_Date = new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Update_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -2203,7 +2207,8 @@ namespace MarvicSolution.DATA.Migrations
                             End_Date = new DateTime(2022, 6, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Id_Creator = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
                             Id_Project = new Guid("fcaff326-620b-4b6c-96ab-bdfe7b2dd952"),
-                            Is_Delete = 0,
+                            Is_Archieved = 0,
+                            Is_Started = 0,
                             SprintName = "Sprint First PD",
                             Start_Date = new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Update_Date = new DateTime(2022, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -2215,7 +2220,8 @@ namespace MarvicSolution.DATA.Migrations
                             End_Date = new DateTime(2022, 6, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Id_Creator = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
                             Id_Project = new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"),
-                            Is_Delete = 0,
+                            Is_Archieved = 0,
+                            Is_Started = 0,
                             SprintName = "Project Editor Super",
                             Start_Date = new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Update_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -2253,6 +2259,9 @@ namespace MarvicSolution.DATA.Migrations
                     b.Property<int>("isDeleted")
                         .HasColumnType("int");
 
+                    b.Property<int>("isDone")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Stage");
@@ -2260,7 +2269,7 @@ namespace MarvicSolution.DATA.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4f00f074-4009-4f2e-a97b-ffef9ef3afa2"),
+                            Id = new Guid("d72506eb-ad2a-48d5-8caa-d322ee88811f"),
                             DateCreated = new DateTime(2021, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Id_Creator = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
                             Id_Project = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
@@ -2268,7 +2277,8 @@ namespace MarvicSolution.DATA.Migrations
                             Order = 0,
                             Stage_Name = "To do",
                             UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isDeleted = 0
+                            isDeleted = 0,
+                            isDone = 0
                         },
                         new
                         {
@@ -2280,7 +2290,8 @@ namespace MarvicSolution.DATA.Migrations
                             Order = 1,
                             Stage_Name = "In Progress",
                             UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isDeleted = 0
+                            isDeleted = 0,
+                            isDone = 0
                         },
                         new
                         {
@@ -2292,7 +2303,8 @@ namespace MarvicSolution.DATA.Migrations
                             Order = 2,
                             Stage_Name = "Done",
                             UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isDeleted = 0
+                            isDeleted = 0,
+                            isDone = 0
                         });
                 });
 

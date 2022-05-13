@@ -32,4 +32,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Issue Request\Dtos\Requests\Board\" />
+  </ItemGroup>
+
 </Project>
