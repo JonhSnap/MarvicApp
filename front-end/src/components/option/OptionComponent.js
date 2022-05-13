@@ -1,33 +1,50 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle } from '@fortawesome/free-solid-svg-icons'
+import useModal from '../../hooks/useModal'
+import OptionItemBacklogComponent from './OptionItemBacklogComponent';
+import { documentHeight } from '../../util/constants'
 
-export default function OptionComponent({ child }) {
-    const [show, setShow] = useState(false)
+const secondThirdScreen = documentHeight * 2 / 3;
 
-    const ref = useRef(null)
+export default function OptionComponent({ project, issue, child = null }) {
+    const [show, setShow, handleClose] = useModal();
+    const [coord, setCoord] = useState();
+    const nodeRef = useRef();
 
-    const closeOpenMenus = (e) => {
-        if (ref.current && show && !ref.current.contains(e.target)) {
-            setShow(false)
-        }
-    }
-
-    document.addEventListener('mousedown', closeOpenMenus)
-
+    // handle click
     const handleClick = () => {
-        setShow(v => !v)
+        if (show) return;
+        const bounding = nodeRef.current.getBoundingClientRect();
+        if (bounding) {
+            setShow(true);
+            setCoord(bounding);
+        }
     }
 
     return (
         <>
-            <div ref={ref} className='flex flex-col h-full'>
-                <div onClick={handleClick} className='option relative p-1  text-[0.1rem] h-full aspect-square inline-flex justify-center items-center  rounded-[4px] bg-white text-[#000] cursor-pointer'>
+            <div onClick={handleClick} ref={nodeRef} className='flex flex-col h-full'>
+                <div className='option relative p-1  text-[0.1rem] h-full aspect-square inline-flex justify-center items-center  rounded-[4px] bg-white text-[#000] cursor-pointer'>
                     <FontAwesomeIcon size='4x' className='p-[0.1rem]' icon={faCircle} />
                     <FontAwesomeIcon size='4x' className='p-[0.1rem]' icon={faCircle} />
                     <FontAwesomeIcon size='4x' className='p-[0.1rem]' icon={faCircle} />
                 </div>
-                {show && child}
+                {
+                    show &&
+                    (
+                        <OptionItemBacklogComponent
+                            bodyStyle={{
+                                top: coord.bottom <= secondThirdScreen ? coord.bottom : null,
+                                left: coord.left - 60,
+                                bottom: !(coord.bottom <= secondThirdScreen) ? (documentHeight - coord.top) : null
+                            }}
+                            project={project}
+                            issue={issue}
+                            onClose={handleClose}
+                        />
+                    )
+                }
             </div>
         </>
     )

@@ -20,11 +20,11 @@ namespace MarvicSolution.Services.Project_Resquest.Dtos.Validators
             RuleFor(x => x.Access)
                 .NotEmpty().WithMessage("Project access is required!");
             RuleFor(x => x.Id_Lead)
-                .NotEmpty().WithMessage("Project Id Lead is required!");
+                .NotEmpty().WithMessage("Id Creator is required!");
             RuleFor(x => x.DateStarted)
-                .NotEmpty().WithMessage("Project date started is required!");
+                .NotEmpty().WithMessage("Date started is required!");
             RuleFor(x => x.DateEnd)
-                .NotEmpty().WithMessage("Project date end is required!");
+                .NotEmpty().WithMessage("Date end is required!");
         }
     }
 }

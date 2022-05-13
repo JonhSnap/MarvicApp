@@ -23,7 +23,6 @@ $main-backlog: calc(100vh - #{$header-height});
   font-size: 14px;
 }
 
-
 html {
   font-size: 14px;
   color: #333;
@@ -82,7 +81,24 @@ html {
     @apply bg-gray-main;
     border-radius: 10px;
   }
-<<<<<<< HEAD
+}
+// drag and drop
+.cards-drop-preview {
+  background-color: rgba(26, 26, 51, 0.1);
+  border: 1px dashed #abc;
+  margin: 5px 45px 5px 5px;
+}
+.card-ghost {
+  transition: all 0.18s ease;
+  transform: scale(0.9);
+  opacity: 0.8;
+  cursor: grabbing;
+}
+
+.card-ghost-drop {
+  transition: all 0.18s ease-in-out;
+  transform: scale(1);
+  opacity: 1;
 }
 
 // Begin:comment
@@ -181,6 +197,3 @@ html {
   margin-top: 20px;
 }
 // End: comment
-=======
-}
->>>>>>> FE

@@ -1,7 +1,4 @@
-﻿using FluentValidation.AspNetCore;
-using MarvicSolution.BackendApi.Constants;
-using MarvicSolution.DATA.Common;
-using MarvicSolution.DATA.Entities;
+﻿using MarvicSolution.DATA.Common;
 using MarvicSolution.Services.System.Helpers;
 using MarvicSolution.Services.System.Users.Requests;
 using MarvicSolution.Services.System.Users.Services;
@@ -11,8 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MarvicSolution.BackendApi.Controllers
@@ -89,19 +84,16 @@ namespace MarvicSolution.BackendApi.Controllers
         [HttpGet("get")]
         public async Task<IActionResult> Get()
         {
-            try
-            {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
                 Guid id_User = ValidateUser();
-                var user = await _userService.GetUserbyId(id_User);
+                var user = _userService.GetUserbyId(id_User);
+                if (user == null)
+                    return BadRequest($"Cannot find user with id = {id_User}");
+
                 return Ok(user);
-            }
-            catch (Exception)
-            {
-                return Unauthorized();
-            }
+            
         }
 
         // /api/user/logout

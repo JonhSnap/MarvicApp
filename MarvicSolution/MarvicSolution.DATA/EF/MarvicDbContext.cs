@@ -25,6 +25,9 @@ namespace MarvicSolution.DATA.EF
             modelBuilder.ApplyConfiguration(new Question_Configurations());
             modelBuilder.ApplyConfiguration(new Answer_Configurations());
             modelBuilder.ApplyConfiguration(new Comment_Configurations());
+            modelBuilder.ApplyConfiguration(new Sprint_Configurations());
+            modelBuilder.ApplyConfiguration(new Lablel_Configurations());
+            modelBuilder.ApplyConfiguration(new Stage_Configurations());
 
             //base.OnModelCreating(modelBuilder);
         }
@@ -39,5 +42,8 @@ namespace MarvicSolution.DATA.EF
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Sprint> Sprints { get; set; }
+        public DbSet<Stage> Stages { get; set; }
+        public DbSet<Label> Labels { get; set; }
     }
 }
