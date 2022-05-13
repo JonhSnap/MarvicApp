@@ -1,4 +1,5 @@
 ﻿using MarvicSolution.DATA.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +11,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
 {
     public class Issue_UpdateRequest
     {
-     
         public Guid Id { get; set; }
         public Guid Id_Project { get; set; }
         public EnumIssueType Id_IssueType { get; set; }
@@ -22,7 +22,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
         public Guid? Id_Assignee { get; set; }
         public EnumPoint? Story_Point_Estimate { get; set; }
         public Guid? Id_Reporter { get; set; }
-        public string? Attachment_Path { get; set; }
+        public IFormFile Attachment_Path { get; set; }
         public Guid? Id_Linked_Issue { get; set; }
         public Guid? Id_Parent_Issue { get; set; }
         public EnumPriority? Priority { get; set; }
@@ -51,7 +51,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
             Id_Assignee = new Guid();
             Story_Point_Estimate =  EnumPoint.One;
             Id_Reporter = new Guid();
-            Attachment_Path = string.Empty;
+            Attachment_Path = null;
             Id_Linked_Issue = new Guid();
             Id_Parent_Issue = new Guid();
             Priority =  EnumPriority.Lowest;
@@ -80,7 +80,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
             Id_Assignee = id_Assignee;
             Story_Point_Estimate = story_Point_Estimate;
             Id_Reporter = id_Reporter;
-            Attachment_Path = attachment_Path;
+            Attachment_Path = null;
             Id_Linked_Issue = id_Linked_Issue;
             Id_Parent_Issue = id_Parent_Issue;
             Priority = priority;

@@ -1,16 +1,11 @@
 ﻿using MarvicSolution.DATA.Common;
-using MarvicSolution.DATA.Entities;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests;
 using MarvicSolution.Services.Issue_Request.Issue_Request;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
-using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest;
-using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest.Dtos.ViewModels;
-using MarvicSolution.Utilities.Exceptions;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace MarvicSolution.BackendApi.Controllers
@@ -21,9 +16,12 @@ namespace MarvicSolution.BackendApi.Controllers
     {
         // Must declare DI in startup
         private readonly IIssue_Service _issueService;
-        public IssueController(IIssue_Service issueService)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public IssueController(IIssue_Service issueService, IWebHostEnvironment webHostEnvironment)
         {
             _issueService = issueService;
+            _webHostEnvironment = webHostEnvironment;
         }
         // /api/Issue/GetIssuesByIdProject
         [HttpGet]
@@ -123,7 +121,7 @@ namespace MarvicSolution.BackendApi.Controllers
         }
         // /api/Issue/GetIssuesByIdLabel
         [HttpGet]
-        [Route("/api/Issue/GetIssuesByIdLabel")] 
+        [Route("/api/Issue/GetIssuesByIdLabel")]
         public IActionResult GetIssuesByIdLabel([FromQuery] GetIssueByLabelRequest rq)
         {
             if (!ModelState.IsValid)
@@ -135,7 +133,7 @@ namespace MarvicSolution.BackendApi.Controllers
         }
         [HttpPost]
         [Route("/api/Issue/Create")]
-        public async Task<IActionResult> Create([FromBody] Issue_CreateRequest rq)
+        public async Task<IActionResult> Create([FromForm] Issue_CreateRequest rq)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -146,7 +144,7 @@ namespace MarvicSolution.BackendApi.Controllers
         }
         [HttpPut]
         [Route("/api/Issue/Update")]
-        public async Task<IActionResult> Update([FromBody] Issue_UpdateRequest rq)
+        public async Task<IActionResult> Update([FromForm] Issue_UpdateRequest rq)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -175,6 +173,28 @@ namespace MarvicSolution.BackendApi.Controllers
             if (groupIssues == null)
                 return BadRequest($"Cannot get group issue by issue priority from idSprint = {idSprint}");
             return Ok(groupIssues);
+        }
+        [HttpGet("download")]
+        public FileResult DownloadFile([FromQuery] string fileName)
+        {
+            //Build the File Path.
+            string path = Path.Combine(_webHostEnvironment.WebRootPath, "upload files/") + fileName;
+
+            //Read the File data into Byte Array.
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+            //Send the File to Download.
+            return File(bytes, "application/octet-stream", fileName);
+        }
+        [HttpPost]
+        [Route("DeletePhoto")]
+        public ActionResult DeletePhoto(string fileName)
+        {
+            string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\{fileName}");
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+
+            return Ok("Delete file success");
         }
     }
 }
