@@ -17,13 +17,14 @@ namespace MarvicSolution.DATA.Entities
             this.Id_Updator = Guid.Empty;
             this.isDeleted = EnumStatus.False;
         }
-        public Stage(Guid id_Project, string stage_Name, Guid id_Creator)
+        public Stage(Guid id_Project, string stage_Name, Guid id_Creator, EnumStatus enumStatus=EnumStatus.False)
         {
             Id_Project = id_Project;
             Stage_Name = stage_Name;
             Id_Creator = id_Creator;
             Order = 0;
             DateCreated = DateTime.Now;
+            isDone = enumStatus;
         }
 
         public Guid Id { get; set; }
@@ -35,5 +36,6 @@ namespace MarvicSolution.DATA.Entities
         public Guid Id_Updator { get; set; }
         public int Order { get; set; }
         public EnumStatus isDeleted { get; set; }
+        public EnumStatus isDone { get; set; }
     }
 }

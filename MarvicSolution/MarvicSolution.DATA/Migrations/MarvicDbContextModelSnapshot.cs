@@ -2166,7 +2166,10 @@ namespace MarvicSolution.DATA.Migrations
                     b.Property<Guid>("Id_Project")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Is_Delete")
+                    b.Property<int>("Is_Archieved")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Is_Started")
                         .HasColumnType("int");
 
                     b.Property<string>("SprintName")
@@ -2191,7 +2194,8 @@ namespace MarvicSolution.DATA.Migrations
                             End_Date = new DateTime(2021, 7, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Id_Creator = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
                             Id_Project = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
-                            Is_Delete = 0,
+                            Is_Archieved = 0,
+                            Is_Started = 0,
                             SprintName = "Sprint A1",
                             Start_Date = new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Update_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -2203,7 +2207,8 @@ namespace MarvicSolution.DATA.Migrations
                             End_Date = new DateTime(2022, 6, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Id_Creator = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
                             Id_Project = new Guid("fcaff326-620b-4b6c-96ab-bdfe7b2dd952"),
-                            Is_Delete = 0,
+                            Is_Archieved = 0,
+                            Is_Started = 0,
                             SprintName = "Sprint First PD",
                             Start_Date = new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Update_Date = new DateTime(2022, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -2215,7 +2220,8 @@ namespace MarvicSolution.DATA.Migrations
                             End_Date = new DateTime(2022, 6, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Id_Creator = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
                             Id_Project = new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"),
-                            Is_Delete = 0,
+                            Is_Archieved = 0,
+                            Is_Started = 0,
                             SprintName = "Project Editor Super",
                             Start_Date = new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Update_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -2253,6 +2259,9 @@ namespace MarvicSolution.DATA.Migrations
                     b.Property<int>("isDeleted")
                         .HasColumnType("int");
 
+                    b.Property<int>("isDone")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Stage");
@@ -2268,7 +2277,8 @@ namespace MarvicSolution.DATA.Migrations
                             Order = 0,
                             Stage_Name = "To do",
                             UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isDeleted = 0
+                            isDeleted = 0,
+                            isDone = 0
                         },
                         new
                         {
@@ -2280,7 +2290,8 @@ namespace MarvicSolution.DATA.Migrations
                             Order = 1,
                             Stage_Name = "In Progress",
                             UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isDeleted = 0
+                            isDeleted = 0,
+                            isDone = 0
                         },
                         new
                         {
@@ -2292,7 +2303,8 @@ namespace MarvicSolution.DATA.Migrations
                             Order = 2,
                             Stage_Name = "Done",
                             UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isDeleted = 0
+                            isDeleted = 0,
+                            isDone = 0
                         });
                 });
 
