@@ -5,6 +5,7 @@ using MarvicSolution.Services.Stage_Request.Services;
 using MarvicSolution.Services.Stage_Request.Requests;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
+using MarvicSolution.DATA.EF;
 
 namespace MarvicSolution.BackendApi.Controllers
 {
@@ -13,7 +14,7 @@ namespace MarvicSolution.BackendApi.Controllers
     public class StagesController : ControllerBase
     {
         private readonly IStage_Service _stage_Service;
-        public StagesController(IStage_Service stage_Service)
+        public StagesController(IStage_Service stage_Service )
         {
             _stage_Service = stage_Service;
         }
@@ -63,7 +64,7 @@ namespace MarvicSolution.BackendApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStage(Guid id)
+        public async Task<IActionResult> DeleteStage(Guid id, [FromBody] Remove_Stage_Request modelRequest)
         {
             if (id != Guid.Empty)
             {
@@ -71,7 +72,7 @@ namespace MarvicSolution.BackendApi.Controllers
                 if (stage != null)
                 {
                     stage.isDeleted = EnumStatus.True;
-                    if (await _stage_Service.UpdateStage(stage))
+                    if (await _stage_Service.DeleteStage(stage, modelRequest))
                     {
                         return Ok();
                     }
@@ -80,6 +81,7 @@ namespace MarvicSolution.BackendApi.Controllers
                 return NotFound(new { message = $"{id} not exists!" });
             }
             return BadRequest("Id is empty!");
+
         }
     }
 }

@@ -627,7 +627,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                              join pro in _context.Projects.ToList() on i.Id_Project equals pro.Id
                              where i.IsDeleted.Equals(EnumStatus.False)
                              && s.isDeleted.Equals(EnumStatus.False)
-                             && spr.Is_Delete.Equals(EnumStatus.False)
+                             && spr.Is_Archieved.Equals(EnumStatus.False)
                              && s.Id_Project.Equals(pro.Id)
                              && spr.Id_Project.Equals(s.Id_Project)
                              orderby i.Order
