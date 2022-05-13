@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faSquareCheck, faTimes, faAngleRight, faFlag, faBolt, faCheck, faLock, faEye, faThumbsUp, faTimeline, faPaperclip, faLink, faPlus, faArrowDownShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons'
 import MemberComponent from '../board/MemberComponent'
 import OptionComponent from '../option/OptionComponent'
-import OptionItemBacklogComponent from '../option/OptionItemBacklogComponent'
 import useModal from '../../hooks/useModal'
 import EditIssuePopup from '../popup/EditIssuePopup'
 import { useListIssueContext } from '../../contexts/listIssueContext'
@@ -63,8 +62,9 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
             {
                 showEditEpic && <EditIssuePopup project={project} setShow={setShowEditEpic} handleClose={handleCloseEpic} issue={currentEpic}></EditIssuePopup>
             }
-            <div onClick={handleClickItem} ref={ref}
-                className={`item hover:bg-[#eee] cursor-pointer w-full h-[50px] p-1
+            <div
+                onClick={handleClickItem} ref={ref}
+                className={`item hover:bg-[#eee] cursor-pointer w-full h-[40px] p-1
             px-4 mt-[-1px] border-solid border-[1px] border-[#ccc]
             flex justify-between items-center ${issue.isFlagged ? 'bg-[#ffe8e6] hover:bg-[#ffb9b3]' : 'bg-white'}`}>
                 <div className='left-item h-full flex items-center'>
@@ -117,7 +117,7 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
                             autoFocus={true}
                             onFocus={() => setValuePointStore(valuePoint)}
                             onBlur={handleBlurInputPoint}
-                            className='w-[50px] p-2 border-2 border-primary'
+                            className='w-[50px] h-[30px] p-2 border-2 border-primary'
                             type="number" />
                     }
                     {showFlag && <FontAwesomeIcon color='#EF0000' className='mx-2' icon={faFlag} />}
@@ -126,7 +126,7 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
                         <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
                     </div>
                     <MemberComponent project={project} issue={issue} members={members}></MemberComponent>
-                    <OptionComponent child={<OptionItemBacklogComponent project={project} issue={issue} />} />
+                    <OptionComponent project={project} issue={issue} />
                 </div>
             </div>
         </>

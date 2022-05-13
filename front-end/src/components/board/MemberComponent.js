@@ -1,19 +1,30 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useEffect, useRef, useState } from 'react'
 import '../../../src/index.scss'
 import { NIL } from 'uuid'
 import { useListIssueContext } from '../../contexts/listIssueContext';
 import { fetchIssue, updateIssues } from '../../reducers/listIssueReducer';
 import createToast from '../../util/createToast';
+import useModal from '../../hooks/useModal';
+import AssineeSelectBox from '../selectbox/AssineeSelectBox';
+import { documentHeight } from '../../util/constants';
+
+const secondThirdScreen = documentHeight * 2 / 3;
 
 function MemberComponent({ project, members, issue }) {
     const [assignee, setAssignee] = useState();
-    const [showAssignee, setShowAssignee] = useState(false);
+    // const [showAssignee, setShowAssignee] = useState(false);
+    const [showAssignee, setShowAssignee, handleCloseAssignee] = useModal();
     const [, dispatch] = useListIssueContext();
+    const nodeRef = useRef();
+    const [coord, setCoord] = useState({});
 
     // handle toggle assignee
-    const handleToggleAssignee = (e) => {
-        if (e.target.matches('.wrap-assignee')) {
-            setShowAssignee(prev => !prev);
+    const handleToggleAssignee = () => {
+        if (showAssignee) return;
+        const bounding = nodeRef.current.getBoundingClientRect();
+        if (bounding) {
+            setShowAssignee(true);
+            setCoord(bounding);
         }
     }
     // handle Unassignee
@@ -41,7 +52,7 @@ function MemberComponent({ project, members, issue }) {
 
     return (
         <>
-            <div onClick={handleToggleAssignee} className='wrap-assignee relative wrap-member w-[22px] h-[22px] mr-2'>
+            <div ref={nodeRef} onClick={handleToggleAssignee} className='wrap-assignee relative z-10 wrap-member w-[22px] h-[22px] mr-2'>
                 {
                     assignee ?
                         <span title={assignee.userName} className='pointer-events-none inline-flex items-center justify-center w-full h-full text-white
@@ -58,23 +69,17 @@ function MemberComponent({ project, members, issue }) {
                 }
                 {
                     showAssignee &&
-                    <div className="absolute z-10 top-[calc(100%+10px)] left-0 -translate-x-50 bg-white
-                flex flex-col w-[100px] shadow-lg rounded-md overflow-hidden">
-                        {
-                            issue.id_Assignee && issue.id_Assignee !== NIL &&
-                            <div onClick={() => handleChooseAssignee(null)} className='w-full p-2 mb-1 bg-white hover:bg-gray-main'>Unassigneed</div>
-                        }
-                        {
-                            members?.length > 0 &&
-                            members.map(item => (
-                                <div
-                                    key={item.id}
-                                    onClick={() => handleChooseAssignee(item.id)}
-                                    className={`w-full p-2 mb1 bg-white hover:bg-gray-main ${item.id === issue.id_Assignee ? 'bg-orange-400 text-white pointer-events-none cursor-default' : ''}`}
-                                >{item.userName}</div>
-                            ))
-                        }
-                    </div>
+                    <AssineeSelectBox
+                        bodyStyle={{
+                            top: coord.bottom <= secondThirdScreen ? coord.bottom : null,
+                            left: coord.left - 30,
+                            bottom: !(coord.bottom <= secondThirdScreen) ? (documentHeight - coord.top) : null
+                        }}
+                        issue={issue}
+                        members={members}
+                        handleChooseAssignee={handleChooseAssignee}
+                        onClose={handleCloseAssignee}
+                    />
                 }
             </div>
         </>

@@ -8,6 +8,7 @@ import CreateIssuesComponent from '../CreateComponent'
 import OptionComponent from '../option/OptionComponent'
 import OptionHeaderBacklogComponent from '../option/OptionHeaderBacklogComponent'
 import EditSprintPopup from '../popup/EditSprintPopup'
+import OptionSprint from '../option/OptionSprint'
 
 function Sprint({ sprint, members, project, index }) {
     const [showEditSprint, setShowEditSprint, handleCloseEditSprint] = useModal();
@@ -15,6 +16,7 @@ function Sprint({ sprint, members, project, index }) {
     const issueWithSprint = useMemo(() => {
         return issueNormals.filter(item => item.id_Sprint === sprint.id);
     }, [issueNormals])
+
 
     // handle start sprint
     const handleStartSprint = () => {
@@ -24,7 +26,7 @@ function Sprint({ sprint, members, project, index }) {
     return (
         <>
             {showEditSprint && <EditSprintPopup project={project} onClose={handleCloseEditSprint} setshow={setShowEditSprint} sprint={sprint} />}
-            <div className='backlog-item'>
+            <div data-id={sprint?.id} className='backlog-item'>
                 <div className='header-backlog-item w-[98%] py-3 flex justify-between items-center'>
                     <div className='header-right'>
                         <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
@@ -51,7 +53,9 @@ function Sprint({ sprint, members, project, index }) {
                             onClick={handleStartSprint}
                             className={`rounded-md py-1 px-2  w-fit h-full mx-4 border-solid cursor-pointer
                         bg-primary text-white ${index !== 0 ? 'pointer-events-none bg-opacity-30' : ''}`}>Start Sprint</div>
-                        <OptionComponent child={<OptionHeaderBacklogComponent setShowEditSprint={setShowEditSprint} sprint={sprint} project={project} />} />
+                        <OptionSprint setShowEditSprint={setShowEditSprint} sprint={sprint} project={project} />
+
+                        {/* <OptionComponent child={<OptionHeaderBacklogComponent setShowEditSprint={setShowEditSprint} sprint={sprint} project={project} />} /> */}
                     </div>
                 </div>
                 <div className='main w-[98%] h-fit min-h-[5rem]'>

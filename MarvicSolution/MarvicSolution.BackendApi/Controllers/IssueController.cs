@@ -25,10 +25,9 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             _issueService = issueService;
         }
-
         // /api/Issue/GetIssuesByIdProject
         [HttpGet]
-        [Route("/api/Issue/GetIssuesByIdProject")]// remember to check this route
+        [Route("/api/Issue/GetIssuesByIdProject")]
         public IActionResult GetIssuesByIdProject(Guid idProject)
         {
             if (!ModelState.IsValid)
@@ -38,10 +37,33 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest($"Cannot get issue by IdProject = {idProject}");
             return Ok(issues);
         }
-
+        // /api/Issue/GetIssuesByIdSprint
+        [HttpGet]
+        [Route("/api/Issue/GetIssuesByIdSprint")]
+        public IActionResult GetIssuesByIdSprint(Guid idSprint)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var issues = _issueService.Get_Issues_By_IdSprint(idSprint);
+            if (issues == null)
+                return BadRequest($"Cannot get issue by IdSprint = {idSprint}");
+            return Ok(issues);
+        }
+        // /api/Issue/GetListIssueNotInSprintByIdProject
+        [HttpGet]
+        [Route("/api/Issue/GetListIssueNotInSprintByIdProject")]
+        public IActionResult GetListIssueNotInSprintByIdProject(Guid idProject)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var issues = _issueService.Get_Issues_NotInSprint_By_IdProject(idProject);
+            if (issues == null)
+                return BadRequest($"Cannot get issue by IdProject = {idProject}");
+            return Ok(issues);
+        }
         // /api/Issue/GetIssuesByIdUserLogin
         [HttpGet]
-        [Route("/api/Issue/GetIssuesByIdUserLogin")]// remember to check this route
+        [Route("/api/Issue/GetIssuesByIdUserLogin")]
         public IActionResult GetIssuesByIdUserLogin()
         {
             if (!ModelState.IsValid)
@@ -51,10 +73,9 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest($"Cannot get issue by user id = {UserLogin.Id}");
             return Ok(issues);
         }
-
         // /api/Issue/GroupByAssignee
         [HttpGet]
-        [Route("/api/Issue/GroupByAssignee")]// remember to check this route
+        [Route("/api/Issue/GroupByAssignee")]
         public IActionResult GroupByAssignee(Guid idProject)
         {
             if (!ModelState.IsValid)
@@ -64,10 +85,9 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest($"Cannot get group issue by IdAssignee from IdProject = {idProject}");
             return Ok(groupIssues);
         }
-
         // /api/Issue/GroupByIssueType
         [HttpGet]
-        [Route("/api/Issue/GroupByIssueType")]// remember to check this route
+        [Route("/api/Issue/GroupByIssueType")]
         public IActionResult GroupByIssueType(Guid idProject)
         {
             if (!ModelState.IsValid)
@@ -77,10 +97,9 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest($"Cannot get group issue by issue type from IdProject = {idProject}");
             return Ok(groupIssues);
         }
-
         // /api/Issue/GroupByPriority
         [HttpGet]
-        [Route("/api/Issue/GroupByPriority")]// remember to check this route
+        [Route("/api/Issue/GroupByPriority")]
         public IActionResult GroupByPriority(Guid idProject)
         {
             if (!ModelState.IsValid)
@@ -90,10 +109,9 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest($"Cannot get group issue by issue priority from IdProject = {idProject}");
             return Ok(groupIssues);
         }
-
         // /api/Issue/GetIssueByIdParent
         [HttpGet]
-        [Route("/api/Issue/GetIssueByIdParent")]// remember to check this route
+        [Route("/api/Issue/GetIssueByIdParent")]
         public IActionResult GetIssueByIdParent([FromQuery] GetIssueByParentRequest rq)
         {
             if (!ModelState.IsValid)
@@ -103,10 +121,9 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest($"Cannot get group issue by IdParent = {rq.IdParent} from IdProject = {rq.IdProject}");
             return Ok(groupIssues);
         }
-
         // /api/Issue/GetIssuesByIdLabel
         [HttpGet]
-        [Route("/api/Issue/GetIssuesByIdLabel")]// remember to check this route 
+        [Route("/api/Issue/GetIssuesByIdLabel")] 
         public IActionResult GetIssuesByIdLabel([FromQuery] GetIssueByLabelRequest rq)
         {
             if (!ModelState.IsValid)
@@ -116,14 +133,8 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest($"Cannot get group issue by Idlabel = {rq.IdLabel} from IdProject = {rq.IdProject}");
             return Ok(groupIssues);
         }
-
-        /// <summary>
-        /// DateTime format: 3/29/2022
-        /// </summary>
-        /// <param name="rq">Request from client</param>
-        /// <returns></returns>
         [HttpPost]
-        [Route("/api/Issue/Create")]// remember to check this route
+        [Route("/api/Issue/Create")]
         public async Task<IActionResult> Create([FromBody] Issue_CreateRequest rq)
         {
             if (!ModelState.IsValid)
@@ -133,9 +144,8 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest("Cannot create a Issue");
             return Ok(id_Issue);
         }
-
         [HttpPut]
-        [Route("/api/Issue/Update")]// remember to check this route
+        [Route("/api/Issue/Update")]
         public async Task<IActionResult> Update([FromBody] Issue_UpdateRequest rq)
         {
             if (!ModelState.IsValid)
@@ -145,8 +155,7 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest();
             return Ok(idIssue);
         }
-
-        [HttpDelete("{IdIssue}")]// remember to check this route
+        [HttpDelete("{IdIssue}")]
         public async Task<IActionResult> Delete(Guid IdIssue)
         {
             if (!ModelState.IsValid)

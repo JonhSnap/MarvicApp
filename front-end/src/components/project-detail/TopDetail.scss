@@ -1,5 +1,7 @@
 @import "../../index.scss";
 .top {
+  position: relative;
+  z-index: 10;
   margin-bottom: 10px;
   .navigate {
     display: flex;

@@ -80,8 +80,8 @@ function AddMemberPopup({ onClose, setShow, project }) {
 
     return (
         <ModalBase
-            containerclassName='fixed inset-0 flex justify-center'
-            bodyClassname='relative z-10 mt-[100px]'
+            containerclassName='fixed z-20 inset-0 flex justify-center'
+            bodyClassname='fixed z-10 mt-[100px]'
             onClose={onClose}
         >
             <form className='w-[500px] bg-white p-5 rounded'>

@@ -55,7 +55,7 @@ namespace MarvicSolution.BackendApi.Controllers
                     {
                         return Ok();
                     }
-                    return BadRequest(new { messgae = "Update faild!" });
+                    return BadRequest(new { messgae = "Update fail!" });
                 }
                 return NotFound(new { message = $"{id} not exists!" });
             }
@@ -75,7 +75,7 @@ namespace MarvicSolution.BackendApi.Controllers
                     {
                         return Ok();
                     }
-                    return BadRequest(new { messgae = "Delete faild!" });
+                    return BadRequest(new { messgae = "Delete fail!" });
                 }
                 return NotFound(new { message = $"{id} not exists!" });
             }

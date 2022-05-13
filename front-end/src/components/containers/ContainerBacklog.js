@@ -1,13 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import TopDetail from '../project-detail/TopDetail'
 import { NIL } from 'uuid'
 import './ContainerBacklog.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
-import OptionComponent from '../option/OptionComponent'
 import CreateComponent from '../CreateComponent'
-import OptionHeaderBacklogComponent from '../option/OptionHeaderBacklogComponent'
 import ButtonBacklogComponent from '../backlog/ButtonBacklogComponent'
 import { useListIssueContext } from '../../contexts/listIssueContext';
 import { fetchIssue } from '../../reducers/listIssueReducer';
@@ -36,7 +34,7 @@ function ContainerBacklog({ project }) {
                 <div className='wrap-backlog'>
                     <div className='main-backlog'>
                         <WrapperSprint members={members} project={project} />
-                        <div className='backlog-item'>
+                        <div data-id={NIL} className='backlog-item'>
                             <div className='header-backlog-item w-[98%] py-3 flex justify-between items-center'>
                                 <div className='header-right'>
                                     <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />

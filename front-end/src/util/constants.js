@@ -1,11 +1,13 @@
 import { v4 } from 'uuid'
-import StoryImage  from '../images/type-issues/story.jpg'
+import StoryImage from '../images/type-issues/story.jpg'
 import TaskImage from '../images/type-issues/task.jpg'
 import BugImage from '../images/type-issues/bug.jpg'
 // Base url
 export const BASE_URL = 'https://localhost:5001';
+// inner height
+export const documentHeight = window.innerHeight;
 // key current project
-export const  KEY_CURRENT_PROJECT = 'key_current_project';
+export const KEY_CURRENT_PROJECT = 'key_current_project';
 // Levels
 export const levels = [
     {
