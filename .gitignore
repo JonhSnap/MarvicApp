@@ -46,6 +46,8 @@ MarvicSolution/MarvicSolution.Services/obj
 
 MarvicSolution/MarvicSolution.Utilities/bin
 MarvicSolution/MarvicSolution.Utilities/obj
+
+MarvicSolution/MarvicSolution.DATA/Migrations
 #Tooling
 _ReSharper*/
 *.resharper
