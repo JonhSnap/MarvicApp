@@ -5,7 +5,18 @@ namespace MarvicSolution.DATA.Entities
 {
     public class Stage
     {
-        public Stage() { }
+        public Stage()
+        {
+            this.Id = Guid.Empty;
+            this.Id_Project = Guid.Empty;
+            this.Stage_Name = string.Empty;
+            this.Id_Creator = Guid.Empty;
+            this.DateCreated = new DateTime();
+            this.UpdateDate = new DateTime();
+            this.Order = 0;
+            this.Id_Updator = Guid.Empty;
+            this.isDeleted = EnumStatus.False;
+        }
         public Stage(Guid id_Project, string stage_Name, Guid id_Creator, EnumStatus enumStatus=EnumStatus.False)
         {
             Id_Project = id_Project;

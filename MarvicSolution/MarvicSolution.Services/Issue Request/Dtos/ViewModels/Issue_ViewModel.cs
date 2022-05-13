@@ -19,17 +19,17 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels
         public string? Description { get; set; }
         public Guid? Id_Assignee { get; set; }
         public EnumPoint? Story_Point_Estimate { get; set; }
-        public Guid? Id_Reporter { get; set; } = Guid.Empty;
-        public string? Attachment_Path { get; set; } = string.Empty;
-        public Guid? Id_Linked_Issue { get; set; } = Guid.Empty;
-        public Guid? Id_Parent_Issue { get; set; } = Guid.Empty;
-        public EnumPriority? Priority { get; set; } = EnumPriority.Lowest;
-        public Guid? Id_Restrict { get; set; } = Guid.Empty;
-        public EnumStatus? IsFlagged { get; set; } = EnumStatus.False;
-        public EnumStatus? IsWatched { get; set; } = EnumStatus.False;
+        public Guid? Id_Reporter { get; set; }
+        public string? Attachment_Path { get; set; }
+        public Guid? Id_Linked_Issue { get; set; }
+        public Guid? Id_Parent_Issue { get; set; }
+        public EnumPriority? Priority { get; set; }
+        public Guid? Id_Restrict { get; set; }
+        public EnumStatus? IsFlagged { get; set; }
+        public EnumStatus? IsWatched { get; set; }
         public Guid Id_Creator { get; set; }
         public DateTime? DateCreated { get; set; }
-        public DateTime? DateStarted { get; set; } = new DateTime();
+        public DateTime? DateStarted { get; set; }
         public DateTime? DateEnd { get; set; }
         public Guid? Id_Updator { get; set; }
         public DateTime? UpdateDate { get; set; }
