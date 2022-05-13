@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MarvicSolution.DATA.Migrations
 {
-    public partial class createdb : Migration
+    public partial class createDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -189,11 +189,12 @@ namespace MarvicSolution.DATA.Migrations
                     Id_Project = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SprintName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Id_Creator = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Update_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Create_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    End_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Update_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Start_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Is_Delete = table.Column<int>(type: "int", nullable: false)
+                    End_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Is_Archieved = table.Column<int>(type: "int", nullable: false),
+                    Is_Started = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -212,7 +213,8 @@ namespace MarvicSolution.DATA.Migrations
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Id_Updator = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Order = table.Column<int>(type: "int", nullable: false),
-                    isDeleted = table.Column<int>(type: "int", nullable: false)
+                    isDeleted = table.Column<int>(type: "int", nullable: false),
+                    isDone = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -302,8 +304,8 @@ namespace MarvicSolution.DATA.Migrations
                 columns: new[] { "Id", "Content", "Create_Date", "Id_Issue", "Id_ParentComment", "Id_User", "Is_Delete", "Update_Date" },
                 values: new object[,]
                 {
-                    { new Guid("de06597c-ee95-41ed-ab8b-e23021ba43bd"), "NhanTTT1 comment", new DateTime(2022, 5, 8, 13, 0, 23, 262, DateTimeKind.Local).AddTicks(1693), new Guid("7c2cc804-4aae-4af2-9191-4268fc02edc0"), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("7a370bac-b796-454d-84cf-18c603102ca2"), 0, new DateTime(2022, 5, 8, 13, 0, 23, 262, DateTimeKind.Local).AddTicks(5318) },
-                    { new Guid("f97f1868-42c4-4710-8387-4de195c9815b"), "KhanhND comment", new DateTime(2022, 5, 8, 14, 0, 23, 262, DateTimeKind.Local).AddTicks(5961), new Guid("7c2cc804-4aae-4af2-9191-4268fc02edc0"), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"), 0, new DateTime(2022, 5, 8, 14, 0, 23, 262, DateTimeKind.Local).AddTicks(6042) }
+                    { new Guid("3e0a044e-c1fd-40dc-96e4-1cc41efa989d"), "NhanTTT1 comment", new DateTime(2022, 5, 13, 10, 42, 30, 939, DateTimeKind.Local).AddTicks(7417), new Guid("7c2cc804-4aae-4af2-9191-4268fc02edc0"), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("7a370bac-b796-454d-84cf-18c603102ca2"), 0, new DateTime(2022, 5, 13, 10, 42, 30, 940, DateTimeKind.Local).AddTicks(1807) },
+                    { new Guid("120b8f40-4d02-4933-a78b-af1dffe000df"), "KhanhND comment", new DateTime(2022, 5, 13, 11, 42, 30, 940, DateTimeKind.Local).AddTicks(2514), new Guid("7c2cc804-4aae-4af2-9191-4268fc02edc0"), new Guid("00000000-0000-0000-0000-000000000000"), new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"), 0, new DateTime(2022, 5, 13, 11, 42, 30, 940, DateTimeKind.Local).AddTicks(2602) }
                 });
 
             migrationBuilder.InsertData(
@@ -429,27 +431,27 @@ namespace MarvicSolution.DATA.Migrations
 
             migrationBuilder.InsertData(
                 table: "Sprint",
-                columns: new[] { "Id", "Create_Date", "End_Date", "Id_Creator", "Id_Project", "Is_Delete", "SprintName", "Start_Date", "Update_Date" },
+                columns: new[] { "Id", "Create_Date", "End_Date", "Id_Creator", "Id_Project", "Is_Archieved", "Is_Started", "SprintName", "Start_Date", "Update_Date" },
                 values: new object[,]
                 {
-                    { new Guid("d2da18bc-3f2d-4558-acc8-480df6d770f4"), new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 7, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"), new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"), 0, "Sprint A1", new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("87038ca8-11a7-4392-9c3e-86fd04f75223"), new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 6, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"), new Guid("fcaff326-620b-4b6c-96ab-bdfe7b2dd952"), 0, "Sprint First PD", new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("79f4fe9f-028f-4c2d-afa8-28601272b031"), new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 6, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"), new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"), 0, "Project Editor Super", new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { new Guid("d2da18bc-3f2d-4558-acc8-480df6d770f4"), new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 7, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"), new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"), 0, 0, "Sprint A1", new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("87038ca8-11a7-4392-9c3e-86fd04f75223"), new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 6, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"), new Guid("fcaff326-620b-4b6c-96ab-bdfe7b2dd952"), 0, 0, "Sprint First PD", new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("79f4fe9f-028f-4c2d-afa8-28601272b031"), new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 6, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"), new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"), 0, 0, "Project Editor Super", new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
                 table: "Stage",
-                columns: new[] { "Id", "DateCreated", "Id_Creator", "Id_Project", "Id_Updator", "Order", "Stage_Name", "UpdateDate", "isDeleted" },
+                columns: new[] { "Id", "DateCreated", "Id_Creator", "Id_Project", "Id_Updator", "Order", "Stage_Name", "UpdateDate", "isDeleted", "isDone" },
                 values: new object[,]
                 {
-                    { new Guid("4f00f074-4009-4f2e-a97b-ffef9ef3afa2"), new DateTime(2021, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"), new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"), new Guid("00000000-0000-0000-0000-000000000000"), 0, "To do", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0 },
-                    { new Guid("0caa0071-7e46-48f8-b436-382001c1ca3a"), new DateTime(2021, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"), new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"), new Guid("00000000-0000-0000-0000-000000000000"), 1, "In Progress", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0 }
+                    { new Guid("4f00f074-4009-4f2e-a97b-ffef9ef3afa2"), new DateTime(2021, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"), new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"), new Guid("00000000-0000-0000-0000-000000000000"), 0, "To do", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 0 },
+                    { new Guid("0caa0071-7e46-48f8-b436-382001c1ca3a"), new DateTime(2021, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"), new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"), new Guid("00000000-0000-0000-0000-000000000000"), 1, "In Progress", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 0 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Stage",
-                columns: new[] { "Id", "DateCreated", "Id_Creator", "Id_Project", "Id_Updator", "Order", "Stage_Name", "UpdateDate", "isDeleted" },
-                values: new object[] { new Guid("da3d7685-bb11-4681-b7f3-ffbc9ed54353"), new DateTime(2021, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"), new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"), new Guid("00000000-0000-0000-0000-000000000000"), 2, "Done", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0 });
+                columns: new[] { "Id", "DateCreated", "Id_Creator", "Id_Project", "Id_Updator", "Order", "Stage_Name", "UpdateDate", "isDeleted", "isDone" },
+                values: new object[] { new Guid("da3d7685-bb11-4681-b7f3-ffbc9ed54353"), new DateTime(2021, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"), new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"), new Guid("00000000-0000-0000-0000-000000000000"), 2, "Done", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 0 });
 
             migrationBuilder.InsertData(
                 table: "Test",

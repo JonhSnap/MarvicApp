@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarvicSolution.DATA.Migrations
 {
     [DbContext(typeof(MarvicDbContext))]
-    [Migration("20220508060023_create-db")]
-    partial class createdb
+    [Migration("20220513034231_createDB")]
+    partial class createDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -523,25 +523,25 @@ namespace MarvicSolution.DATA.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("de06597c-ee95-41ed-ab8b-e23021ba43bd"),
+                            Id = new Guid("3e0a044e-c1fd-40dc-96e4-1cc41efa989d"),
                             Content = "NhanTTT1 comment",
-                            Create_Date = new DateTime(2022, 5, 8, 13, 0, 23, 262, DateTimeKind.Local).AddTicks(1693),
+                            Create_Date = new DateTime(2022, 5, 13, 10, 42, 30, 939, DateTimeKind.Local).AddTicks(7417),
                             Id_Issue = new Guid("7c2cc804-4aae-4af2-9191-4268fc02edc0"),
                             Id_ParentComment = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_User = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"),
                             Is_Delete = 0,
-                            Update_Date = new DateTime(2022, 5, 8, 13, 0, 23, 262, DateTimeKind.Local).AddTicks(5318)
+                            Update_Date = new DateTime(2022, 5, 13, 10, 42, 30, 940, DateTimeKind.Local).AddTicks(1807)
                         },
                         new
                         {
-                            Id = new Guid("f97f1868-42c4-4710-8387-4de195c9815b"),
+                            Id = new Guid("120b8f40-4d02-4933-a78b-af1dffe000df"),
                             Content = "KhanhND comment",
-                            Create_Date = new DateTime(2022, 5, 8, 14, 0, 23, 262, DateTimeKind.Local).AddTicks(5961),
+                            Create_Date = new DateTime(2022, 5, 13, 11, 42, 30, 940, DateTimeKind.Local).AddTicks(2514),
                             Id_Issue = new Guid("7c2cc804-4aae-4af2-9191-4268fc02edc0"),
                             Id_ParentComment = new Guid("00000000-0000-0000-0000-000000000000"),
                             Id_User = new Guid("e341a8f6-dc1b-4829-94fb-316b6bac99b6"),
                             Is_Delete = 0,
-                            Update_Date = new DateTime(2022, 5, 8, 14, 0, 23, 262, DateTimeKind.Local).AddTicks(6042)
+                            Update_Date = new DateTime(2022, 5, 13, 11, 42, 30, 940, DateTimeKind.Local).AddTicks(2602)
                         });
                 });
 
@@ -2168,7 +2168,10 @@ namespace MarvicSolution.DATA.Migrations
                     b.Property<Guid>("Id_Project")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Is_Delete")
+                    b.Property<int>("Is_Archieved")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Is_Started")
                         .HasColumnType("int");
 
                     b.Property<string>("SprintName")
@@ -2193,7 +2196,8 @@ namespace MarvicSolution.DATA.Migrations
                             End_Date = new DateTime(2021, 7, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Id_Creator = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
                             Id_Project = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
-                            Is_Delete = 0,
+                            Is_Archieved = 0,
+                            Is_Started = 0,
                             SprintName = "Sprint A1",
                             Start_Date = new DateTime(2021, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Update_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -2205,7 +2209,8 @@ namespace MarvicSolution.DATA.Migrations
                             End_Date = new DateTime(2022, 6, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Id_Creator = new Guid("ec32bffd-121f-405f-b7c5-5e2ab4ba7e27"),
                             Id_Project = new Guid("fcaff326-620b-4b6c-96ab-bdfe7b2dd952"),
-                            Is_Delete = 0,
+                            Is_Archieved = 0,
+                            Is_Started = 0,
                             SprintName = "Sprint First PD",
                             Start_Date = new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Update_Date = new DateTime(2022, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -2217,7 +2222,8 @@ namespace MarvicSolution.DATA.Migrations
                             End_Date = new DateTime(2022, 6, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Id_Creator = new Guid("3413ed48-771a-4533-91b0-8c19cd863e2f"),
                             Id_Project = new Guid("1a24b90f-2585-404b-9e93-7128d96f8a93"),
-                            Is_Delete = 0,
+                            Is_Archieved = 0,
+                            Is_Started = 0,
                             SprintName = "Project Editor Super",
                             Start_Date = new DateTime(2022, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Update_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -2255,6 +2261,9 @@ namespace MarvicSolution.DATA.Migrations
                     b.Property<int>("isDeleted")
                         .HasColumnType("int");
 
+                    b.Property<int>("isDone")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Stage");
@@ -2270,7 +2279,8 @@ namespace MarvicSolution.DATA.Migrations
                             Order = 0,
                             Stage_Name = "To do",
                             UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isDeleted = 0
+                            isDeleted = 0,
+                            isDone = 0
                         },
                         new
                         {
@@ -2282,7 +2292,8 @@ namespace MarvicSolution.DATA.Migrations
                             Order = 1,
                             Stage_Name = "In Progress",
                             UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isDeleted = 0
+                            isDeleted = 0,
+                            isDone = 0
                         },
                         new
                         {
@@ -2294,7 +2305,8 @@ namespace MarvicSolution.DATA.Migrations
                             Order = 2,
                             Stage_Name = "Done",
                             UpdateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            isDeleted = 0
+                            isDeleted = 0,
+                            isDone = 0
                         });
                 });
 
