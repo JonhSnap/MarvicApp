@@ -27,15 +27,15 @@ namespace MarvicSolution.DATA.Configurations
             new Project
             {
                 Id = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
-                Name = "Project A",
+                Name = "Project ABC",
                 Key = "PA",
                 Access = EnumAccess.Public,
-                Id_Lead = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"), // NhanTTT1
-                Id_Creator = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"), // NhanTTT1
+                Id_Lead = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
+                Id_Creator = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
                 DateCreated = DateTime.Parse("2021-2-25"),
                 DateStarted = DateTime.Parse("2021-7-21"),
                 DateEnd = DateTime.Parse("2021-8-1"),
-                Id_Updator = new Guid("7a370bac-b796-454d-84cf-18c603102ca2"), // NhanTTT1
+                Id_Updator = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // NhanNT
                 UpdateDate = DateTime.Parse("2021-7-21"),
                 IsStared = EnumStatus.False,
                 IsDeleted = EnumStatus.False
@@ -90,7 +90,7 @@ namespace MarvicSolution.DATA.Configurations
             },
             new Project
             {
-                Id = new Guid("FCAFF326-620B-4B6C-96AB-BDFE7B2DD952"),
+                Id = new Guid("1A24B90F-2585-404B-9E93-7128D96F8A93"),
                 Name = "Project Editor Super",
                 Key = "PES",
                 Access = EnumAccess.Public,
