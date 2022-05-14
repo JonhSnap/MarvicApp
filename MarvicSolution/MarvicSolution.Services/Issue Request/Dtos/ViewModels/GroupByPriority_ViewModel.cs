@@ -10,12 +10,12 @@ namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels
 {
     public class GroupByPriority_ViewModel
     {
-        public EnumPriority? Priority { get; set; }
+        public string Priority { get; set; }
         public List<Issue_ViewModel> ListIssue { get; set; }
 
         public GroupByPriority_ViewModel()
         {
-            this.Priority = EnumPriority.Lowest;
+            this.Priority = string.Empty;
             this.ListIssue = new List<Issue_ViewModel>();
         }
     }

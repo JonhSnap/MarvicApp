@@ -25,6 +25,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         List<GroupByAssignee_ViewModel> Group_By_Assignee(Guid IdProject);
         List<GroupByIssueType_ViewModel> Group_By_IssueType(Guid IdProject);
         List<GroupByPriority_ViewModel> Group_By_Priority(Guid IdProject);
+        List<GroupByProject_ViewModel> Group_By_IdUser(Guid IdUser);
 
     }
 }
