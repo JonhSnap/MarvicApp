@@ -73,15 +73,17 @@ namespace MarvicSolution.BackendApi.Controllers
         }
 
         [HttpDelete("{Id}")]
-        public async Task<IActionResult> Delete(Guid Id,[FromBody] Delete_Comment_Request commentRequest)
+        public async Task<IActionResult> Delete(Guid Id, [FromBody] Delete_Comment_Request commentRequest)
         {
+
             var model = await _comment_Service.GetCommentById(Id, commentRequest.Id_User);
-            if (model!=null && await _comment_Service.DeleteComment(model))
+            if (model != null && await _comment_Service.DeleteComment(model))
             {
                 await _actionHub.Clients.All.Comment();
                 return Ok();
             }
             return BadRequest();
         }
+
     }
 }
