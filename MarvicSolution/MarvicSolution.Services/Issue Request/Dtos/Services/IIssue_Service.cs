@@ -33,6 +33,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         List<GroupByIssueType_ViewModel> Group_By_IssueType(Guid IdProject, RequestVM rq);
         List<GroupByPriority_ViewModel> Group_By_Priority(Guid IdProject, RequestVM rq);
         List<GroupByProject_ViewModel> Group_By_IdUser(Guid IdUser, RequestVM rq);
+        List<GroupByEpic_ViewModel> Group_By_Epic(Guid IdProject, RequestVM rq);
         List<BoardViewModel> GetInforBoardByIdSprint(Guid IdSprint);
         List<Guid> GetListIssueOrderByIdStage(Guid idStage);
         void UploadedFile(Guid idIssue, IFormFile file);

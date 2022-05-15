@@ -724,6 +724,59 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                                         && i.IsDeleted.Equals(EnumStatus.False));
             return issue;
         }
+        public List<GroupByEpic_ViewModel> Group_By_Epic(Guid IdProject, RequestVM rq)
+        {
+            var listIdEpic = _context.Issues.Where(i => i.Id_IssueType.Equals(EnumIssueType.Epic)
+                                                        && i.Id_Project.Equals(IdProject)
+                                                        && i.IsDeleted.Equals(EnumStatus.False))
+                                            .Select(i => i.Id).ToList();
+
+            var groupIssueType = from i in _context.Issues.ToList()
+                                 where i.Id_Project.Equals(IdProject)
+                                 && i.IsDeleted.Equals(EnumStatus.False)
+                                 && listIdEpic.Contains((Guid)i.Id_Parent_Issue)
+                                 orderby i.Id_IssueType
+                                 group i by i.Id_Parent_Issue;
+
+            List<GroupByEpic_ViewModel> listGroupVM = new List<GroupByEpic_ViewModel>();
+            foreach (var i_group in groupIssueType)
+            {
+                GroupByEpic_ViewModel groupVM = new GroupByEpic_ViewModel();
+                groupVM.EpicName = _context.Issues.FirstOrDefault(i => i.Id.Equals(i_group.Key)).Summary;
+                var item = i_group.Select(g => new Issue_ViewModel()
+                {
+                    Id = g.Id,
+                    Id_Project = g.Id_Project,
+                    Id_IssueType = g.Id_IssueType,
+                    Id_Stage = g.Id_Stage,
+                    Id_Sprint = g.Id_Sprint,
+                    Id_Label = g.Id_Label,
+                    Summary = g.Summary,
+                    Description = g.Description,
+                    Id_Assignee = g.Id_Assignee,
+                    Story_Point_Estimate = g.Story_Point_Estimate,
+                    Id_Reporter = g.Id_Reporter,
+                    FileName = g.FileName,
+                    Attachment_Path = g.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, g.FileName),
+                    Id_Linked_Issue = g.Id_Linked_Issue,
+                    Id_Parent_Issue = g.Id_Parent_Issue,
+                    Priority = g.Priority,
+                    Id_Restrict = g.Id_Restrict,
+                    IsFlagged = g.IsFlagged,
+                    IsWatched = g.IsWatched,
+                    Id_Creator = g.Id_Creator,
+                    DateCreated = g.DateCreated,
+                    DateStarted = g.DateStarted,
+                    DateEnd = g.DateEnd,
+                    Id_Updator = g.Id_Updator,
+                    UpdateDate = g.UpdateDate,
+                    Order = g.Order
+                });
+                groupVM.ListIssue.AddRange(item);
+                listGroupVM.Add(groupVM);
+            }
+            return listGroupVM;
+        }
 
     }
 }
