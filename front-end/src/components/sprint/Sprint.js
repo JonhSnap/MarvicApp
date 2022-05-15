@@ -5,26 +5,27 @@ import { useListIssueContext } from '../../contexts/listIssueContext'
 import useModal from '../../hooks/useModal'
 import WrapperTask from '../backlog/WrapperTask'
 import CreateIssuesComponent from '../CreateComponent'
-import OptionComponent from '../option/OptionComponent'
-import OptionHeaderBacklogComponent from '../option/OptionHeaderBacklogComponent'
 import EditSprintPopup from '../popup/EditSprintPopup'
 import OptionSprint from '../option/OptionSprint'
+import { useSprintContext } from '../../contexts/sprintContext'
+import StartSprintPopup from '../popup/StartSprintPopup'
 
-function Sprint({ sprint, members, project, index }) {
+function Sprint({ sprint, members, project }) {
     const [showEditSprint, setShowEditSprint, handleCloseEditSprint] = useModal();
-    const [{ issueNormals }, dispatch] = useListIssueContext();
+    const [showStartSprint, setShowStartSprint, handleCloseStartSprint] = useModal();
+    const { state: { sprints } } = useSprintContext()
+    const [{ issueNormals }] = useListIssueContext();
     const issueWithSprint = useMemo(() => {
         return issueNormals.filter(item => item.id_Sprint === sprint.id);
     }, [issueNormals])
-
-
-    // handle start sprint
-    const handleStartSprint = () => {
-
-    }
+    // check sprint starting
+    const checkPrintStarting = useMemo(() => {
+        return sprints.some(item => item.is_Started === 1);
+    }, [sprints]);
 
     return (
         <>
+            {showStartSprint && <StartSprintPopup project={project} onClose={handleCloseStartSprint} setshow={setShowStartSprint} sprint={sprint}></StartSprintPopup>}
             {showEditSprint && <EditSprintPopup project={project} onClose={handleCloseEditSprint} setshow={setShowEditSprint} sprint={sprint} />}
             <div data-id={sprint?.id} className='backlog-item'>
                 <div className='header-backlog-item w-[98%] py-3 flex justify-between items-center'>
@@ -50,12 +51,12 @@ function Sprint({ sprint, members, project, index }) {
                             </div>
                         </div>
                         <div
-                            onClick={handleStartSprint}
+                            onClick={() => setShowStartSprint(true)}
                             className={`rounded-md py-1 px-2  w-fit h-full mx-4 border-solid cursor-pointer
-                        bg-primary text-white ${index !== 0 ? 'pointer-events-none bg-opacity-30' : ''}`}>Start Sprint</div>
+                        bg-primary text-white ${(checkPrintStarting && !sprint.is_Started) ? 'pointer-events-none opacity-50' : ''}`}>
+                            {sprint.is_Started ? 'Complete Sprint' : 'Start Sprint'}
+                        </div>
                         <OptionSprint setShowEditSprint={setShowEditSprint} sprint={sprint} project={project} />
-
-                        {/* <OptionComponent child={<OptionHeaderBacklogComponent setShowEditSprint={setShowEditSprint} sprint={sprint} project={project} />} /> */}
                     </div>
                 </div>
                 <div className='main w-[98%] h-fit min-h-[5rem]'>

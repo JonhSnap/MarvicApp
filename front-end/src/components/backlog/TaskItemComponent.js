@@ -32,7 +32,7 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
         }
     }
     // handle blur input poit
-    const handleBlurInputPoint = () => {
+    const handleBlurInputPoint = async () => {
         if (valuePointStore === valuePoint) {
             setValuePointStore('');
             setShowInputPoint(false);
@@ -40,12 +40,11 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
         }
         const issueUpdate = { ...issue }
         issueUpdate.story_Point_Estimate = Number(valuePoint);
-        updateIssues(issueUpdate, dispatch);
+        issueUpdate.attachment_Path = null;
+        await updateIssues(issueUpdate, dispatch);
+        await fetchIssue(project.id, dispatch);
         setShowInputPoint(false);
         createToast('success', 'Update point estimate successfully!')
-        setTimeout(() => {
-            fetchIssue(project.id, dispatch);
-        }, 500);
     }
     // handle click parent
     const currentEpic = issueEpics.find(item => item.id === issue.id_Parent_Issue)

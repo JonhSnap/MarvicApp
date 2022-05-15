@@ -133,7 +133,7 @@ namespace MarvicSolution.BackendApi.Controllers
         }
         [HttpPost]
         [Route("/api/Issue/Create")]
-        public async Task<IActionResult> Create([FromForm] Issue_CreateRequest rq)
+        public async Task<IActionResult> Create([FromBody] Issue_CreateRequest rq)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -144,7 +144,7 @@ namespace MarvicSolution.BackendApi.Controllers
         }
         [HttpPut]
         [Route("/api/Issue/Update")]
-        public async Task<IActionResult> Update([FromForm] Issue_UpdateRequest rq)
+        public async Task<IActionResult> Update([FromBody] Issue_UpdateRequest rq)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
