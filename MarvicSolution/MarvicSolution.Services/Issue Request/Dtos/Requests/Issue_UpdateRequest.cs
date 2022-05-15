@@ -22,7 +22,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
         public Guid? Id_Assignee { get; set; }
         public EnumPoint? Story_Point_Estimate { get; set; }
         public Guid? Id_Reporter { get; set; }
-        public IFormFile Attachment_Path { get; set; }
+        public string FileName { get; set; }
         public Guid? Id_Linked_Issue { get; set; }
         public Guid? Id_Parent_Issue { get; set; }
         public EnumPriority? Priority { get; set; }
@@ -51,7 +51,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
             Id_Assignee = new Guid();
             Story_Point_Estimate =  EnumPoint.One;
             Id_Reporter = new Guid();
-            Attachment_Path = null;
+            FileName = null;
             Id_Linked_Issue = new Guid();
             Id_Parent_Issue = new Guid();
             Priority =  EnumPriority.Lowest;
@@ -67,7 +67,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
             Order = 0;
             IsDeleted =  EnumStatus.False;
         }
-        public Issue_UpdateRequest(Guid id, Guid id_Project, EnumIssueType id_IssueType, Guid? id_Stage, Guid? id_Sprint, Guid? id_Label, string summary, string description, Guid? id_Assignee, EnumPoint? story_Point_Estimate, Guid? id_Reporter, string attachment_Path, Guid? id_Linked_Issue, Guid? id_Parent_Issue, EnumPriority? priority, Guid? id_Restrict, EnumStatus? isFlagged, EnumStatus? isWatched, Guid id_Creator, DateTime? dateCreated, DateTime? dateStarted, DateTime? dateEnd, Guid? id_Updator, DateTime? updateDate, int order, EnumStatus isDeleted)
+        public Issue_UpdateRequest(Guid id, Guid id_Project, EnumIssueType id_IssueType, Guid? id_Stage, Guid? id_Sprint, Guid? id_Label, string summary, string description, Guid? id_Assignee, EnumPoint? story_Point_Estimate, Guid? id_Reporter, string fileName, Guid? id_Linked_Issue, Guid? id_Parent_Issue, EnumPriority? priority, Guid? id_Restrict, EnumStatus? isFlagged, EnumStatus? isWatched, Guid id_Creator, DateTime? dateCreated, DateTime? dateStarted, DateTime? dateEnd, Guid? id_Updator, DateTime? updateDate, int order, EnumStatus isDeleted)
         {
             Id = id;
             Id_Project = id_Project;
@@ -80,7 +80,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
             Id_Assignee = id_Assignee;
             Story_Point_Estimate = story_Point_Estimate;
             Id_Reporter = id_Reporter;
-            Attachment_Path = null;
+            FileName = fileName;
             Id_Linked_Issue = id_Linked_Issue;
             Id_Parent_Issue = id_Parent_Issue;
             Priority = priority;

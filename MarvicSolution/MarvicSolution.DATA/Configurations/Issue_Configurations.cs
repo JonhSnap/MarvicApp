@@ -34,7 +34,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Ten,
                     Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     Id_Assignee = Guid.Empty,
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = Guid.Empty,
                     Priority = EnumPriority.Highest,
@@ -63,7 +63,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Seven,
                     Id_Reporter = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
                     Id_Assignee = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Medium,
@@ -92,7 +92,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Seven,
                     Id_Reporter = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // NhanNT
                     Id_Assignee = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Medium,
@@ -122,7 +122,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     Id_Assignee = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A1
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Medium,
@@ -151,7 +151,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     Id_Assignee = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A1
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Medium,
@@ -180,7 +180,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     Id_Assignee = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), // NhanTT
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A1
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Medium,
@@ -209,7 +209,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     Id_Assignee = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A1
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Medium,
@@ -240,7 +240,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     Id_Assignee = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A1
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Medium,
@@ -269,7 +269,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     Id_Assignee = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A1
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Medium,
@@ -298,7 +298,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     Id_Assignee = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A1
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Medium,
@@ -327,7 +327,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     Id_Assignee = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A1
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Medium,
@@ -358,7 +358,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV
                     Id_Assignee = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.High,
@@ -387,7 +387,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV
                     Id_Assignee = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.High,
@@ -416,7 +416,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV
                     Id_Assignee = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.High,
@@ -445,7 +445,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV
                     Id_Assignee = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.High,
@@ -476,7 +476,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
                     Id_Assignee = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Low,
@@ -505,7 +505,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
                     Id_Assignee = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Low,
@@ -534,7 +534,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
                     Id_Assignee = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Low,
@@ -563,7 +563,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
                     Id_Assignee = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // User TungNV
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Low,
@@ -594,7 +594,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
                     Id_Assignee = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Low,
@@ -623,7 +623,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
                     Id_Assignee = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Low,
@@ -652,7 +652,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
                     Id_Assignee = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // User TungNV
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Low,
@@ -681,7 +681,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
                     Id_Assignee = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
                     Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
                     Priority = EnumPriority.Low,
@@ -714,7 +714,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     Id_Assignee = new Guid("E341A8F6-DC1B-4829-94FB-316B6BAC99B6"), //KhanhND
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = Guid.Empty, // The Story of Project B
                     Priority = EnumPriority.Low,
@@ -743,7 +743,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.One,
                     Id_Reporter = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     Id_Assignee = new Guid("E341A8F6-DC1B-4829-94FB-316B6BAC99B6"), //KhanhND
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = new Guid("BBBE8F8E-A735-4A4C-BDED-E4CE2405E8E1"), // The Story of Project B
                     Priority = EnumPriority.Highest,
@@ -773,7 +773,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.One,
                     Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     Id_Assignee = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = Guid.Empty,
                     Priority = EnumPriority.Highest,
@@ -805,7 +805,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.One,
                     Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // User KhietPT
                     Id_Assignee = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = new Guid("76B20622-AD82-4D0D-9719-7B0CF5F33B58"),
                     Priority = EnumPriority.Highest,
@@ -834,7 +834,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.One,
                     Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // User KhietPT
                     Id_Assignee = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = new Guid("76B20622-AD82-4D0D-9719-7B0CF5F33B58"),
                     Priority = EnumPriority.Highest,
@@ -865,7 +865,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Nine,
                     Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // User KhietPT
                     Id_Assignee = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = new Guid("76B20622-AD82-4D0D-9719-7B0CF5F33B58"),
                     Priority = EnumPriority.Highest,
@@ -894,7 +894,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Seven,
                     Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // User KhietPT
                     Id_Assignee = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = new Guid("76B20622-AD82-4D0D-9719-7B0CF5F33B58"),
                     Priority = EnumPriority.Highest,
@@ -925,7 +925,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Seven,
                     Id_Reporter = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // User ThangVD
                     Id_Assignee = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // User NhanNT
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = Guid.Empty,
                     Priority = EnumPriority.Medium,
@@ -954,7 +954,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
                     Id_Assignee = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = Guid.Empty,
                     Priority = EnumPriority.Medium,
@@ -983,7 +983,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // User ThinhLQ
                     Id_Assignee = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // User NhanNT
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = Guid.Empty,
                     Priority = EnumPriority.Medium,
@@ -1012,7 +1012,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // User TungNV
                     Id_Assignee = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // User NhanNT
-                    Attachment_Path = string.Empty,
+                    FileName = string.Empty,
                     Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = Guid.Empty,
                     Priority = EnumPriority.Medium,
@@ -1041,8 +1041,7 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // User ThinhLQ
                     Id_Assignee = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // User TungNV
-                    Attachment_Path = string.Empty,
-                    Id_Linked_Issue = Guid.Empty,
+                    FileName = string.Empty,                    Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = Guid.Empty,
                     Priority = EnumPriority.Medium,
                     Id_Restrict = Guid.Empty,
