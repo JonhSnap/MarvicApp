@@ -25,7 +25,7 @@ namespace MarvicSolution.DATA.Configurations
                 #region Project ABC
                 new Stage()
                 {
-                    Id = new Guid("4F00F074-4009-4F2E-A97B-FFEF9EF3AFA2"),
+                    Id = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
                     Stage_Name = "To do",
                     Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT

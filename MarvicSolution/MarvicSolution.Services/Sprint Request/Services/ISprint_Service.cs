@@ -16,5 +16,6 @@ namespace MarvicSolution.Services.Sprint_Request.Services
         Task<Sprint> GetSprintById(Guid id);
         Guid AddIssuesToSprint(AddIssue_Request rq);
         bool RemoveIssuesFromSprint(RemoveIssue_Request rq);
+        Task<bool> CompleteSprint(Complete_Sprint_Request complete_Sprint_Request);
     }
 }

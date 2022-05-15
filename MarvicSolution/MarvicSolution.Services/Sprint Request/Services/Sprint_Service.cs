@@ -53,7 +53,50 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             {
                 // log here...
                 return false;
-                throw;
+            }
+        }
+
+        public async Task<bool> CompleteSprint(Complete_Sprint_Request model)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                //get id stage done in project have a complete_Sprint_Request.OldSprintId
+                var stageDoneId = await _context.Stages
+                    .Where(stg => stg.Id_Project == model.CurrentProjectId && 
+                    stg.isDone == EnumStatus.True &&
+                    stg.isDeleted == EnumStatus.False)
+                    .Select(stage => stage.Id)
+                    .FirstOrDefaultAsync();
+
+                //get list issue undone
+                var listIssueUnDone = await _context.Issues
+                    .Where(a => a.Id_Sprint == model.CurrentSprintId &&
+                    a.IsDeleted == EnumStatus.False &&
+                    a.Id_Stage!= stageDoneId)
+                    .ToListAsync();
+
+                foreach (var item in listIssueUnDone)
+                {
+                    item.Id_Sprint = model.NewSprintId;
+                }
+                //change issue to new sprint
+                _context.Issues.UpdateRange(listIssueUnDone);
+
+                //remove current sprint
+                var currentSprint = await _context.Sprints.FindAsync(model.CurrentSprintId);
+                currentSprint.Is_Archieved = EnumStatus.True;
+                _context.Sprints.Update(currentSprint);
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                // log here...
+                return false;
             }
         }
 
@@ -69,7 +112,6 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             {
                 // log here...
                 return false;
-                throw;
             }
         }
 
@@ -77,7 +119,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
         {
             try
             {
-                var sprint = await _context.Sprints.FirstOrDefaultAsync(sprt => sprt.Id == id && sprt.Is_Delete == EnumStatus.False);
+                var sprint = await _context.Sprints.FirstOrDefaultAsync(sprt => sprt.Id == id && sprt.Is_Archieved == EnumStatus.False);
                 return sprint;
             }
             catch (Exception ex)
@@ -92,8 +134,9 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             try
             {
                 var sprints = await _context.Sprints
-                    .Where(spr => spr.Id_Project == id_Project && spr.Is_Delete == EnumStatus.False)
-                    .Select(spr => new SprintVM(spr.Id, spr.Id_Project, spr.SprintName, spr.Id_Creator, spr.Update_Date, spr.Create_Date, spr.Start_Date, spr.End_Date))
+                    .Where(spr => spr.Id_Project == id_Project && spr.Is_Archieved == EnumStatus.False)
+                    .Select(spr => new SprintVM(spr.Id, spr.Id_Project, spr.SprintName, spr.Id_Creator, spr.Update_Date, 
+                    spr.Create_Date, spr.Start_Date, spr.End_Date, spr.Is_Archieved, spr.Is_Started))
                     .ToListAsync();
                 return sprints;
             }

@@ -2,15 +2,21 @@
 using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
+using MarvicSolution.Services.Issue_Request.Dtos.Requests;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Board;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Utilities.Exceptions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,13 +28,16 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         private readonly MarvicDbContext _context;
         private readonly IUser_Service _userService;
         private readonly IProject_Service _projectService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         public Issue_Service(MarvicDbContext context
             , IUser_Service userService
-            , IProject_Service projectService)
+            , IProject_Service projectService
+            , IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _userService = userService;
             _projectService = projectService;
+            _webHostEnvironment = webHostEnvironment;
         }
         public async Task<Guid> Create(Issue_CreateRequest rq)
         {
@@ -48,7 +57,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Id_Assignee = rq.Id_Assignee,
                         Story_Point_Estimate = rq.Story_Point_Estimate,
                         Id_Reporter = rq.Id_Reporter.Equals(Guid.Empty) ? UserLogin.Id : rq.Id_Reporter,
-                        Attachment_Path = rq.Attachment_Path,
+                        FileName = string.Empty,
                         Id_Linked_Issue = rq.Id_Linked_Issue,
                         Id_Parent_Issue = rq.Id_Parent_Issue,
                         Priority = rq.Priority,
@@ -94,7 +103,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     issue.Id_Assignee = rq.Id_Assignee;
                     issue.Story_Point_Estimate = rq.Story_Point_Estimate;
                     issue.Id_Reporter = rq.Id_Reporter;
-                    issue.Attachment_Path = rq.Attachment_Path;
                     issue.Id_Linked_Issue = rq.Id_Linked_Issue;
                     issue.Id_Parent_Issue = rq.Id_Parent_Issue;
                     issue.Priority = rq.Priority;
@@ -139,7 +147,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
 
             }
         }
-        public List<Issue_ViewModel> Get_Issues_By_IdProject(Guid idProject)
+        public List<Issue_ViewModel> Get_Issues_By_IdProject(Guid idProject, RequestVM rq)
         {
             var issues = (_context.Issues.Where(i => i.Id_Project.Equals(idProject)
                                                     && i.IsDeleted.Equals(EnumStatus.False))
@@ -155,7 +163,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             Id_Assignee = x.Id_Assignee,
                                             Story_Point_Estimate = x.Story_Point_Estimate,
                                             Id_Reporter = x.Id_Reporter,
-                                            Attachment_Path = x.Attachment_Path,
+                                            FileName = x.FileName,
+                                            Attachment_Path = x.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, x.FileName),
                                             Id_Linked_Issue = x.Id_Linked_Issue,
                                             Id_Parent_Issue = x.Id_Parent_Issue,
                                             Priority = x.Priority,
@@ -171,7 +180,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                         })).ToList();
             return issues;
         }
-        public List<GroupByAssignee_ViewModel> Group_By_Assignee(Guid IdProject)
+        public List<GroupByAssignee_ViewModel> Group_By_Assignee(Guid IdProject, RequestVM rq)
         {
             try
             {
@@ -205,7 +214,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Id_Assignee = g.Id_Assignee,
                         Story_Point_Estimate = g.Story_Point_Estimate,
                         Id_Reporter = g.Id_Reporter,
-                        Attachment_Path = g.Attachment_Path,
+                        FileName = g.FileName,
+                        Attachment_Path = g.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, g.FileName),
                         Id_Linked_Issue = g.Id_Linked_Issue,
                         Id_Parent_Issue = g.Id_Parent_Issue,
                         Priority = g.Priority,
@@ -231,7 +241,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public List<GroupByIssueType_ViewModel> Group_By_IssueType(Guid IdProject)
+        public List<GroupByIssueType_ViewModel> Group_By_IssueType(Guid IdProject, RequestVM rq)
         {
             try
             {
@@ -273,7 +283,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Id_Assignee = g.Id_Assignee,
                         Story_Point_Estimate = g.Story_Point_Estimate,
                         Id_Reporter = g.Id_Reporter,
-                        Attachment_Path = g.Attachment_Path,
+                        FileName = g.FileName,
+                        Attachment_Path = g.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, g.FileName),
                         Id_Linked_Issue = g.Id_Linked_Issue,
                         Id_Parent_Issue = g.Id_Parent_Issue,
                         Priority = g.Priority,
@@ -299,12 +310,13 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public List<GroupByPriority_ViewModel> Group_By_Priority(Guid IdProject)
+        public List<GroupByPriority_ViewModel> Group_By_Priority(Guid IdProject, RequestVM rq)
         {
             try
             {
                 var groupPriority = from i in _context.Issues.ToList()
-                                    where i.Id_Project.Equals(IdProject) && i.IsDeleted.Equals(EnumStatus.False)
+                                    where i.Id_Project.Equals(IdProject)
+                                        && i.IsDeleted.Equals(EnumStatus.False)
                                     orderby i.Priority descending
                                     group i by i.Priority;
                 List<GroupByPriority_ViewModel> listGroupVM = new List<GroupByPriority_ViewModel>();
@@ -345,7 +357,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Id_Assignee = g.Id_Assignee,
                         Story_Point_Estimate = g.Story_Point_Estimate,
                         Id_Reporter = g.Id_Reporter,
-                        Attachment_Path = g.Attachment_Path,
+                        FileName = g.FileName,
+                        Attachment_Path = g.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, g.FileName),
                         Id_Linked_Issue = g.Id_Linked_Issue,
                         Id_Parent_Issue = g.Id_Parent_Issue,
                         Priority = g.Priority,
@@ -371,7 +384,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public List<Issue_ViewModel> Get_Issue_By_IdParent(Guid IdProject, Guid IdParent)
+        public List<Issue_ViewModel> Get_Issue_By_IdParent(Guid IdProject, Guid IdParent, RequestVM rq)
         {
             var issues = (_context.Issues.Where(i => i.Id_Project.Equals(IdProject)
                                                     && i.Id_Parent_Issue.Equals(IdParent)
@@ -388,7 +401,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             Id_Assignee = x.Id_Assignee,
                                             Story_Point_Estimate = x.Story_Point_Estimate,
                                             Id_Reporter = x.Id_Reporter,
-                                            Attachment_Path = x.Attachment_Path,
+                                            FileName = x.FileName,
+                                            Attachment_Path = x.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, x.FileName),
                                             Id_Linked_Issue = x.Id_Linked_Issue,
                                             Id_Parent_Issue = x.Id_Parent_Issue,
                                             Priority = x.Priority,
@@ -405,7 +419,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
 
             return issues;
         }
-        public List<Issue_ViewModel> Get_Issues_By_IdUser(Guid idProject, Guid idUser)
+        public List<Issue_ViewModel> Get_Issues_By_IdUser(Guid idProject, Guid idUser, RequestVM rq)
         {
             var issues = (_context.Issues.Where(i => i.Id_Project.Equals(idProject)
                                                     && (i.Id_Assignee.Equals(idUser) || i.Id_Reporter.Equals(idUser))
@@ -422,7 +436,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             Id_Assignee = x.Id_Assignee,
                                             Story_Point_Estimate = x.Story_Point_Estimate,
                                             Id_Reporter = x.Id_Reporter,
-                                            Attachment_Path = x.Attachment_Path,
+                                            FileName = x.FileName,
+                                            Attachment_Path = x.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, x.FileName),
                                             Id_Linked_Issue = x.Id_Linked_Issue,
                                             Id_Parent_Issue = x.Id_Parent_Issue,
                                             Priority = x.Priority,
@@ -439,7 +454,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
 
             return issues;
         }
-        public List<Issue_ViewModel> Get_Issue_By_IdLabel(Guid IdProject, Guid IdLabel)
+        public List<Issue_ViewModel> Get_Issue_By_IdLabel(Guid IdProject, Guid IdLabel, RequestVM rq)
         {
             try
             {
@@ -457,7 +472,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             Id_Assignee = x.Id_Assignee,
                                             Story_Point_Estimate = x.Story_Point_Estimate,
                                             Id_Reporter = x.Id_Reporter,
-                                            Attachment_Path = x.Attachment_Path,
+                                            FileName = x.FileName,
+                                            Attachment_Path = x.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, x.FileName),
                                             Id_Linked_Issue = x.Id_Linked_Issue,
                                             Id_Parent_Issue = x.Id_Parent_Issue,
                                             Priority = x.Priority,
@@ -478,7 +494,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public List<GroupByProject_ViewModel> Group_By_IdUser(Guid IdUser)
+        public List<GroupByProject_ViewModel> Group_By_IdUser(Guid IdUser, RequestVM rq)
         {
             // Group issue by Project use Id user login
             var groupProject = from mem in _context.Members.ToList()
@@ -510,7 +526,238 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     Id_Assignee = g.Id_Assignee,
                     Story_Point_Estimate = g.Story_Point_Estimate,
                     Id_Reporter = g.Id_Reporter,
-                    Attachment_Path = g.Attachment_Path,
+                    FileName = g.FileName,
+                    Attachment_Path = g.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, g.FileName),
+                    Id_Linked_Issue = g.Id_Linked_Issue,
+                    Id_Parent_Issue = g.Id_Parent_Issue,
+                    Priority = g.Priority,
+                    Id_Restrict = g.Id_Restrict,
+                    IsFlagged = g.IsFlagged,
+                    IsWatched = g.IsWatched,
+                    Id_Creator = g.Id_Creator,
+                    DateCreated = g.DateCreated,
+                    DateStarted = g.DateStarted,
+                    DateEnd = g.DateEnd,
+                    Id_Updator = g.Id_Updator,
+                    UpdateDate = g.UpdateDate,
+                    Order = g.Order
+                });
+                groupVM.ListIssue.AddRange(item);
+                listGroupVM.Add(groupVM);
+            }
+            return listGroupVM;
+        }
+        public List<Issue_ViewModel> Get_Issues_By_IdSprint(Guid idSprint, RequestVM rq)
+        {
+            try
+            {
+                var issues = _context.Issues.Where(i => i.Id_Sprint.Equals(idSprint)
+                                                        && i.IsDeleted.Equals(EnumStatus.False))
+                                            .Select(i => new Issue_ViewModel()
+                                            {
+                                                Id = i.Id,
+                                                Id_Project = i.Id_Project,
+                                                Id_Stage = i.Id_Stage,
+                                                Id_Sprint = i.Id_Sprint,
+                                                Id_IssueType = i.Id_IssueType,
+                                                Summary = i.Summary,
+                                                Description = i.Description,
+                                                Id_Assignee = i.Id_Assignee,
+                                                Story_Point_Estimate = i.Story_Point_Estimate,
+                                                Id_Reporter = i.Id_Reporter,
+                                                FileName = i.FileName,
+                                                Attachment_Path = i.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, i.FileName),
+                                                Id_Linked_Issue = i.Id_Linked_Issue,
+                                                Id_Parent_Issue = i.Id_Parent_Issue,
+                                                Priority = i.Priority,
+                                                Id_Restrict = i.Id_Restrict,
+                                                IsFlagged = i.IsFlagged,
+                                                IsWatched = i.IsWatched,
+                                                Id_Creator = i.Id_Creator,
+                                                DateCreated = i.DateCreated,
+                                                DateStarted = i.DateStarted,
+                                                DateEnd = i.DateEnd,
+                                                Id_Updator = i.Id_Updator,
+                                                Order = i.Order
+                                            });
+                return issues.ToList();
+            }
+            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
+        }
+        public List<Issue_ViewModel> Get_Issues_NotInSprint_By_IdProject(Guid idProject, RequestVM rq)
+        {
+            // get issues have idSprint = 000 of Project idProject
+            var issues = _context.Issues.Where(i => i.Id_Project.Equals(idProject)
+                                                    && i.IsDeleted.Equals(EnumStatus.False)
+                                                    && i.Id_Sprint.Equals(Guid.Empty))
+                                        .Select(i => new Issue_ViewModel()
+                                        {
+                                            Id = i.Id,
+                                            Id_Project = i.Id_Project,
+                                            Id_Stage = i.Id_Stage,
+                                            Id_Sprint = i.Id_Sprint,
+                                            Id_IssueType = i.Id_IssueType,
+                                            Summary = i.Summary,
+                                            Description = i.Description,
+                                            Id_Assignee = i.Id_Assignee,
+                                            Story_Point_Estimate = i.Story_Point_Estimate,
+                                            Id_Reporter = i.Id_Reporter,
+                                            FileName = i.FileName,
+                                            Attachment_Path = i.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, i.FileName),
+                                            Id_Linked_Issue = i.Id_Linked_Issue,
+                                            Id_Parent_Issue = i.Id_Parent_Issue,
+                                            Priority = i.Priority,
+                                            Id_Restrict = i.Id_Restrict,
+                                            IsFlagged = i.IsFlagged,
+                                            IsWatched = i.IsWatched,
+                                            Id_Creator = i.Id_Creator,
+                                            DateCreated = i.DateCreated,
+                                            DateStarted = i.DateStarted,
+                                            DateEnd = i.DateEnd,
+                                            Id_Updator = i.Id_Updator,
+                                            Order = i.Order
+                                        });
+            return issues.ToList();
+        }
+        public List<BoardViewModel> GetInforBoardByIdSprint(Guid IdSprint)
+        {
+            // find Sprint
+            var sprint = _context.Sprints.Find(IdSprint);
+            // get ListStageOrder by idProject
+            var listStageOrder = _context.Stages.Where(s => s.Id_Project.Equals(sprint.Id_Project)
+                                                            && s.isDeleted.Equals(EnumStatus.False))
+                                                .OrderBy(s => s.Order)
+                                                .Select(s => s.Id).ToList();
+            // group issue by idStage
+            var groupIssue = from i in _context.Issues.ToList()
+                             join s in _context.Stages.ToList() on i.Id_Stage equals s.Id
+                             join spr in _context.Sprints.ToList() on i.Id_Sprint equals spr.Id
+                             join pro in _context.Projects.ToList() on i.Id_Project equals pro.Id
+                             where i.IsDeleted.Equals(EnumStatus.False)
+                             && s.isDeleted.Equals(EnumStatus.False)
+                             && spr.Is_Archieved.Equals(EnumStatus.False)
+                             && s.Id_Project.Equals(pro.Id)
+                             && spr.Id_Project.Equals(s.Id_Project)
+                             orderby i.Order
+                             group i by i.Id_Stage;
+            // prepare variable VM
+            var listBoardVM = new List<BoardViewModel>();
+            var boardVM = new BoardViewModel();
+            var listStageVM = new List<StageViewModel>();
+
+            foreach (var i_group in groupIssue)
+            {
+                // find stage by key
+                var stage = _context.Stages.FirstOrDefault(s => s.Id.Equals(i_group.Key));
+                var stageVM = new StageViewModel(stage.Id, stage.Id_Project, stage.Stage_Name, stage.Id_Creator, stage.DateCreated, stage.UpdateDate, stage.Order);
+
+                // add ListIssueOrder
+                var listIssueOrder = GetListIssueOrderByIdStage(stage.Id);
+                stageVM.ListIssueOrder.AddRange(listIssueOrder);
+                var listIssueVM = i_group.Select(g => new Issue_ViewModel()
+                {
+                    Id = g.Id,
+                    Id_Project = g.Id_Project,
+                    Id_IssueType = g.Id_IssueType,
+                    Id_Stage = g.Id_Stage,
+                    Id_Sprint = g.Id_Sprint,
+                    Id_Label = g.Id_Label,
+                    Summary = g.Summary,
+                    Description = g.Description,
+                    Id_Assignee = g.Id_Assignee,
+                    Story_Point_Estimate = g.Story_Point_Estimate,
+                    Id_Reporter = g.Id_Reporter,
+                    FileName = g.FileName,
+                    Id_Linked_Issue = g.Id_Linked_Issue,
+                    Id_Parent_Issue = g.Id_Parent_Issue,
+                    Priority = g.Priority,
+                    Id_Restrict = g.Id_Restrict,
+                    IsFlagged = g.IsFlagged,
+                    IsWatched = g.IsWatched,
+                    Id_Creator = g.Id_Creator,
+                    DateCreated = g.DateCreated,
+                    DateStarted = g.DateStarted,
+                    DateEnd = g.DateEnd,
+                    Id_Updator = g.Id_Updator,
+                    UpdateDate = g.UpdateDate,
+                    Order = g.Order
+                }).ToList();
+                // add ListIssue
+                stageVM.ListIssue.AddRange(listIssueVM);
+                listStageVM.Add(stageVM);
+            }
+
+
+            boardVM.ListStageOrder.AddRange(listStageOrder);
+            boardVM.ListStage.AddRange(listStageVM);
+            listBoardVM.Add(boardVM);
+            return listBoardVM;
+        }
+        public List<Guid> GetListIssueOrderByIdStage(Guid idStage)
+        {
+            var issues = _context.Issues.Where(i => i.Id_Stage.Equals(idStage)
+                                                && i.IsDeleted.Equals(EnumStatus.False))
+                                        .OrderBy(i => i.Order)
+                                        .Select(i => i.Id).ToList();
+            return issues;
+        }
+        public void UploadedFile(Guid idIssue, IFormFile file)
+        {
+            var issue = Get_Issues_By_Id(idIssue);
+            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "upload files");
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+                file.CopyTo(stream);
+            issue.FileName = uniqueFileName;
+            _context.SaveChanges();
+        }
+        public bool DeleteFileIssue(DeleteFile_Request rq)
+        {
+            var issue = Get_Issues_By_Id(rq.IdIssue);
+            issue.FileName = string.Empty;
+            return _context.SaveChanges() > 0;
+        }
+        public Issue Get_Issues_By_Id(Guid idIssue)
+        {
+            var issue = _context.Issues.FirstOrDefault(i => i.Id.Equals(idIssue)
+                                                        && i.IsDeleted.Equals(EnumStatus.False));
+            return issue;
+        }
+        public List<GroupByEpic_ViewModel> Group_By_Epic(Guid IdProject, RequestVM rq)
+        {
+            var listIdEpic = _context.Issues.Where(i => i.Id_IssueType.Equals(EnumIssueType.Epic)
+                                                        && i.Id_Project.Equals(IdProject)
+                                                        && i.IsDeleted.Equals(EnumStatus.False))
+                                            .Select(i => i.Id).ToList();
+
+            var groupIssueType = from i in _context.Issues.ToList()
+                                 where i.Id_Project.Equals(IdProject)
+                                 && i.IsDeleted.Equals(EnumStatus.False)
+                                 && listIdEpic.Contains((Guid)i.Id_Parent_Issue)
+                                 orderby i.Id_IssueType
+                                 group i by i.Id_Parent_Issue;
+
+            List<GroupByEpic_ViewModel> listGroupVM = new List<GroupByEpic_ViewModel>();
+            foreach (var i_group in groupIssueType)
+            {
+                GroupByEpic_ViewModel groupVM = new GroupByEpic_ViewModel();
+                groupVM.EpicName = _context.Issues.FirstOrDefault(i => i.Id.Equals(i_group.Key)).Summary;
+                var item = i_group.Select(g => new Issue_ViewModel()
+                {
+                    Id = g.Id,
+                    Id_Project = g.Id_Project,
+                    Id_IssueType = g.Id_IssueType,
+                    Id_Stage = g.Id_Stage,
+                    Id_Sprint = g.Id_Sprint,
+                    Id_Label = g.Id_Label,
+                    Summary = g.Summary,
+                    Description = g.Description,
+                    Id_Assignee = g.Id_Assignee,
+                    Story_Point_Estimate = g.Story_Point_Estimate,
+                    Id_Reporter = g.Id_Reporter,
+                    FileName = g.FileName,
+                    Attachment_Path = g.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, g.FileName),
                     Id_Linked_Issue = g.Id_Linked_Issue,
                     Id_Parent_Issue = g.Id_Parent_Issue,
                     Priority = g.Priority,
@@ -531,76 +778,5 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             return listGroupVM;
         }
 
-        public List<Issue_ViewModel> Get_Issues_By_IdSprint(Guid idSprint)
-        {
-            try
-            {
-                var issues = _context.Issues.Where(i => i.Id_Sprint.Equals(idSprint)
-                                                        && i.IsDeleted.Equals(EnumStatus.False))
-                                            .Select(i => new Issue_ViewModel()
-                                            {
-                                                Id = i.Id,
-                                                Id_Project = i.Id_Project,
-                                                Id_Stage = i.Id_Stage,
-                                                Id_Sprint = i.Id_Sprint,
-                                                Id_IssueType = i.Id_IssueType,
-                                                Summary = i.Summary,
-                                                Description = i.Description,
-                                                Id_Assignee = i.Id_Assignee,
-                                                Story_Point_Estimate = i.Story_Point_Estimate,
-                                                Id_Reporter = i.Id_Reporter,
-                                                Attachment_Path = i.Attachment_Path,
-                                                Id_Linked_Issue = i.Id_Linked_Issue,
-                                                Id_Parent_Issue = i.Id_Parent_Issue,
-                                                Priority = i.Priority,
-                                                Id_Restrict = i.Id_Restrict,
-                                                IsFlagged = i.IsFlagged,
-                                                IsWatched = i.IsWatched,
-                                                Id_Creator = i.Id_Creator,
-                                                DateCreated = i.DateCreated,
-                                                DateStarted = i.DateStarted,
-                                                DateEnd = i.DateEnd,
-                                                Id_Updator = i.Id_Updator,
-                                                Order = i.Order
-                                            });
-                return issues.ToList();
-            }
-            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
-        }
-
-        public List<Issue_ViewModel> Get_Issues_NotInSprint_By_IdProject(Guid idProject)
-        {
-            // get issues have idSprint = 000 of Project idProject
-            var issues = _context.Issues.Where(i => i.Id_Project.Equals(idProject)
-                                                    && i.IsDeleted.Equals(EnumStatus.False)
-                                                    && i.Id_Sprint.Equals(Guid.Empty))
-                                        .Select(i => new Issue_ViewModel()
-                                        {
-                                            Id = i.Id,
-                                            Id_Project = i.Id_Project,
-                                            Id_Stage = i.Id_Stage,
-                                            Id_Sprint = i.Id_Sprint,
-                                            Id_IssueType = i.Id_IssueType,
-                                            Summary = i.Summary,
-                                            Description = i.Description,
-                                            Id_Assignee = i.Id_Assignee,
-                                            Story_Point_Estimate = i.Story_Point_Estimate,
-                                            Id_Reporter = i.Id_Reporter,
-                                            Attachment_Path = i.Attachment_Path,
-                                            Id_Linked_Issue = i.Id_Linked_Issue,
-                                            Id_Parent_Issue = i.Id_Parent_Issue,
-                                            Priority = i.Priority,
-                                            Id_Restrict = i.Id_Restrict,
-                                            IsFlagged = i.IsFlagged,
-                                            IsWatched = i.IsWatched,
-                                            Id_Creator = i.Id_Creator,
-                                            DateCreated = i.DateCreated,
-                                            DateStarted = i.DateStarted,
-                                            DateEnd = i.DateEnd,
-                                            Id_Updator = i.Id_Updator,
-                                            Order = i.Order
-                                        });
-            return issues.ToList();
-        }
     }
 }
