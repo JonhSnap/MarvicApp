@@ -21,7 +21,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
         public Guid? Id_Assignee { get; set; }
         public EnumPoint? Story_Point_Estimate { get; set; }
         public Guid? Id_Reporter { get; set; }
-        public IList<IFormFile> Attachment_Path { get; set; }
         public Guid? Id_Linked_Issue { get; set; }
         public Guid? Id_Parent_Issue { get; set; }
         public EnumPriority? Priority { get; set; }
@@ -45,7 +44,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos
             Id_Assignee = Guid.Empty;
             Story_Point_Estimate =  EnumPoint.One;
             Id_Reporter = Guid.Empty;
-            Attachment_Path = new List<IFormFile>();
             Id_Linked_Issue = Guid.Empty;
             Id_Parent_Issue = Guid.Empty;
             Priority = EnumPriority.Lowest;
