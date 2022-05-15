@@ -21,7 +21,7 @@ namespace MarvicSolution.DATA.Configurations
             // Data Seeding
             builder.HasData(
                 // ===Project ABC===
-                new Issue // -1
+                new Issue
                 {
                     Id = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
@@ -49,8 +49,36 @@ namespace MarvicSolution.DATA.Configurations
                     UpdateDate = new DateTime(),
                     Order = 0,
                     IsDeleted = EnumStatus.False
+                }, new Issue
+                {
+                    Id = new Guid("D8F5E8B0-2D90-47BA-A034-D68CA52674C8"),
+                    Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
+                    Id_IssueType = EnumIssueType.Epic,
+                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
+                    Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
+                    Summary = "Epic Legendary B",
+                    Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
+                    Story_Point_Estimate = EnumPoint.Ten,
+                    Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
+                    Id_Assignee = Guid.Empty,
+                    FileName = string.Empty,
+                    Id_Linked_Issue = Guid.Empty,
+                    Id_Parent_Issue = Guid.Empty,
+                    Priority = EnumPriority.Highest,
+                    Id_Restrict = Guid.Empty,
+                    IsFlagged = EnumStatus.False,
+                    IsWatched = EnumStatus.False,
+                    Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
+                    DateCreated = new DateTime(2022, 3, 12),
+                    DateStarted = new DateTime(2022, 4, 1),
+                    DateEnd = new DateTime(2022, 6, 15),
+                    Id_Updator = Guid.Empty,
+                    UpdateDate = new DateTime(),
+                    Order = 0,
+                    IsDeleted = EnumStatus.False
                 },
-                new Issue // -2
+                new Issue
                 {
                     Id = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
@@ -478,7 +506,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Assignee = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
-                    Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
+                    Id_Parent_Issue = new Guid("D8F5E8B0-2D90-47BA-A034-D68CA52674C8"), // Epic Legendary B
                     Priority = EnumPriority.Low,
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.True,
@@ -507,7 +535,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Assignee = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
-                    Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
+                    Id_Parent_Issue = new Guid("D8F5E8B0-2D90-47BA-A034-D68CA52674C8"), // Epic Legendary B
                     Priority = EnumPriority.Low,
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.True,
@@ -536,7 +564,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Assignee = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
                     FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
-                    Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
+                    Id_Parent_Issue = new Guid("D8F5E8B0-2D90-47BA-A034-D68CA52674C8"), // Epic Legendary B
                     Priority = EnumPriority.Low,
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.True,
@@ -565,7 +593,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Assignee = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // User TungNV
                     FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
-                    Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
+                    Id_Parent_Issue = new Guid("D8F5E8B0-2D90-47BA-A034-D68CA52674C8"), // Epic Legendary B
                     Priority = EnumPriority.Low,
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.True,
@@ -596,7 +624,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Assignee = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
-                    Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
+                    Id_Parent_Issue = new Guid("D8F5E8B0-2D90-47BA-A034-D68CA52674C8"), // Epic Legendary B
                     Priority = EnumPriority.Low,
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.True,
@@ -625,7 +653,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Assignee = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
-                    Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
+                    Id_Parent_Issue = new Guid("D8F5E8B0-2D90-47BA-A034-D68CA52674C8"), // Epic Legendary B
                     Priority = EnumPriority.Low,
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.True,
@@ -654,7 +682,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Assignee = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // User TungNV
                     FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
-                    Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
+                    Id_Parent_Issue = new Guid("D8F5E8B0-2D90-47BA-A034-D68CA52674C8"), // Epic Legendary B
                     Priority = EnumPriority.Low,
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.True,
@@ -683,7 +711,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Assignee = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
                     FileName = string.Empty,
                     Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
-                    Id_Parent_Issue = new Guid("BB2B349B-1075-45CA-96DE-9F709A678EB0"), // Epic Legendary A
+                    Id_Parent_Issue = new Guid("D8F5E8B0-2D90-47BA-A034-D68CA52674C8"), // Epic Legendary B
                     Priority = EnumPriority.Low,
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.True,
