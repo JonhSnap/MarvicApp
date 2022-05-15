@@ -2,6 +2,7 @@
 using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
+using MarvicSolution.Services.Issue_Request.Dtos.Requests;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Board;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
@@ -44,7 +45,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             {
                 try
                 {
-                    string uniqueFileName = UploadedFile(rq.Attachment_Path);
                     var issue = new Issue()
                     {
                         Id_Project = rq.Id_Project,
@@ -57,7 +57,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Id_Assignee = rq.Id_Assignee,
                         Story_Point_Estimate = rq.Story_Point_Estimate,
                         Id_Reporter = rq.Id_Reporter.Equals(Guid.Empty) ? UserLogin.Id : rq.Id_Reporter,
-                        Attachment_Path = uniqueFileName,
+                        FileName = string.Empty,
                         Id_Linked_Issue = rq.Id_Linked_Issue,
                         Id_Parent_Issue = rq.Id_Parent_Issue,
                         Priority = rq.Priority,
@@ -90,7 +90,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             {
                 try
                 {
-                    //string uniqueFileName = UploadedFile(rq.Attachment_Path);
                     var issue = _context.Issues.Find(rq.Id);
                     if (issue == null)
                         throw new MarvicException($"Cannot find the issue with id: {rq.Id}");
@@ -104,7 +103,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     issue.Id_Assignee = rq.Id_Assignee;
                     issue.Story_Point_Estimate = rq.Story_Point_Estimate;
                     issue.Id_Reporter = rq.Id_Reporter;
-                    //issue.Attachment_Path = uniqueFileName;
                     issue.Id_Linked_Issue = rq.Id_Linked_Issue;
                     issue.Id_Parent_Issue = rq.Id_Parent_Issue;
                     issue.Priority = rq.Priority;
@@ -149,7 +147,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
 
             }
         }
-        public List<Issue_ViewModel> Get_Issues_By_IdProject(Guid idProject)
+        public List<Issue_ViewModel> Get_Issues_By_IdProject(Guid idProject, RequestVM rq)
         {
             var issues = (_context.Issues.Where(i => i.Id_Project.Equals(idProject)
                                                     && i.IsDeleted.Equals(EnumStatus.False))
@@ -165,7 +163,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             Id_Assignee = x.Id_Assignee,
                                             Story_Point_Estimate = x.Story_Point_Estimate,
                                             Id_Reporter = x.Id_Reporter,
-                                            Attachment_Path = x.Attachment_Path,
+                                            FileName = x.FileName,
+                                            Attachment_Path = x.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, x.FileName),
                                             Id_Linked_Issue = x.Id_Linked_Issue,
                                             Id_Parent_Issue = x.Id_Parent_Issue,
                                             Priority = x.Priority,
@@ -181,7 +180,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                         })).ToList();
             return issues;
         }
-        public List<GroupByAssignee_ViewModel> Group_By_Assignee(Guid IdProject)
+        public List<GroupByAssignee_ViewModel> Group_By_Assignee(Guid IdProject, RequestVM rq)
         {
             try
             {
@@ -215,7 +214,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Id_Assignee = g.Id_Assignee,
                         Story_Point_Estimate = g.Story_Point_Estimate,
                         Id_Reporter = g.Id_Reporter,
-                        Attachment_Path = g.Attachment_Path,
+                        FileName = g.FileName,
+                        Attachment_Path = g.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, g.FileName),
                         Id_Linked_Issue = g.Id_Linked_Issue,
                         Id_Parent_Issue = g.Id_Parent_Issue,
                         Priority = g.Priority,
@@ -241,7 +241,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public List<GroupByIssueType_ViewModel> Group_By_IssueType(Guid IdProject)
+        public List<GroupByIssueType_ViewModel> Group_By_IssueType(Guid IdProject, RequestVM rq)
         {
             try
             {
@@ -283,7 +283,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Id_Assignee = g.Id_Assignee,
                         Story_Point_Estimate = g.Story_Point_Estimate,
                         Id_Reporter = g.Id_Reporter,
-                        Attachment_Path = g.Attachment_Path,
+                        FileName = g.FileName,
+                        Attachment_Path = g.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, g.FileName),
                         Id_Linked_Issue = g.Id_Linked_Issue,
                         Id_Parent_Issue = g.Id_Parent_Issue,
                         Priority = g.Priority,
@@ -309,7 +310,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public List<GroupByPriority_ViewModel> Group_By_Priority(Guid IdProject)
+        public List<GroupByPriority_ViewModel> Group_By_Priority(Guid IdProject, RequestVM rq)
         {
             try
             {
@@ -356,7 +357,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Id_Assignee = g.Id_Assignee,
                         Story_Point_Estimate = g.Story_Point_Estimate,
                         Id_Reporter = g.Id_Reporter,
-                        Attachment_Path = g.Attachment_Path,
+                        FileName = g.FileName,
+                        Attachment_Path = g.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, g.FileName),
                         Id_Linked_Issue = g.Id_Linked_Issue,
                         Id_Parent_Issue = g.Id_Parent_Issue,
                         Priority = g.Priority,
@@ -382,7 +384,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public List<Issue_ViewModel> Get_Issue_By_IdParent(Guid IdProject, Guid IdParent)
+        public List<Issue_ViewModel> Get_Issue_By_IdParent(Guid IdProject, Guid IdParent, RequestVM rq)
         {
             var issues = (_context.Issues.Where(i => i.Id_Project.Equals(IdProject)
                                                     && i.Id_Parent_Issue.Equals(IdParent)
@@ -399,7 +401,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             Id_Assignee = x.Id_Assignee,
                                             Story_Point_Estimate = x.Story_Point_Estimate,
                                             Id_Reporter = x.Id_Reporter,
-                                            Attachment_Path = x.Attachment_Path,
+                                            FileName = x.FileName,
+                                            Attachment_Path = x.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, x.FileName),
                                             Id_Linked_Issue = x.Id_Linked_Issue,
                                             Id_Parent_Issue = x.Id_Parent_Issue,
                                             Priority = x.Priority,
@@ -416,7 +419,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
 
             return issues;
         }
-        public List<Issue_ViewModel> Get_Issues_By_IdUser(Guid idProject, Guid idUser)
+        public List<Issue_ViewModel> Get_Issues_By_IdUser(Guid idProject, Guid idUser, RequestVM rq)
         {
             var issues = (_context.Issues.Where(i => i.Id_Project.Equals(idProject)
                                                     && (i.Id_Assignee.Equals(idUser) || i.Id_Reporter.Equals(idUser))
@@ -433,7 +436,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             Id_Assignee = x.Id_Assignee,
                                             Story_Point_Estimate = x.Story_Point_Estimate,
                                             Id_Reporter = x.Id_Reporter,
-                                            Attachment_Path = x.Attachment_Path,
+                                            FileName = x.FileName,
+                                            Attachment_Path = x.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, x.FileName),
                                             Id_Linked_Issue = x.Id_Linked_Issue,
                                             Id_Parent_Issue = x.Id_Parent_Issue,
                                             Priority = x.Priority,
@@ -450,7 +454,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
 
             return issues;
         }
-        public List<Issue_ViewModel> Get_Issue_By_IdLabel(Guid IdProject, Guid IdLabel)
+        public List<Issue_ViewModel> Get_Issue_By_IdLabel(Guid IdProject, Guid IdLabel, RequestVM rq)
         {
             try
             {
@@ -468,7 +472,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             Id_Assignee = x.Id_Assignee,
                                             Story_Point_Estimate = x.Story_Point_Estimate,
                                             Id_Reporter = x.Id_Reporter,
-                                            Attachment_Path = x.Attachment_Path,
+                                            FileName = x.FileName,
+                                            Attachment_Path = x.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, x.FileName),
                                             Id_Linked_Issue = x.Id_Linked_Issue,
                                             Id_Parent_Issue = x.Id_Parent_Issue,
                                             Priority = x.Priority,
@@ -489,7 +494,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public List<GroupByProject_ViewModel> Group_By_IdUser(Guid IdUser)
+        public List<GroupByProject_ViewModel> Group_By_IdUser(Guid IdUser, RequestVM rq)
         {
             // Group issue by Project use Id user login
             var groupProject = from mem in _context.Members.ToList()
@@ -521,7 +526,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     Id_Assignee = g.Id_Assignee,
                     Story_Point_Estimate = g.Story_Point_Estimate,
                     Id_Reporter = g.Id_Reporter,
-                    Attachment_Path = g.Attachment_Path,
+                    FileName = g.FileName,
+                    Attachment_Path = g.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, g.FileName),
                     Id_Linked_Issue = g.Id_Linked_Issue,
                     Id_Parent_Issue = g.Id_Parent_Issue,
                     Priority = g.Priority,
@@ -541,7 +547,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
             return listGroupVM;
         }
-        public List<Issue_ViewModel> Get_Issues_By_IdSprint(Guid idSprint)
+        public List<Issue_ViewModel> Get_Issues_By_IdSprint(Guid idSprint, RequestVM rq)
         {
             try
             {
@@ -559,7 +565,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                                 Id_Assignee = i.Id_Assignee,
                                                 Story_Point_Estimate = i.Story_Point_Estimate,
                                                 Id_Reporter = i.Id_Reporter,
-                                                Attachment_Path = i.Attachment_Path,
+                                                FileName = i.FileName,
+                                                Attachment_Path = i.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, i.FileName),
                                                 Id_Linked_Issue = i.Id_Linked_Issue,
                                                 Id_Parent_Issue = i.Id_Parent_Issue,
                                                 Priority = i.Priority,
@@ -577,7 +584,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
             catch (Exception e) { throw new MarvicException($"Error: {e}"); }
         }
-        public List<Issue_ViewModel> Get_Issues_NotInSprint_By_IdProject(Guid idProject)
+        public List<Issue_ViewModel> Get_Issues_NotInSprint_By_IdProject(Guid idProject, RequestVM rq)
         {
             // get issues have idSprint = 000 of Project idProject
             var issues = _context.Issues.Where(i => i.Id_Project.Equals(idProject)
@@ -595,7 +602,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             Id_Assignee = i.Id_Assignee,
                                             Story_Point_Estimate = i.Story_Point_Estimate,
                                             Id_Reporter = i.Id_Reporter,
-                                            Attachment_Path = i.Attachment_Path,
+                                            FileName = i.FileName,
+                                            Attachment_Path = i.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, i.FileName),
                                             Id_Linked_Issue = i.Id_Linked_Issue,
                                             Id_Parent_Issue = i.Id_Parent_Issue,
                                             Priority = i.Priority,
@@ -659,7 +667,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     Id_Assignee = g.Id_Assignee,
                     Story_Point_Estimate = g.Story_Point_Estimate,
                     Id_Reporter = g.Id_Reporter,
-                    Attachment_Path = g.Attachment_Path,
+                    FileName = g.FileName,
                     Id_Linked_Issue = g.Id_Linked_Issue,
                     Id_Parent_Issue = g.Id_Parent_Issue,
                     Priority = g.Priority,
@@ -693,27 +701,28 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                         .Select(i => i.Id).ToList();
             return issues;
         }
-        private string UploadedFile(IList<IFormFile> files)
+        public void UploadedFile(Guid idIssue, IFormFile file)
         {
-            string uniqueFileName = null;
-            int count = 0;
-            if (files.Count > 0)
-            {
-                foreach (var i_file in files)
-                {
-                    string fileName = null;
-                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "upload files");
-                    fileName = Guid.NewGuid().ToString() + "_" + i_file.FileName;
-                    string filePath = Path.Combine(uploadsFolder, fileName);
-                    i_file.CopyTo(new FileStream(filePath, FileMode.Create));
-                    if (count >= 1)
-                        uniqueFileName += " " + fileName;
-                    else
-                        uniqueFileName = fileName;
-                    count++;
-                }
-            }
-            return uniqueFileName;
+            var issue = Get_Issues_By_Id(idIssue);
+            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "upload files");
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+                file.CopyTo(stream);
+            issue.FileName = uniqueFileName;
+            _context.SaveChanges();
+        }
+        public bool DeleteFileIssue(DeleteFile_Request rq)
+        {
+            var issue = Get_Issues_By_Id(rq.IdIssue);
+            issue.FileName = string.Empty;
+            return _context.SaveChanges() > 0;
+        }
+        public Issue Get_Issues_By_Id(Guid idIssue)
+        {
+            var issue = _context.Issues.FirstOrDefault(i => i.Id.Equals(idIssue)
+                                                        && i.IsDeleted.Equals(EnumStatus.False));
+            return issue;
         }
 
     }
