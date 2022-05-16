@@ -19,7 +19,15 @@ namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Board
         public BoardViewModel? Item { get; set; }
         public Assignee()
         {
-
+            Id = Guid.Empty;
+            FullName = string.Empty;
+            UserName = string.Empty;
+            Email = string.Empty;
+            JobTitle = string.Empty;
+            Department = string.Empty;
+            Organization = string.Empty;
+            PhoneNumber = string.Empty;
+            Item = new BoardViewModel();
         }
         public Assignee(Guid? id, string? fullName, string? userName, string? email, string? jobTitle, string? department, string? organization, string? phoneNumber, BoardViewModel? item)
         {
