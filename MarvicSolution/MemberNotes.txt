@@ -9,8 +9,3 @@
 	+ add-migration + tên bất kỳ, ví dụ "add-migration Initial"
 	+ update-database
 	+ Kiểm tra SqlServer đã có db "MarvicDB" chưa.
-
-
-
-New commit
-test
