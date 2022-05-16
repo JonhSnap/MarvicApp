@@ -619,7 +619,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                         });
             return issues.ToList();
         }
-        public List<BoardViewModel> GetInforBoardByIdSprint(Guid IdSprint)
+        public List<BoardViewModel> GetInforBoardByIdSprint(Guid IdSprint, RequestVM rq)
         {
             // find Sprint
             var sprint = _context.Sprints.Find(IdSprint);
@@ -668,6 +668,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     Story_Point_Estimate = g.Story_Point_Estimate,
                     Id_Reporter = g.Id_Reporter,
                     FileName = g.FileName,
+                    Attachment_Path = g.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, g.FileName),
                     Id_Linked_Issue = g.Id_Linked_Issue,
                     Id_Parent_Issue = g.Id_Parent_Issue,
                     Priority = g.Priority,
@@ -696,6 +697,15 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         public List<Guid> GetListIssueOrderByIdStage(Guid idStage)
         {
             var issues = _context.Issues.Where(i => i.Id_Stage.Equals(idStage)
+                                                && i.IsDeleted.Equals(EnumStatus.False))
+                                        .OrderBy(i => i.Order)
+                                        .Select(i => i.Id).ToList();
+            return issues;
+        }
+        public List<Guid> GetListIssueOrder(Guid? idStage, Guid? idAssignee)
+        {
+            var issues = _context.Issues.Where(i => i.Id_Stage.Equals(idStage)
+                                                && i.Id_Assignee.Equals(idAssignee)
                                                 && i.IsDeleted.Equals(EnumStatus.False))
                                         .OrderBy(i => i.Order)
                                         .Select(i => i.Id).ToList();
@@ -776,6 +786,114 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 listGroupVM.Add(groupVM);
             }
             return listGroupVM;
+        }
+        public ListGroupByAssignee GroupIssueForBoardByAssignee(Guid IdSprint, RequestVM rq)
+        {
+            // find Sprint
+            var sprint = _context.Sprints.Find(IdSprint);
+            // get List Id Assignee in Sprint
+            var listIdAssignee = _context.Issues.Where(i => i.Id_Sprint.Equals(sprint.Id)
+                                                            && i.IsDeleted.Equals(EnumStatus.False))
+                                                    .OrderBy(s => s.Order)
+                                                    .Select(s => s.Id_Assignee).Distinct().ToList();
+            // make issue not belong to anyone to last
+            listIdAssignee.Reverse();
+
+            // get all stage id of Sprint
+            var lstStageOfSprint = _context.Stages.Where(s => s.Id_Project.Equals(sprint.Id_Project)
+                                                                && s.isDeleted.Equals(EnumStatus.False)
+                                                                && sprint.Is_Archieved.Equals(EnumStatus.False))
+                                                    .Select(s => s).ToList();
+            // sort lstStageOfSprint
+            var lstStageOfSprintOrder = lstStageOfSprint.OrderBy(s => s.Order);
+
+            List<Assignee> lstAssignee = new List<Assignee>();
+            foreach (var i_id in listIdAssignee)
+            {
+                var listIssueOfAssignee = _context.Issues.Where(i => i.Id_Assignee.Equals(i_id)
+                                                                    && i.IsDeleted.Equals(EnumStatus.False))
+                                                         .Select(g => new Issue_ViewModel()
+                                                         {
+                                                             Id = g.Id,
+                                                             Id_Project = g.Id_Project,
+                                                             Id_IssueType = g.Id_IssueType,
+                                                             Id_Stage = g.Id_Stage,
+                                                             Id_Sprint = g.Id_Sprint,
+                                                             Id_Label = g.Id_Label,
+                                                             Summary = g.Summary,
+                                                             Description = g.Description,
+                                                             Id_Assignee = g.Id_Assignee,
+                                                             Story_Point_Estimate = g.Story_Point_Estimate,
+                                                             Id_Reporter = g.Id_Reporter,
+                                                             FileName = g.FileName,
+                                                             Attachment_Path = g.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, g.FileName),
+                                                             Id_Linked_Issue = g.Id_Linked_Issue,
+                                                             Id_Parent_Issue = g.Id_Parent_Issue,
+                                                             Priority = g.Priority,
+                                                             Id_Restrict = g.Id_Restrict,
+                                                             IsFlagged = g.IsFlagged,
+                                                             IsWatched = g.IsWatched,
+                                                             Id_Creator = g.Id_Creator,
+                                                             DateCreated = g.DateCreated,
+                                                             DateStarted = g.DateStarted,
+                                                             DateEnd = g.DateEnd,
+                                                             Id_Updator = g.Id_Updator,
+                                                             UpdateDate = g.UpdateDate,
+                                                             Order = g.Order
+                                                         }).ToList();
+                // sort listIssueOfAssignee
+                var listIssueOfAssigneeOrder = listIssueOfAssignee.OrderBy(i => i.Order).ToList();
+
+                var stageVM = _context.Stages.Where(s => s.Id_Project.Equals(sprint.Id_Project)
+                                                                && s.isDeleted.Equals(EnumStatus.False)
+                                                                && sprint.Is_Archieved.Equals(EnumStatus.False))
+                                             .Select(s => new StageViewModel()
+                                             {
+                                                 DateCreated = s.DateCreated,
+                                                 Id = s.Id,
+                                                 Id_Creator = s.Id_Creator,
+                                                 Id_Project = s.Id_Project,
+                                                 Order = s.Order,
+                                                 Stage_Name = s.Stage_Name,
+                                                 UpdateDate = s.UpdateDate,
+                                                 ListIssue = listIssueOfAssigneeOrder,
+                                                 ListIssueOrder = listIssueOfAssigneeOrder.Select(i => i.Id).ToList()
+                                             }).ToList();
+                // set infor for board
+                BoardViewModel boardVM = new BoardViewModel();
+                boardVM.ListStageOrder.AddRange(lstStageOfSprintOrder.Select(s => s.Id));
+                boardVM.ListStage.AddRange(stageVM);
+                // get entity assignee
+                var assignee = _context.App_Users.Where(u => u.Id.Equals(i_id)
+                                                            && u.IsDeleted.Equals(EnumStatus.False))
+                                                 .Select(u => new Assignee()
+                                                 {
+                                                     Id = u.Id,
+                                                     Department = u.Department,
+                                                     Email = u.Email,
+                                                     FullName = u.FullName,
+                                                     JobTitle = u.JobTitle,
+                                                     Organization = u.Organization,
+                                                     PhoneNumber = u.PhoneNumber,
+                                                     UserName = u.UserName,
+                                                     Item = boardVM
+                                                 }).SingleOrDefault();
+                if (assignee != null)
+                    lstAssignee.Add(assignee);
+                else
+                {
+                    // issue not belong to anyone
+                    Assignee assigneeNull = new Assignee();
+                    assigneeNull.Item = boardVM;
+                    lstAssignee.Add(assigneeNull);
+                }
+
+            }
+
+            ListGroupByAssignee listGroupByAssignee = new ListGroupByAssignee();
+            listGroupByAssignee.ListIdAssignee.AddRange(listIdAssignee);
+            listGroupByAssignee.ListAssignee.AddRange(lstAssignee);
+            return listGroupByAssignee;
         }
 
     }
