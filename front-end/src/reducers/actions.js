@@ -19,6 +19,9 @@ const CREATE_SPRINT = 'creat_sprint'
 const DELETE_SPRINT = 'delete_sprint'
 const UPDATE_SPRINT = 'update_sprint'
 const START_SPRINT = 'start_sprint'
+const COMPLETE_SPRINT = 'complete_sprint'
+// state actions
+const GET_STAGE = 'get_stage'
 
 export {
     GET_ISSUES,
@@ -35,5 +38,7 @@ export {
     CREATE_SPRINT,
     DELETE_SPRINT,
     UPDATE_SPRINT,
-    START_SPRINT
+    START_SPRINT,
+    GET_STAGE,
+    COMPLETE_SPRINT
 }

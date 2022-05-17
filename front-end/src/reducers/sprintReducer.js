@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BASE_URL } from "../util/constants";
 import createToast from "../util/createToast";
-import { GET_SPRINT, CREATE_SPRINT, DELETE_SPRINT, UPDATE_SPRINT, START_SPRINT } from "./actions";
+import { GET_SPRINT, CREATE_SPRINT, DELETE_SPRINT, UPDATE_SPRINT, START_SPRINT, COMPLETE_SPRINT } from "./actions";
 
 // fetch sprint
 const fetchSprint = async (idProject, dispatch) => {
@@ -81,6 +81,21 @@ const startSprint = async (idSprint, dataPut, dispatch) => {
         console.log(error);
     }
 }
+// complete sprint
+const completeSprint = async (dataPost, dispatch) => {
+    try {
+        const resp = await axios.post(`${BASE_URL}/api/Sprints/complete-sprint`, dataPost);
+        if (resp.status === 200) {
+            dispatch({
+                type: COMPLETE_SPRINT,
+                payload: dataPost
+            })
+        }
+    } catch (error) {
+        createToast('error', 'Complete sprint failed!');
+        console.log(error);
+    }
+}
 
 const initialValue = {
     sprints: []
@@ -105,9 +120,11 @@ function sprintReducer(state, action) {
             break;
         case START_SPRINT:
             break;
+        case COMPLETE_SPRINT:
+            break;
         default:
             throw new Error('Action is not valid')
     }
     return state;
 }
-export { initialValue, sprintReducer, fetchSprint, createSprint, deleteSprint, updateSprint, startSprint }
+export { initialValue, sprintReducer, fetchSprint, createSprint, deleteSprint, updateSprint, startSprint, completeSprint }
