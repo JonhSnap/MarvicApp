@@ -6,17 +6,17 @@ import { getProjects, updateProjects } from '../../redux/apiRequest';
 import { fetchIssue } from '../../reducers/listIssueReducer'
 import { CHANGE_FILTERS_EPIC, CHANGE_FILTERS_NAME, CHANGE_FILTERS_TYPE } from '../../reducers/actions';
 import AddMemberPopup from '../popup/AddMemberPopup';
-import CreateComponent from '../CreateComponent'
 import { v4 } from 'uuid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { useListIssueContext } from '../../contexts/listIssueContext';
 import { deleteMembers, fetchMembers } from '../../reducers/membersReducer';
 import { useMembersContext } from '../../contexts/membersContext';
-import { issueTypes } from '../../util/constants';
+import { documentHeight, issueTypes } from '../../util/constants';
+import FilterEpicSelectBox from '../selectbox/FilterEpicSelectBox';
+import FilterTypeSelectBox from '../selectbox/FilterTypeSelectBox';
+
+const secondThirdScreen = documentHeight * 2 / 3;
 
 function TopDetail({ project }) {
-
     const [{ issueEpics, filters: { epics, type } }, dispatchIssue] = useListIssueContext();
     const { state: { members }, dispatch: dispatchMembers } = useMembersContext();
     const { currentUser } = useSelector(state => state.auth.login);
@@ -25,11 +25,15 @@ function TopDetail({ project }) {
     const timer = useRef();
 
     const [search, setSearch] = useState('')
-    const [showEpic, setShowEpic] = useState(false);
-    const [showType, setShowType] = useState(false);
+    const [coordEpic, setCoordEpic] = useState({});
+    const [coordType, setCoordType] = useState({});
+    const [showEpic, setShowEpic, handleCloseEpic] = useModal();
+    const [showType, setShowType, handleCloseType] = useModal();
     const [showMembers, setShowMembers] = useState(false);
     const [focus, setFocus] = useState(false);
     const inputRef = useRef();
+    const filterEpicRef = useRef();
+    const filterTypeRef = useRef();
 
     const handleFocus = () => {
         setFocus(true);
@@ -110,28 +114,20 @@ function TopDetail({ project }) {
         await deleteMembers(data, dispatchMembers);
         fetchMembers(project.id, dispatchMembers);
     }
-    // handle close epic
-    const handleCloseEpic = (e) => {
-        if (!e.target.matches('.epic')) return;
-        if (!showEpic && !showType) {
+    // handle show epic
+    const handleShowFilterEpic = () => {
+        const bounding = filterEpicRef.current.getBoundingClientRect();
+        if (bounding) {
+            setCoordEpic(bounding);
             setShowEpic(true);
-        } else if (!showEpic && showType) {
-            setShowEpic(true);
-            setShowType(false);
-        } else if (showEpic) {
-            setShowEpic(false);
         }
     }
-    // handle close type
-    const handleCloseType = (e) => {
-        if (!e.target.matches('.type')) return;
-        if (!showType && !showEpic) {
+    // handle show type
+    const handleShowFilterType = () => {
+        const bounding = filterTypeRef.current.getBoundingClientRect();
+        if (bounding) {
+            setCoordType(bounding);
             setShowType(true);
-        } else if (!showType && showEpic) {
-            setShowType(true);
-            setShowEpic(false);
-        } else if (showType) {
-            setShowType(false);
         }
     }
     // handle choose epic
@@ -157,6 +153,36 @@ function TopDetail({ project }) {
 
     return (
         <div className="top">
+            {
+                showEpic &&
+                <FilterEpicSelectBox
+                    handleChooseEpic={handleChooseEpic}
+                    onClose={handleCloseEpic}
+                    bodyStyle={{
+                        top: coordEpic.bottom <= secondThirdScreen ? coordEpic.bottom + 10 : null,
+                        left: coordEpic.left - 100,
+                        bottom: !(coordEpic.bottom <= secondThirdScreen) ? (documentHeight - coordEpic.top - 10) : null
+                    }}
+                    epics={epics}
+                    issueEpics={issueEpics}
+                    project={project}
+                />
+
+            }
+            {
+                showType &&
+                <FilterTypeSelectBox
+                    issueTypes={issueTypes}
+                    type={type}
+                    handleChooseType={handleChooseType}
+                    onClose={handleCloseType}
+                    bodyStyle={{
+                        top: coordType.bottom <= secondThirdScreen ? coordType.bottom + 10 : null,
+                        left: coordType.left,
+                        bottom: !(coordType.bottom <= secondThirdScreen) ? (documentHeight - coordType.top - 10) : null
+                    }}
+                />
+            }
             {show && <AddMemberPopup project={project} setShow={setShow} onClose={handleClose}></AddMemberPopup>}
             <div className="navigate">
                 <span>Projects</span>
@@ -220,7 +246,7 @@ function TopDetail({ project }) {
                     </div>
                 </div>
                 <div className="filters">
-                    <div onClick={handleCloseEpic} style={showEpic ? { backgroundColor: '#8777D9', color: 'white' } : {}} className="epic">
+                    <div ref={filterEpicRef} onClick={handleShowFilterEpic} style={showEpic ? { backgroundColor: '#8777D9', color: 'white' } : {}} className="epic">
                         <span className={`epic-number ${showEpic ? 'active' : ''}`}>{epics.length}</span>
                         <span className='title pointer-events-none'>Epic</span>
                         <span className="icon pointer-events-none">
@@ -228,43 +254,11 @@ function TopDetail({ project }) {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                             </svg>
                         </span>
-
-                        <div
-                            style={showEpic ? { transform: 'translateX(-40%) scale(1)', opacity: 1 } : {}}
-                            className='epic-dropdown have-y-scroll p-2 w-[300px] h-[200px] overflow-y-auto mx-4 bg-white rounded-[5px] flex items-center flex-col'>
-                            <div className='flex justify-between w-full px-4 py-2'>
-                                <span className='font-bold text-lg text-[#8777D9]'>Epic</span>
-                            </div>
-                            <div
-                                onClick={() => handleChooseEpic('issues without epic')}
-                                className={`w-full p-3 mb-2 flex items-center font-semibold
-                            shadow-md rounded-[5px] ${epics.includes('issues without epic') ? 'bg-[#8777D9] text-white' : 'bg-white'}`}>
-                                issues without epic
-                            </div>
-                            {
-                                issueEpics.length > 0 &&
-                                issueEpics.map(item => (
-                                    <div key={v4()} onClick={() => handleChooseEpic(item.id)}
-                                        className={`w-full p-3 flex flex-col font-semibold shadow-md rounded-[5px] mb-2
-                                ${epics.includes(item.id) ? 'bg-[#8777D9] text-white' : 'bg-white'}`}>
-                                        <div className='flex items-center'>
-                                            <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleRight} />
-                                            <div className='h-5 w-5 inline-block bg-[#d0c6ff] rounded-[5px] mx-2'></div>
-                                            {item.summary}
-                                        </div>
-                                        <div className='h-2 w-full bg-[#ddd] rounded-[5px] my-2 relative'>
-                                            <div className='absolute top-0 left-0  bottom-0 bg-blue-600 rounded-[10px]' style={{ width: "40%" }}>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))
-                            }
-                            <CreateComponent idIssueType={1} project={project} createWhat={"epic"} />
-                        </div>
                     </div>
                     <div
+                        ref={filterTypeRef}
                         style={showType ? { backgroundColor: '#4BADE8', color: 'white' } : {}}
-                        onClick={handleCloseType} className="type">
+                        onClick={handleShowFilterType} className="type">
                         <span className={`type-number ${showType ? 'active' : ''}`}>{type.length}</span>
                         <span className='title pointer-events-none'>Type</span>
                         <span className="icon pointer-events-none">
@@ -272,25 +266,6 @@ function TopDetail({ project }) {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                             </svg>
                         </span>
-
-                        <div
-                            style={showType ? { transform: 'translateX(-15%) scale(1)', opacity: 1 } : {}}
-                            className='type-dropdown'>
-                            {
-                                issueTypes.length > 0 &&
-                                issueTypes.map(item => (
-                                    <div
-                                        key={item.id}
-                                        onClick={() => handleChooseType(item.value)}
-                                        className={`flex items-center gap-x-2 p-1 rounded hover:bg-gray-300 mb-2 ${type.includes(item.value) ? 'bg-[#e2e2e2]' : 'bg-white'}`}>
-                                        <div className="w-5 h-5">
-                                            <img className='block w-full h-full object-cover rounded-md' src={item.thumbnail} alt="" />
-                                        </div>
-                                        <span className='inline-block'>{item.title}</span>
-                                    </div>
-                                ))
-                            }
-                        </div>
                     </div>
                 </div>
             </div>

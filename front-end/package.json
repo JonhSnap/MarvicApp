@@ -15,11 +15,8 @@
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
-<<<<<<< HEAD
-    "emoji-picker-react": "^3.5.1",
-=======
     "ddslick": "^1.0.3",
->>>>>>> FE
+    "emoji-picker-react": "^3.5.1",
     "font-awesome": "^4.7.0",
     "framer-motion": "^6.2.9",
     "jquery": "^3.6.0",

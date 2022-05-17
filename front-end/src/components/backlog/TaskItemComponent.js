@@ -1,4 +1,4 @@
-import React, { useRef, useState, memo } from 'react'
+import React, { useRef, useState, useMemo, memo } from 'react'
 import { fetchIssue, updateIssues } from '../../reducers/listIssueReducer'
 import { issueTypes } from '../../util/constants'
 
@@ -9,11 +9,14 @@ import OptionComponent from '../option/OptionComponent'
 import useModal from '../../hooks/useModal'
 import EditIssuePopup from '../popup/EditIssuePopup'
 import { useListIssueContext } from '../../contexts/listIssueContext'
+import { useStageContext } from '../../contexts/stageContext'
 import createToast from '../../util/createToast'
+import Stages from './Stages'
 
 
 
 function TaskItemComponent({ members, issue, project, issueEpics }) {
+    const [{ stages }] = useStageContext();
     const [showEdit, setShow, handleClose] = useModal();
     const [, dispatch] = useListIssueContext();
     const [showFlag, setShowFlag] = useState(false);
@@ -23,7 +26,11 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
     const [valuePoint, setValuePoint] = useState(issue?.story_Point_Estimate || 0);
 
     const ref = useRef(null)
-    const timer = useRef();
+    const stage = useMemo(() => {
+        const result = stages.find(item => item.id === issue.id_Stage)
+        if (!result) return null;
+        return result;
+    }, [stages])
 
     // handle click item
     const handleClickItem = (e) => {
@@ -32,7 +39,7 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
         }
     }
     // handle blur input poit
-    const handleBlurInputPoint = () => {
+    const handleBlurInputPoint = async () => {
         if (valuePointStore === valuePoint) {
             setValuePointStore('');
             setShowInputPoint(false);
@@ -40,12 +47,11 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
         }
         const issueUpdate = { ...issue }
         issueUpdate.story_Point_Estimate = Number(valuePoint);
-        updateIssues(issueUpdate, dispatch);
+        issueUpdate.attachment_Path = null;
+        await updateIssues(issueUpdate, dispatch);
+        await fetchIssue(project.id, dispatch);
         setShowInputPoint(false);
         createToast('success', 'Update point estimate successfully!')
-        setTimeout(() => {
-            fetchIssue(project.id, dispatch);
-        }, 500);
     }
     // handle click parent
     const currentEpic = issueEpics.find(item => item.id === issue.id_Parent_Issue)
@@ -121,10 +127,7 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
                             type="number" />
                     }
                     {showFlag && <FontAwesomeIcon color='#EF0000' className='mx-2' icon={faFlag} />}
-                    <div className='whitespace-nowrap rounded-md h-4 w-auto uppercase text-xs font-bold  mx-2 border-solid border-[0.5px] border-[#ccc] flex justify-center items-center py-3 px-2 bg-[#ccc]'>
-                        to do
-                        <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
-                    </div>
+                    <Stages project={project} issue={issue} stage={stage} />
                     <MemberComponent project={project} issue={issue} members={members}></MemberComponent>
                     <OptionComponent project={project} issue={issue} />
                 </div>

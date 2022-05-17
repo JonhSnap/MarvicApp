@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react'
+import React, { memo } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -62,7 +62,7 @@ function EditSprintPopup({ onClose, setshow, sprint, project }) {
         >
             <div className='flex flex-col w-[600px] max-h-[90vh] bg-white p-10 rounded-md select-none'>
                 <h2 className='shrink-0 text-2xl font-semibold text-primary'>Edit Sprint: {sprint?.sprintName}</h2>
-                <form onSubmit={handleSubmit(onSumit)} className='mt-[35px] mb-[22px] grow flex flex-col items-start overflow-auto'>
+                <form onSubmit={handleSubmit(onSumit)} className='mt-[35px] mb-[22px] grow flex flex-col items-start overflow-auto have-y-scroll'>
                     <div className="form-group w-full mb-3 flex flex-col gap-y-2 items-start text-gray-500">
                         <label htmlFor="name" className='font-semibold'>Sprint name <sub className='text-sm text-red-500'>*</sub></label>
                         <input

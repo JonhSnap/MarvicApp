@@ -17,4 +17,9 @@
     <ProjectReference Include="..\MarvicSolution.Utilities\MarvicSolution.Utilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\upload files\" />
+    <Folder Include="wwwroot\upload files\" />
+  </ItemGroup>
+
 </Project>
