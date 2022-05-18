@@ -7,6 +7,7 @@ const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));
 const TutorialPage = lazy(() => import("./pages/TutorialPage"));
+const TutorialPage2 = lazy(() => import("./pages/Tutorial2"));
 const TestPage = lazy(() => import("./pages/TestPage"));
 const BoardPage = lazy(() => import("./pages/BoardPage"));
 const BacklogPage = lazy(() => import("./pages/BacklogPage"));
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" element={<LoginPage></LoginPage>}></Route>
         <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
         <Route path="/tutorial" element={<TutorialPage></TutorialPage>}></Route>
+        <Route path="/tutorial2" element={<TutorialPage2></TutorialPage2>}></Route>
         <Route path="/test" element={<TestPage></TestPage>}></Route>
       </Routes>
     </Suspense>
