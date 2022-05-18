@@ -102,7 +102,7 @@ namespace MarvicSolution.BackendApi.Controllers
             RequestVM rq = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var groupIssues = _issueService.Group_By_IssueType(idProject,rq);
+            var groupIssues = _issueService.Group_By_IssueType(idProject, rq);
             if (groupIssues == null)
                 return BadRequest($"Cannot get group issue by issue type from IdProject = {idProject}");
             return Ok(groupIssues);
@@ -226,11 +226,28 @@ namespace MarvicSolution.BackendApi.Controllers
             string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\{issue.FileName}");
             if (System.IO.File.Exists(path))
                 System.IO.File.Delete(path);
-            var result = _issueService.DeleteFileIssue(new DeleteFile_Request(rq.IdIssue, rq.File.FileName));
+            if (rq.File != null)
+            {
+                _issueService.DeleteFileIssue(new DeleteFile_Request(rq.IdIssue, rq.File.FileName));
+                // update file of issue
+                _issueService.UploadedFile(rq.IdIssue, rq.File);
+            }
 
-            // update file of issue
-            _issueService.UploadedFile(rq.IdIssue, rq.File);
             return Ok($"Upload file success for issue = {rq.IdIssue}");
+        }
+
+        // /api/Issue/GroupByEpic
+        [HttpGet]
+        [Route("/api/Issue/GroupByEpic")]
+        public IActionResult GroupByEpic(Guid idProject)
+        {
+            RequestVM rq = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var groupIssues = _issueService.Group_By_Epic(idProject, rq);
+            if (groupIssues == null)
+                return BadRequest($"Cannot get group issue by IdAssignee from IdProject = {idProject}");
+            return Ok(groupIssues);
         }
     }
 }
