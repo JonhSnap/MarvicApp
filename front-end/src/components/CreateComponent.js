@@ -1,98 +1,83 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCirclePlus, faCircleDot, faClipboard, faSquareCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import DropDownComponent from './dropdown/DropDownComponent'
-import { v4 } from 'uuid'
-import axios from 'axios'
-import { BASE_URL } from '../util/constants'
 import { useSelector } from 'react-redux'
+import { createIssue, fetchIssue } from '../reducers/listIssueReducer'
+import { useListIssueContext } from '../contexts/listIssueContext'
+import createToast from '../util/createToast'
+import { NIL } from 'uuid'
 
-function InputComponent({ setShow, listIssue, setListIssue, project }) {
-  const inputRef = useRef(null)
-  const [selectedValue, setSelectedValue] = useState(1);
+function InputComponent({ setShow, project, idIssueType, idSprint }) {
+  const [, dispatch] = useListIssueContext()
+  const filedRef = useRef(null);
+  const [selectedValue, setSelectedValue] = useState(2);
   const [valueInput, setValueInput] = useState('');
   const { currentUser } = useSelector(state => state.auth.login)
 
   const handleChange = e => {
     setSelectedValue(e.value);
   }
-
-
-
-  useEffect(() => {
-    var input = document.getElementById('input-create')
-
-    const createIssues = async () => {
-
-      const issuesPOST = {
-        "id_Project": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        " id_IssueType": selectedValue,
-        "story_Point_Estimate": 5,
-        "priority": 3,
-        "id_Stage": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "summary": input.value,
-        "isFlagged": 0,
-        "isWatched": 0,
-        "id_Creator": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "isDeleted": 0
-      };
-
-      try {
-        const respose = await axios.post(`${BASE_URL}/api/Issue/Create`, issuesPOST);
-        if (respose.data === 200) {
-          const data = respose.data;
-          console.log(data);
-
-          // setListIssue([...listIssue, data])
-        }
-      } catch (error) {
-        console.log(error);
+  // handle enter
+  const handleEnter = (e) => {
+    if (e.code === 'Enter') {
+      if (valueInput) {
+        const issuesPost = {
+          "id_Project": project.id,
+          "id_IssueType": Number(idIssueType) || Number(selectedValue),
+          "id_Sprint": idSprint ? idSprint : NIL,
+          "story_Point_Estimate": 0,
+          "priority": 3,
+          "id_Stage": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "id_Assignee": null,
+          "summary": valueInput,
+          "isFlagged": 0,
+          "isWatched": 0,
+          "id_Creator": currentUser.id,
+          "isDeleted": 0,
+          "dateCreated": new Date()
+        };
+        createIssue(issuesPost, dispatch);
+        setShow(false);
+        // show toast message
+        createToast('success', 'Create issue successfully!')
+        setTimeout(() => {
+          fetchIssue(project.id, dispatch);
+        }, 500);
       }
     }
+  }
+
+  useEffect(() => {
+    // var input = document.getElementById('input-create')
 
     const handleClick2 = (e) => {
-      if (!e.target.matches('.item-drop-down') && !inputRef.current.contains(e.target)) {
+      if (!e.target.matches('.item-drop-down') && !filedRef.current.contains(e.target)) {
         setShow(false)
       }
     }
-    const handleKeyBoardEnter = (event) => {
-      if (event.key === "Enter") {
-        if (input.value != "") {
-          event.preventDefault();
-          createIssues();
-        }
-        // document.getElementById("myBtn").click();
-      }
-    }
-    input.addEventListener("keypress", handleKeyBoardEnter);
     document.addEventListener('click', handleClick2)
-
-
-
     return () => {
-      input.removeEventListener("keypress", handleKeyBoardEnter);
       document.removeEventListener('click', handleClick2);
     }
-
-
   }, [])
-
-
-
 
   return (
     <>
-      <div ref={inputRef} className='w-full h-full flex items-center'>
-        <div id='react-select'>
-          <DropDownComponent selectedValue={selectedValue} handleChange={handleChange} />
-        </div>
-        <input value={valueInput} onChange={(event) => setValueInput(event.target.value)} id='input-create' autoFocus className='p-2 ml-2 rounded-[5px] flex-1 outline-blue-500' placeholder='What needs to be done?' />
+      <div ref={filedRef} className='w-full h-full flex items-center'>
+        {
+          !idIssueType &&
+          <div id='react-select'>
+            <DropDownComponent selectedValue={selectedValue} handleChange={handleChange} />
+          </div>
+        }
+        <input onKeyUp={handleEnter} value={valueInput} onChange={(event) => setValueInput(event.target.value)} id='input-create' autoFocus className='p-2 ml-2 rounded-[5px] flex-1 outline-blue-500' placeholder='What needs to be done?' />
       </div>
     </>
   )
 }
 
-export default function CreateIssuesComponent({ createWhat, listIssue, setListIssue, project }) {
+export default function CreateIssuesComponent({ createWhat, listIssue, setListIssue, project, idIssueType, idSprint = null }) {
   const [show, setShow] = useState(false)
 
   const handleClick = () => {
@@ -102,7 +87,7 @@ export default function CreateIssuesComponent({ createWhat, listIssue, setListIs
   return (
     <>
       <div id='wrap-create' className='w-full h-14 py-3 flex items-center cursor-pointer'>
-        {show ? (<InputComponent project={project} listIssue={listIssue} setListIssue={setListIssue} setShow={setShow} />) : (<div onClick={handleClick} className='w-full h-full flex items-center'>
+        {show ? (<InputComponent idSprint={idSprint} idIssueType={idIssueType} project={project} listIssue={listIssue} setListIssue={setListIssue} setShow={setShow} />) : (<div onClick={handleClick} className='w-full h-full flex items-center'>
           <FontAwesomeIcon className='px-2' size='2x' icon={faCirclePlus} />
           <div className='pl-4'>Create {createWhat}</div>
         </div>)}

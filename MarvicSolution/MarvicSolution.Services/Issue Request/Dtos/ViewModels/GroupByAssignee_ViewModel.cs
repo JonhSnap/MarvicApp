@@ -9,12 +9,12 @@ namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels
 {
     public class GroupByAssignee_ViewModel
     {
-        public Guid? Id_Assignee { get; set; }
+        public string AssigneeName { get; set; }
         public List<Issue_ViewModel> ListIssue { get; set; }
 
         public GroupByAssignee_ViewModel()
         {
-            this.Id_Assignee = Guid.Empty;
+            this.AssigneeName = string.Empty;
             this.ListIssue = new List<Issue_ViewModel>();
         }
     }

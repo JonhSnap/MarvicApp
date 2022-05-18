@@ -6,7 +6,9 @@ module.exports = {
     extend: {
       colors: {
         primary: '#0052cc',
-        'gray-main': '#f4f5f7'
+        'gray-main': '#f4f5f7',
+        'epic-color': '#8777D9',
+        'task-color': '#4BADE8'
       },
       spacing: {
         'full': '100%',

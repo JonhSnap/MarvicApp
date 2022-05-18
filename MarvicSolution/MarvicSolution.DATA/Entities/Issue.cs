@@ -15,28 +15,59 @@ namespace MarvicSolution.DATA.Entities
     {
         public Guid Id { get; set; }
         public Guid Id_Project { get; set; }
-        public EnumIssueType Id_IssueType { get; set; } = EnumIssueType.Epic;
+        public EnumIssueType Id_IssueType { get; set; }
         public Guid? Id_Stage { get; set; }
         public Guid? Id_Sprint { get; set; }
         public Guid? Id_Label { get; set; }
         public string Summary { get; set; }
         public string? Description { get; set; }
-        public Guid? Id_Assignee { get; set; }/* = Guid.Empty;*/
-        public EnumPoint? Story_Point_Estimate { get; set; }/* = EnumPoint.Five;*/
-        public Guid? Id_Reporter { get; set; }/* = Guid.Empty;*/
-        public string? Attachment_Path { get; set; }/* = string.Empty;*/
-        public Guid? Id_Linked_Issue { get; set; }/* = Guid.Empty;*/
-        public Guid? Id_Parent_Issue { get; set; }/* = Guid.Empty;*/
-        public EnumPriority? Priority { get; set; }/* = EnumPriority.Lowest;*/
-        public Guid? Id_Restrict { get; set; }/* = Guid.Empty;*/
-        public EnumStatus? IsFlagged { get; set; }/* = EnumStatus.False;*/
-        public EnumStatus? IsWatched { get; set; }/* = EnumStatus.False;*/
+        public Guid? Id_Assignee { get; set; }
+        public EnumPoint? Story_Point_Estimate { get; set; }
+        public Guid? Id_Reporter { get; set; }
+        public string? FileName { get; set; }
+        public Guid? Id_Linked_Issue { get; set; }
+        public Guid? Id_Parent_Issue { get; set; }
+        public EnumPriority? Priority { get; set; }
+        public Guid? Id_Restrict { get; set; }
+        public EnumStatus? IsFlagged { get; set; }
+        public EnumStatus? IsWatched { get; set; }
         public Guid Id_Creator { get; set; }
         public DateTime? DateCreated { get; set; }
-        public DateTime? DateStarted { get; set; }
+        public DateTime? DateStarted { get; set; } = new DateTime();
         public DateTime? DateEnd { get; set; }
         public Guid? Id_Updator { get; set; }
         public DateTime? UpdateDate { get; set; }
-        public EnumStatus IsDeleted { get; set; }/* = EnumStatus.False;*/
+        public int Order { get; set; }
+        public EnumStatus IsDeleted { get; set; }
+        public Issue()
+        {
+            Id = new Guid();
+            Id_Project = Guid.Empty;
+            Id_IssueType = EnumIssueType.Task;
+            Id_Stage = Guid.Empty;
+            Id_Sprint = Guid.Empty;
+            Id_Label = Guid.Empty;
+            Summary = string.Empty;
+            Description = string.Empty;
+            Id_Assignee = Guid.Empty;
+            Story_Point_Estimate = EnumPoint.One;
+            Id_Reporter = Guid.Empty;
+            FileName = string.Empty;
+            Id_Linked_Issue = Guid.Empty;
+            Id_Parent_Issue = Guid.Empty;
+            Priority = EnumPriority.Lowest;
+            Id_Restrict = Guid.Empty;
+            IsFlagged = EnumStatus.False;
+            IsWatched = EnumStatus.False;
+            Id_Creator = Guid.Empty;
+            DateCreated = new DateTime();
+            DateStarted = new DateTime();
+            DateEnd = new DateTime();
+            Id_Updator = Guid.Empty;
+            UpdateDate = new DateTime();
+            IsDeleted = EnumStatus.False;
+            Order = 0;
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MarvicSolution.DATA.Entities;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest.Dtos.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,6 +13,7 @@ namespace MarvicSolution.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProjectTypeController : ControllerBase
     {
         // Must declare DI in startup
@@ -58,7 +60,6 @@ namespace MarvicSolution.BackendApi.Controllers
             var affectedResutl = await _service.Update(rq);
             if (affectedResutl.Equals(Guid.Empty))
                 return BadRequest();
-
             return Ok();
         }
 

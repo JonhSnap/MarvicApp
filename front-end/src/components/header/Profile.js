@@ -47,7 +47,7 @@ function Profile() {
           </div>
           {show && (
             <div
-              className={`absolute user-profile bg-white shadow-lg  w-[310px] right-0 p-4 rounded-lg flex text-slate-600 border  items-center flex-col`}
+              className={`absolute user-profile bg-white shadow-lg  w-[310px] right-0 p-4 rounded-lg flex text-slate-600 border  items-center flex-col z-50`}
             >
               <div className="flex justify-center w-full border-b-2">
                 <h2 className="pb-2 text-[#5e6c84] text-xl  ml-auto select-none">

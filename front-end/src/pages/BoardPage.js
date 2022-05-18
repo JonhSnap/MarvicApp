@@ -3,6 +3,8 @@ import ContainerBoard from '../components/containers/ContainerBoard'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import Sidebar from '../components/sidebar/Sidebar';
+import { MembersProvider } from '../contexts/membersContext';
+import { ListIssueProvider } from '../contexts/listIssueContext';
 
 function BoardPage() {
   const key = useParams().key;
@@ -14,14 +16,18 @@ function BoardPage() {
   }, [projects, key])
 
   return (
-      <div className="flex">
-      <div className='basis-[20%]'>
-        <Sidebar nameProject={currentProject.name}></Sidebar>
-      </div>
-      <div className='basis-[80%]'>
-        <ContainerBoard project={currentProject}></ContainerBoard>
-      </div>
-      </div>
+    <ListIssueProvider>
+      <MembersProvider>
+        <div className="flex">
+          <div className='basis-[20%]'>
+            <Sidebar nameProject={currentProject.name}></Sidebar>
+          </div>
+          <div className='basis-[80%]'>
+            <ContainerBoard project={currentProject}></ContainerBoard>
+          </div>
+        </div>
+      </MembersProvider>
+    </ListIssueProvider>
   )
 }
 

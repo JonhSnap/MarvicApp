@@ -8,7 +8,6 @@ import { levels } from '../../util/constants'
 import { updateProjects } from '../../redux/apiRequest'
 import { useDispatch, useSelector } from 'react-redux'
 import createKey from '../../util/createKey'
-import getDayBefore from '../../util/getDayBefore'
 
 
 const schema = yup.object({

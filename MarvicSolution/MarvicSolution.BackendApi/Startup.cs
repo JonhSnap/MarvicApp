@@ -1,29 +1,26 @@
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using MarvicSolution.BackendApi.Constants;
+using MarvicSolution.BackendApi.Hubs;
 using MarvicSolution.DATA.EF;
+using MarvicSolution.Services.Comment_Request.Services;
 using MarvicSolution.Services.Issue_Request.Issue_Request;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
-using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Resquest.Dtos.Validators;
 using MarvicSolution.Services.ProjectType_Request.ProjectType_Resquest;
+using MarvicSolution.Services.Sprint_Request.Services;
 using MarvicSolution.Services.System.Helpers;
-using MarvicSolution.Services.System.Users.Requests;
+using MarvicSolution.Services.SendMail_Request.Dtos.Services;
+using MarvicSolution.Services.SendMail_Request.Dtos.Settings;
 using MarvicSolution.Services.System.Users.Services;
-using MarvicSolution.Services.System.Users.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using MarvicSolution.Services.Label_Request.Services;
+using MarvicSolution.Services.Stage_Request.Services;
 
 namespace MarvicSolution.BackendApi
 {
@@ -41,9 +38,11 @@ namespace MarvicSolution.BackendApi
         {
             // If develop a SPA the brower will prevent request from different port | check "app.UseCors" bollow
             services.AddCors();
+            services.AddSignalR();
 
             services.AddDbContext<MarvicDbContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString(SystemConstant.ConnectionString)));
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 
             /// Declare DI
             /// AddTransient: Moi lan request la tao moi 1 object
@@ -52,6 +51,11 @@ namespace MarvicSolution.BackendApi
             services.AddTransient<IIssue_Service, Issue_Service>();
             services.AddScoped<Jwt_Service, Jwt_Service>();
             services.AddScoped<IUser_Service, User_Service>();
+            services.AddTransient<IMailService, MailService>();
+            services.AddScoped<IComment_Service, Comment_Service>();
+            services.AddScoped<ISprint_Service, Sprint_Service>();
+            services.AddScoped<ILabel_Service, Label_Service>();
+            services.AddScoped<IStage_Service, Stage_Service>();
 
             services.AddControllers()
                 .AddFluentValidation(s =>
@@ -59,6 +63,7 @@ namespace MarvicSolution.BackendApi
                     s.RegisterValidatorsFromAssemblyContaining<Project_Create_Validate>(); // Su dung tat ca class Validator nam trong cung 1 assemblies
                     s.DisableDataAnnotationsValidation = true; // = RunDefaultMvcValidationAfterFluentValidationExecutes = false; 
                 });
+
 
             services.AddControllersWithViews();
 
@@ -105,6 +110,8 @@ namespace MarvicSolution.BackendApi
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapHub<ActionHub>("/hubs/marvic");
             });
         }
     }

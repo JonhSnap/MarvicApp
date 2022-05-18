@@ -1,18 +1,32 @@
 import React from 'react'
+import { useSprintContext } from '../../contexts/sprintContext';
+import { deleteSprint, fetchSprint } from '../../reducers/sprintReducer'
+import Portal from '../portal/Portal';
 
-export default function OptionHeaderBacklogComponent() {
+export default function OptionHeaderBacklogComponent({ sprint, project, setShowEditSprint, bodyStyle, onClose }) {
+    const { dispatch } = useSprintContext();
+
+    const handleDeleteSprint = async () => {
+        await deleteSprint(sprint?.id, dispatch);
+        fetchSprint(project?.id, dispatch);
+    }
+
     return (
-        <>
-            <div className='relative'>
-                <div className='absolute right-0 border-solid border-[1px] border-[#ccc] rounded-[2px] shadow-2xl z-50 visible bg-white whitespace-nowrap w-fit h-auto flex flex-col'>
-                    <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                        Edit sprint
-                    </div>
-                    <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                        Delete sprint
-                    </div>
+        <Portal
+            containerclassName='fixed inset-0 z-10'
+            bodyClassName='fixed z-20'
+            bodyStyle={bodyStyle}
+            overlay={false}
+            onClose={onClose}
+        >
+            <div className=' bg-white whitespace-nowrap w-fit h-auto flex flex-col rounded-md shadow-md'>
+                <div onClick={() => setShowEditSprint(true)} role="button" className='p-2 hover:bg-[#f4f5f7]'>
+                    Edit sprint
+                </div>
+                <div onClick={handleDeleteSprint} role="button" className='p-2 hover:bg-[#f4f5f7]'>
+                    Delete sprint
                 </div>
             </div>
-        </>
+        </Portal>
     )
 }
