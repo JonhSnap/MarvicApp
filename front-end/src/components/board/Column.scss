@@ -1,0 +1,30 @@
+.column {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  width: 268px;
+  border-radius: 6px;
+  padding: 0 7px 7px 7px;
+  overflow: hidden;
+  margin-right: 10px;
+  @apply bg-gray-main;
+  .header {
+    padding: 10px;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 550;
+    color: #5e6e88;
+  }
+  .header-selector {
+    cursor: move;
+  }
+}
+.container-issue {
+  // flex-grow: 1;
+  // flex-shrink: 0;
+  height: 350px;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

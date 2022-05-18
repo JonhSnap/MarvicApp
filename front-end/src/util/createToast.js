@@ -9,6 +9,6 @@ const createToast = (type = 'success', message) => {
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        });
+    });
 }
 export default createToast;

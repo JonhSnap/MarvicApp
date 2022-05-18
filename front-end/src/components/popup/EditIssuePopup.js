@@ -32,6 +32,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             setShow(false);
             return;
         }
+        issueUpdate.attachment_Path = null;
         await updateIssues(issueUpdate, dispatch);
         await fetchIssue(project.id, dispatch);
         createToast('success', 'Update issue successfully!');
@@ -44,6 +45,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
                 setShow(false);
                 return;
             }
+            issueUpdate.attachment_Path = null;
             await updateIssues(issueUpdate, dispatch);
             await fetchIssue(project.id, dispatch);
             createToast('success', 'Update issue successfully!');
