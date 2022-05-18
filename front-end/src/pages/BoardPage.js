@@ -5,6 +5,9 @@ import { useSelector } from 'react-redux';
 import Sidebar from '../components/sidebar/Sidebar';
 import { MembersProvider } from '../contexts/membersContext';
 import { ListIssueProvider } from '../contexts/listIssueContext';
+import { SprintProvider } from '../contexts/sprintContext';
+import { BoardProvider } from '../contexts/boardContext';
+import { StageProvider } from '../contexts/stageContext';
 
 function BoardPage() {
   const key = useParams().key;
@@ -18,14 +21,20 @@ function BoardPage() {
   return (
     <ListIssueProvider>
       <MembersProvider>
-        <div className="flex">
-          <div className='basis-[20%]'>
-            <Sidebar nameProject={currentProject.name}></Sidebar>
-          </div>
-          <div className='basis-[80%]'>
-            <ContainerBoard project={currentProject}></ContainerBoard>
-          </div>
-        </div>
+        <SprintProvider>
+          <BoardProvider>
+            <StageProvider>
+              <div className="flex">
+                <div className='basis-[20%] shrink-0'>
+                  <Sidebar nameProject={currentProject.name}></Sidebar>
+                </div>
+                <div className='basis-[80%]'>
+                  <ContainerBoard project={currentProject}></ContainerBoard>
+                </div>
+              </div>
+            </StageProvider>
+          </BoardProvider>
+        </SprintProvider>
       </MembersProvider>
     </ListIssueProvider>
   )
