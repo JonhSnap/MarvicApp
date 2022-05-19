@@ -1,6 +1,7 @@
 import axios from "axios";
 import { BASE_URL } from "../util/constants";
-import { GET_SPRINT, CREATE_SPRINT, DELETE_SPRINT, UPDATE_SPRINT } from "./actions";
+import createToast from "../util/createToast";
+import { GET_SPRINT, CREATE_SPRINT, DELETE_SPRINT, UPDATE_SPRINT, START_SPRINT, COMPLETE_SPRINT } from "./actions";
 
 // fetch sprint
 const fetchSprint = async (idProject, dispatch) => {
@@ -25,8 +26,10 @@ const createSprint = async (dataPost, dispatch) => {
                 type: CREATE_SPRINT,
                 payload: resp.data
             })
+            createToast('success', 'Create sprint successfully!');
         }
     } catch (error) {
+        createToast('error', 'Create sprint failed!');
         console.log(error);
     }
 }
@@ -39,8 +42,10 @@ const deleteSprint = async (idSprint, dispatch) => {
                 type: DELETE_SPRINT,
                 payload: idSprint
             })
+
         }
     } catch (error) {
+        createToast('error', 'Create sprint failed!');
         console.log(error);
     }
 }
@@ -53,8 +58,41 @@ const updateSprint = async (dataPut, dispatch) => {
                 type: UPDATE_SPRINT,
                 payload: dataPut
             })
+            createToast('success', 'Update sprint successfully!');
         }
     } catch (error) {
+        createToast('error', 'Update sprint failed!');
+        console.log(error);
+    }
+}
+// start sprint
+const startSprint = async (idSprint, dataPut, dispatch) => {
+    try {
+        const resp = await axios.put(`${BASE_URL}/api/Sprints/start-print/${idSprint}`, dataPut);
+        if (resp.status === 200) {
+            dispatch({
+                type: START_SPRINT,
+                payload: dataPut
+            });
+            createToast('success', 'Start sprint successfully!')
+        }
+    } catch (error) {
+        createToast('error', 'Start sprint failed!')
+        console.log(error);
+    }
+}
+// complete sprint
+const completeSprint = async (dataPost, dispatch) => {
+    try {
+        const resp = await axios.post(`${BASE_URL}/api/Sprints/complete-sprint`, dataPost);
+        if (resp.status === 200) {
+            dispatch({
+                type: COMPLETE_SPRINT,
+                payload: dataPost
+            })
+        }
+    } catch (error) {
+        createToast('error', 'Complete sprint failed!');
         console.log(error);
     }
 }
@@ -80,10 +118,13 @@ function sprintReducer(state, action) {
             stateCopy.sprints = stateCopy.sprints.filter(item => item.id !== action.payload);
             state = { ...stateCopy }
             break;
-
+        case START_SPRINT:
+            break;
+        case COMPLETE_SPRINT:
+            break;
         default:
             throw new Error('Action is not valid')
     }
     return state;
 }
-export { initialValue, sprintReducer, fetchSprint, createSprint, deleteSprint, updateSprint }
+export { initialValue, sprintReducer, fetchSprint, createSprint, deleteSprint, updateSprint, startSprint, completeSprint }

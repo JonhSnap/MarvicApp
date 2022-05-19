@@ -7,6 +7,7 @@ import ContainerBacklog from '../components/containers/ContainerBacklog'
 import { ListIssueProvider } from '../contexts/listIssueContext'
 import { MembersProvider } from '../contexts/membersContext'
 import { SprintProvider } from '../contexts/sprintContext'
+import { StageProvider } from '../contexts/stageContext'
 
 
 function BacklogPage() {
@@ -29,14 +30,16 @@ function BacklogPage() {
       <SprintProvider>
         <ListIssueProvider>
           <MembersProvider>
-            <div className="flex overflow-hidden h-main-backlog">
-              <div className='basis-[20%] h-main-backlog'>
-                <Sidebar nameProject={currentProject.name}></Sidebar>
+            <StageProvider>
+              <div className="flex overflow-hidden h-main-backlog">
+                <div className='basis-[20%] h-main-backlog'>
+                  <Sidebar nameProject={currentProject.name}></Sidebar>
+                </div>
+                <div className='basis-[80%] h-main-backlog'>
+                  <ContainerBacklog project={currentProject}></ContainerBacklog>
+                </div>
               </div>
-              <div className='basis-[80%] h-main-backlog'>
-                <ContainerBacklog project={currentProject}></ContainerBacklog>
-              </div>
-            </div>
+            </StageProvider>
           </MembersProvider>
         </ListIssueProvider>
       </SprintProvider>

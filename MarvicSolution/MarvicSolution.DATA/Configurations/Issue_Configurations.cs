@@ -42,38 +42,38 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
                     Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
-                    DateCreated = new DateTime(2022, 3, 12),
-                    DateStarted = new DateTime(2022, 4, 1),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
                     DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
                     Order = 0,
                     IsDeleted = EnumStatus.False
-                }, new Issue
+                },new Issue
                 {
-                    Id = new Guid("D8F5E8B0-2D90-47BA-A034-D68CA52674C8"),
-                    Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
-                    Id_IssueType = EnumIssueType.Epic,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
-                    Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
-                    Summary = "Epic Legendary B",
+                    Id = new Guid("5C8B3016-9C9D-4EBB-8C63-EB241A4A5EBC"),
+                    Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
+                    Id_IssueType = EnumIssueType.Task,
+                    Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
+                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
+                    Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
+                    Summary = "The Task Legendary A2.1",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
-                    Story_Point_Estimate = EnumPoint.Ten,
-                    Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
-                    Id_Assignee = Guid.Empty,
+                    Story_Point_Estimate = EnumPoint.Six,
+                    Id_Reporter = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
+                    Id_Assignee = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     FileName = string.Empty,
-                    Id_Linked_Issue = Guid.Empty,
-                    Id_Parent_Issue = Guid.Empty,
-                    Priority = EnumPriority.Highest,
+                    Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
+                    Id_Parent_Issue = new Guid("D8F5E8B0-2D90-47BA-A034-D68CA52674C8"), // Epic Legendary B
+                    Priority = EnumPriority.Low,
                     Id_Restrict = Guid.Empty,
-                    IsFlagged = EnumStatus.False,
+                    IsFlagged = EnumStatus.True,
                     IsWatched = EnumStatus.False,
-                    Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
-                    DateCreated = new DateTime(2022, 3, 12),
-                    DateStarted = new DateTime(2022, 4, 1),
+                    Id_Creator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
                     DateEnd = new DateTime(2022, 6, 15),
-                    Id_Updator = Guid.Empty,
+                    Id_Updator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     UpdateDate = new DateTime(),
                     Order = 0,
                     IsDeleted = EnumStatus.False
@@ -99,12 +99,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.True,
                     IsWatched = EnumStatus.False,
                     Id_Creator = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
-                    DateCreated = new DateTime(2022, 3, 12),
-                    DateStarted = new DateTime(2022, 7, 12),
-                    DateEnd = new DateTime(2022, 8, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 1,
+                    Order = 0,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue // -3
@@ -128,9 +128,9 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.True,
                     IsWatched = EnumStatus.False,
                     Id_Creator = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // NhanNT
-                    DateCreated = new DateTime(2022, 3, 12),
-                    DateStarted = new DateTime(2022, 7, 12),
-                    DateEnd = new DateTime(2022, 8, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
                     Order = 1,
@@ -158,12 +158,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
                     Id_Creator = Guid.Empty,
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 2,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -174,7 +174,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("1A578D31-1AA0-45E7-BC1A-F6683C5853A5"), // Label BE
-                    Summary = "The Task Legendary A1.1",
+                    Summary = "The Task Legendary A1.2",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
@@ -187,12 +187,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
                     Id_Creator = Guid.Empty,
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 1,
+                    Order = 3,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -203,7 +203,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("1A578D31-1AA0-45E7-BC1A-F6683C5853A5"), // Label BE
-                    Summary = "The Task Legendary A1.1",
+                    Summary = "The Task Legendary A1.3",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
@@ -216,12 +216,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
                     Id_Creator = Guid.Empty,
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 2,
+                    Order = 4,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -232,7 +232,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("1A578D31-1AA0-45E7-BC1A-F6683C5853A5"), // Label BE
-                    Summary = "The Task Legendary A1.1",
+                    Summary = "The Task Legendary A1.4",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
@@ -245,12 +245,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
                     Id_Creator = Guid.Empty,
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 3,
+                    Order = 5,
                     IsDeleted = EnumStatus.False
                 },
             #endregion
@@ -260,10 +260,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("70E335FC-759D-45E8-826E-8A42B5802633"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"), // Stage Inprogress
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("1A578D31-1AA0-45E7-BC1A-F6683C5853A5"), // Label BE
-                    Summary = "The Task Legendary A1.2",
+                    Summary = "The Task Legendary A1.5",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
@@ -276,12 +276,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
                     Id_Creator = Guid.Empty,
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 4,
+                    Order = 0,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -289,10 +289,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("0B27000F-27E9-4081-A208-29DFF8D3A7AF"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"), // Stage Inprogress
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("1A578D31-1AA0-45E7-BC1A-F6683C5853A5"), // Label BE
-                    Summary = "The Task Legendary A1.2",
+                    Summary = "The Task Legendary A1.6",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
@@ -305,12 +305,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
                     Id_Creator = Guid.Empty,
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 5,
+                    Order = 1,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -318,10 +318,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("6D6BB4BB-523A-4F79-85A9-6D0A5E85C658"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"), // Stage Inprogress
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("1A578D31-1AA0-45E7-BC1A-F6683C5853A5"), // Label BE
-                    Summary = "The Task Legendary A1.2",
+                    Summary = "The Task Legendary A1.7",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
@@ -334,12 +334,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
                     Id_Creator = Guid.Empty,
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 2,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -347,10 +347,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("4B9A6895-4467-453E-8915-5ED19312FB54"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"), // Stage Inprogress
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("1A578D31-1AA0-45E7-BC1A-F6683C5853A5"), // Label BE
-                    Summary = "The Task Legendary A1.2",
+                    Summary = "The Task Legendary A1.8",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
@@ -363,12 +363,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
                     Id_Creator = Guid.Empty,
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 1,
+                    Order = 3,
                     IsDeleted = EnumStatus.False
                 },
             #endregion
@@ -378,10 +378,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("B11F2822-BC9A-4C50-9642-2E18B63F298D"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"), // // Stage Inprogress
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
-                    Summary = "The Task Legendary A1.3",
+                    Summary = "The Task Legendary A1.9",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV
@@ -394,12 +394,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
                     Id_Creator = Guid.Empty,
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 2,
+                    Order = 4,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -407,10 +407,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("0B931EE5-6FAB-4EDD-9725-3F744D837324"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"), // Stage Inprogress
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
-                    Summary = "The Task Legendary A1.3",
+                    Summary = "The Task Legendary A1.10",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV
@@ -423,12 +423,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
                     Id_Creator = Guid.Empty,
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 3,
+                    Order = 5,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -436,10 +436,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("1645F209-E53F-4D09-840E-2D290D527A01"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"), // Stage Inprogress
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
-                    Summary = "The Task Legendary A1.3",
+                    Summary = "The Task Legendary A1.11",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV
@@ -452,12 +452,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
                     Id_Creator = Guid.Empty,
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 4,
+                    Order = 6,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -465,10 +465,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("17EA08D6-9C12-4ED9-B83A-3CCDDD7C5911"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
+                    Id_Stage = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"), // Stage Inprogress
+                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
-                    Summary = "The Task Legendary A1.3",
+                    Summary = "The Task Legendary A1.12",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV
@@ -481,12 +481,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
                     Id_Creator = Guid.Empty,
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = Guid.Empty,
                     UpdateDate = new DateTime(),
-                    Order = 5,
+                    Order = 0,
                     IsDeleted = EnumStatus.False
                 },
             #endregion
@@ -496,10 +496,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("5C8B3016-9C9D-4EBB-8C63-EB241A4A5EBC"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
+                    Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
+                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
-                    Summary = "The Task Legendary A1.4",
+                    Summary = "The Task Legendary A2.1",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
@@ -512,9 +512,9 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.True,
                     IsWatched = EnumStatus.False,
                     Id_Creator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     UpdateDate = new DateTime(),
                     Order = 0,
@@ -525,10 +525,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("E10797AE-1FDD-4E89-8DC2-8B88FA822027"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
+                    Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
+                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
-                    Summary = "The Task Legendary A1.4",
+                    Summary = "The Task Legendary A2.2",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
@@ -541,9 +541,9 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.True,
                     IsWatched = EnumStatus.False,
                     Id_Creator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     UpdateDate = new DateTime(),
                     Order = 1,
@@ -554,10 +554,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("58112BCE-A689-43A5-B04D-0AD61FF6D071"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
+                    Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
+                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
-                    Summary = "The Task Legendary A1.4",
+                    Summary = "The Task Legendary A2.3",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
@@ -570,9 +570,9 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.True,
                     IsWatched = EnumStatus.False,
                     Id_Creator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     UpdateDate = new DateTime(),
                     Order = 2,
@@ -583,10 +583,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("C9047FBC-6472-4802-A01D-3D64E098BC0D"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
+                    Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
+                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
-                    Summary = "The Task Legendary A1.4",
+                    Summary = "The Task Legendary A2.4",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
@@ -599,9 +599,9 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.True,
                     IsWatched = EnumStatus.False,
                     Id_Creator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     UpdateDate = new DateTime(),
                     Order = 3,
@@ -614,10 +614,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("D7B1F77B-67CC-44EF-96D5-3A38C2085F85"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = Guid.Empty,
+                    Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
+                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
-                    Summary = "The Task Legendary A1.5",
+                    Summary = "The Task Legendary A2.5",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
@@ -630,12 +630,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.True,
                     IsWatched = EnumStatus.False,
                     Id_Creator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 4,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -643,10 +643,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("9123B434-F70A-4EE6-B0BB-38BDBCB61798"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = Guid.Empty,
+                    Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
+                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
-                    Summary = "The Task Legendary A1.5",
+                    Summary = "The Task Legendary A2.6",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
@@ -659,12 +659,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.True,
                     IsWatched = EnumStatus.False,
                     Id_Creator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 5,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -672,10 +672,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("90C14ABD-1AC5-4515-8889-24B5950E3E4E"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = Guid.Empty,
+                    Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
+                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
-                    Summary = "The Task Legendary A1.5",
+                    Summary = "The Task Legendary A2.7",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
@@ -688,12 +688,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.True,
                     IsWatched = EnumStatus.False,
                     Id_Creator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 6,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue
@@ -701,10 +701,10 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("F411818D-3735-4A1A-883B-5353FB160B8F"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = Guid.Empty,
+                    Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
+                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
-                    Summary = "The Task Legendary A1.5",
+                    Summary = "The Task Legendary A2.8",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     Story_Point_Estimate = EnumPoint.Six,
                     Id_Reporter = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD
@@ -717,12 +717,12 @@ namespace MarvicSolution.DATA.Configurations
                     IsFlagged = EnumStatus.True,
                     IsWatched = EnumStatus.False,
                     Id_Creator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
-                    DateCreated = new DateTime(2022, 2, 12),
-                    DateStarted = new DateTime(2022, 4, 12),
-                    DateEnd = new DateTime(2022, 5, 12),
+                    DateCreated = new DateTime(2022, 4, 22),
+                    DateStarted = new DateTime(2022, 4, 23),
+                    DateEnd = new DateTime(2022, 6, 15),
                     Id_Updator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     UpdateDate = new DateTime(),
-                    Order = 0,
+                    Order = 7,
                     IsDeleted = EnumStatus.False
                 },
             #endregion
@@ -1069,7 +1069,8 @@ namespace MarvicSolution.DATA.Configurations
                     Story_Point_Estimate = EnumPoint.Five,
                     Id_Reporter = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // User ThinhLQ
                     Id_Assignee = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // User TungNV
-                    FileName = string.Empty,                    Id_Linked_Issue = Guid.Empty,
+                    FileName = string.Empty,
+                    Id_Linked_Issue = Guid.Empty,
                     Id_Parent_Issue = Guid.Empty,
                     Priority = EnumPriority.Medium,
                     Id_Restrict = Guid.Empty,
