@@ -49,33 +49,33 @@ namespace MarvicSolution.DATA.Configurations
                     UpdateDate = new DateTime(),
                     Order = 0,
                     IsDeleted = EnumStatus.False
-                }, new Issue
+                },new Issue
                 {
-                    Id = new Guid("D8F5E8B0-2D90-47BA-A034-D68CA52674C8"),
-                    Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
-                    Id_IssueType = EnumIssueType.Epic,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
-                    Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
-                    Summary = "Epic Legendary B",
+                    Id = new Guid("5C8B3016-9C9D-4EBB-8C63-EB241A4A5EBC"),
+                    Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
+                    Id_IssueType = EnumIssueType.Task,
+                    Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
+                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
+                    Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
+                    Summary = "The Task Legendary A2.1",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
-                    Story_Point_Estimate = EnumPoint.Ten,
-                    Id_Reporter = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
-                    Id_Assignee = Guid.Empty,
+                    Story_Point_Estimate = EnumPoint.Six,
+                    Id_Reporter = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ
+                    Id_Assignee = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     FileName = string.Empty,
-                    Id_Linked_Issue = Guid.Empty,
-                    Id_Parent_Issue = Guid.Empty,
-                    Priority = EnumPriority.Highest,
+                    Id_Linked_Issue = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"), // The Story Legendary A
+                    Id_Parent_Issue = new Guid("D8F5E8B0-2D90-47BA-A034-D68CA52674C8"), // Epic Legendary B
+                    Priority = EnumPriority.Low,
                     Id_Restrict = Guid.Empty,
-                    IsFlagged = EnumStatus.False,
+                    IsFlagged = EnumStatus.True,
                     IsWatched = EnumStatus.False,
-                    Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
+                    Id_Creator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     DateCreated = new DateTime(2022, 4, 22),
                     DateStarted = new DateTime(2022, 4, 23),
                     DateEnd = new DateTime(2022, 6, 15),
-                    Id_Updator = Guid.Empty,
+                    Id_Updator = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"), //NhanTT
                     UpdateDate = new DateTime(),
-                    Order = 1,
+                    Order = 0,
                     IsDeleted = EnumStatus.False
                 },
                 new Issue

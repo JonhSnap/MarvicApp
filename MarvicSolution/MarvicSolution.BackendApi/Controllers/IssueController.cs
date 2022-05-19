@@ -178,8 +178,7 @@ namespace MarvicSolution.BackendApi.Controllers
             if (idIssue.Equals(Guid.Empty))
                 return BadRequest();
             return Ok(idIssue);
-        }
-        [HttpGet]
+        }[HttpGet]
         [Route("/api/Issue/GetIssueForBoard")]
         public IActionResult GetIssueForBoard([FromBody] GetBoardIssue_Request rq)
         {
