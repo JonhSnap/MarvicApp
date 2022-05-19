@@ -14,6 +14,7 @@ using MarvicSolution.Utilities.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
@@ -728,24 +729,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                         .Select(i => i.Id).ToList();
             return issues;
         }
-        public List<Guid> GetListIssueOrder(Guid? idStage, Guid? idAssignee)
-        {
-            var issues = _context.Issues.Where(i => i.Id_Stage.Equals(idStage)
-                                                && i.Id_Assignee.Equals(idAssignee)
-                                                && i.IsDeleted.Equals(EnumStatus.False))
-                                        .OrderBy(i => i.Order)
-                                        .Select(i => i.Id).ToList();
-            return issues;
-        }
-        public List<Guid> GetListIssueOrder(Guid? idStage, Guid? idAssignee)
-        {
-            var issues = _context.Issues.Where(i => i.Id_Stage.Equals(idStage)
-                                                && i.Id_Assignee.Equals(idAssignee)
-                                                && i.IsDeleted.Equals(EnumStatus.False))
-                                        .OrderBy(i => i.Order)
-                                        .Select(i => i.Id).ToList();
-            return issues;
-        }
         public void UploadedFile(Guid idIssue, IFormFile file)
         {
             var issue = Get_Issues_By_Id(idIssue);
@@ -822,7 +805,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
             return listGroupVM;
         }
-public ListGroupByAssignee GroupIssueForBoardByAssignee(GetBoardIssue_Request rq, RequestVM rqVM)
+        public ListGroupByAssignee GroupIssueForBoardByAssignee(GetBoardIssue_Request rq, RequestVM rqVM)
         {
             // find Sprint
             var sprint = _context.Sprints.Find(rq.IdSprint);
@@ -944,7 +927,7 @@ public ListGroupByAssignee GroupIssueForBoardByAssignee(GetBoardIssue_Request rq
             ListGroupByAssignee listGroupByAssignee = new ListGroupByAssignee();
             listGroupByAssignee.ListIdAssignee.AddRange(listIdAssignee);
             listGroupByAssignee.ListAssignee.AddRange(lstAssignee);
-            return listGroupByAssignee;
+            return listGroupByAssignee;            
         }
         public List<Stage> GetAllStageByIdSprint(Sprint sprint)
         {
