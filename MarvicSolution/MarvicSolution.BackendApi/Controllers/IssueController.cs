@@ -1,6 +1,7 @@
 ﻿using MarvicSolution.DATA.Common;
 using MarvicSolution.DATA.EF;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests;
+using MarvicSolution.Services.Issue_Request.Dtos.Requests.Board;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Issue_Request.Issue_Request;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
@@ -180,26 +181,26 @@ namespace MarvicSolution.BackendApi.Controllers
         }
         [HttpGet]
         [Route("/api/Issue/GetIssueForBoard")]
-        public IActionResult GetIssueForBoard(Guid idSprint)
+        public IActionResult GetIssueForBoard([FromBody] GetBoardIssue_Request rq)
         {
             RequestVM rqVM = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var groupIssues = _issueService.GetInforBoardByIdSprint(idSprint , rqVM);
-            if (groupIssues == null)
-                return BadRequest($"Cannot get group issue by issue priority from idSprint = {idSprint}");
-            return Ok(groupIssues);
+            var boardIssues = _issueService.GetInforBoardByIdSprint(rq, rqVM);
+            if (boardIssues == null)
+                return BadRequest($"Cannot get Board's issue by idSprint = {rq.IdSprint}");
+            return Ok(boardIssues);
         }
         [HttpGet]
         [Route("/api/Issue/GroupIssueForBoardByAssignee")]
-        public IActionResult GroupIssueForBoardByAssignee(Guid idSprint)
+        public IActionResult GroupIssueForBoardByAssignee([FromBody] GetBoardIssue_Request rq)
         {
-            RequestVM rq = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
+            RequestVM rqVM = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var groupIssues = _issueService.GroupIssueForBoardByAssignee(idSprint, rq);
+            var groupIssues = _issueService.GroupIssueForBoardByAssignee(rq, rqVM);
             if (groupIssues == null)
-                return BadRequest($"Cannot get group issue by issue priority from idSprint = {idSprint}");
+                return BadRequest($"Cannot get group issue by issue priority from idSprint = {rq.IdSprint}");
             return Ok(groupIssues);
         }
         [HttpGet("download")]

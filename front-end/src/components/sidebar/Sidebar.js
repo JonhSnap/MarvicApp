@@ -32,12 +32,12 @@ function Sidebar({ nameProject = 'Name of project'}) {
           <NavLink to='/projects/roadmap'>
             <span>
             <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
-            <path d="M6 2h10a3 3 0 010 6H6a3 3 0 110-6zm0 2a1 1 0 100 2h10a1 1 0 000-2H6zm4 5h8a3 3 0 010 6h-8a3 3 0 010-6zm0 2a1 1 0 000 2h8a1 1 0 000-2h-8zm-4 5h6a3 3 0 010 6H6a3 3 0 010-6zm0 2a1 1 0 000 2h6a1 1 0 000-2H6z" fill="currentColor" fill-rule="evenodd"></path>
+            <path d="M6 2h10a3 3 0 010 6H6a3 3 0 110-6zm0 2a1 1 0 100 2h10a1 1 0 000-2H6zm4 5h8a3 3 0 010 6h-8a3 3 0 010-6zm0 2a1 1 0 000 2h8a1 1 0 000-2h-8zm-4 5h6a3 3 0 010 6H6a3 3 0 010-6zm0 2a1 1 0 000 2h6a1 1 0 000-2H6z" fill="currentColor" fillRule="evenodd"></path>
             </svg>
           </span>
           <span>Roadmap</span>
           </NavLink>
-        <NavLink to='/projects/backlog'>
+        <NavLink to={`/projects/backlog/${keyCurrentProject}`}>
           <span>
             <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
             <g fill="currentColor"><path d="M5 19.002C5 19 17 19 17 19v-2.002C17 17 5 17 5 17v2.002zm-2-2.004C3 15.894 3.895 15 4.994 15h12.012c1.101 0 1.994.898 1.994 1.998v2.004A1.997 1.997 0 0117.006 21H4.994A1.998 1.998 0 013 19.002v-2.004z"></path>

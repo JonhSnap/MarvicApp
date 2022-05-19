@@ -9,7 +9,7 @@ namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Board
 {
     public class StageViewModel
     {
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
         public Guid? Id_Project { get; set; }
         public string Stage_Name { get; set; }
         public Guid Id_Creator { get; set; }
@@ -19,7 +19,7 @@ namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Board
         public List<Guid> ListIssueOrder { get; set; }
         public List<Issue_ViewModel> ListIssue { get; set; }
 
-        public StageViewModel(Guid? id, Guid? id_Project, string stage_Name, Guid id_Creator, DateTime dateCreated, DateTime updateDate, int order)
+        public StageViewModel(Guid id, Guid? id_Project, string stage_Name, Guid id_Creator, DateTime dateCreated, DateTime updateDate, int order)
         {
             Id = id;
             Id_Project = id_Project;
