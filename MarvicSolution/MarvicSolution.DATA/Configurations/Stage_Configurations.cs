@@ -29,7 +29,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
                     Stage_Name = "To do",
                     Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
-                    DateCreated = DateTime.Parse("2021-7-22"),
+                    DateCreated = DateTime.Parse("2022-4-22"),
                     UpdateDate = new DateTime(),
                     Id_Updator = Guid.Empty,
                     Order = 0,
@@ -40,7 +40,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
                     Stage_Name = "In Progress",
                     Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
-                    DateCreated = DateTime.Parse("2021-7-22"),
+                    DateCreated = DateTime.Parse("2022-4-22"),
                     UpdateDate = new DateTime(),
                     Id_Updator = Guid.Empty,
                     Order = 1,
@@ -51,7 +51,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
                     Stage_Name = "Done",
                     Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
-                    DateCreated = DateTime.Parse("2021-7-22"),
+                    DateCreated = DateTime.Parse("2022-4-22"),
                     UpdateDate = new DateTime(),
                     Id_Updator = Guid.Empty,
                     Order = 2,

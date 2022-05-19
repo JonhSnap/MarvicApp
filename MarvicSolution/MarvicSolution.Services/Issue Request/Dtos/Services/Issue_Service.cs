@@ -621,83 +621,100 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         }
         public List<BoardViewModel> GetInforBoardByIdSprint(Guid IdSprint, RequestVM rq)
         {
+            // prepare variable VM
+            var listBoardVM = new List<BoardViewModel>();
+            var boardVM = new BoardViewModel();
+            var listStageVM = new List<StageViewModel>();
+
             // find Sprint
             var sprint = _context.Sprints.Find(IdSprint);
             // get ListStageOrder by idProject
             var listStageOrder = _context.Stages.Where(s => s.Id_Project.Equals(sprint.Id_Project)
                                                             && s.isDeleted.Equals(EnumStatus.False))
                                                 .OrderBy(s => s.Order)
-                                                .Select(s => s.Id).ToList();
-            // group issue by idStage
-            var groupIssue = from i in _context.Issues.ToList()
-                             join s in _context.Stages.ToList() on i.Id_Stage equals s.Id
-                             join spr in _context.Sprints.ToList() on i.Id_Sprint equals spr.Id
-                             join pro in _context.Projects.ToList() on i.Id_Project equals pro.Id
-                             where i.IsDeleted.Equals(EnumStatus.False)
-                             && s.isDeleted.Equals(EnumStatus.False)
-                             && spr.Is_Archieved.Equals(EnumStatus.False)
-                             && s.Id_Project.Equals(pro.Id)
-                             && spr.Id_Project.Equals(s.Id_Project)
-                             orderby i.Order
-                             group i by i.Id_Stage;
-            // prepare variable VM
-            var listBoardVM = new List<BoardViewModel>();
-            var boardVM = new BoardViewModel();
-            var listStageVM = new List<StageViewModel>();
+                                                .Select(s => new StageViewModel()
+                                                {
+                                                    Id = s.Id,
+                                                    DateCreated = s.DateCreated,
+                                                    Id_Creator = s.Id_Creator,
+                                                    Id_Project = s.Id_Project,
+                                                    Order = s.Order,
+                                                    Stage_Name = s.Stage_Name,
+                                                    UpdateDate = s.UpdateDate
+                                                }).ToList();
 
-            foreach (var i_group in groupIssue)
+            // get all issue of stage
+            var listIdStageOrder = listStageOrder.Select(s => s.Id).ToList();
+
+            foreach (var i_id in listIdStageOrder)
             {
                 // find stage by key
-                var stage = _context.Stages.FirstOrDefault(s => s.Id.Equals(i_group.Key));
+                var stage = _context.Stages.FirstOrDefault(s => s.Id.Equals(i_id));
                 var stageVM = new StageViewModel(stage.Id, stage.Id_Project, stage.Stage_Name, stage.Id_Creator, stage.DateCreated, stage.UpdateDate, stage.Order);
 
                 // add ListIssueOrder
-                var listIssueOrder = GetListIssueOrderByIdStage(stage.Id);
+                var listIssueOrder = GetListIssueOrderByIdStage(stage.Id, sprint.Id);
                 stageVM.ListIssueOrder.AddRange(listIssueOrder);
-                var listIssueVM = i_group.Select(g => new Issue_ViewModel()
-                {
-                    Id = g.Id,
-                    Id_Project = g.Id_Project,
-                    Id_IssueType = g.Id_IssueType,
-                    Id_Stage = g.Id_Stage,
-                    Id_Sprint = g.Id_Sprint,
-                    Id_Label = g.Id_Label,
-                    Summary = g.Summary,
-                    Description = g.Description,
-                    Id_Assignee = g.Id_Assignee,
-                    Story_Point_Estimate = g.Story_Point_Estimate,
-                    Id_Reporter = g.Id_Reporter,
-                    FileName = g.FileName,
-                    Attachment_Path = g.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, g.FileName),
-                    Id_Linked_Issue = g.Id_Linked_Issue,
-                    Id_Parent_Issue = g.Id_Parent_Issue,
-                    Priority = g.Priority,
-                    Id_Restrict = g.Id_Restrict,
-                    IsFlagged = g.IsFlagged,
-                    IsWatched = g.IsWatched,
-                    Id_Creator = g.Id_Creator,
-                    DateCreated = g.DateCreated,
-                    DateStarted = g.DateStarted,
-                    DateEnd = g.DateEnd,
-                    Id_Updator = g.Id_Updator,
-                    UpdateDate = g.UpdateDate,
-                    Order = g.Order
-                }).ToList();
+
+                //get list issue by id stage, stage belong to sprint, sprint not archieve, issue is not epic
+                var listIssueVM = (from i in _context.Issues.ToList()
+                                   join s in _context.Stages.ToList() on i.Id_Stage equals s.Id
+                                   join spr in _context.Sprints.ToList() on i.Id_Sprint equals spr.Id
+                                   where i.IsDeleted.Equals(EnumStatus.False)
+                                   && !i.Id_IssueType.Equals(EnumIssueType.Epic)
+                                   && s.isDeleted.Equals(EnumStatus.False)
+                                   && spr.Is_Archieved.Equals(EnumStatus.False)
+                                   && spr.Id_Project.Equals(s.Id_Project)
+                                   && spr.Id.Equals(IdSprint)
+                                   && s.Id.Equals(i_id)
+                                   select new Issue_ViewModel()
+                                   {
+                                       Id = i.Id,
+                                       Id_Project = i.Id_Project,
+                                       Id_IssueType = i.Id_IssueType,
+                                       Id_Stage = i.Id_Stage,
+                                       Id_Sprint = i.Id_Sprint,
+                                       Id_Label = i.Id_Label,
+                                       Summary = i.Summary,
+                                       Description = i.Description,
+                                       Id_Assignee = i.Id_Assignee,
+                                       Story_Point_Estimate = i.Story_Point_Estimate,
+                                       Id_Reporter = i.Id_Reporter,
+                                       FileName = i.FileName,
+                                       Attachment_Path = i.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, i.FileName),
+                                       Id_Linked_Issue = i.Id_Linked_Issue,
+                                       Id_Parent_Issue = i.Id_Parent_Issue,
+                                       Priority = i.Priority,
+                                       Id_Restrict = i.Id_Restrict,
+                                       IsFlagged = i.IsFlagged,
+                                       IsWatched = i.IsWatched,
+                                       Id_Creator = i.Id_Creator,
+                                       DateCreated = i.DateCreated,
+                                       DateStarted = i.DateStarted,
+                                       DateEnd = i.DateEnd,
+                                       Id_Updator = i.Id_Updator,
+                                       UpdateDate = i.UpdateDate,
+                                       Order = i.Order
+                                   }).ToList();
+
                 // add ListIssue
                 stageVM.ListIssue.AddRange(listIssueVM);
                 listStageVM.Add(stageVM);
             }
 
-
-            boardVM.ListStageOrder.AddRange(listStageOrder);
+            boardVM.ListStageOrder.AddRange(listIdStageOrder);
             boardVM.ListStage.AddRange(listStageVM);
+            boardVM.ListEpic = Get_Issues_By_IdSprint(sprint.Id, rq)
+                                .Where(i => i.Id_IssueType.Equals(EnumIssueType.Epic)).ToList();
             listBoardVM.Add(boardVM);
             return listBoardVM;
         }
-        public List<Guid> GetListIssueOrderByIdStage(Guid idStage)
+        public List<Guid> GetListIssueOrderByIdStage(Guid idStage, Guid idSprint)
         {
             var issues = _context.Issues.Where(i => i.Id_Stage.Equals(idStage)
-                                                && i.IsDeleted.Equals(EnumStatus.False))
+                                                && i.IsDeleted.Equals(EnumStatus.False)
+                                                && !i.Id_IssueType.Equals(EnumIssueType.Epic)
+                                                && i.Id_Sprint.Equals(idSprint))
                                         .OrderBy(i => i.Order)
                                         .Select(i => i.Id).ToList();
             return issues;
@@ -800,10 +817,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             listIdAssignee.Reverse();
 
             // get all stage id of Sprint
-            var lstStageOfSprint = _context.Stages.Where(s => s.Id_Project.Equals(sprint.Id_Project)
-                                                                && s.isDeleted.Equals(EnumStatus.False)
-                                                                && sprint.Is_Archieved.Equals(EnumStatus.False))
-                                                    .Select(s => s).ToList();
+            var lstStageOfSprint = GetAllStageByIdSprint(sprint);
             // sort lstStageOfSprint
             var lstStageOfSprintOrder = lstStageOfSprint.OrderBy(s => s.Order);
 
@@ -861,7 +875,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                              }).ToList();
                 // set infor for board
                 BoardViewModel boardVM = new BoardViewModel();
-                boardVM.ListStageOrder.AddRange(lstStageOfSprintOrder.Select(s => s.Id));
+                boardVM.ListStageOrder.AddRange((IList<Guid?>)lstStageOfSprintOrder.Select(s => s.Id).ToList());
                 boardVM.ListStage.AddRange(stageVM);
                 // get entity assignee
                 var assignee = _context.App_Users.Where(u => u.Id.Equals(i_id)
@@ -894,6 +908,16 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             listGroupByAssignee.ListIdAssignee.AddRange(listIdAssignee);
             listGroupByAssignee.ListAssignee.AddRange(lstAssignee);
             return listGroupByAssignee;
+        }
+
+        public List<Stage> GetAllStageByIdSprint(Sprint sprint)
+        {
+            // get all stage id of Sprint
+            var lstStageOfSprint = _context.Stages.Where(s => s.Id_Project.Equals(sprint.Id)
+                                                                && s.isDeleted.Equals(EnumStatus.False)
+                                                                && sprint.Is_Archieved.Equals(EnumStatus.False))
+                                                    .Select(s => s).ToList();
+            return lstStageOfSprint;
         }
 
     }

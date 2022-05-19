@@ -35,7 +35,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         List<GroupByProject_ViewModel> Group_By_IdUser(Guid IdUser, RequestVM rq);
         List<GroupByEpic_ViewModel> Group_By_Epic(Guid IdProject, RequestVM rq);
         List<BoardViewModel> GetInforBoardByIdSprint(Guid IdSprint, RequestVM rq);
-        List<Guid> GetListIssueOrderByIdStage(Guid idStage);
+        List<Guid> GetListIssueOrderByIdStage(Guid idStage, Guid idSprint);
         void UploadedFile(Guid idIssue, IFormFile file);
         bool DeleteFileIssue(DeleteFile_Request rq);
         ListGroupByAssignee GroupIssueForBoardByAssignee(Guid IdSprint, RequestVM rq);
