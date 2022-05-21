@@ -2,11 +2,12 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useListIssueContext } from "../../contexts/listIssueContext";
 import "./Roadmap.scss";
 
 const locales = {
@@ -21,39 +22,25 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-const events = [
-  {
-    title: "Big Meeting",
-    allDay: true,
-    start: new Date(2021, 6, 0),
-    end: new Date(2021, 6, 0),
-  },
-  {
-    title: "Vacation",
-    start: new Date(2021, 6, 7),
-    end: new Date(2021, 6, 10),
-  },
-  {
-    title: "Conference",
-    start: new Date(2021, 6, 20),
-    end: new Date(2021, 6, 23),
-  },
-];
-const Roadmap1 = () => {
-  const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
-  const [allEvents, setAllEvents] = useState(events);
+const Roadmap = () => {
+  const [{ issueEpics }] = useListIssueContext();
 
-  function handleAddEvent() {
-    setAllEvents([...allEvents, newEvent]);
-    setNewEvent({ title: "", start: "", end: "" });
-  }
+  const epicTimelines = useMemo(() => {
+    return issueEpics.reduce((initialState, item) => {
+      return [
+        ...initialState,
+        {
+          title: item.summary,
+          start: new Date(item.dateStarted),
+          end: new Date(item.dateEnd),
+        },
+      ];
+    }, []);
+  }, [issueEpics]);
+  console.log(epicTimelines);
   return (
     <div className="items-center w-full p-8">
-      <div className="flex flex-col justify-center w-full text-center">
-        <h1 className="text-center">Calendar</h1>
-        <h2>Add New Event</h2>
-      </div>
-      <div className="flex flex-col justify-center w-full mx-auto">
+      {/* <div className="flex flex-col justify-center w-full mx-auto">
         <input
           type="text"
           className="p-2 border-2 border-blue-400 rounded-lg w-[20%] mb-5"
@@ -79,10 +66,10 @@ const Roadmap1 = () => {
         >
           Add Event
         </button>
-      </div>
+      </div> */}
       <Calendar
         localizer={localizer}
-        events={allEvents}
+        events={epicTimelines}
         startAccessor="start"
         endAccessor="end"
         style={{ height: 500 }}
@@ -91,4 +78,4 @@ const Roadmap1 = () => {
   );
 };
 
-export default Roadmap1;
+export default Roadmap;
