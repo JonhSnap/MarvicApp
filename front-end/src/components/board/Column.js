@@ -14,7 +14,8 @@ function Column({ stage }) {
     const handleIssueDrop = (dropResult) => {
         const { addedIndex, payload } = dropResult;
         if (addedIndex !== null) {
-
+            // 2022-04-21 00:00:00.0000000
+            // 2022-09-21 00:00:00.0000000
         }
     }
 
