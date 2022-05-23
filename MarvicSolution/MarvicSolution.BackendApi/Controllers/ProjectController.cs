@@ -172,5 +172,17 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok("Delete project success");
         }
 
+        // api/Project/GetStarredProject
+        [HttpGet]
+        [Route("/api/Project/GetStarredProject")]
+        public IActionResult GetStarredProject()
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var project = _projectService.GetStarredProject(UserLogin.Id);
+            if (!project.Any()) // Kiem tra list ko rong
+                return BadRequest($"Cannot get list username by IdProject = {UserLogin.Id}");
+            return Ok(project);
+        }
     }
 }

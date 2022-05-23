@@ -52,6 +52,7 @@ namespace MarvicSolution.BackendApi.Controllers
                     stage.Stage_Name = model.Stage_Name;
                     stage.Id_Updator = model.Id_Updator;
                     stage.UpdateDate = DateTime.Now;
+                    stage.Order = model.Order;
                     if (await _stage_Service.UpdateStage(stage))
                     {
                         return Ok();

@@ -1,6 +1,5 @@
 ﻿using MarvicSolution.DATA.Enums;
 using System;
-using static MarvicSolution.DATA.Common.Constant;
 
 namespace MarvicSolution.DATA.Entities
 {
@@ -23,22 +22,9 @@ namespace MarvicSolution.DATA.Entities
             Id_Project = id_Project;
             Stage_Name = stage_Name;
             Id_Creator = id_Creator;
-            switch (stage_Name)
-            {
-                case StageName.TODO:
-                    Order = 0;
-                    break;
-                case StageName.INPROCESS:
-                    Order = 1;
-                    break;
-                case StageName.DONE:
-                    Order = 2;
-                    break;
-                default:
-                    break;
-            }
+            Order = 0;
             DateCreated = DateTime.Now;
-            isDone = stage_Name.Equals("Done") ? EnumStatus.True : enumStatus;
+            isDone = enumStatus;
         }
 
         public Guid Id { get; set; }
