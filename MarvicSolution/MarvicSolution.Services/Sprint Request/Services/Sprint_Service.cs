@@ -1,7 +1,6 @@
 ﻿using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
-using MarvicSolution.Services.Issue_Request.Issue_Request;
 using MarvicSolution.Services.Sprint_Request.Requests;
 using MarvicSolution.Services.Sprint_Request.ViewModels;
 using MarvicSolution.Utilities.Exceptions;
@@ -16,12 +15,10 @@ namespace MarvicSolution.Services.Sprint_Request.Services
     public class Sprint_Service : ISprint_Service
     {
         private readonly MarvicDbContext _context;
-        private readonly IIssue_Service _issue_Service;
 
-        public Sprint_Service(MarvicDbContext context, IIssue_Service issue_Service)
+        public Sprint_Service(MarvicDbContext context)
         {
             _context = context;
-            _issue_Service = issue_Service;
         }
 
         public Guid AddIssuesToSprint(AddIssue_Request rq)
@@ -56,7 +53,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             }
         }
 
-        public async Task<bool> CompleteSprint(Complete_Sprint_Request model)
+        public async Task<bool> CompleteSprint(Sprint currentSprint, Complete_Sprint_Request model)
         {
             using var transaction = _context.Database.BeginTransaction();
             try
@@ -84,7 +81,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 _context.Issues.UpdateRange(listIssueUnDone);
 
                 //remove current sprint
-                var currentSprint = await _context.Sprints.FindAsync(model.CurrentSprintId);
+                //var currentSprint = await _context.Sprints.FindAsync(model.CurrentSprintId);
                 currentSprint.Is_Archieved = EnumStatus.True;
                 _context.Sprints.Update(currentSprint);
 
@@ -119,6 +116,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
         {
             try
             {
+                var test = await _context.Sprints.ToArrayAsync();
                 var sprint = await _context.Sprints.FirstOrDefaultAsync(sprt => sprt.Id == id && sprt.Is_Archieved == EnumStatus.False);
                 return sprint;
             }
