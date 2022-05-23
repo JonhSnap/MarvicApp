@@ -102,7 +102,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                     await _context.SaveChangesAsync();
 
                     // add 3 stage
-                    var stageTodo = new Stage(proj.Id, "To do", UserLogin.Id);
+                    var stageTodo = new Stage(proj.Id, "To do", UserLogin.Id, EnumStatus.True);
                     var stageInprogress = new Stage(proj.Id, "In progress", UserLogin.Id);
                     var stageDone = new Stage(proj.Id, "Done", UserLogin.Id);
                     _context.Stages.Add(stageTodo);
@@ -500,6 +500,10 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             {
                 throw new MarvicException($"Error: {e}");
             }
+        }
+        public List<Project> GetStarredProject(Guid idUserLogin)
+        {
+            return _context.Projects.Where(p => p.IsStared.Equals(EnumStatus.True)).Select(p => p).ToList();
         }
     }
 }

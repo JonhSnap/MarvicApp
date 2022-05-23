@@ -18,8 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\upload files\" />
-    <Folder Include="wwwroot\upload files\" />
+    <Folder Include="wwwroot\upload files\Avatar\" />
   </ItemGroup>
 
 </Project>
