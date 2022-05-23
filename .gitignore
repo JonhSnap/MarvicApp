@@ -48,6 +48,7 @@ MarvicSolution/MarvicSolution.Utilities/bin
 MarvicSolution/MarvicSolution.Utilities/obj
 
 MarvicSolution/MarvicSolution.DATA/Migrations
+MarvicSolution/MarvicSolution.BackendApi/wwwroot/upload files
 #Tooling
 _ReSharper*/
 *.resharper

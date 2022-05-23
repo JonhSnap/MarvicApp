@@ -1,6 +1,7 @@
 ﻿
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests;
+using MarvicSolution.Services.Issue_Request.Dtos.Requests.Board;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Board;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
@@ -34,10 +35,11 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         List<GroupByPriority_ViewModel> Group_By_Priority(Guid IdProject, RequestVM rq);
         List<GroupByProject_ViewModel> Group_By_IdUser(Guid IdUser, RequestVM rq);
         List<GroupByEpic_ViewModel> Group_By_Epic(Guid IdProject, RequestVM rq);
-        List<BoardViewModel> GetInforBoardByIdSprint(Guid IdSprint);
-        List<Guid> GetListIssueOrderByIdStage(Guid idStage);
+        List<BoardViewModel> GetInforBoardByIdSprint(GetBoardIssue_Request rq, RequestVM rqVM);
+        List<Guid> GetListIssueOrderByIdStage(Guid idStage, Guid idSprint);
         void UploadedFile(Guid idIssue, IFormFile file);
         bool DeleteFileIssue(DeleteFile_Request rq);
+        ListGroupByAssignee GroupIssueForBoardByAssignee(GetBoardIssue_Request rq, RequestVM rqVM);
 
     }
 }
