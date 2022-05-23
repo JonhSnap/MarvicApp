@@ -1,13 +1,17 @@
 ﻿using MarvicSolution.DATA.Common;
+using MarvicSolution.Services.Issue_Request.Dtos.Requests;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.System.Helpers;
 using MarvicSolution.Services.System.Users.Requests;
 using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Services.System.Users.Validators;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace MarvicSolution.BackendApi.Controllers
@@ -19,10 +23,12 @@ namespace MarvicSolution.BackendApi.Controllers
         // Must declare DI in startup
         private readonly IUser_Service _userService;
         private readonly Jwt_Service _jwtService;
-        public UserController(IUser_Service userService, Jwt_Service jwtService)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public UserController(IUser_Service userService, Jwt_Service jwtService, IWebHostEnvironment webHostEnvironment)
         {
             _userService = userService;
             _jwtService = jwtService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // /api/user/register
@@ -82,18 +88,34 @@ namespace MarvicSolution.BackendApi.Controllers
 
         // /api/user/get
         [HttpGet("get")]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+            RequestVM rqVM = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-                Guid id_User = ValidateUser();
-                var user = _userService.GetUserbyId(id_User);
-                if (user == null)
-                    return BadRequest($"Cannot find user with id = {id_User}");
+            Guid id_User = ValidateUser();
+            var user = _userService.GetUserbyIdVM(id_User, rqVM);
+            if (user == null)
+                return BadRequest($"Cannot find user with id = {id_User}");
 
-                return Ok(user);
-            
+            return Ok(user);
+        }
+
+        // /api/user/GetLoginUser
+        [HttpGet("GetLoginUser")]
+        public IActionResult GetLoginUser()
+        {
+            RequestVM rqVM = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            Guid id_User = ValidateUser();
+            var user = _userService.GetUserbyIdVM(UserLogin.Id, rqVM);
+            if (user == null)
+                return BadRequest($"Cannot find user with id = {UserLogin.Id}");
+
+            return Ok(user);
         }
 
         // /api/user/logout
@@ -122,6 +144,38 @@ namespace MarvicSolution.BackendApi.Controllers
             {
                 throw new MarvicException($"Error: {e}");
             }
+        }
+        [HttpPost]
+        [Route("UploadAvatar")]
+        public IActionResult UploadAvatar([FromForm] UploadAvatar_Request rq)
+        {
+            // replace file exist
+            // delete file in wwwroot/upload files
+            string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\Avatar\\{_userService.GetUserbyId(UserLogin.Id).Avatar}");
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+            if (rq.File != null)
+            {
+                _userService.DeleteUserAvatar(rq.File.FileName);
+                // update avatar
+                _userService.UploadAvatar(rq.File);
+            }
+
+            return Ok($"Upload file success for user = {UserLogin.Id}");
+        }
+        [HttpPut]
+        [Route("DeleteAvatar")]
+        public IActionResult DeleteAvatar(string fileName)
+        {
+            // delete file in wwwroot/upload files
+            string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\Avatar\\{fileName}");
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+            // update attachment_path of issue
+            var result = _userService.DeleteUserAvatar(fileName);
+            if (result)
+                return Ok("Delete file success");
+            else return BadRequest($"Cannot delete avatar in user {UserLogin.Id}");
         }
 
         // /api/User/7a370bac-b796-454d-84cf-18c603102ca2

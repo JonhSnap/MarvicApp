@@ -44,6 +44,12 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 {
                     newStage.isDone = stage.isDone;
                     stage.isDone = EnumStatus.False;
+                    
+                }
+                if (stage.isDefault == EnumStatus.True)
+                {
+                    newStage.isDefault = stage.isDefault;
+                    stage.isDefault = EnumStatus.False;
                 }
                 _context.Update(newStage);
                 //remvoe stage
