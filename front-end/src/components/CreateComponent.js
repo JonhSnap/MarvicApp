@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import DropDownComponent from './dropdown/DropDownComponent'
@@ -7,13 +7,19 @@ import { createIssue, fetchIssue } from '../reducers/listIssueReducer'
 import { useListIssueContext } from '../contexts/listIssueContext'
 import createToast from '../util/createToast'
 import { NIL } from 'uuid'
+import { useStageContext } from '../contexts/stageContext'
 
 function InputComponent({ setShow, project, idIssueType, idSprint }) {
+  const [{ stages }] = useStageContext();
   const [, dispatch] = useListIssueContext()
   const filedRef = useRef(null);
   const [selectedValue, setSelectedValue] = useState(2);
   const [valueInput, setValueInput] = useState('');
   const { currentUser } = useSelector(state => state.auth.login)
+
+  const stageTodo = useMemo(() => {
+    return stages.find(item => item.stage_Name === 'To do');
+  }, [stages])
 
   const handleChange = e => {
     setSelectedValue(e.value);
@@ -27,8 +33,9 @@ function InputComponent({ setShow, project, idIssueType, idSprint }) {
           "id_IssueType": Number(idIssueType) || Number(selectedValue),
           "id_Sprint": idSprint ? idSprint : NIL,
           "story_Point_Estimate": 0,
+          "attachment_Path": [],
           "priority": 3,
-          "id_Stage": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "id_Stage": stageTodo.id,
           "id_Assignee": null,
           "summary": valueInput,
           "isFlagged": 0,

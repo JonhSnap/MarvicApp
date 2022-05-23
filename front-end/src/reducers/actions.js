@@ -18,6 +18,13 @@ const GET_SPRINT = 'get_sprint'
 const CREATE_SPRINT = 'creat_sprint'
 const DELETE_SPRINT = 'delete_sprint'
 const UPDATE_SPRINT = 'update_sprint'
+const START_SPRINT = 'start_sprint'
+const COMPLETE_SPRINT = 'complete_sprint'
+// stage actions
+const GET_STAGE = 'get_stage'
+const UPDATE_STAGE = 'update_stage'
+// board action
+const GET_BOARD = 'get_board'
 
 export {
     GET_ISSUES,
@@ -33,5 +40,10 @@ export {
     GET_SPRINT,
     CREATE_SPRINT,
     DELETE_SPRINT,
-    UPDATE_SPRINT
+    UPDATE_SPRINT,
+    START_SPRINT,
+    GET_STAGE,
+    COMPLETE_SPRINT,
+    GET_BOARD,
+    UPDATE_STAGE
 }

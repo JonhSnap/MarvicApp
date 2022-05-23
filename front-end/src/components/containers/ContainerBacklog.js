@@ -12,8 +12,11 @@ import { fetchIssue } from '../../reducers/listIssueReducer';
 import WrapperTask from '../backlog/WrapperTask';
 import { useMembersContext } from '../../contexts/membersContext'
 import WrapperSprint from '../sprint/WrapperSprint'
+import { fetchStage } from '../../reducers/stageReducer'
+import { useStageContext } from '../../contexts/stageContext'
 function ContainerBacklog({ project }) {
     const [{ issueNormals }, dispatchIssue] = useListIssueContext();
+    const [, dispatchStage] = useStageContext();
     const { state: { members } } = useMembersContext();
 
     const issueNoSprint = useMemo(() => {
@@ -24,6 +27,7 @@ function ContainerBacklog({ project }) {
     useEffect(() => {
         if (project && Object.entries(project).length > 0) {
             fetchIssue(project.id, dispatchIssue);
+            fetchStage(project.id, dispatchStage);
         }
     }, [project])
 

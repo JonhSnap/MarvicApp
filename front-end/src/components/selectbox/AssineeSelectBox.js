@@ -8,7 +8,7 @@ function AssineeSelectBox({ issue, members, handleChooseAssignee, bodyStyle, onC
             onClose={onClose}
             bodyStyle={bodyStyle}
         >
-            <div className="bg-white flex flex-col w-[100px] shadow-lg rounded-md overflow-hidden">
+            <div className="bg-white have-y-scroll flex flex-col w-[100px] max-h-[200px] shadow-lg rounded-md overflow-auto">
                 {
                     issue.id_Assignee && issue.id_Assignee !== NIL &&
                     <div onClick={() => handleChooseAssignee(null)} className='w-full cursor-pointer p-2 mb-1 bg-white hover:bg-gray-main'>Unassigneed</div>

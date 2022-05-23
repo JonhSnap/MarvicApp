@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useListIssueContext } from '../../contexts/listIssueContext';
 import { deleteIssue, fetchIssue, updateIssues } from '../../reducers/listIssueReducer';
 import createToast from '../../util/createToast';
@@ -6,6 +6,7 @@ import Portal from '../portal/Portal';
 
 export default function OptionItemBacklogComponent({ issue, project, bodyStyle, onClose }) {
     const [, dispatch] = useListIssueContext();
+    const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
     // handle change flagg
     const handleChangeFlag = () => {
@@ -33,45 +34,47 @@ export default function OptionItemBacklogComponent({ issue, project, bodyStyle, 
     }
 
     return (
-        <Portal
-            containerclassName='fixed inset-0 z-10'
-            bodyClassName='fixed z-20'
-            bodyStyle={bodyStyle}
-            overlay={false}
-            onClose={onClose}
-        >
-            <div className='h-auto max-h-[180px] overflow-auto have-y-scroll rounded shadow-md bg-white whitespace-nowrap w-fit flex flex-col'>
-                <div className='p-2 uppercase text-[#ccc]'>
-                    action
+        <>
+            <Portal
+                containerclassName='fixed inset-0 z-10'
+                bodyClassName='fixed z-20'
+                bodyStyle={bodyStyle}
+                overlay={false}
+                onClose={onClose}
+            >
+                <div className='h-auto max-h-[180px] overflow-auto have-y-scroll rounded shadow-md bg-white whitespace-nowrap w-fit flex flex-col'>
+                    <div className='p-2 uppercase text-[#ccc]'>
+                        action
+                    </div>
+                    <div onClick={handleChangeFlag} role="button" className='p-2 hover:bg-[#f4f5f7]'>
+                        {issue?.isFlagged ? 'Remove flag' : 'Add flag'}
+                    </div>
+                    <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
+                        Change parent
+                    </div>
+                    <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
+                        Copy issue link
+                    </div>
+                    <div onClick={handleDeleteIssue} role="button" className='p-2 hover:bg-[#f4f5f7]'>
+                        Delete
+                    </div>
+                    <div className='p-2 uppercase text-[#ccc]'>
+                        move to
+                    </div>
+                    <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
+                        MPM Sprint 2
+                    </div>
+                    <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
+                        MPM Sprint 3
+                    </div>
+                    <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
+                        Top of backlog
+                    </div>
+                    <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
+                        Bottom of backlog
+                    </div>
                 </div>
-                <div onClick={handleChangeFlag} role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                    {issue?.isFlagged ? 'Remove flag' : 'Add flag'}
-                </div>
-                <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                    Change parent
-                </div>
-                <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                    Copy issue link
-                </div>
-                <div onClick={handleDeleteIssue} role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                    Delete
-                </div>
-                <div className='p-2 uppercase text-[#ccc]'>
-                    move to
-                </div>
-                <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                    MPM Sprint 2
-                </div>
-                <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                    MPM Sprint 3
-                </div>
-                <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                    Top of backlog
-                </div>
-                <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                    Bottom of backlog
-                </div>
-            </div>
-        </Portal>
+            </Portal>
+        </>
     )
 }
