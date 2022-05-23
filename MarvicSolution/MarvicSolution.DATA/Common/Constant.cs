@@ -2,11 +2,11 @@
 {
     public static class Constant
     {
-        public static class Stage
+        public static class StageName
         {
-            public static string TODO= "TO DO";
-            public static string DONE = "DONE";
-            public static string INPROCESS = "IN PROCESS";
+            public const string TODO = "To do";
+            public const string DONE = "Done";
+            public const string INPROCESS = "In progress";
         }
     }
 }

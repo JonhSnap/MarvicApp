@@ -33,6 +33,11 @@ namespace MarvicSolution.DATA.EF
             //base.OnModelCreating(modelBuilder);
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
+
         // Cac table của db
         public DbSet<ProjectType> ProjectTypes { get; set; }
         public DbSet<Project> Projects { get; set; }

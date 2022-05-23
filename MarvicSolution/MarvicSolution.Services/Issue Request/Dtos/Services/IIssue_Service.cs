@@ -4,6 +4,7 @@ using MarvicSolution.Services.Issue_Request.Dtos.Requests;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests.Board;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Board;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.WorkedOn;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -40,6 +41,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         void UploadedFile(Guid idIssue, IFormFile file);
         bool DeleteFileIssue(DeleteFile_Request rq);
         ListGroupByAssignee GroupIssueForBoardByAssignee(GetBoardIssue_Request rq, RequestVM rqVM);
+        List<GroupWorkedOn_ViewModel> GetIssueForWorkedOn(Guid IdUserLogin, RequestVM rqVM);
 
     }
 }

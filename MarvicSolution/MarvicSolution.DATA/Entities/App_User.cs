@@ -14,6 +14,7 @@ namespace MarvicSolution.DATA.Entities
         public Guid Id { get; set; }
         public string FullName { get; set; }
         public string UserName { get; set; }
+        public string Avatar { get; set; }
         [JsonIgnore] // Prevent to send password to browser by json
         public string Password { get; set; }
         public string Email { get; set; }
@@ -35,6 +36,7 @@ namespace MarvicSolution.DATA.Entities
             Organization = string.Empty;
             PhoneNumber = string.Empty;
             IsDeleted = EnumStatus.False;
+            Avatar = string.Empty;
         }
     }
 }
