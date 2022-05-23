@@ -32,6 +32,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("E341A8F6-DC1B-4829-94FB-316B6BAC99B6"),
                     FullName = "Nguyen Duy Khanh",
                     UserName = "KhanhND",
+                    Avatar = "",
                     Password = "$2a$11$D57iJclK1BhZgg9B" +
                     "0P4I2.9sq0MoQIRImA8YeDVvbxeKPNG/KuTMK", //pass: KhanhND123@ | Email = "khanhnd@gmail.com",
                     Email = "khanhnd@gmail.com",
@@ -46,6 +47,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("346F2520-6295-4734-8868-6CA75258E7C1"),
                     FullName = "Tran Thien Nhan",
                     UserName = "NhanTT",
+                    Avatar = "",
                     Password = "$2a$11$MjbSthPb/xXnLsaNnJDV" +
                     "E.GGHoWL9aPMqLzCXTmoVs1HoHBqLsuWq", // pass NhanTT123@
                     Email = "nhantt@gmail.com",
@@ -60,6 +62,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("7A370BAC-B796-454D-84CF-18C603102CA2"),
                     FullName = "Tran Thanh Nhan",
                     UserName = "NhanTTT1",
+                    Avatar = "",
                     Password = "$2a$11$IM2wFUFnOP.TYaxfqY" +
                     "jEluUatAmE95HIFZcElLoLGRmdUYkBFujCm", // pass NhanTTT1Cute@ | Update HelloFromTheOtherSide
                     Email = "nhant1@gmail.com",
@@ -77,6 +80,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"),
                     FullName = "Phan Thanh Khiet",
                     UserName = "KhietPT",
+                    Avatar = "",
                     Password = @"$2a$12$d5mRmftqnckozmamy17PDefhN9OxdlssO2zN4UvDBbDlNF08wk176", // pass KhietPT@123
                     Email = "thanhkhiet1999brvt@gmail.com",
                     JobTitle = "Product Onwer",
@@ -90,6 +94,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"),
                     FullName = "Vo Duy Thang",
                     UserName = "ThangVD",
+                    Avatar = "",
                     Password = @"$2a$12$bTnbEkHdZ9./UutRXu2c2eiF5GwtTDYkOsjIfLB8lKTAJbXDRSk2.", // pass ThangVD@123
                     Email = "19130203@st.hcmuaf.edu.vn",
                     JobTitle = "Product Onwer",
@@ -103,6 +108,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"),
                     FullName = "Le Quoc Thinh",
                     UserName = "ThinhLQ",
+                    Avatar = "",
                     Password = @"$2a$12$aTvfHwnaGNGRMdS3xAvse.VcC/KdRVFxwVtJlkfJDJFL0fYFTUH7i", // pass ThinhLQ@123
                     Email = "19130215@st.hcmuaf.edu.vn",
                     JobTitle = "Product Onwer",
@@ -116,6 +122,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"),
                     FullName = "Nguyen Thanh Nhan",
                     UserName = "NhanNT",
+                    Avatar = "",
                     Password = @"$2a$12$PxNXwTisjUP2sugrcRFc/.pZcTpnsQzfBABlBYjnE428tyUj874BC", // pass NhanNT@123
                     Email = "NhanNT@gmail.com",
                     JobTitle = "Product Onwer",
@@ -129,6 +136,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"),
                     FullName = "Nguyen Van Tung",
                     UserName = "TungNV",
+                    Avatar = "",
                     Password = @"$2a$12$0RoG8q7DjIv8yV3HKrzNqOh52lgNIRGiARNXghEM84GhFtP.P/.52", // pass TungNV@123
                     Email = "19130260@st.hcmuaf.edu.vn",
                     JobTitle = "Product Onwer",

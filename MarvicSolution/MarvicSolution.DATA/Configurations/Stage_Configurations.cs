@@ -22,7 +22,7 @@ namespace MarvicSolution.DATA.Configurations
             builder.Property(prop => prop.Stage_Name).IsRequired();
 
             builder.HasData(
-                #region Project ABC
+            #region Project ABC
                 new Stage()
                 {
                     Id = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"),
@@ -33,6 +33,7 @@ namespace MarvicSolution.DATA.Configurations
                     UpdateDate = new DateTime(),
                     Id_Updator = Guid.Empty,
                     Order = 0,
+                    isDone = EnumStatus.False,
                     isDeleted = EnumStatus.False,
                 }, new Stage()
                 {
@@ -44,6 +45,7 @@ namespace MarvicSolution.DATA.Configurations
                     UpdateDate = new DateTime(),
                     Id_Updator = Guid.Empty,
                     Order = 1,
+                    isDone = EnumStatus.False,
                     isDeleted = EnumStatus.False,
                 }, new Stage()
                 {
@@ -55,6 +57,7 @@ namespace MarvicSolution.DATA.Configurations
                     UpdateDate = new DateTime(),
                     Id_Updator = Guid.Empty,
                     Order = 2,
+                    isDone = EnumStatus.True,
                     isDeleted = EnumStatus.False,
                 }
                 #endregion

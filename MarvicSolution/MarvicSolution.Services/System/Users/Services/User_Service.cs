@@ -11,6 +11,10 @@ using Microsoft.AspNetCore.Http;
 using MarvicSolution.DATA.Common;
 using MarvicSolution.DATA.Enums;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using MarvicSolution.Services.System.Users.View_Model;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 
 namespace MarvicSolution.Services.System.Users.Services
 {
@@ -18,11 +22,13 @@ namespace MarvicSolution.Services.System.Users.Services
     {
         private readonly MarvicDbContext _context;
         private readonly Jwt_Service _jwtService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public User_Service(MarvicDbContext context, Jwt_Service jwtService)
+        public User_Service(MarvicDbContext context, Jwt_Service jwtService, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _jwtService = jwtService;
+            _webHostEnvironment = webHostEnvironment;
         }
         public string Authenticate(Login_Request rq, App_User user)
         {
@@ -126,14 +132,14 @@ namespace MarvicSolution.Services.System.Users.Services
                     throw new MarvicException($"Cannot find the user with id: {rq.Id}");
                 user.FullName = rq.FullName;
                 user.UserName = rq.UserName;
-                user.Password = BCrypt.Net.BCrypt.HashPassword(rq.Password);
                 user.Email = rq.Email;
+                user.Avatar = rq.Avatar;
                 user.JobTitle = rq.JobTitle;
                 user.Department = rq.Department;
                 user.Organization = rq.Organization;
                 user.PhoneNumber = rq.PhoneNumber;
 
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return rq.Id;
             }
             catch (Exception e)
@@ -141,6 +147,24 @@ namespace MarvicSolution.Services.System.Users.Services
                 throw new MarvicException($"Error: {e}");
             }
         }
+        public void UploadAvatar(IFormFile file)
+        {
+            var user = GetUserbyId(UserLogin.Id);
+            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "upload files\\Avatar");
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+                file.CopyTo(stream);
+            user.Avatar = uniqueFileName;
+            _context.SaveChanges();
+        }
+        public bool DeleteUserAvatar(string fileName)
+        {
+            var user = GetUserbyId(UserLogin.Id);
+            user.Avatar = string.Empty;
+            return _context.SaveChanges() > 0;
+        }
+
         public Guid Delete(Guid Id)
         {
             try
@@ -157,13 +181,43 @@ namespace MarvicSolution.Services.System.Users.Services
         }
         public App_User GetUserbyUserName(string userName)
         {
-            var user = _context.App_Users.SingleOrDefault(u => u.UserName == userName);
-
-            return user;
+            return _context.App_Users.SingleOrDefault(i=>i.UserName.Equals(userName));
+        }
+        public User_ViewModel GetUserbyUserNameVM(string userName, RequestVM rqVM)
+        {
+            return _context.App_Users.Where(x => x.UserName.Equals(userName)).Select(i => new User_ViewModel()
+            {
+                Id = i.Id,
+                Avatar = i.Avatar,
+                Avatar_Path = i.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, i.Avatar),
+                Department = i.Department,
+                Email = i.Email,
+                FullName = i.FullName,
+                JobTitle = i.JobTitle,
+                Organization = i.Organization,
+                PhoneNumber = i.PhoneNumber,
+                UserName = i.UserName
+            }).SingleOrDefault();
+        }
+        public User_ViewModel GetUserbyIdVM(Guid Id, RequestVM rqVM)
+        {
+            return _context.App_Users.Where(x => x.Id.Equals(Id)).Select(i => new User_ViewModel()
+            {
+                Id = i.Id,
+                Avatar = i.Avatar,
+                Avatar_Path = i.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, i.Avatar),
+                Department = i.Department,
+                Email = i.Email,
+                FullName = i.FullName,
+                JobTitle = i.JobTitle,
+                Organization = i.Organization,
+                PhoneNumber = i.PhoneNumber,
+                UserName = i.UserName
+            }).SingleOrDefault();
         }
         public App_User GetUserbyId(Guid Id)
         {
-            return _context.App_Users.SingleOrDefault(x => x.Id.Equals(Id));
+            return _context.App_Users.SingleOrDefault(i=>i.Id.Equals(Id));
         }
     }
 }
