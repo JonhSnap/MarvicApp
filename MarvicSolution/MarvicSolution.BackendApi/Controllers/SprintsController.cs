@@ -127,10 +127,10 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             try
             {
-                var sprint = await _sprint_Service.GetSprintById(model.CurrentSprintId);
-                if (sprint!=null && sprint.Is_Started==EnumStatus.True)
+                var sprintCurrent = await _sprint_Service.GetSprintById(model.CurrentSprintId);
+                if (sprintCurrent != null && sprintCurrent.Is_Started==EnumStatus.True)
                 {
-                    if (await _sprint_Service.CompleteSprint(model))
+                    if (await _sprint_Service.CompleteSprint(sprintCurrent,model))
                     {
                         return Ok();
                     }

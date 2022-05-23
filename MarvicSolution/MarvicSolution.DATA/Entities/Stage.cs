@@ -17,7 +17,7 @@ namespace MarvicSolution.DATA.Entities
             this.Id_Updator = Guid.Empty;
             this.isDeleted = EnumStatus.False;
         }
-        public Stage(Guid id_Project, string stage_Name, Guid id_Creator, EnumStatus enumStatus=EnumStatus.False)
+        public Stage(Guid id_Project, string stage_Name, Guid id_Creator, EnumStatus enumStatus = EnumStatus.False)
         {
             Id_Project = id_Project;
             Stage_Name = stage_Name;

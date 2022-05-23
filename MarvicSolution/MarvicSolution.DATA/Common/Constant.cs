@@ -4,9 +4,9 @@
     {
         public static class StageName
         {
-            public const string TODO = "To do";
-            public const string DONE = "Done";
-            public const string INPROCESS = "In progress";
+            public const string TODO = "TO DO";
+            public const string DONE = "DONE";
+            public const string INPROCESS = "IN PROCESS";
         }
     }
 }
