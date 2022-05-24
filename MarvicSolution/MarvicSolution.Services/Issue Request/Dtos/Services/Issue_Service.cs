@@ -5,7 +5,9 @@ using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests.Board;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.AssignedToMe;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Board;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.WorkedOn;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
@@ -644,9 +646,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                                     Stage_Name = s.Stage_Name,
                                                     UpdateDate = s.UpdateDate
                                                 }).ToList();
-
             // get all issue of stage
-            var listIdStageOrder = listStageOrder.Select(s => s.Id).ToList();
+            List<Guid> listIdStageOrder = listStageOrder.Select(s => s.Id).ToList();
 
             foreach (var i_id in listIdStageOrder)
             {
@@ -654,9 +655,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 var stage = _context.Stages.FirstOrDefault(s => s.Id.Equals(i_id));
                 var stageVM = new StageViewModel(stage.Id, stage.Id_Project, stage.Stage_Name, stage.Id_Creator, stage.DateCreated, stage.UpdateDate, stage.Order);
 
-                // add ListIssueOrder
-                var listIssueOrder = GetListIssueOrderByIdStage(stage.Id, sprint.Id);
-                stageVM.ListIssueOrder.AddRange(listIssueOrder);
+
 
                 //get list issue by id stage, stage belong to sprint, sprint not archieve, issue is not epic
                 var listIssueVM = (from i in _context.Issues.ToList()
@@ -699,14 +698,23 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                        Order = i.Order
                                    }).ToList();
 
+                var listIssueOrder = GetListIssueOrderByIdStage(stage.Id, sprint.Id);
                 // filter epic
-                if (!rq.Epic.Equals(Guid.Empty))
-                    listIssueVM = listIssueVM.Where(i => i.Id_Parent_Issue.Equals(rq.Epic)).Select(i => i).ToList();
+                if (rq.idEpic != null)
+                {
+                    listIssueVM = listIssueVM.Where(i => i.Id_Parent_Issue.Equals(rq.idEpic)).Select(i => i).ToList();
+                    listIssueOrder = listIssueOrder.Where(i => i.Id_Parent_Issue.Equals(rq.idEpic)).Select(i => i).ToList();
+                }
 
                 // filter type
-                if (rq.Type != 0)
+                if (rq.Type != null)
+                {
                     listIssueVM = listIssueVM.Where(i => i.Id_IssueType.Equals(rq.Type)).Select(i => i).ToList();
+                    listIssueOrder = listIssueOrder.Where(i => i.Id_IssueType.Equals(rq.Type)).Select(i => i).ToList();
+                }
 
+                // add ListIssueOrder
+                stageVM.ListIssueOrder.AddRange(listIssueOrder.Select(i => i.Id));
                 // add ListIssue
                 stageVM.ListIssue.AddRange(listIssueVM);
                 listStageVM.Add(stageVM);
@@ -719,14 +727,14 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             listBoardVM.Add(boardVM);
             return listBoardVM;
         }
-        public List<Guid> GetListIssueOrderByIdStage(Guid idStage, Guid idSprint)
+        public List<Issue> GetListIssueOrderByIdStage(Guid idStage, Guid idSprint)
         {
             var issues = _context.Issues.Where(i => i.Id_Stage.Equals(idStage)
                                                 && i.IsDeleted.Equals(EnumStatus.False)
                                                 && !i.Id_IssueType.Equals(EnumIssueType.Epic)
                                                 && i.Id_Sprint.Equals(idSprint))
                                         .OrderBy(i => i.Order)
-                                        .Select(i => i.Id).ToList();
+                                        .Select(i => i).ToList();
             return issues;
         }
         public void UploadedFile(Guid idIssue, IFormFile file)
@@ -870,11 +878,11 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                                    Order = i.Order
                                                }).ToList();
                     // filter epic
-                    if (!rq.Epic.Equals(Guid.Empty))
-                        listIssueOfAssignee = listIssueOfAssignee.Where(i => i.Id_Parent_Issue.Equals(rq.Epic)).Select(i => i).ToList();
+                    if (rq.idEpic != null)
+                        listIssueOfAssignee = listIssueOfAssignee.Where(i => i.Id_Parent_Issue.Equals(rq.idEpic)).Select(i => i).ToList();
 
                     // filter type
-                    if (rq.Type != 0)
+                    if (rq.Type != null)
                         listIssueOfAssignee = listIssueOfAssignee.Where(i => i.Id_IssueType.Equals(rq.Type)).Select(i => i).ToList();
 
 
@@ -897,6 +905,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 BoardViewModel boardVM = new BoardViewModel();
                 boardVM.ListStageOrder = lstStageOfSprint;
                 boardVM.ListStage = listStageVM;
+                boardVM.ListEpic = Get_Issues_By_IdSprint(sprint.Id, rqVM)
+                                .Where(i => i.Id_IssueType.Equals(EnumIssueType.Epic)).ToList();
                 // get entity assignee
                 var assignee = _context.App_Users.Where(u => u.Id.Equals(i_id)
                                                             && u.IsDeleted.Equals(EnumStatus.False))
@@ -927,7 +937,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             ListGroupByAssignee listGroupByAssignee = new ListGroupByAssignee();
             listGroupByAssignee.ListIdAssignee.AddRange(listIdAssignee);
             listGroupByAssignee.ListAssignee.AddRange(lstAssignee);
-            return listGroupByAssignee;            
+            return listGroupByAssignee;
         }
         public List<Stage> GetAllStageByIdSprint(Sprint sprint)
         {
@@ -938,6 +948,135 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                                     .Select(s => s).ToList();
             return lstStageOfSprint;
         }
+        public List<GroupWorkedOn_ViewModel> GetIssueForWorkedOn(Guid IdUserLogin, RequestVM rqVM)
+        {
+            WorkedOn_ViewModel workedOnVM = new WorkedOn_ViewModel();
+            List<WorkedOn_ViewModel> listWorkedOnVM = new List<WorkedOn_ViewModel>();
+            // lay ra issue lien quan den sprint isArchieve = false || ko thuoc ve sprint nao va ProjectName cua issue cho vao workedOnVM.ProjectName
+            // lay ra ds nhung user lien quan den issue X cho vao workedOnVM.Users
+            listWorkedOnVM = (from i in _context.Issues
+                              join spr in _context.Sprints on i.Id_Sprint equals spr.Id
+                              join p in _context.Projects on i.Id_Project equals p.Id
+                              join mem in _context.Members on p.Id equals mem.Id_Project
+                              join u in _context.App_Users on mem.Id_User equals u.Id
+                              where (u.Id.Equals(i.Id_Assignee)
+                                || u.Id.Equals(i.Id_Reporter)
+                                || u.Id.Equals(i.Id_Creator)
+                                || u.Id.Equals(i.Id_Updator))
+                                && u.Id.Equals(IdUserLogin)
+                                && spr.Is_Archieved.Equals(EnumStatus.False)
+                              select new WorkedOn_ViewModel()
+                              {
+                                  Id = i.Id,
+                                  Id_Project = i.Id_Project,
+                                  Id_Stage = i.Id_Stage,
+                                  Id_Sprint = i.Id_Sprint,
+                                  Id_IssueType = i.Id_IssueType,
+                                  Summary = i.Summary,
+                                  Description = i.Description,
+                                  Id_Assignee = i.Id_Assignee,
+                                  Story_Point_Estimate = i.Story_Point_Estimate,
+                                  Id_Reporter = i.Id_Reporter,
+                                  FileName = i.FileName,
+                                  Attachment_Path = i.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, i.FileName),
+                                  Id_Linked_Issue = i.Id_Linked_Issue,
+                                  Id_Parent_Issue = i.Id_Parent_Issue,
+                                  Priority = i.Priority,
+                                  Id_Restrict = i.Id_Restrict,
+                                  IsFlagged = i.IsFlagged,
+                                  IsWatched = i.IsWatched,
+                                  Id_Creator = i.Id_Creator,
+                                  DateCreated = i.DateCreated,
+                                  DateStarted = i.DateStarted,
+                                  DateEnd = i.DateEnd,
+                                  Id_Updator = i.Id_Updator,
+                                  Order = i.Order,
+                                  ProjectName = p.Name,
+                                  Status = i.UpdateDate.Equals(DateTime.MinValue) ? "Created" : "Updated",
+                                  Users = _context.App_Users.Where(ui => ui.Id.Equals(i.Id_Assignee)
+                                                                        || ui.Id.Equals(i.Id_Reporter)
+                                                                        || ui.Id.Equals(i.Id_Creator)
+                                                                        || ui.Id.Equals(i.Id_Updator)
+                                                                        && ui.Id.Equals(IdUserLogin))
+                                                            .Select(u => new User_ViewModel()
+                                                            {
+                                                                Id = u.Id,
+                                                                Department = u.Department,
+                                                                Email = u.Email,
+                                                                FullName = u.FullName,
+                                                                JobTitle = u.JobTitle,
+                                                                Organization = u.Organization,
+                                                                PhoneNumber = u.PhoneNumber,
+                                                                UserName = u.UserName
+                                                            }).ToList()
+                              }).ToList();
+            // gom nhom workedOnVM theo thang, sort giam dan 
+            var group = listWorkedOnVM.GroupBy(i => i.DateCreated).OrderByDescending(i => i.Key).Select(i => i).ToList();
+            List<GroupWorkedOn_ViewModel> listGroupWO_VM = new List<GroupWorkedOn_ViewModel>();
+            foreach (var i_group in group)
+            {
+                GroupWorkedOn_ViewModel groupWO_VM = new GroupWorkedOn_ViewModel();
+                groupWO_VM.Title = string.Format("{0}/{1}", i_group.Key.Value.Month, i_group.Key.Value.Year);
+                groupWO_VM.Items.AddRange(i_group);
+                listGroupWO_VM.Add(groupWO_VM);
+            }
 
+            return listGroupWO_VM;
+        }
+        public List<GroupAssignedTM_ViewModel> GetIssueAssignedToMe(Guid IdUserLogin, RequestVM rqVM)
+        {
+            List<GroupAssignedTM_ViewModel> listGroupAssignedTM_VM = new List<GroupAssignedTM_ViewModel>();
+            // lấy ra các issue thuộc project kết hợp stage của issue
+            var issues = (from i in _context.Issues
+                          join p in _context.Projects on i.Id_Project equals p.Id
+                          join s in _context.Stages on p.Id equals s.Id_Project
+                          join mem in _context.Members on p.Id equals mem.Id_Project
+                          join u in _context.App_Users on mem.Id_User equals u.Id
+                          where i.Id_Stage.Equals(s.Id)
+                                 && i.IsDeleted.Equals(EnumStatus.False)
+                                 && i.Id_Assignee.Equals(IdUserLogin)
+                                 && p.IsDeleted.Equals(EnumStatus.False)
+                                 && s.isDefault.Equals(EnumStatus.False)
+                                 && u.IsDeleted.Equals(EnumStatus.False)
+                                 && u.Id.Equals(IdUserLogin)
+                          select new AssignedToMe_ViewModel()
+                          {
+                              Id = i.Id,
+                              Id_Project = i.Id_Project,
+                              Id_Stage = i.Id_Stage,
+                              Id_Sprint = i.Id_Sprint,
+                              Id_IssueType = i.Id_IssueType,
+                              Summary = i.Summary,
+                              Description = i.Description,
+                              Id_Assignee = i.Id_Assignee,
+                              Story_Point_Estimate = i.Story_Point_Estimate,
+                              Id_Reporter = i.Id_Reporter,
+                              FileName = i.FileName,
+                              Attachment_Path = i.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, i.FileName),
+                              Id_Linked_Issue = i.Id_Linked_Issue,
+                              Id_Parent_Issue = i.Id_Parent_Issue,
+                              Priority = i.Priority,
+                              Id_Restrict = i.Id_Restrict,
+                              IsFlagged = i.IsFlagged,
+                              IsWatched = i.IsWatched,
+                              Id_Creator = i.Id_Creator,
+                              DateCreated = i.DateCreated,
+                              DateStarted = i.DateStarted,
+                              DateEnd = i.DateEnd,
+                              Id_Updator = i.Id_Updator,
+                              Order = i.Order,
+                              ProjectName = p.Name,
+                              Status = s.Stage_Name
+                          }).ToList();
+            var group = issues.GroupBy(i => i.Status).Select(i => i).ToList();
+            foreach (var i_group in group)
+            {
+                var groupAssigned = new GroupAssignedTM_ViewModel();
+                groupAssigned.Title = i_group.Key;
+                groupAssigned.Items.AddRange(i_group);
+                listGroupAssignedTM_VM.Add(groupAssigned);
+            }
+            return listGroupAssignedTM_VM;
+        }
     }
 }

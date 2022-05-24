@@ -28,6 +28,6 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         Guid AddMembers(Guid IdProject, List<string> userNames);
         Guid Remove_Member_From_Project(Guid IdProject, Guid IdUser);
         Task<List<Project_ViewModel>> Groupby_ProjectType_Tscript(Guid projType_Id);
-
+        List<Project> GetStarredProject(Guid idUserLogin);
     }
 }

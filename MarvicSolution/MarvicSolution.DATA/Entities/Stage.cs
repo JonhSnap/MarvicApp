@@ -1,5 +1,4 @@
-﻿using MarvicSolution.DATA.Common;
-using MarvicSolution.DATA.Enums;
+﻿using MarvicSolution.DATA.Enums;
 using System;
 
 namespace MarvicSolution.DATA.Entities
@@ -26,7 +25,7 @@ namespace MarvicSolution.DATA.Entities
             Order = order;
             isDefault = IsDefault;
             DateCreated = DateTime.Now;
-            isDone = IsDone;
+            isDone = enumStatus;
         }
 
         public Guid Id { get; set; }
@@ -39,6 +38,5 @@ namespace MarvicSolution.DATA.Entities
         public int Order { get; set; }
         public EnumStatus isDeleted { get; set; }
         public EnumStatus isDone { get; set; }
-        public EnumStatus isDefault { get; set; }
     }
 }

@@ -502,5 +502,9 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 throw new MarvicException($"Error: {e}");
             }
         }
+        public List<Project> GetStarredProject(Guid idUserLogin)
+        {
+            return _context.Projects.Where(p => p.IsStared.Equals(EnumStatus.True)).Select(p => p).ToList();
+        }
     }
 }
