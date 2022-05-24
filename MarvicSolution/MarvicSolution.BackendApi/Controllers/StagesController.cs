@@ -8,6 +8,8 @@ using MarvicSolution.DATA.Enums;
 using MarvicSolution.DATA.EF;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using MarvicSolution.BackendApi.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace MarvicSolution.BackendApi.Controllers
 {
@@ -17,10 +19,12 @@ namespace MarvicSolution.BackendApi.Controllers
     {
         private readonly IStage_Service _stage_Service;
         private readonly MarvicDbContext _context;
-        public StagesController(MarvicDbContext marvicDbContext,IStage_Service stage_Service )
+        private readonly IHubContext<ActionHub, IActionHub> _actionHub;
+        public StagesController(MarvicDbContext marvicDbContext,IStage_Service stage_Service, IHubContext<ActionHub, IActionHub> actionHub)
         {
             _stage_Service = stage_Service;
             _context = marvicDbContext;
+            _actionHub = actionHub;
         }
        
         [HttpGet("project/{id_project}")]
@@ -45,6 +49,7 @@ namespace MarvicSolution.BackendApi.Controllers
                     var stage = new Stage(model.Id_Project, model.Stage_Name, model.Id_Creator, stageInProject.Max(stage=>stage.Order)+1);
                     if (await _stage_Service.AddStage(stage))
                     {
+                        await _actionHub.Clients.All.Stage();
                         return Ok();
                     }
                     return BadRequest(new { messgae = "Create faild!" });
@@ -70,6 +75,7 @@ namespace MarvicSolution.BackendApi.Controllers
                         stage.UpdateDate = DateTime.Now;
                         if (await _stage_Service.UpdateStage(stage))
                         {
+                            await _actionHub.Clients.All.Stage();
                             return Ok();
                         }
                         return BadRequest(new { messgae = "Update fail!" });
@@ -88,6 +94,7 @@ namespace MarvicSolution.BackendApi.Controllers
             {
                 return BadRequest(new { message = "Fail" });
             }
+            await _actionHub.Clients.All.Stage();
             return Ok(new { message = "Success!" }); 
         }
 
@@ -102,6 +109,7 @@ namespace MarvicSolution.BackendApi.Controllers
                     stage.isDeleted = EnumStatus.True;
                     if (await _stage_Service.DeleteStage(stage, modelRequest))
                     {
+                        await _actionHub.Clients.All.Stage();
                         return Ok();
                     }
                     return BadRequest(new { messgae = "Delete fail!" });

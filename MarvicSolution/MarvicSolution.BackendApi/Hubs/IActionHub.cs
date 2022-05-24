@@ -6,5 +6,6 @@ namespace MarvicSolution.BackendApi.Hubs
     {
         Task Comment();
         Task Issue();
+        Task Stage();
     }
 }

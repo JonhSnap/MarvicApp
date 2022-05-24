@@ -362,11 +362,11 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             try
             {
                 // All Id members
-                var listIdAllMembers = Get_All_IdMembers();
+                var listIdAllUser = _context.App_Users.Select(u=>u.Id).ToList();
                 // Id Member in Project
                 var listIdMembers = Get_IdMembers_By_IdProject(IdProject);
                 // not contain in Project
-                var listMembersCanAdded = listIdAllMembers.Except(listIdMembers).ToList();
+                var listMembersCanAdded = listIdAllUser.Except(listIdMembers).ToList();
                 var listUserNames = Get_UserNames_By_Ids(listMembersCanAdded);
 
                 return listUserNames;
