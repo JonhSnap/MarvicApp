@@ -34,6 +34,8 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Updator = Guid.Empty,
                     Order = 0,
                     isDeleted = EnumStatus.False,
+                    isDone=EnumStatus.False,
+                    isDefault = EnumStatus.True
                 }, new Stage()
                 {
                     Id = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"),
@@ -45,6 +47,8 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Updator = Guid.Empty,
                     Order = 1,
                     isDeleted = EnumStatus.False,
+                    isDone = EnumStatus.False,
+                    isDefault = EnumStatus.False
                 }, new Stage()
                 {
                     Id = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"),
@@ -56,6 +60,8 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Updator = Guid.Empty,
                     Order = 2,
                     isDeleted = EnumStatus.False,
+                    isDone = EnumStatus.True,
+                    isDefault = EnumStatus.False
                 }
                 #endregion
             );

@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MarvicSolution.DATA.Common.Constant;
 
 namespace MarvicSolution.Services.Project_Request.Project_Resquest
 {
@@ -102,9 +103,9 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                     await _context.SaveChangesAsync();
 
                     // add 3 stage
-                    var stageTodo = new Stage(proj.Id, "To do", UserLogin.Id);
-                    var stageInprogress = new Stage(proj.Id, "In progress", UserLogin.Id);
-                    var stageDone = new Stage(proj.Id, "Done", UserLogin.Id);
+                    var stageTodo = new Stage(proj.Id,StageName.TODO, UserLogin.Id,0,EnumStatus.False, EnumStatus.True);
+                    var stageInprogress = new Stage(proj.Id, StageName.INPROCESS, UserLogin.Id,1, EnumStatus.False, EnumStatus.False);
+                    var stageDone = new Stage(proj.Id, StageName.DONE, UserLogin.Id,2, EnumStatus.True, EnumStatus.False);
                     _context.Stages.Add(stageTodo);
                     _context.Stages.Add(stageInprogress);
                     _context.Stages.Add(stageDone);
