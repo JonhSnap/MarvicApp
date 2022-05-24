@@ -5,6 +5,7 @@ using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests.Board;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Archive;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.AssignedToMe;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Board;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.WorkedOn;
@@ -1077,6 +1078,72 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 listGroupAssignedTM_VM.Add(groupAssigned);
             }
             return listGroupAssignedTM_VM;
+        }
+        public List<IssueArchive_ViewModel> GetIssuesArchive(Guid idProject, RequestVM rqVM)
+        {
+            //var test=from p in _context.Projects
+            //         join spr in _context.Sprints on p.Id equals spr.Id_Project
+            //         join iss in _context.Issues on spr.Id equals iss.Id_Sprint
+            //         where 
+            //         p.Id=idProject &&
+            //         p.IsDeleted= EnumStatus.False &&
+            //         spr.Is_Archieved=EnumStatus.True &&
+
+
+
+
+
+
+            List<IssueArchive_ViewModel> listIssueArchiveVM = new List<IssueArchive_ViewModel>();
+            var issues = (from i in _context.Issues
+                          join p in _context.Projects on i.Id_Project equals p.Id
+                          join spr in _context.Sprints on p.Id equals spr.Id_Project
+                          join mem in _context.Members on p.Id equals mem.Id_Project
+                          join u in _context.App_Users on mem.Id_User equals u.Id
+                          where i.IsDeleted.Equals(EnumStatus.False)
+                                 && p.IsDeleted.Equals(EnumStatus.False)
+                                 && p.Id.Equals(idProject)
+                                 && spr.Is_Archieved.Equals(EnumStatus.True)
+                                 && u.IsDeleted.Equals(EnumStatus.False)
+                          select new Issue_ViewModel()
+                          {
+                              Id = i.Id,
+                              Id_Project = i.Id_Project,
+                              Id_Stage = i.Id_Stage,
+                              Id_Sprint = i.Id_Sprint,
+                              Id_IssueType = i.Id_IssueType,
+                              Summary = i.Summary,
+                              Description = i.Description,
+                              Id_Assignee = i.Id_Assignee,
+                              Story_Point_Estimate = i.Story_Point_Estimate,
+                              Id_Reporter = i.Id_Reporter,
+                              FileName = i.FileName,
+                              Attachment_Path = i.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, i.FileName),
+                              Id_Linked_Issue = i.Id_Linked_Issue,
+                              Id_Parent_Issue = i.Id_Parent_Issue,
+                              Priority = i.Priority,
+                              Id_Restrict = i.Id_Restrict,
+                              IsFlagged = i.IsFlagged,
+                              IsWatched = i.IsWatched,
+                              Id_Creator = i.Id_Creator,
+                              DateCreated = i.DateCreated,
+                              DateStarted = i.DateStarted,
+                              DateEnd = i.DateEnd,
+                              Id_Updator = i.Id_Updator,
+                              Order = i.Order
+                          }).ToList();
+            var group = issues.GroupBy(i => i.Id_Sprint).Select(i => i).ToList();
+            foreach (var i_group in group)
+            {
+                IssueArchive_ViewModel issueArchiveVM = new IssueArchive_ViewModel();
+                issueArchiveVM.Title = _context.Sprints.Where(spr => spr.Id.Equals(i_group.Key)
+                                                                    && !i_group.Key.Value.Equals(Guid.Empty))
+                                                       .Select(spr => spr.SprintName).SingleOrDefault();
+                issueArchiveVM.Items.AddRange(i_group);
+                listIssueArchiveVM.Add(issueArchiveVM);
+            }
+
+            return listIssueArchiveVM;
         }
     }
 }
