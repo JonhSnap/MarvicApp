@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Tooltip from "../tooltip/Tooltip";
 import useTooltip from "../../hooks/useTooltip";
-import avtUser from "../../images/avt-user.png";
+import avtUser from "../images/avt-user.png";
 function Profile() {
   // const { isHover, coord, nodeRef: nodeRef1 } = useTooltip();
   const { show, setShow, nodeRef } = useClickOutSide();
@@ -75,11 +75,7 @@ function Profile() {
               <div className="flex items-center w-full py-4 border-b-2">
                 <div className="flex">
                   <div className="avt-user">
-                    <img
-                      className="w-[40px] h-[40px] rounded-full"
-                      src={avt}
-                      alt=""
-                    />
+                    <img className="w-[40px]" src={avt} alt="" />
                   </div>
                   <div className="items-center ml-5">
                     <h3 className="text-base text-[#172b4d]">

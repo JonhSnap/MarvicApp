@@ -4,7 +4,6 @@ import Main from "./components/layouts/Main";
 import { ToastContainer } from "react-toastify";
 
 const YourWorkPage = lazy(() => import("./pages/YourWorkPage"));
-const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));

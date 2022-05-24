@@ -75,11 +75,7 @@ function Profile() {
               <div className="flex items-center w-full py-4 border-b-2">
                 <div className="flex">
                   <div className="avt-user">
-                    <img
-                      className="w-[40px] h-[40px] rounded-full"
-                      src={avt}
-                      alt=""
-                    />
+                    <img className="w-[40px]" src={avt} alt="" />
                   </div>
                   <div className="items-center ml-5">
                     <h3 className="text-base text-[#172b4d]">

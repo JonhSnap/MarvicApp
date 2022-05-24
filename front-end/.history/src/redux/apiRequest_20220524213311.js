@@ -27,11 +27,8 @@ export const loginUser = async (user, dispatch, navigate) => {
   dispatch(loginStart);
   try {
     const res = await axios.post("https://localhost:5001/api/User/login", user);
-    console.log(res);
-
-    dispatch(loginSuccess(res.data));
-    navigate("/");
-    console.log(document.cookie);
+    // dispatch(loginSuccess(res.data));
+    // navigate("/");
   } catch (err) {
     dispatch(loginFailed());
     alert("Ten dang nhap hoac mat khau khong chinh xac");

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import useClickOutSide from "../../hooks/useClickOutSide";
 // import useTooltip from "../../hooks/useTooltip";
 // import Tooltip from "../tooltip/Tooltip";
@@ -7,12 +7,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Tooltip from "../tooltip/Tooltip";
 import useTooltip from "../../hooks/useTooltip";
-import avtUser from "../../images/avt-user.png";
 function Profile() {
   // const { isHover, coord, nodeRef: nodeRef1 } = useTooltip();
   const { show, setShow, nodeRef } = useClickOutSide();
   const user = useSelector((state) => state.auth.login.currentUser);
-  const [avt, setAvt] = useState(user.avatar || avtUser);
   const id = user?._id;
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -76,8 +74,8 @@ function Profile() {
                 <div className="flex">
                   <div className="avt-user">
                     <img
-                      className="w-[40px] h-[40px] rounded-full"
-                      src={avt}
+                      className="w-[40px]"
+                      src="https://trello-members.s3.amazonaws.com/624e70dfe1032520d20044f1/6e3ff6da5660a504bf18929868f3e197/170.png"
                       alt=""
                     />
                   </div>
