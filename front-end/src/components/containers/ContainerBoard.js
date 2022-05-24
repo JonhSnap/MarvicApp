@@ -28,9 +28,9 @@ function ContainerBoard({ project }) {
     useEffect(() => {
         if (currentSprint) {
             const dataGet = {
-                "idSprint": currentSprint.id,
-                "epic": NIL,
-                "type": 0
+                idSprint: currentSprint.id,
+                idEpic: null,
+                type: 0
             }
             fetchBoard(dataGet, dispatchBoard);
         }
@@ -48,7 +48,7 @@ function ContainerBoard({ project }) {
                 {
                     boards.length > 0 &&
                     boards.map((item) => (
-                        <Board key={v4()} board={item} project={project} />
+                        <Board key={v4()} board={item} currentSprint={currentSprint} project={project} />
                     ))
                 }
             </div>

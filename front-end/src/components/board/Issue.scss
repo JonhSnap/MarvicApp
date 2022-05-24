@@ -23,4 +23,13 @@
       }
     }
   }
+  .epic {
+    width: fit-content;
+    padding: 4px;
+    @apply bg-epic-color;
+    border-radius: 4px;
+    color: white;
+    font-weight: 550;
+    opacity: 0.8;
+  }
 }
