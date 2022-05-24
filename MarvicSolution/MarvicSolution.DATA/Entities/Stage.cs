@@ -18,25 +18,12 @@ namespace MarvicSolution.DATA.Entities
             this.Id_Updator = Guid.Empty;
             this.isDeleted = EnumStatus.False;
         }
-        public Stage(Guid id_Project, string stage_Name, Guid id_Creator, EnumStatus IsDone = EnumStatus.False, EnumStatus IsDefault = EnumStatus.False)
+        public Stage(Guid id_Project, string stage_Name, Guid id_Creator, int order,EnumStatus IsDone = EnumStatus.False, EnumStatus IsDefault = EnumStatus.False)
         {
             Id_Project = id_Project;
             Stage_Name = stage_Name;
             Id_Creator = id_Creator;
-            switch (stage_Name)
-            {
-                case Constant.StageName.TODO:
-                    Order = 0;
-                    break;
-                case Constant.StageName.INPROCESS:
-                    Order = 1;
-                    break;
-                case Constant.StageName.DONE:
-                    Order = 2;
-                    break;
-                default:
-                    break;
-            }
+            Order = order;
             isDefault = IsDefault;
             DateCreated = DateTime.Now;
             isDone = IsDone;

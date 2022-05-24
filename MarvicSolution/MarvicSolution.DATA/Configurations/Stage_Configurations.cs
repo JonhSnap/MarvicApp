@@ -35,6 +35,7 @@ namespace MarvicSolution.DATA.Configurations
                     Order = 0,
                     isDone = EnumStatus.False,
                     isDeleted = EnumStatus.False,
+                    isDefault = EnumStatus.True
                 }, new Stage()
                 {
                     Id = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"),
@@ -47,6 +48,7 @@ namespace MarvicSolution.DATA.Configurations
                     Order = 1,
                     isDone = EnumStatus.False,
                     isDeleted = EnumStatus.False,
+                    isDefault = EnumStatus.False
                 }, new Stage()
                 {
                     Id = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"),
@@ -59,6 +61,7 @@ namespace MarvicSolution.DATA.Configurations
                     Order = 2,
                     isDone = EnumStatus.True,
                     isDeleted = EnumStatus.False,
+                    isDefault = EnumStatus.False
                 }
                 #endregion
             );
