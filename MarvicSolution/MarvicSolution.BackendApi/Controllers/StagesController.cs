@@ -81,10 +81,10 @@ namespace MarvicSolution.BackendApi.Controllers
             return BadRequest("Id is empty!");
         }
 
-        [HttpGet("draganddrop/{currentPos}/{newPos}")]
-        public async Task<IActionResult> DragAndDrop(int currentPos,int newPos, Guid id_Project)
+        [HttpPost("draganddrop")]
+        public async Task<IActionResult> DragAndDrop([FromBody] Drop_Stage_Request model)
         {
-            if (!await _stage_Service.DragAndDrop(currentPos, newPos, id_Project))
+            if (!await _stage_Service.DragAndDrop(model.CurrentPos, model.NewPos, model.Id_Project))
             {
                 return BadRequest(new { message = "Fail" });
             }

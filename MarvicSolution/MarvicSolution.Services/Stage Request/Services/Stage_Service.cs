@@ -158,7 +158,7 @@ namespace MarvicSolution.Services.Stage_Request.Services
             }
             var currentStage = await _context.Stages.FirstOrDefaultAsync(stage => stage.Order == curentPos);
             currentStage.Order = newPos;
-            stages.Insert(newPos, currentStage);
+            stages.Add(currentStage);
             _context.Stages.UpdateRange(stages);
             await _context.SaveChangesAsync();
             return true;
