@@ -7,7 +7,7 @@ import { fetchBoard } from '../../reducers/boardReducer';
 import { fetchSprint } from '../../reducers/sprintReducer';
 import { fetchStage } from '../../reducers/stageReducer';
 import Board from '../board/Board';
-import TopDetail from '../project-detail/TopDetail';
+import TopDetailBoard from '../project-detail/TopDetailBoard';
 import './ContainerBoard.scss'
 
 function ContainerBoard({ project }) {
@@ -43,7 +43,7 @@ function ContainerBoard({ project }) {
 
     return (
         <div className='container'>
-            <TopDetail project={project} />
+            <TopDetailBoard currentSprint={currentSprint} project={project} />
             <div className="bottom have-y-scroll">
                 {
                     boards.length > 0 &&
