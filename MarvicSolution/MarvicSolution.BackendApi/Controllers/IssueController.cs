@@ -1,4 +1,5 @@
-﻿using MarvicSolution.DATA.Common;
+﻿using MarvicSolution.BackendApi.Hubs;
+using MarvicSolution.DATA.Common;
 using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests;
@@ -8,6 +9,7 @@ using MarvicSolution.Services.Issue_Request.Issue_Request;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -22,12 +24,14 @@ namespace MarvicSolution.BackendApi.Controllers
         private readonly IIssue_Service _issueService;
         private readonly MarvicDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IHubContext<ActionHub, IActionHub> _actionHub;
 
-        public IssueController(IIssue_Service issueService, IWebHostEnvironment webHostEnvironment, MarvicDbContext context)
+        public IssueController(IIssue_Service issueService, IWebHostEnvironment webHostEnvironment, MarvicDbContext context, IHubContext<ActionHub, IActionHub> actionHub)
         {
             _issueService = issueService;
             _webHostEnvironment = webHostEnvironment;
             _context = context;
+            _actionHub = actionHub;
         }
         // /api/Issue/GetIssuesByIdProject
         [HttpGet]
@@ -157,6 +161,8 @@ namespace MarvicSolution.BackendApi.Controllers
             var id_Issue = await _issueService.Create(rq);
             if (id_Issue.Equals(Guid.Empty))
                 return BadRequest("Cannot create a Issue");
+
+            await _actionHub.Clients.All.Issue();
             return Ok(id_Issue);
         }
         [HttpPut]
@@ -168,6 +174,7 @@ namespace MarvicSolution.BackendApi.Controllers
             var idIssue = await _issueService.Update(rq);
             if (idIssue.Equals(Guid.Empty))
                 return BadRequest();
+            //await _actionHub.Clients.All.Issue();
             return Ok(idIssue);
         }
         [HttpDelete("{IdIssue}")]
@@ -178,8 +185,10 @@ namespace MarvicSolution.BackendApi.Controllers
             var idIssue = await _issueService.Delete(IdIssue);
             if (idIssue.Equals(Guid.Empty))
                 return BadRequest();
+            await _actionHub.Clients.All.Issue();
             return Ok(idIssue);
-        }[HttpGet]
+        }
+        [HttpGet]
         [Route("/api/Issue/GetIssueForBoard")]
         public IActionResult GetIssueForBoard(Guid idSprint, Guid? idEpic, EnumIssueType? type)
         {
@@ -219,7 +228,7 @@ namespace MarvicSolution.BackendApi.Controllers
         }
         [HttpPost]
         [Route("DeleteFile")]
-        public IActionResult DeleteFile([FromBody] DeleteFile_Request rq)
+        public async Task<IActionResult> DeleteFileAsync([FromBody] DeleteFile_Request rq)
         {
             // delete file in wwwroot/upload files
             string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\{rq.FileName}");
@@ -228,13 +237,16 @@ namespace MarvicSolution.BackendApi.Controllers
             // update attachment_path of issue
             var result = _issueService.DeleteFileIssue(rq);
             if (result)
+            {
+                await _actionHub.Clients.All.Issue();
                 return Ok("Delete file success");
+            }
             else return BadRequest($"Cannot delete file in issue {rq.IdIssue}");
         }
         // Test bang Swagger co the bi loi CORS, hay test voi post man
         [HttpPost]
         [Route("UploadFile")]
-        public IActionResult UploadFile([FromForm] UploadFile_Request rq)
+        public async Task<IActionResult> UploadFileAsync([FromForm] UploadFile_Request rq)
         {
             // replace file exist
             // delete file in wwwroot/upload files
@@ -245,10 +257,11 @@ namespace MarvicSolution.BackendApi.Controllers
             if (rq.File != null)
             {
                 _issueService.DeleteFileIssue(new DeleteFile_Request(rq.IdIssue, rq.File.FileName));
-                // update file of issue
+                // update file for issue
                 _issueService.UploadedFile(rq.IdIssue, rq.File);
             }
 
+            await _actionHub.Clients.All.Issue();
             return Ok($"Upload file success for issue = {rq.IdIssue}");
         }
 
