@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
-import { v4 } from 'uuid';
+import { NIL, v4 } from 'uuid';
 import { useBoardContext } from '../../contexts/boardContext';
 import { useSprintContext } from '../../contexts/sprintContext';
 import { useStageContext } from '../../contexts/stageContext';
@@ -27,7 +27,12 @@ function ContainerBoard({ project }) {
     }, [project, dispatch])
     useEffect(() => {
         if (currentSprint) {
-            fetchBoard(currentSprint.id, dispatchBoard);
+            const dataGet = {
+                idSprint: currentSprint.id,
+                idEpic: null,
+                type: 0
+            }
+            fetchBoard(dataGet, dispatchBoard);
         }
     }, [currentSprint, dispatchBoard])
     useEffect(() => {
@@ -43,7 +48,7 @@ function ContainerBoard({ project }) {
                 {
                     boards.length > 0 &&
                     boards.map((item) => (
-                        <Board key={v4()} board={item} project={project} />
+                        <Board key={v4()} board={item} currentSprint={currentSprint} project={project} />
                     ))
                 }
             </div>

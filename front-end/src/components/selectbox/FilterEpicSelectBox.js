@@ -23,6 +23,14 @@ function FilterEpicSelectBox({ onClose, bodyStyle, epics, issueEpics, project, h
                             shadow-md rounded-[5px] ${epics.includes('issues without epic') ? 'bg-[#8777D9] text-white' : 'bg-white'}`}>
                     issues without epic
                 </div>
+                <div>
+                    <input
+                        id='none-epic'
+                        checked={epics.includes('issues without epic')}
+                        type="checkbox"
+                    />
+                    <label htmlFor="none-epic">Issues without epic</label>
+                </div>
                 {
                     issueEpics.length > 0 &&
                     issueEpics.map(item => (
