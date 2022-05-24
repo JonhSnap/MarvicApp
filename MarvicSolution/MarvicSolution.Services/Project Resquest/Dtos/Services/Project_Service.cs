@@ -102,7 +102,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                     await _context.SaveChangesAsync();
 
                     // add 3 stage
-                    var stageTodo = new Stage(proj.Id, "To do", UserLogin.Id);
+                    var stageTodo = new Stage(proj.Id, "To do", UserLogin.Id, EnumStatus.True);
                     var stageInprogress = new Stage(proj.Id, "In progress", UserLogin.Id);
                     var stageDone = new Stage(proj.Id, "Done", UserLogin.Id);
                     _context.Stages.Add(stageTodo);
@@ -157,6 +157,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                                 Lead = u.UserName,
                                 Id_Creator = p.Id_Creator,
                                 DateCreated = p.DateCreated,
+                                DateStarted = p.DateStarted,
                                 DateEnd = p.DateEnd,
                                 Id_Updator = p.Id_Updator,
                                 UpdateDate = p.UpdateDate,
@@ -258,6 +259,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                                     Lead = u.UserName,
                                     Id_Creator = p.Id_Creator,
                                     DateCreated = p.DateCreated,
+                                    DateStarted = p.DateStarted,
                                     DateEnd = p.DateEnd,
                                     Id_Updator = p.Id_Updator,
                                     UpdateDate = p.UpdateDate,
@@ -464,6 +466,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                                       Lead = u.UserName,
                                       Id_Creator = proj.Id_Creator,
                                       DateCreated = proj.DateCreated,
+                                      DateStarted = proj.DateStarted,
                                       DateEnd = proj.DateEnd,
                                       Id_Updator = proj.Id_Updator,
                                       UpdateDate = proj.UpdateDate,
@@ -497,6 +500,10 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             {
                 throw new MarvicException($"Error: {e}");
             }
+        }
+        public List<Project> GetStarredProject(Guid idUserLogin)
+        {
+            return _context.Projects.Where(p => p.IsStared.Equals(EnumStatus.True)).Select(p => p).ToList();
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using MarvicSolution.DATA.Common;
 using MarvicSolution.DATA.EF;
+using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests;
+using MarvicSolution.Services.Issue_Request.Dtos.Requests.Board;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Issue_Request.Issue_Request;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
@@ -177,16 +179,30 @@ namespace MarvicSolution.BackendApi.Controllers
             if (idIssue.Equals(Guid.Empty))
                 return BadRequest();
             return Ok(idIssue);
-        }
-        [HttpGet]
+        }[HttpGet]
         [Route("/api/Issue/GetIssueForBoard")]
-        public IActionResult GetIssueForBoard(Guid idSprint)
+        public IActionResult GetIssueForBoard(Guid idSprint, Guid? idEpic, EnumIssueType? type)
         {
+            RequestVM rqVM = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
+            GetBoardIssue_Request rq = new GetBoardIssue_Request(idSprint, idEpic, type);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var groupIssues = _issueService.GetInforBoardByIdSprint(idSprint);
+            var boardIssues = _issueService.GetInforBoardByIdSprint(rq, rqVM);
+            if (boardIssues == null)
+                return BadRequest($"Cannot get Board's issue by idSprint = {rq.IdSprint}");
+            return Ok(boardIssues);
+        }
+        [HttpGet]
+        [Route("/api/Issue/GroupIssueForBoardByAssignee")]
+        public IActionResult GroupIssueForBoardByAssignee(Guid idSprint, Guid? idEpic, EnumIssueType? type)
+        {
+            RequestVM rqVM = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
+            GetBoardIssue_Request rq = new GetBoardIssue_Request(idSprint, idEpic, type);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var groupIssues = _issueService.GroupIssueForBoardByAssignee(rq, rqVM);
             if (groupIssues == null)
-                return BadRequest($"Cannot get group issue by issue priority from idSprint = {idSprint}");
+                return BadRequest($"Cannot get group issue by issue priority from idSprint = {rq.IdSprint}");
             return Ok(groupIssues);
         }
         [HttpGet("download")]
@@ -248,6 +264,19 @@ namespace MarvicSolution.BackendApi.Controllers
             if (groupIssues == null)
                 return BadRequest($"Cannot get group issue by IdAssignee from IdProject = {idProject}");
             return Ok(groupIssues);
+        }
+        // /api/Issue/GetIssuesAssignedToMe
+        [HttpGet]
+        [Route("/api/Issue/GetIssuesAssignedToMe")]
+        public IActionResult GetIssuesAssignedToMe()
+        {
+            RequestVM rq = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var issues = _issueService.GetIssueAssignedToMe(UserLogin.Id, rq);
+            if (issues == null)
+                return BadRequest($"Cannot get issue assigned to user {UserLogin.Id}");
+            return Ok(issues);
         }
     }
 }

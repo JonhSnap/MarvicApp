@@ -3,9 +3,9 @@ import { BASE_URL } from "../util/constants";
 import { GET_BOARD } from "./actions";
 
 // fetch board
-const fetchBoard = async (idSprint, dispatch) => {
+const fetchBoard = async (dataGet, dispatch) => {
     try {
-        const resp = await axios.get(`${BASE_URL}/api/Issue/GetIssueForBoard?idSprint=${idSprint}`);
+        const resp = await axios.get(`${BASE_URL}/api/Issue/GetIssueForBoard?idSprint=${dataGet?.idSprint}${dataGet?.idEpic ? `&idEpic=${dataGet.idEpic}` : ''}${dataGet?.type ? `&type=${dataGet.type}` : ''}`);
         if (resp.status === 200) {
             dispatch({
                 type: GET_BOARD,

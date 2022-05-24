@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import { useListIssueContext } from '../../contexts/listIssueContext'
 import { issueTypes } from '../../util/constants'
 import './Issue.scss'
 
 function Issue({ issue }) {
+    const [{ issueEpics }] = useListIssueContext();
+    const epic = useMemo(() => {
+        return issueEpics.find(item => item.id === issue.id_Parent_Issue);
+    }, [issueEpics, issue]);
 
     return (
         <div className="issue">
@@ -12,7 +17,7 @@ function Issue({ issue }) {
                 </div>
                 <p className="summary">{issue.summary}</p>
             </div>
-            <div className="epic">Epic</div>
+            <div className="epic">{epic ? epic.summary : 'None'}</div>
         </div>
     )
 }
