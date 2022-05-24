@@ -33,6 +33,23 @@ namespace MarvicSolution.Services.Stage_Request.Services
             }
         }
 
+        public async Task<bool> CheckExistName(string stageName, Guid id = default, string action = "create")
+        {
+            try
+            {
+                if (action == "edit")
+                {
+                    return await _context.Stages.AnyAsync(stage => stage.Id != id && stage.Stage_Name == stageName);
+                }
+                return await _context.Stages.AnyAsync(stage => stage.Stage_Name == stageName);
+            }
+            catch (Exception ex)
+            {
+                //log here...
+                return false;
+            }
+        }
+
         public async Task<bool> DeleteStage(Stage stage, Remove_Stage_Request modelRequest)
         {
             using var transaction = _context.Database.BeginTransaction();
@@ -44,7 +61,7 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 {
                     newStage.isDone = stage.isDone;
                     stage.isDone = EnumStatus.False;
-                    
+
                 }
                 if (stage.isDefault == EnumStatus.True)
                 {
@@ -65,7 +82,7 @@ namespace MarvicSolution.Services.Stage_Request.Services
                         id_issue.Id_Stage = modelRequest.Dorward_Id_Stage;
                     }
                     _context.Issues.UpdateRange(listIssueInCurrentStage);
-                    
+
                 }
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
@@ -77,6 +94,74 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 //log here...
                 return false;
             }
+        }
+
+        public async Task<bool> DragAndDrop(int curentPos, int newPos, Guid id_Project)
+        {
+            try
+            {
+                int skip = 0;
+                var range = curentPos - newPos;
+                int take = Math.Abs(range);
+                switch (range)
+                {
+                    case 1 or -1:
+                        return await Swap(curentPos, newPos, id_Project);
+                    case < 0:
+                        skip = curentPos + 1;
+                        break;
+                    default:
+                        skip = newPos;
+                        break;
+                }
+                return await UpdateListOrder(skip, take, curentPos, newPos, id_Project, range > 0);
+            }
+            catch (Exception ex)
+            {
+                //log here...
+                return false;
+            }
+        }
+
+        private async Task<bool> Swap(int curentPos, int newPos, Guid id_Project)
+        {
+            var currentStage = await _context.Stages.FirstOrDefaultAsync(stage => stage.Id_Project == id_Project && stage.Order == curentPos);
+            currentStage.Order = newPos;
+            var newStage = await _context.Stages.FirstOrDefaultAsync(stage => stage.Id_Project == id_Project && stage.Order == newPos);
+            newStage.Order = curentPos;
+            _context.Stages.UpdateRange(new[] { currentStage, newStage });
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        private async Task<bool> UpdateListOrder(int skip, int take, int curentPos, int newPos, Guid id_Project, bool inCrease = true)
+        {
+            var stages = await _context.Stages
+                .Where(stage => stage.Id_Project == id_Project)
+                .OrderBy(s => s.Order)
+                .Skip(skip)
+                .Take(take)
+                .ToListAsync();
+            if (stages != null && inCrease)
+            {
+                for (int i = 0; i < stages.Count; i++)
+                {
+                    stages[i].Order++;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < stages.Count; i++)
+                {
+                    stages[i].Order--;
+                }
+            }
+            var currentStage = await _context.Stages.FirstOrDefaultAsync(stage => stage.Order == curentPos);
+            currentStage.Order = newPos;
+            stages.Insert(newPos, currentStage);
+            _context.Stages.UpdateRange(stages);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<Stage> GetStageById(Guid id)
@@ -100,8 +185,9 @@ namespace MarvicSolution.Services.Stage_Request.Services
             {
                 var stages = await _context.Stages
                     .Where(stage => stage.Id_Project == id_Project && stage.isDeleted == EnumStatus.False)
+                    .OrderBy(stage => stage.Order)
                     .Select(tg => new StageVM(tg.Id, tg.Id_Project, tg.Stage_Name, tg.Id_Creator,
-                    tg.DateCreated, tg.UpdateDate, tg.Id_Updator, tg.Order,tg.isDone))
+                    tg.DateCreated, tg.UpdateDate, tg.Id_Updator, tg.Order, tg.isDone, tg.isDefault))
                     .ToListAsync();
                 return stages;
             }

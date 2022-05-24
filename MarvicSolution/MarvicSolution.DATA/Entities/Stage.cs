@@ -17,12 +17,13 @@ namespace MarvicSolution.DATA.Entities
             this.Id_Updator = Guid.Empty;
             this.isDeleted = EnumStatus.False;
         }
-        public Stage(Guid id_Project, string stage_Name, Guid id_Creator, EnumStatus enumStatus = EnumStatus.False)
+        public Stage(Guid id_Project, string stage_Name, Guid id_Creator, int order,EnumStatus IsDone = EnumStatus.False, EnumStatus IsDefault = EnumStatus.False)
         {
             Id_Project = id_Project;
             Stage_Name = stage_Name;
             Id_Creator = id_Creator;
-            Order = 0;
+            Order = order;
+            isDefault = IsDefault;
             DateCreated = DateTime.Now;
             isDone = enumStatus;
         }
