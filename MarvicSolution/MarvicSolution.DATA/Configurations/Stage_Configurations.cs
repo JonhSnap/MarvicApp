@@ -35,7 +35,6 @@ namespace MarvicSolution.DATA.Configurations
                     Order = 0,
                     isDone = EnumStatus.False,
                     isDeleted = EnumStatus.False,
-                    isDone=EnumStatus.False,
                     isDefault = EnumStatus.True
                 }, new Stage()
                 {
@@ -49,7 +48,6 @@ namespace MarvicSolution.DATA.Configurations
                     Order = 1,
                     isDone = EnumStatus.False,
                     isDeleted = EnumStatus.False,
-                    isDone = EnumStatus.False,
                     isDefault = EnumStatus.False
                 }, new Stage()
                 {
@@ -63,7 +61,6 @@ namespace MarvicSolution.DATA.Configurations
                     Order = 2,
                     isDone = EnumStatus.True,
                     isDeleted = EnumStatus.False,
-                    isDone = EnumStatus.True,
                     isDefault = EnumStatus.False
                 }
                 #endregion
