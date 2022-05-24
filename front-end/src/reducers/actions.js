@@ -25,6 +25,9 @@ const GET_STAGE = 'get_stage'
 const UPDATE_STAGE = 'update_stage'
 // board action
 const GET_BOARD = 'get_board'
+const CHANGE_FILTER_NAME_BOARD = 'change_filter_name';
+const CHANGE_FILTER_EPIC_BOARD = 'change_filter_epic_board';
+const CHANGE_FILTER_TYPE_BOARD = 'change_filter_type_board';
 
 export {
     GET_ISSUES,
@@ -45,5 +48,8 @@ export {
     GET_STAGE,
     COMPLETE_SPRINT,
     GET_BOARD,
-    UPDATE_STAGE
+    UPDATE_STAGE,
+    CHANGE_FILTER_NAME_BOARD,
+    CHANGE_FILTER_EPIC_BOARD,
+    CHANGE_FILTER_TYPE_BOARD
 }
