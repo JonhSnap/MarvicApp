@@ -91,6 +91,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 //remove current sprint
                 //var currentSprint = await _context.Sprints.FindAsync(model.CurrentSprintId);
                 currentSprint.Is_Archieved = EnumStatus.True;
+                currentSprint.End_Date = DateTime.Now;
                 _context.Sprints.Update(currentSprint);
 
                 await _context.SaveChangesAsync();

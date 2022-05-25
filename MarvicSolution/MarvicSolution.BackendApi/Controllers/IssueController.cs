@@ -294,7 +294,7 @@ namespace MarvicSolution.BackendApi.Controllers
 
         // /api/Issue/GetIssuesArchive
         [HttpGet]
-        [Route("/api/Issue/GetIssuesArchive")]
+        [Route("/api/Issue/GetIssuesArchive/{idProject}")]
         public IActionResult GetIssuesArchive(Guid idProject)
         {
             RequestVM rq = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);

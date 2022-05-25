@@ -1,4 +1,5 @@
-﻿using MarvicSolution.DATA.Enums;
+﻿using MarvicSolution.DATA.Entities;
+using MarvicSolution.DATA.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels
         public Guid? Id_Updator { get; set; }
         public DateTime? UpdateDate { get; set; }
         public int Order { get; set; }
+        public IList<App_User> Users { get; set; }
 
         public Issue_ViewModel()
         {
