@@ -20,13 +20,13 @@ namespace MarvicSolution.BackendApi.Controllers
         private readonly IStage_Service _stage_Service;
         private readonly MarvicDbContext _context;
         private readonly IHubContext<ActionHub, IActionHub> _actionHub;
-        public StagesController(MarvicDbContext marvicDbContext,IStage_Service stage_Service, IHubContext<ActionHub, IActionHub> actionHub)
+        public StagesController(MarvicDbContext marvicDbContext, IStage_Service stage_Service, IHubContext<ActionHub, IActionHub> actionHub)
         {
             _stage_Service = stage_Service;
             _context = marvicDbContext;
             _actionHub = actionHub;
         }
-       
+
         [HttpGet("project/{id_project}")]
         public async Task<IActionResult> GetStagesByProjectId(Guid id_project)
         {
@@ -39,14 +39,14 @@ namespace MarvicSolution.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult>CreateStage([FromBody] Create_Stage_Request model)
+        public async Task<IActionResult> CreateStage([FromBody] Create_Stage_Request model)
         {
             if (!await _stage_Service.CheckExistName(model.Stage_Name))
             {
                 var stageInProject = await _stage_Service.GetStageByProjectId(model.Id_Project);
-                if (stageInProject!=null)
+                if (stageInProject != null)
                 {
-                    var stage = new Stage(model.Id_Project, model.Stage_Name, model.Id_Creator, stageInProject.Max(stage=>stage.Order)+1);
+                    var stage = new Stage(model.Id_Project, model.Stage_Name, model.Id_Creator, stageInProject.Max(stage => stage.Order) + 1);
                     if (await _stage_Service.AddStage(stage))
                     {
                         await _actionHub.Clients.All.Stage();
@@ -61,26 +61,23 @@ namespace MarvicSolution.BackendApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateStage(Guid id,[FromBody] Update_Stage_Request model)
+        public async Task<IActionResult> UpdateStage(Guid id, [FromBody] Update_Stage_Request model)
         {
-            if (id!=Guid.Empty)
+            if (id != Guid.Empty)
             {
                 var stage = await _stage_Service.GetStageById(id);
-                if (stage!=null)
+                if (stage != null)
                 {
-                    if (!await _stage_Service.CheckExistName(model.Stage_Name,id,"edit"))
+                    stage.Stage_Name = model.Stage_Name;
+                    stage.Id_Updator = model.Id_Updator;
+                    stage.UpdateDate = DateTime.Now;
+                    stage.Order = model.Order;
+                    if (await _stage_Service.UpdateStage(stage))
                     {
-                        stage.Stage_Name = model.Stage_Name;
-                        stage.Id_Updator = model.Id_Updator;
-                        stage.UpdateDate = DateTime.Now;
-                        if (await _stage_Service.UpdateStage(stage))
-                        {
-                            await _actionHub.Clients.All.Stage();
-                            return Ok();
-                        }
-                        return BadRequest(new { messgae = "Update fail!" });
+                        await _actionHub.Clients.All.Stage();
+                        return Ok();
                     }
-                    return BadRequest(new { messgae = $"{model.Stage_Name} is existed!" });
+                    return BadRequest(new { messgae = "Update fail!" });
                 }
                 return NotFound(new { message = $"{id} not exists!" });
             }
@@ -95,7 +92,7 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest(new { message = "Fail" });
             }
             await _actionHub.Clients.All.Stage();
-            return Ok(new { message = "Success!" }); 
+            return Ok(new { message = "Success!" });
         }
 
         [HttpDelete("{id}")]

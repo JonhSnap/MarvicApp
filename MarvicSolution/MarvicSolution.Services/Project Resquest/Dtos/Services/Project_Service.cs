@@ -2,6 +2,7 @@
 using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewModels;
 using MarvicSolution.Services.SendMail_Request.Dtos.Requests;
@@ -407,7 +408,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public List<Member_ViewModel> Get_AllMembers_By_IdProject(Guid IdProject)
+        public List<Member_ViewModel> Get_AllMembers_By_IdProject(Guid IdProject,RequestVM rqVM)
         {
             try
             {
@@ -423,7 +424,9 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                             JobTitle = u.JobTitle,
                             Department = u.Department,
                             Organization = u.Organization,
-                            PhoneNumber = u.PhoneNumber
+                            PhoneNumber = u.PhoneNumber,
+                            Avatar = u.Avatar,
+                            Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar),
                         }).ToList();
             }
             catch (Exception e)

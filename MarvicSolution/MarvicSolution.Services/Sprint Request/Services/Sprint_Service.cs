@@ -5,6 +5,7 @@ using MarvicSolution.Services.Sprint_Request.Requests;
 using MarvicSolution.Services.Sprint_Request.ViewModels;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +61,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             {
                 //get id stage done in project have a complete_Sprint_Request.OldSprintId
                 var stageDoneId = await _context.Stages
-                    .Where(stg => stg.Id_Project == model.CurrentProjectId && 
+                    .Where(stg => stg.Id_Project == model.CurrentProjectId &&
                     stg.isDone == EnumStatus.True &&
                     stg.isDeleted == EnumStatus.False)
                     .Select(stage => stage.Id)
@@ -70,7 +71,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 var listIssueUnDone = await _context.Issues
                     .Where(a => a.Id_Sprint == model.CurrentSprintId &&
                     a.IsDeleted == EnumStatus.False &&
-                    a.Id_Stage!= stageDoneId)
+                    a.Id_Stage != stageDoneId)
                     .ToListAsync();
 
                 foreach (var item in listIssueUnDone)
@@ -97,19 +98,39 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             }
         }
 
-        public async Task<bool> DeleteSprint(Sprint sprint)
+        public async Task<bool> Delete(Delete_ViewModel rq)
         {
-            try
+            using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
-                _context.Sprints.Update(sprint);
-                await _context.SaveChangesAsync();
-                return true;
+                try
+                {
+                    var sprint = _context.Sprints.Find(rq.idSprintDelete);
+                    // kiểm tra sprint này có tồn tại issue bên trong ko
+                    var issuesInSprint = _context.Issues.Where(i => i.Id_Sprint.Equals(rq.idSprintDelete)
+                                                                    && i.IsDeleted.Equals(EnumStatus.False))
+                                                        .Select(i => i).ToList();
+                    // có thì chuyển qua chỗ mới xong moi xoa
+                    if (issuesInSprint.Any())
+                    {
+                        foreach (var i_issue in issuesInSprint)
+                            i_issue.Id_Sprint = rq.idSprintNew;
+                        _context.Issues.UpdateRange(issuesInSprint);
+                    }
+                    // ko thì xóa luôn                
+                    _context.Sprints.Remove(sprint);
+
+                    var result = await _context.SaveChangesAsync() > 0;
+                    await tran.CommitAsync();
+                    return result;
+                }
+                catch (Exception e)
+                {
+                    // log here...
+
+                    throw new MarvicException($"Error: {e}");
+                }
             }
-            catch (Exception ex)
-            {
-                // log here...
-                return false;
-            }
+                
         }
 
         public async Task<Sprint> GetSprintById(Guid id)
@@ -133,7 +154,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             {
                 var sprints = await _context.Sprints
                     .Where(spr => spr.Id_Project == id_Project && spr.Is_Archieved == EnumStatus.False)
-                    .Select(spr => new SprintVM(spr.Id, spr.Id_Project, spr.SprintName, spr.Id_Creator, spr.Update_Date, 
+                    .Select(spr => new SprintVM(spr.Id, spr.Id_Project, spr.SprintName, spr.Id_Creator, spr.Update_Date,
                     spr.Create_Date, spr.Start_Date, spr.End_Date, spr.Is_Archieved, spr.Is_Started))
                     .ToListAsync();
                 return sprints;
@@ -177,6 +198,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 throw;
             }
         }
+
 
     }
 }

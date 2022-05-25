@@ -10,6 +10,7 @@ using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -25,13 +26,15 @@ namespace MarvicSolution.BackendApi.Controllers
         private readonly MarvicDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IHubContext<ActionHub, IActionHub> _actionHub;
+        private readonly ILogger<IssueController> _logger;
 
-        public IssueController(IIssue_Service issueService, IWebHostEnvironment webHostEnvironment, MarvicDbContext context, IHubContext<ActionHub, IActionHub> actionHub)
+        public IssueController(ILogger<IssueController> logger, IIssue_Service issueService, IWebHostEnvironment webHostEnvironment, MarvicDbContext context, IHubContext<ActionHub, IActionHub> actionHub)
         {
             _issueService = issueService;
             _webHostEnvironment = webHostEnvironment;
             _context = context;
             _actionHub = actionHub;
+            _logger = logger;
         }
         // /api/Issue/GetIssuesByIdProject
         [HttpGet]
@@ -44,8 +47,7 @@ namespace MarvicSolution.BackendApi.Controllers
             var issues = _issueService.Get_Issues_By_IdProject(idProject, rq);
             if (issues == null)
                 return BadRequest($"Cannot get issue by IdProject = {idProject}");
-
-            _context.SaveChanges();
+            
             return Ok(issues);
         }
         // /api/Issue/GetIssuesByIdSprint

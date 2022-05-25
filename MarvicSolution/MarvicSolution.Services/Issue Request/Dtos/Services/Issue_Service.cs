@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,15 +35,18 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         private readonly IUser_Service _userService;
         private readonly IProject_Service _projectService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ILogger<Issue_Service> _logger;
         public Issue_Service(MarvicDbContext context
             , IUser_Service userService
             , IProject_Service projectService
-            , IWebHostEnvironment webHostEnvironment)
+            , IWebHostEnvironment webHostEnvironment
+            , ILogger<Issue_Service> logger)
         {
             _context = context;
             _userService = userService;
             _projectService = projectService;
             _webHostEnvironment = webHostEnvironment;
+            _logger = logger;
         }
         public async Task<Guid> Create(Issue_CreateRequest rq)
         {
@@ -79,6 +83,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     _context.Issues.Add(issue);
                     await _context.SaveChangesAsync();
                     tran.Commit();
+                    _logger.LogInformation($"Issue {issue.Id} created.");
                     return issue.Id;
                 }
                 catch (Exception e)
