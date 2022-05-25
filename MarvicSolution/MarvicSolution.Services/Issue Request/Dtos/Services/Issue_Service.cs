@@ -1083,7 +1083,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         {
             try
             {
-                if (idProject!=null || idProject!=Guid.Empty)
+                if (idProject!=Guid.Empty)
                 {
                     var listIssueArchiveVM = (from iss in _context.Issues
                          .AsEnumerable()
