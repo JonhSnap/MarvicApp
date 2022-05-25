@@ -1081,69 +1081,60 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         }
         public List<IssueArchive_ViewModel> GetIssuesArchive(Guid idProject, RequestVM rqVM)
         {
-            //var test=from p in _context.Projects
-            //         join spr in _context.Sprints on p.Id equals spr.Id_Project
-            //         join iss in _context.Issues on spr.Id equals iss.Id_Sprint
-            //         where 
-            //         p.Id=idProject &&
-            //         p.IsDeleted= EnumStatus.False &&
-            //         spr.Is_Archieved=EnumStatus.True &&
-
-
-
-
-
-
-            List<IssueArchive_ViewModel> listIssueArchiveVM = new List<IssueArchive_ViewModel>();
-            var issues = (from i in _context.Issues
-                          join p in _context.Projects on i.Id_Project equals p.Id
-                          join spr in _context.Sprints on p.Id equals spr.Id_Project
-                          join mem in _context.Members on p.Id equals mem.Id_Project
-                          join u in _context.App_Users on mem.Id_User equals u.Id
-                          where i.IsDeleted.Equals(EnumStatus.False)
-                                 && p.IsDeleted.Equals(EnumStatus.False)
-                                 && p.Id.Equals(idProject)
-                                 && spr.Is_Archieved.Equals(EnumStatus.True)
-                                 && u.IsDeleted.Equals(EnumStatus.False)
-                          select new Issue_ViewModel()
-                          {
-                              Id = i.Id,
-                              Id_Project = i.Id_Project,
-                              Id_Stage = i.Id_Stage,
-                              Id_Sprint = i.Id_Sprint,
-                              Id_IssueType = i.Id_IssueType,
-                              Summary = i.Summary,
-                              Description = i.Description,
-                              Id_Assignee = i.Id_Assignee,
-                              Story_Point_Estimate = i.Story_Point_Estimate,
-                              Id_Reporter = i.Id_Reporter,
-                              FileName = i.FileName,
-                              Attachment_Path = i.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, i.FileName),
-                              Id_Linked_Issue = i.Id_Linked_Issue,
-                              Id_Parent_Issue = i.Id_Parent_Issue,
-                              Priority = i.Priority,
-                              Id_Restrict = i.Id_Restrict,
-                              IsFlagged = i.IsFlagged,
-                              IsWatched = i.IsWatched,
-                              Id_Creator = i.Id_Creator,
-                              DateCreated = i.DateCreated,
-                              DateStarted = i.DateStarted,
-                              DateEnd = i.DateEnd,
-                              Id_Updator = i.Id_Updator,
-                              Order = i.Order
-                          }).ToList();
-            var group = issues.GroupBy(i => i.Id_Sprint).Select(i => i).ToList();
-            foreach (var i_group in group)
+            try
             {
-                IssueArchive_ViewModel issueArchiveVM = new IssueArchive_ViewModel();
-                issueArchiveVM.Title = _context.Sprints.Where(spr => spr.Id.Equals(i_group.Key)
-                                                                    && !i_group.Key.Value.Equals(Guid.Empty))
-                                                       .Select(spr => spr.SprintName).SingleOrDefault();
-                issueArchiveVM.Items.AddRange(i_group);
-                listIssueArchiveVM.Add(issueArchiveVM);
+                if (idProject!=null || idProject!=Guid.Empty)
+                {
+                    var listIssueArchiveVM = (from iss in _context.Issues
+                         .AsEnumerable()
+                                              join spr in _context.Sprints on iss.Id_Sprint equals spr.Id
+                                              where spr.Id_Project == idProject && spr.Is_Archieved == EnumStatus.True
+                                              orderby spr.End_Date descending
+                                              group iss by new { spr.Id, spr.SprintName, spr.End_Date } into g
+                                              select new IssueArchive_ViewModel
+                                              {
+                                                  SprintId = g.Key.Id,
+                                                  SprintName = g.Key.SprintName,
+                                                  EndDate = g.Key.End_Date.ToString("dd'/'MM'/'yyyy HH:mm:ss"),
+                                                  Issues = g.Select(i => new Issue_ViewModel()
+                                                  {
+                                                      Id = i.Id,
+                                                      Id_Project = i.Id_Project,
+                                                      Id_Stage = i.Id_Stage,
+                                                      Id_Sprint = i.Id_Sprint,
+                                                      Id_IssueType = i.Id_IssueType,
+                                                      Summary = i.Summary,
+                                                      Description = i.Description,
+                                                      Id_Assignee = i.Id_Assignee,
+                                                      Story_Point_Estimate = i.Story_Point_Estimate,
+                                                      Id_Reporter = i.Id_Reporter,
+                                                      FileName = i.FileName,
+                                                      Attachment_Path = i.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, i.FileName),
+                                                      Id_Linked_Issue = i.Id_Linked_Issue,
+                                                      Id_Parent_Issue = i.Id_Parent_Issue,
+                                                      Priority = i.Priority,
+                                                      Id_Restrict = i.Id_Restrict,
+                                                      IsFlagged = i.IsFlagged,
+                                                      IsWatched = i.IsWatched,
+                                                      Id_Creator = i.Id_Creator,
+                                                      DateCreated = i.DateCreated,
+                                                      DateStarted = i.DateStarted,
+                                                      DateEnd = i.DateEnd,
+                                                      Id_Updator = i.Id_Updator,
+                                                      Order = i.Order,
+                                                      Users = _context.App_Users.Where(u => u.Id == i.Id_Updator || u.Id == i.Id_Creator || u.Id == i.Id_Assignee).ToList()
+                                                  }).ToList()
+                                              }).ToList();
+                    return listIssueArchiveVM;
+                }
+                return null;
             }
+            catch (Exception)
+            {
 
-            return listIssueArchiveVM;
+                return null;
+            }
+            
         }
     }
 }
