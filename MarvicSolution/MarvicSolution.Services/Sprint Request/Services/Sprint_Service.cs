@@ -6,6 +6,7 @@ using MarvicSolution.Services.Sprint_Request.ViewModels;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,12 @@ namespace MarvicSolution.Services.Sprint_Request.Services
     public class Sprint_Service : ISprint_Service
     {
         private readonly MarvicDbContext _context;
+        private readonly ILogger<Sprint_Service> _logger;
 
-        public Sprint_Service(MarvicDbContext context)
+        public Sprint_Service(MarvicDbContext context, ILogger<Sprint_Service> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public Guid AddIssuesToSprint(AddIssue_Request rq)
@@ -36,7 +39,11 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 }
                 return rq.IdSprint;
             }
-            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Sprints.Method: AddIssuesToSprint. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
         public async Task<bool> AddSprint(Sprint sprint)
@@ -47,10 +54,10 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 await _context.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                // log here...
-                return false;
+                _logger.LogInformation($"Controller: Sprints.Method: AddSprint. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
@@ -90,11 +97,10 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 await transaction.CommitAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                await transaction.RollbackAsync();
-                // log here...
-                return false;
+                _logger.LogInformation($"Controller: Sprints.Method: CompleteSprint. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
@@ -125,12 +131,11 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 }
                 catch (Exception e)
                 {
-                    // log here...
-
+                    _logger.LogInformation($"Controller: Sprints.Method: Delete. Marvic Error: {e}");
                     throw new MarvicException($"Error: {e}");
                 }
             }
-                
+
         }
 
         public async Task<Sprint> GetSprintById(Guid id)
@@ -141,10 +146,10 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 var sprint = await _context.Sprints.FirstOrDefaultAsync(sprt => sprt.Id == id && sprt.Is_Archieved == EnumStatus.False);
                 return sprint;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                // log here...
-                throw;
+                _logger.LogInformation($"Controller: Sprints.Method: GetSprintById. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
@@ -159,10 +164,10 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                     .ToListAsync();
                 return sprints;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                // log here...
-                throw;
+                _logger.LogInformation($"Controller: Sprints.Method: GetSprintsById_Project. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
@@ -180,7 +185,11 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 }
                 return true;
             }
-            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Sprints.Method: AddIssuesToSprint. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
         public async Task<bool> UpdateSprint(Sprint sprint)
@@ -191,11 +200,10 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 await _context.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                ///ghi log
-                return false;
-                throw;
+                _logger.LogInformation($"Controller: Sprints.Method: UpdateSprint. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 

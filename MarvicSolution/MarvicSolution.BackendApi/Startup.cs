@@ -22,6 +22,7 @@ using Microsoft.OpenApi.Models;
 using MarvicSolution.Services.Label_Request.Services;
 using MarvicSolution.Services.Stage_Request.Services;
 using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace MarvicSolution.BackendApi
 {
@@ -78,6 +79,7 @@ namespace MarvicSolution.BackendApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile($"{env.WebRootPath}\\Logs\\Log.txt");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

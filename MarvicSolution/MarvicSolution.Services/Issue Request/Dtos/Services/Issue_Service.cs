@@ -83,12 +83,12 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     _context.Issues.Add(issue);
                     await _context.SaveChangesAsync();
                     tran.Commit();
-                    _logger.LogInformation($"Issue {issue.Id} created.");
                     return issue.Id;
                 }
                 catch (Exception e)
                 {
                     tran.Rollback();
+                    _logger.LogInformation($"Controller: Issue. Method: Create. Marvic Error: {e}");
                     throw new MarvicException($"Error: {e}");
                 }
             }
@@ -132,6 +132,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 catch (Exception e)
                 {
                     tran.Rollback();
+                    _logger.LogInformation($"Controller: Issue. Method: Update. Marvic Error: {e}");
                     throw new MarvicException($"Error: {e}");
                 }
             }
@@ -152,43 +153,53 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 catch (Exception e)
                 {
                     tran.Rollback();
-                    throw new MarvicException($"Issue id {Id} has error\n Error Delete Issue: {e}");
+                    _logger.LogInformation($"Controller: Issue. Method: Delete. Marvic Error: {e}");
+                    throw new MarvicException($"Error: {e}");
                 }
 
             }
         }
         public List<Issue_ViewModel> Get_Issues_By_IdProject(Guid idProject, RequestVM rq)
         {
-            var issues = (_context.Issues.Where(i => i.Id_Project.Equals(idProject)
-                                                    && i.IsDeleted.Equals(EnumStatus.False))
-                                        .Select(x => new Issue_ViewModel()
-                                        {
-                                            Id = x.Id,
-                                            Id_Project = x.Id_Project,
-                                            Id_Stage = x.Id_Stage,
-                                            Id_Sprint = x.Id_Sprint,
-                                            Id_IssueType = x.Id_IssueType,
-                                            Summary = x.Summary,
-                                            Description = x.Description,
-                                            Id_Assignee = x.Id_Assignee,
-                                            Story_Point_Estimate = x.Story_Point_Estimate,
-                                            Id_Reporter = x.Id_Reporter,
-                                            FileName = x.FileName,
-                                            Attachment_Path = x.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, x.FileName),
-                                            Id_Linked_Issue = x.Id_Linked_Issue,
-                                            Id_Parent_Issue = x.Id_Parent_Issue,
-                                            Priority = x.Priority,
-                                            Id_Restrict = x.Id_Restrict,
-                                            IsFlagged = x.IsFlagged,
-                                            IsWatched = x.IsWatched,
-                                            Id_Creator = x.Id_Creator,
-                                            DateCreated = x.DateCreated,
-                                            DateStarted = x.DateStarted,
-                                            DateEnd = x.DateEnd,
-                                            Order = x.Order,
-                                            Id_Updator = x.Id_Updator
-                                        })).ToList();
-            return issues;
+            try
+            {
+                var issues = (_context.Issues.Where(i => i.Id_Project.Equals(idProject)
+                                                   && i.IsDeleted.Equals(EnumStatus.False))
+                                       .Select(x => new Issue_ViewModel()
+                                       {
+                                           Id = x.Id,
+                                           Id_Project = x.Id_Project,
+                                           Id_Stage = x.Id_Stage,
+                                           Id_Sprint = x.Id_Sprint,
+                                           Id_IssueType = x.Id_IssueType,
+                                           Summary = x.Summary,
+                                           Description = x.Description,
+                                           Id_Assignee = x.Id_Assignee,
+                                           Story_Point_Estimate = x.Story_Point_Estimate,
+                                           Id_Reporter = x.Id_Reporter,
+                                           FileName = x.FileName,
+                                           Attachment_Path = x.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rq.Shceme, rq.Host, rq.PathBase, x.FileName),
+                                           Id_Linked_Issue = x.Id_Linked_Issue,
+                                           Id_Parent_Issue = x.Id_Parent_Issue,
+                                           Priority = x.Priority,
+                                           Id_Restrict = x.Id_Restrict,
+                                           IsFlagged = x.IsFlagged,
+                                           IsWatched = x.IsWatched,
+                                           Id_Creator = x.Id_Creator,
+                                           DateCreated = x.DateCreated,
+                                           DateStarted = x.DateStarted,
+                                           DateEnd = x.DateEnd,
+                                           Order = x.Order,
+                                           Id_Updator = x.Id_Updator
+                                       })).ToList();
+                return issues;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: Get_Issues_By_IdProject. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
+           
         }
         public List<GroupByAssignee_ViewModel> Group_By_Assignee(Guid IdProject, RequestVM rq)
         {
@@ -248,6 +259,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: Issue. Method: Group_By_Assignee. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
@@ -317,6 +329,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: Issue. Method: Group_By_IssueType. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
@@ -391,12 +404,15 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: Issue. Method: Group_By_Priority. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
         public List<Issue_ViewModel> Get_Issue_By_IdParent(Guid IdProject, Guid IdParent, RequestVM rq)
         {
-            var issues = (_context.Issues.Where(i => i.Id_Project.Equals(IdProject)
+            try
+            {
+                var issues = (_context.Issues.Where(i => i.Id_Project.Equals(IdProject)
                                                     && i.Id_Parent_Issue.Equals(IdParent)
                                                     && i.IsDeleted.Equals(EnumStatus.False))
                                         .Select(x => new Issue_ViewModel()
@@ -427,11 +443,20 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             Id_Updator = x.Id_Updator
                                         })).ToList();
 
-            return issues;
+                return issues;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: Get_Issue_By_IdParent. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
+            
         }
         public List<Issue_ViewModel> Get_Issues_By_IdUser(Guid idProject, Guid idUser, RequestVM rq)
         {
-            var issues = (_context.Issues.Where(i => i.Id_Project.Equals(idProject)
+            try
+            {
+                var issues = (_context.Issues.Where(i => i.Id_Project.Equals(idProject)
                                                     && (i.Id_Assignee.Equals(idUser) || i.Id_Reporter.Equals(idUser))
                                                     && i.IsDeleted.Equals(EnumStatus.False))
                                         .Select(x => new Issue_ViewModel()
@@ -462,7 +487,14 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             Order = x.Order
                                         })).ToList();
 
-            return issues;
+                return issues;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: Get_Issues_By_IdUser. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
+            
         }
         public List<Issue_ViewModel> Get_Issue_By_IdLabel(Guid IdProject, Guid IdLabel, RequestVM rq)
         {
@@ -501,11 +533,14 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: Issue. Method: Get_Issue_By_IdLabel. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
         public List<GroupByProject_ViewModel> Group_By_IdUser(Guid IdUser, RequestVM rq)
         {
+            try
+            {
             // Group issue by Project use Id user login
             var groupProject = from mem in _context.Members.ToList()
                                join u in _context.App_Users.ToList() on mem.Id_User equals u.Id
@@ -556,6 +591,12 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 listGroupVM.Add(groupVM);
             }
             return listGroupVM;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: Group_By_IdUser. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public List<Issue_ViewModel> Get_Issues_By_IdSprint(Guid idSprint, RequestVM rq)
         {
@@ -592,10 +633,16 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             });
                 return issues.ToList();
             }
-            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: Get_Issues_By_IdSprint. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public List<Issue_ViewModel> Get_Issues_NotInSprint_By_IdProject(Guid idProject, RequestVM rq)
         {
+            try
+            {
             // get issues have idSprint = 000 of Project idProject
             var issues = _context.Issues.Where(i => i.Id_Project.Equals(idProject)
                                                     && i.IsDeleted.Equals(EnumStatus.False)
@@ -628,9 +675,17 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                             Order = i.Order
                                         });
             return issues.ToList();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: Get_Issues_NotInSprint_By_IdProject. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public List<BoardViewModel> GetInforBoardByIdSprint(GetBoardIssue_Request rq, RequestVM rqVM)
         {
+            try
+            {
             // prepare variable VM
             var listBoardVM = new List<BoardViewModel>();
             var boardVM = new BoardViewModel();
@@ -732,9 +787,17 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                 .Where(i => i.Id_IssueType.Equals(EnumIssueType.Epic)).ToList();
             listBoardVM.Add(boardVM);
             return listBoardVM;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: GetInforBoardByIdSprint. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public List<Issue> GetListIssueOrderByIdStage(Guid idStage, Guid idSprint)
         {
+            try
+            {
             var issues = _context.Issues.Where(i => i.Id_Stage.Equals(idStage)
                                                 && i.IsDeleted.Equals(EnumStatus.False)
                                                 && !i.Id_IssueType.Equals(EnumIssueType.Epic)
@@ -742,9 +805,17 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                         .OrderBy(i => i.Order)
                                         .Select(i => i).ToList();
             return issues;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: GetListIssueOrderByIdStage. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public void UploadedFile(Guid idIssue, IFormFile file)
         {
+            try
+            {
             var issue = Get_Issues_By_Id(idIssue);
             string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "upload files");
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
@@ -753,21 +824,45 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 file.CopyTo(stream);
             issue.FileName = uniqueFileName;
             _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: UploadedFile. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public bool DeleteFileIssue(DeleteFile_Request rq)
         {
+            try
+            {
             var issue = Get_Issues_By_Id(rq.IdIssue);
             issue.FileName = string.Empty;
             return _context.SaveChanges() > 0;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: DeleteFileIssue. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public Issue Get_Issues_By_Id(Guid idIssue)
         {
+            try
+            {
             var issue = _context.Issues.FirstOrDefault(i => i.Id.Equals(idIssue)
                                                         && i.IsDeleted.Equals(EnumStatus.False));
             return issue;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: Get_Issues_By_Id. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public List<GroupByEpic_ViewModel> Group_By_Epic(Guid IdProject, RequestVM rq)
         {
+            try
+            {
             var listIdEpic = _context.Issues.Where(i => i.Id_IssueType.Equals(EnumIssueType.Epic)
                                                         && i.Id_Project.Equals(IdProject)
                                                         && i.IsDeleted.Equals(EnumStatus.False))
@@ -818,9 +913,17 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 listGroupVM.Add(groupVM);
             }
             return listGroupVM;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: Group_By_Epic. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public ListGroupByAssignee GroupIssueForBoardByAssignee(GetBoardIssue_Request rq, RequestVM rqVM)
         {
+            try
+            {
             // find Sprint
             var sprint = _context.Sprints.Find(rq.IdSprint);
             // get List Id Assignee in Sprint
@@ -944,18 +1047,34 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             listGroupByAssignee.ListIdAssignee.AddRange(listIdAssignee);
             listGroupByAssignee.ListAssignee.AddRange(lstAssignee);
             return listGroupByAssignee;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: GroupIssueForBoardByAssignee. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public List<Stage> GetAllStageByIdSprint(Sprint sprint)
         {
+            try
+            {
             // get all stage id of Sprint
             var lstStageOfSprint = _context.Stages.Where(s => s.Id_Project.Equals(sprint.Id_Project)
                                                                 && s.isDeleted.Equals(EnumStatus.False)
                                                                 && sprint.Is_Archieved.Equals(EnumStatus.False))
                                                     .Select(s => s).ToList();
             return lstStageOfSprint;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: GetAllStageByIdSprint. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public List<GroupWorkedOn_ViewModel> GetIssueForWorkedOn(Guid IdUserLogin, RequestVM rqVM)
         {
+            try
+            {
             WorkedOn_ViewModel workedOnVM = new WorkedOn_ViewModel();
             List<WorkedOn_ViewModel> listWorkedOnVM = new List<WorkedOn_ViewModel>();
             // lay ra issue lien quan den sprint isArchieve = false || ko thuoc ve sprint nao va ProjectName cua issue cho vao workedOnVM.ProjectName
@@ -1028,9 +1147,17 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
 
             return listGroupWO_VM;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: GetIssueForWorkedOn. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public List<GroupAssignedTM_ViewModel> GetIssueAssignedToMe(Guid IdUserLogin, RequestVM rqVM)
         {
+            try
+            {
             List<GroupAssignedTM_ViewModel> listGroupAssignedTM_VM = new List<GroupAssignedTM_ViewModel>();
             // lấy ra các issue thuộc project kết hợp stage của issue
             var issues = (from i in _context.Issues
@@ -1083,6 +1210,12 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 listGroupAssignedTM_VM.Add(groupAssigned);
             }
             return listGroupAssignedTM_VM;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: GetIssueAssignedToMe. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public List<IssueArchive_ViewModel> GetIssuesArchive(Guid idProject, RequestVM rqVM)
         {

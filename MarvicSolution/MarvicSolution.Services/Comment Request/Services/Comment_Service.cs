@@ -2,7 +2,10 @@
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Comment_Request.ViewModels;
+using MarvicSolution.Services.Issue_Request.Issue_Request;
+using MarvicSolution.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +16,12 @@ namespace MarvicSolution.Services.Comment_Request.Services
     public class Comment_Service : IComment_Service
     {
         private readonly MarvicDbContext _context;
+        private readonly ILogger<Comment_Service> _logger;
 
-        public Comment_Service(MarvicDbContext context)
+        public Comment_Service(MarvicDbContext context, ILogger<Comment_Service> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<bool> AddComment(Comment model)
@@ -24,13 +29,13 @@ namespace MarvicSolution.Services.Comment_Request.Services
             try
             {
                 _context.Comments.Add(model);
-                await _context.SaveChangesAsync();
-                return true;
+                var result = await _context.SaveChangesAsync() > 0;
+                return result;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //log here....
-                return true;
+                _logger.LogInformation($"Controller: Comment. Method: AddComment. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
@@ -43,10 +48,10 @@ namespace MarvicSolution.Services.Comment_Request.Services
                 await _context.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //log here....
-                return true;
+                _logger.LogInformation($"Controller: Comment. Method: DeleteComment. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
@@ -58,16 +63,25 @@ namespace MarvicSolution.Services.Comment_Request.Services
                 await _context.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //log here....
-                return true;
+                _logger.LogInformation($"Controller: Comment. Method: UpdateComment. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
         public async Task<Comment> GetCommentById(Guid id, Guid id_User)
         {
-            return await _context.Comments.FirstOrDefaultAsync(cmt => cmt.Id == id && cmt.Id_User == id_User && cmt.Is_Delete == EnumStatus.False);
+            try
+            {
+                return await _context.Comments.FirstOrDefaultAsync(cmt => cmt.Id == id && cmt.Id_User == id_User && cmt.Is_Delete == EnumStatus.False);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Comment. Method: GetCommentById. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
+            
         }
 
         public async Task<IList<CommentVM>> GetCommentsById_Issue(Guid id_Issue)
@@ -82,10 +96,10 @@ namespace MarvicSolution.Services.Comment_Request.Services
                                       .ToListAsync();
                 return await CountChildComment(commments);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //log here....
-                throw;
+                _logger.LogInformation($"Controller: Comment. Method: GetCommentsById_Issue. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
         public async Task<IList<CommentVM>> GetCommentsByParentId(Guid parentId)
@@ -105,27 +119,35 @@ namespace MarvicSolution.Services.Comment_Request.Services
                     .ToListAsync();*/
                 return await CountChildComment(commments);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //log here....
-                throw;
+                _logger.LogInformation($"Controller: Comment. Method: GetCommentsByParentId. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
         private async Task<IList<CommentVM>> CountChildComment(IList<CommentVM> commments)
         {
-            if (commments!=null)
+            try
             {
-                foreach (var parent in commments)
+                if (commments != null)
                 {
-                    parent.CountChild = await _context.Comments
-                        .Where(cmt => cmt.Id_ParentComment == parent.Id)
-                        .OrderBy(comt => comt.Create_Date)
-                        .Select(comt => new CommentVM(comt.Id, comt.Id_User, comt.Id_Issue, comt.Content, comt.Update_Date, comt.Create_Date, comt.Id_ParentComment))
-                        .CountAsync();
+                    foreach (var parent in commments)
+                    {
+                        parent.CountChild = await _context.Comments
+                            .Where(cmt => cmt.Id_ParentComment == parent.Id)
+                            .OrderBy(comt => comt.Create_Date)
+                            .Select(comt => new CommentVM(comt.Id, comt.Id_User, comt.Id_Issue, comt.Content, comt.Update_Date, comt.Create_Date, comt.Id_ParentComment))
+                            .CountAsync();
+                    }
                 }
+                return commments;
             }
-            return commments;
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
+            
         }
     }
 }

@@ -26,15 +26,13 @@ namespace MarvicSolution.BackendApi.Controllers
         private readonly MarvicDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IHubContext<ActionHub, IActionHub> _actionHub;
-        private readonly ILogger<IssueController> _logger;
 
-        public IssueController(ILogger<IssueController> logger, IIssue_Service issueService, IWebHostEnvironment webHostEnvironment, MarvicDbContext context, IHubContext<ActionHub, IActionHub> actionHub)
+        public IssueController(IIssue_Service issueService, IWebHostEnvironment webHostEnvironment, MarvicDbContext context, IHubContext<ActionHub, IActionHub> actionHub)
         {
             _issueService = issueService;
             _webHostEnvironment = webHostEnvironment;
             _context = context;
             _actionHub = actionHub;
-            _logger = logger;
         }
         // /api/Issue/GetIssuesByIdProject
         [HttpGet]

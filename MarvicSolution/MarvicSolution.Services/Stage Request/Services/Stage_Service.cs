@@ -3,7 +3,9 @@ using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Stage_Request.Requests;
 using MarvicSolution.Services.Stage_Request.ViewModels;
+using MarvicSolution.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +16,11 @@ namespace MarvicSolution.Services.Stage_Request.Services
     public class Stage_Service : IStage_Service
     {
         private readonly MarvicDbContext _context;
-        public Stage_Service(MarvicDbContext context)
+        private readonly ILogger<Stage_Service> _logger;
+        public Stage_Service(MarvicDbContext context, ILogger<Stage_Service> logger)
         {
             _context = context;
+            _logger = logger;
         }
         public async Task<bool> AddStage(Stage stage)
         {
@@ -26,10 +30,10 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 await _context.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //log here...
-                return false;
+                _logger.LogInformation($"Controller: Stages. Method: AddStage. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
@@ -43,10 +47,10 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 }
                 return await _context.Stages.AnyAsync(stage => stage.Stage_Name == stageName);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //log here...
-                return false;
+                _logger.LogInformation($"Controller: Stages. Method: CheckExistName. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
@@ -88,11 +92,10 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 await transaction.CommitAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                await transaction.RollbackAsync();
-                //log here...
-                return false;
+                _logger.LogInformation($"Controller: Stages. Method: DeleteStage. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
@@ -116,52 +119,68 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 }
                 return await UpdateListOrder(skip, take, curentPos, newPos, id_Project, range > 0);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //log here...
-                return false;
+                _logger.LogInformation($"Controller: Stages. Method: DragAndDrop. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
         private async Task<bool> Swap(int curentPos, int newPos, Guid id_Project)
         {
-            var currentStage = await _context.Stages.FirstOrDefaultAsync(stage => stage.Id_Project == id_Project && stage.Order == curentPos);
-            currentStage.Order = newPos;
-            var newStage = await _context.Stages.FirstOrDefaultAsync(stage => stage.Id_Project == id_Project && stage.Order == newPos);
-            newStage.Order = curentPos;
-            _context.Stages.UpdateRange(new[] { currentStage, newStage });
-            await _context.SaveChangesAsync();
-            return true;
+            try
+            {
+                var currentStage = await _context.Stages.FirstOrDefaultAsync(stage => stage.Id_Project == id_Project && stage.Order == curentPos);
+                currentStage.Order = newPos;
+                var newStage = await _context.Stages.FirstOrDefaultAsync(stage => stage.Id_Project == id_Project && stage.Order == newPos);
+                newStage.Order = curentPos;
+                _context.Stages.UpdateRange(new[] { currentStage, newStage });
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Stages. Method: Swap. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
         private async Task<bool> UpdateListOrder(int skip, int take, int curentPos, int newPos, Guid id_Project, bool inCrease = true)
         {
-            var stages = await _context.Stages
-                .Where(stage => stage.Id_Project == id_Project)
-                .OrderBy(s => s.Order)
-                .Skip(skip)
-                .Take(take)
-                .ToListAsync();
-            if (stages != null && inCrease)
+            try
             {
-                for (int i = 0; i < stages.Count; i++)
+                var stages = await _context.Stages
+                    .Where(stage => stage.Id_Project == id_Project)
+                    .OrderBy(s => s.Order)
+                    .Skip(skip)
+                    .Take(take)
+                    .ToListAsync();
+                if (stages != null && inCrease)
                 {
-                    stages[i].Order++;
+                    for (int i = 0; i < stages.Count; i++)
+                    {
+                        stages[i].Order++;
+                    }
                 }
+                else
+                {
+                    for (int i = 0; i < stages.Count; i++)
+                    {
+                        stages[i].Order--;
+                    }
+                }
+                var currentStage = await _context.Stages.FirstOrDefaultAsync(stage => stage.Order == curentPos);
+                currentStage.Order = newPos;
+                stages.Add(currentStage);
+                _context.Stages.UpdateRange(stages);
+                await _context.SaveChangesAsync();
+                return true;
             }
-            else
+            catch (Exception e)
             {
-                for (int i = 0; i < stages.Count; i++)
-                {
-                    stages[i].Order--;
-                }
+                _logger.LogInformation($"Controller: Stages. Method: UpdateListOrder. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
-            var currentStage = await _context.Stages.FirstOrDefaultAsync(stage => stage.Order == curentPos);
-            currentStage.Order = newPos;
-            stages.Add(currentStage);
-            _context.Stages.UpdateRange(stages);
-            await _context.SaveChangesAsync();
-            return true;
         }
 
         public async Task<Stage> GetStageById(Guid id)
@@ -172,10 +191,10 @@ namespace MarvicSolution.Services.Stage_Request.Services
                     .FirstOrDefaultAsync(stage => stage.Id == id && stage.isDeleted == EnumStatus.False);
                 return stage;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //log here...
-                return null;
+                _logger.LogInformation($"Controller: Stages. Method: GetStageById. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
@@ -191,10 +210,10 @@ namespace MarvicSolution.Services.Stage_Request.Services
                     .ToListAsync();
                 return stages;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //log here...
-                return null;
+                _logger.LogInformation($"Controller: Stages. Method: GetStageByProjectId. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
@@ -206,10 +225,10 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 await _context.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //log here...
-                return false;
+                _logger.LogInformation($"Controller: Stages. Method: UpdateStage. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
     }
