@@ -143,7 +143,6 @@ namespace MarvicSolution.Services.Sprint_Request.Services
         {
             try
             {
-                var test = await _context.Sprints.ToArrayAsync();
                 var sprint = await _context.Sprints.FirstOrDefaultAsync(sprt => sprt.Id == id && sprt.Is_Archieved == EnumStatus.False);
                 return sprint;
             }
