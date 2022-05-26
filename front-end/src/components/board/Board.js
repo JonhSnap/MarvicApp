@@ -9,6 +9,7 @@ import { fetchStage, updateStage } from '../../reducers/stageReducer';
 import { useSelector } from 'react-redux'
 import { fetchBoard } from '../../reducers/boardReducer';
 import { useBoardContext } from '../../contexts/boardContext';
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 
 function Board({ board, project, currentSprint }) {
     const { currentUser } = useSelector(state => state.auth.login)
@@ -16,6 +17,12 @@ function Board({ board, project, currentSprint }) {
     const [, dispatchBoard] = useBoardContext();
     const { listStageOrder, listStage } = board;
     sorter(listStage, listStageOrder);
+
+    // create connection
+    const connection = new HubConnectionBuilder()
+        .withUrl('https://localhost:5001/hubs/marvic')
+        .configureLogging(LogLevel.Information)
+        .build();
 
     // handle column drop
     const handleColumnDrop = async (dropResult) => {
