@@ -3,6 +3,7 @@ using MarvicSolution.DATA.Entities;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests.Board;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Archive;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.AssignedToMe;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Board;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.WorkedOn;
@@ -44,5 +45,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         ListGroupByAssignee GroupIssueForBoardByAssignee(GetBoardIssue_Request rq, RequestVM rqVM);
         List<GroupWorkedOn_ViewModel> GetIssueForWorkedOn(Guid IdUserLogin, RequestVM rqVM);
         List<GroupAssignedTM_ViewModel> GetIssueAssignedToMe(Guid IdUserLogin, RequestVM rqVM);
+        List<IssueArchive_ViewModel> GetIssuesArchive(Guid idProject, RequestVM rqVM);
     }
 }

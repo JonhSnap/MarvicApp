@@ -11,7 +11,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
     {
         Task<bool> AddSprint(Sprint sprint);
         Task<bool> UpdateSprint(Sprint sprint);
-        Task<bool> DeleteSprint(Sprint sprint);
+        Task<bool> Delete(Delete_ViewModel rq);
         Task<IList<SprintVM>> GetSprintsById_Project(Guid id_Project);
         Task<Sprint> GetSprintById(Guid id);
         Guid AddIssuesToSprint(AddIssue_Request rq);

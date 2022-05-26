@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using MarvicSolution.Services.System.Users.View_Model;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace MarvicSolution.Services.System.Users.Services
 {
@@ -23,22 +24,32 @@ namespace MarvicSolution.Services.System.Users.Services
         private readonly MarvicDbContext _context;
         private readonly Jwt_Service _jwtService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ILogger<User_Service> _logger;
 
-        public User_Service(MarvicDbContext context, Jwt_Service jwtService, IWebHostEnvironment webHostEnvironment)
+        public User_Service(MarvicDbContext context, Jwt_Service jwtService, IWebHostEnvironment webHostEnvironment, ILogger<User_Service> logger)
         {
             _context = context;
             _jwtService = jwtService;
             _webHostEnvironment = webHostEnvironment;
+            _logger = logger;
         }
         public string Authenticate(Login_Request rq, App_User user)
         {
-            // Kiem tra mat khau
-            if (!BCrypt.Net.BCrypt.Verify(rq.Password, user.Password))
-                return "Password does not exsist";
-            // Tao token theo JWT
-            var jwt = _jwtService.GenerateToken(user.Id);
+            try
+            {
+                // Kiem tra mat khau
+                if (!BCrypt.Net.BCrypt.Verify(rq.Password, user.Password))
+                    return "Password does not exsist";
+                // Tao token theo JWT
+                var jwt = _jwtService.GenerateToken(user.Id);
 
-            return jwt;
+                return jwt;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: User. Method: Authenticate. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public bool Register(Register_Request rq)
         {
@@ -60,6 +71,7 @@ namespace MarvicSolution.Services.System.Users.Services
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: User. Method: Register. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
@@ -74,6 +86,7 @@ namespace MarvicSolution.Services.System.Users.Services
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: User. Method: UpdatePassword. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
@@ -93,6 +106,7 @@ namespace MarvicSolution.Services.System.Users.Services
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: User. Method: RecoveryPassword. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
@@ -120,6 +134,7 @@ namespace MarvicSolution.Services.System.Users.Services
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: User. Method: Create. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
@@ -144,25 +159,42 @@ namespace MarvicSolution.Services.System.Users.Services
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: User. Method: Update. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
         public void UploadAvatar(IFormFile file)
         {
-            var user = GetUserbyId(UserLogin.Id);
-            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "upload files\\Avatar");
-            string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-            using (var stream = new FileStream(filePath, FileMode.Create))
-                file.CopyTo(stream);
-            user.Avatar = uniqueFileName;
-            _context.SaveChanges();
+            try
+            {
+                var user = GetUserbyId(UserLogin.Id);
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "upload files\\Avatar");
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                    file.CopyTo(stream);
+                user.Avatar = uniqueFileName;
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: User. Method: UploadAvatar. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public bool DeleteUserAvatar(string fileName)
         {
-            var user = GetUserbyId(UserLogin.Id);
-            user.Avatar = string.Empty;
-            return _context.SaveChanges() > 0;
+            try
+            {
+                var user = GetUserbyId(UserLogin.Id);
+                user.Avatar = string.Empty;
+                return _context.SaveChanges() > 0;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: User. Method: DeleteUserAvatar. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
 
         public Guid Delete(Guid Id)
@@ -176,48 +208,81 @@ namespace MarvicSolution.Services.System.Users.Services
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: User. Method: Delete. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
         public App_User GetUserbyUserName(string userName)
         {
-            return _context.App_Users.SingleOrDefault(i=>i.UserName.Equals(userName));
+            try
+            {
+                return _context.App_Users.SingleOrDefault(i => i.UserName.Equals(userName));
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: User. Method: GetUserbyUserName. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public User_ViewModel GetUserbyUserNameVM(string userName, RequestVM rqVM)
         {
-            return _context.App_Users.Where(x => x.UserName.Equals(userName)).Select(i => new User_ViewModel()
+            try
             {
-                Id = i.Id,
-                Avatar = i.Avatar,
-                Avatar_Path = i.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, i.Avatar),
-                Department = i.Department,
-                Email = i.Email,
-                FullName = i.FullName,
-                JobTitle = i.JobTitle,
-                Organization = i.Organization,
-                PhoneNumber = i.PhoneNumber,
-                UserName = i.UserName
-            }).SingleOrDefault();
+                return _context.App_Users.Where(x => x.UserName.Equals(userName)).Select(i => new User_ViewModel()
+                {
+                    Id = i.Id,
+                    Avatar = i.Avatar,
+                    Avatar_Path = i.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, i.Avatar),
+                    Department = i.Department,
+                    Email = i.Email,
+                    FullName = i.FullName,
+                    JobTitle = i.JobTitle,
+                    Organization = i.Organization,
+                    PhoneNumber = i.PhoneNumber,
+                    UserName = i.UserName
+                }).SingleOrDefault();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: User. Method: GetUserbyUserNameVM. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public User_ViewModel GetUserbyIdVM(Guid Id, RequestVM rqVM)
         {
-            return _context.App_Users.Where(x => x.Id.Equals(Id)).Select(i => new User_ViewModel()
+            try
             {
-                Id = i.Id,
-                Avatar = i.Avatar,
-                Avatar_Path = i.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, i.Avatar),
-                Department = i.Department,
-                Email = i.Email,
-                FullName = i.FullName,
-                JobTitle = i.JobTitle,
-                Organization = i.Organization,
-                PhoneNumber = i.PhoneNumber,
-                UserName = i.UserName
-            }).SingleOrDefault();
+                return _context.App_Users.Where(x => x.Id.Equals(Id)).Select(i => new User_ViewModel()
+                {
+                    Id = i.Id,
+                    Avatar = i.Avatar,
+                    Avatar_Path = i.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, i.Avatar),
+                    Department = i.Department,
+                    Email = i.Email,
+                    FullName = i.FullName,
+                    JobTitle = i.JobTitle,
+                    Organization = i.Organization,
+                    PhoneNumber = i.PhoneNumber,
+                    UserName = i.UserName
+                }).SingleOrDefault();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: User. Method: GetUserbyIdVM. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public App_User GetUserbyId(Guid Id)
         {
-            return _context.App_Users.SingleOrDefault(i=>i.Id.Equals(Id));
+            try
+            {
+                return _context.App_Users.SingleOrDefault(i => i.Id.Equals(Id));
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: User. Method: GetUserbyId. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
     }
 }
