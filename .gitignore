@@ -49,6 +49,7 @@ MarvicSolution/MarvicSolution.Utilities/obj
 
 MarvicSolution/MarvicSolution.DATA/Migrations
 MarvicSolution/MarvicSolution.BackendApi/wwwroot/upload files
+MarvicSolution/MarvicSolution.BackendApi/wwwroot/Logs
 #Tooling
 _ReSharper*/
 *.resharper

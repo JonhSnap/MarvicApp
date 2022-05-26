@@ -2,7 +2,7 @@ import React from 'react'
 import SelectBoxBase from './SelectBoxBase'
 import CreateComponent from '../CreateComponent'
 
-function FilterEpicSelectBox({ onClose, bodyStyle, epics, issueEpics, project, handleChooseEpic }) {
+function FilterEpicBoardSelectBox({ onClose, bodyStyle, epics, issueEpics, project, handleChooseEpic }) {
     return (
         <SelectBoxBase
             onClose={onClose}
@@ -50,4 +50,4 @@ function FilterEpicSelectBox({ onClose, bodyStyle, epics, issueEpics, project, h
     )
 }
 
-export default FilterEpicSelectBox
+export default FilterEpicBoardSelectBox

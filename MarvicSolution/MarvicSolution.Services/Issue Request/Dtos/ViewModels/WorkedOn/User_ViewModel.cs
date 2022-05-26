@@ -18,6 +18,8 @@ namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels.WorkedOn
         public string Department { get; set; }
         public string Organization { get; set; }
         public string PhoneNumber { get; set; }
+        public string Avatar { get; set; }
+        public string  Avatar_Path { get; set; }
 
         public User_ViewModel()
         {
@@ -29,6 +31,8 @@ namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels.WorkedOn
             Department = string.Empty;
             Organization = string.Empty;
             PhoneNumber = string.Empty;
+            Avatar = string.Empty;
+            Avatar_Path = string.Empty;
         }
     }
 }

@@ -13,12 +13,12 @@ namespace MarvicSolution.BackendApi.Controllers
     public class SprintsController : ControllerBase
     {
         private readonly ISprint_Service _sprint_Service;
-       
+
         public SprintsController(ISprint_Service sprint_Service)
         {
             _sprint_Service = sprint_Service;
         }
-       
+
         [HttpGet("project/{id}")]
         public async Task<IActionResult> GetSprintById_Project(Guid id)
         {
@@ -43,7 +43,7 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             try
             {
-                var sprint = new Sprint(model.Id_Project,model.Sprint_Name,model.Id_Creator);
+                var sprint = new Sprint(model.Id_Project, model.Sprint_Name, model.Id_Creator);
                 if (await _sprint_Service.AddSprint(sprint))
                 {
                     return Ok();
@@ -57,16 +57,16 @@ namespace MarvicSolution.BackendApi.Controllers
             }
         }
 
-        
+
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id,[FromBody] Update_Sprint_Request model)
+        public async Task<IActionResult> Update(Guid id, [FromBody] Update_Sprint_Request model)
         {
             try
             {
-                if (DateTime.Compare(model.Start_Date,model.End_Date)>0)
+                if (DateTime.Compare(model.Start_Date, model.End_Date) > 0)
                 {
-                    return BadRequest(new { message=model.End_Date + " is earlier than " + model.Start_Date });
+                    return BadRequest(new { message = model.End_Date + " is earlier than " + model.Start_Date });
                 }
                 var sprint = await _sprint_Service.GetSprintById(id);
                 if (sprint != null)
@@ -120,7 +120,7 @@ namespace MarvicSolution.BackendApi.Controllers
                 throw;
             }
         }
-       
+
 
         [HttpPost("complete-sprint")]
         public async Task<IActionResult> CompleteSprint([FromBody] Complete_Sprint_Request model)
@@ -128,9 +128,9 @@ namespace MarvicSolution.BackendApi.Controllers
             try
             {
                 var sprintCurrent = await _sprint_Service.GetSprintById(model.CurrentSprintId);
-                if (sprintCurrent != null && sprintCurrent.Is_Started==EnumStatus.True)
+                if (sprintCurrent != null && sprintCurrent.Is_Started == EnumStatus.True)
                 {
-                    if (await _sprint_Service.CompleteSprint(sprintCurrent,model))
+                    if (await _sprint_Service.CompleteSprint(sprintCurrent, model))
                     {
                         return Ok();
                     }
@@ -166,6 +166,14 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok(result);
         }
 
-
+        [HttpDelete]
+        [Route("/api/Sprints/Delete")]
+        public async Task<IActionResult> Delete([FromBody] Delete_ViewModel rq)
+        {
+            var result = await _sprint_Service.Delete(rq);
+            if (result == false)
+                return BadRequest($"Cannot delete Sprint {rq.idSprintDelete}");
+            return Ok(result);
+        }
     }
 }

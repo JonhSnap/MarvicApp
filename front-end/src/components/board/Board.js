@@ -5,30 +5,44 @@ import './Board.scss'
 import Column from './Column'
 import { useStageContext } from '../../contexts/stageContext'
 import { Container, Draggable } from 'react-smooth-dnd'
-import { updateStage } from '../../reducers/stageReducer';
+import { fetchStage, updateStage } from '../../reducers/stageReducer';
+import { useSelector } from 'react-redux'
+import { fetchBoard } from '../../reducers/boardReducer';
+import { useBoardContext } from '../../contexts/boardContext';
 
-function Board({ board, project }) {
+function Board({ board, project, currentSprint }) {
+    const { currentUser } = useSelector(state => state.auth.login)
     const [, dispatch] = useStageContext();
+    const [, dispatchBoard] = useBoardContext();
     const { listStageOrder, listStage } = board;
     sorter(listStage, listStageOrder);
 
     // handle column drop
-    const handleColumnDrop = (dropResult) => {
+    const handleColumnDrop = async (dropResult) => {
         const { addedIndex, removedIndex } = dropResult;
-        const StageAdded = { ...listStage[addedIndex] };
-        const StageRemove = { ...listStage[removedIndex] };
+        const StageAdded = { ...listStage[removedIndex] };
+        const StageRemove = { ...listStage[addedIndex] };
+        let stageUpdateAdded = {};
+        let stageUpdateRemoved = {};
         if (StageAdded) {
-            StageAdded.order = removedIndex;
-            StageAdded.Stage_Name = StageAdded.stage_Name
+            stageUpdateAdded.stage_Name = StageAdded?.stage_Name;
+            stageUpdateAdded.id_Updator = currentUser?.id;
+            stageUpdateAdded.order = StageRemove?.order;
         }
         if (StageRemove) {
-            StageRemove.order = addedIndex;
-            StageRemove.Stage_Name = StageRemove.stage_Name
+            stageUpdateRemoved.stage_Name = StageRemove?.stage_Name;
+            stageUpdateRemoved.id_Updator = currentUser?.id;
+            stageUpdateRemoved.order = StageAdded?.order;
+
         }
-        console.log('stage added ~ ', StageAdded);
-        console.log('stage remove ~ ', StageRemove);
-        updateStage(StageAdded.id, StageAdded, dispatch);
-        updateStage(StageRemove.id, StageRemove, dispatch);
+        await updateStage(StageAdded.id, stageUpdateAdded, dispatch);
+        await updateStage(StageRemove.id, stageUpdateRemoved, dispatch);
+        await fetchStage(project.id, dispatch);
+        fetchBoard({
+            idSprint: currentSprint.id,
+            idEpic: null,
+            type: 0
+        }, dispatchBoard);
     }
 
     return (
@@ -57,7 +71,7 @@ function Board({ board, project }) {
                         <Draggable
                             style={{ height: 'auto' }}
                             key={v4()}>
-                            <Column stage={item} />
+                            <Column currentSprint={currentSprint} stage={item} />
                         </Draggable>
                     ))
                 }

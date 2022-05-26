@@ -44,8 +44,8 @@ const stageReducer = (state, action) => {
             state = { ...stateCopy }
             break;
         case UPDATE_STAGE:
-            const index = stateCopy.stages.findIndex(item => item.id === action.payload.id);
-            stateCopy.stage.splice(index, 1, action.payload);
+            const index = stateCopy.stages.findIndex(item => item.stage_Name === action.payload.stage_Name);
+            stateCopy.stages.splice(index, 1, action.payload);
             state = { ...stateCopy };
             break;
 

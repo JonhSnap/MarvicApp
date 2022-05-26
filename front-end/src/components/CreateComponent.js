@@ -126,7 +126,7 @@ export default function CreateIssuesComponent({
     <>
       <div
         id="wrap-create"
-        className="flex items-center w-full py-3 cursor-pointer h-14"
+        className="flex items-center w-full cursor-pointer py-2"
       >
         {show ? (
           <InputComponent
@@ -141,10 +141,10 @@ export default function CreateIssuesComponent({
         ) : (
           <div
             onClick={handleClick}
-            className="flex items-center w-full h-full"
+            className="flex gap-x-2 items-center w-full h-full"
           >
-            <FontAwesomeIcon className="px-2" size="2x" icon={faCirclePlus} />
-            <div className="pl-4">Create {createWhat}</div>
+            <FontAwesomeIcon className="px-2" size="xs" icon={faCirclePlus} />
+            <div className="">Create {createWhat}</div>
           </div>
         )}
       </div>

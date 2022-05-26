@@ -1,4 +1,5 @@
-﻿using MarvicSolution.DATA.Enums;
+﻿using MarvicSolution.DATA.Common;
+using MarvicSolution.DATA.Enums;
 using System;
 
 namespace MarvicSolution.DATA.Entities
@@ -27,6 +28,7 @@ namespace MarvicSolution.DATA.Entities
             DateCreated = DateTime.Now;
             isDone = IsDone;
         }
+
 
         public Guid Id { get; set; }
         public Guid Id_Project { get; set; }
