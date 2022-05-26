@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { v4 } from 'uuid';
 import sorter from '../../util/sorter';
 import './Board.scss'
@@ -51,6 +51,20 @@ function Board({ board, project, currentSprint }) {
             type: 0
         }, dispatchBoard);
     }
+    useEffect(() => {
+        connection
+            .start()
+            .then((res) => {
+                connection.on("Stage", () => {
+                    fetchBoard({
+                        idSprint: currentSprint.id,
+                        idEpic: null,
+                        type: 0
+                    }, dispatchBoard);
+                });
+            })
+            .catch((e) => console.log("Connecttion faild", e));
+    }, [])
 
     return (
         <div className='board'>

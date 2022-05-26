@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import './Column.scss'
 import Issue from './Issue'
 import { v4 } from 'uuid'
@@ -8,6 +8,7 @@ import { updateIssues } from '../../reducers/listIssueReducer'
 import { useListIssueContext } from '../../contexts/listIssueContext'
 import { fetchBoard } from '../../reducers/boardReducer'
 import { useBoardContext } from '../../contexts/boardContext'
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 
 function Column({ stage, currentSprint }) {
     const { listIssue, listIssueOrder } = stage;
@@ -15,6 +16,12 @@ function Column({ stage, currentSprint }) {
     const columnRef = useRef();
     const [, dispatchIssue] = useListIssueContext();
     const [, dispatchBoard] = useBoardContext();
+
+    // create connection
+    const connection = new HubConnectionBuilder()
+        .withUrl('https://localhost:5001/hubs/marvic')
+        .configureLogging(LogLevel.Information)
+        .build();
 
 
     // handle issue drop
@@ -30,11 +37,11 @@ function Column({ stage, currentSprint }) {
             console.log('issue remove ~ ', issueRemoved);
             await updateIssues(payload, dispatchIssue);
             await updateIssues(issueRemoved, dispatchIssue);
-            fetchBoard({
-                idSprint: currentSprint.id,
-                idEpic: null,
-                type: 0
-            }, dispatchBoard);
+            // fetchBoard({
+            //     idSprint: currentSprint.id,
+            //     idEpic: null,
+            //     type: 0
+            // }, dispatchBoard);
             return;
         }
 
@@ -71,14 +78,28 @@ function Column({ stage, currentSprint }) {
                 if (nextIssue) {
                     await updateIssues(nextIssue, dispatchIssue);
                 }
-                fetchBoard({
-                    idSprint: currentSprint.id,
-                    idEpic: null,
-                    type: 0
-                }, dispatchBoard);
+                // fetchBoard({
+                //     idSprint: currentSprint.id,
+                //     idEpic: null,
+                //     type: 0
+                // }, dispatchBoard);
             }
         }
     }
+    useEffect(() => {
+        connection
+            .start()
+            .then((res) => {
+                connection.on("Issue", () => {
+                    fetchBoard({
+                        idSprint: currentSprint.id,
+                        idEpic: null,
+                        type: 0
+                    }, dispatchBoard);
+                });
+            })
+            .catch((e) => console.log("Connecttion faild", e));
+    }, [])
 
 
     return (

@@ -36,9 +36,7 @@ const boardReducer = (state, action) => {
             const epicFilter = stateCopy.filters.epics;
             // filter type
             const typeFilter = stateCopy.filters.types;
-            console.log('payload ~ ', action.payload);
             stateCopy.boards = action.payload;
-            console.log('board ~ ', stateCopy.boards);
             // filter name
             if (nameFilter) {
                 stateCopy.boards.forEach(board => {
