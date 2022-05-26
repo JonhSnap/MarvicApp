@@ -1,4 +1,5 @@
 ﻿using MarvicSolution.DATA.Common;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.SendMail_Request.Dtos.Services;
@@ -87,9 +88,10 @@ namespace MarvicSolution.BackendApi.Controllers
         [Route("/api/Project/GetAllMemberByIdProject")]
         public IActionResult GetAllMemberByIdProject(Guid IdProject)
         {
+            RequestVM rqVM = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var members = _projectService.Get_AllMembers_By_IdProject(IdProject);
+            var members = _projectService.Get_AllMembers_By_IdProject(IdProject, rqVM);
             if (!members.Any())
                 return BadRequest($"Cannot find any member from IdProject = {IdProject}");
             return Ok(members);
