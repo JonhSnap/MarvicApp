@@ -37,11 +37,11 @@ function Column({ stage, currentSprint }) {
             console.log('issue remove ~ ', issueRemoved);
             await updateIssues(payload, dispatchIssue);
             await updateIssues(issueRemoved, dispatchIssue);
-            // fetchBoard({
-            //     idSprint: currentSprint.id,
-            //     idEpic: null,
-            //     type: 0
-            // }, dispatchBoard);
+            fetchBoard({
+                idSprint: currentSprint.id,
+                idEpic: null,
+                type: 0
+            }, dispatchBoard);
             return;
         }
 

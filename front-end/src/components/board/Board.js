@@ -23,7 +23,6 @@ function Board({ board, project, currentSprint }) {
         .withUrl('https://localhost:5001/hubs/marvic')
         .configureLogging(LogLevel.Information)
         .build();
-
     // handle column drop
     const handleColumnDrop = async (dropResult) => {
         const { addedIndex, removedIndex } = dropResult;
@@ -40,7 +39,6 @@ function Board({ board, project, currentSprint }) {
             stageUpdateRemoved.stage_Name = StageRemove?.stage_Name;
             stageUpdateRemoved.id_Updator = currentUser?.id;
             stageUpdateRemoved.order = StageAdded?.order;
-
         }
         await updateStage(StageAdded.id, stageUpdateAdded, dispatch);
         await updateStage(StageRemove.id, stageUpdateRemoved, dispatch);
@@ -52,9 +50,11 @@ function Board({ board, project, currentSprint }) {
         }, dispatchBoard);
     }
     useEffect(() => {
+
         connection
             .start()
             .then((res) => {
+                console.log("connection....")
                 connection.on("Stage", () => {
                     fetchBoard({
                         idSprint: currentSprint.id,

@@ -1291,5 +1291,27 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
 
         }
+
+        public async Task<bool> ChangeStage(ChangeStage_Request rq)
+        {
+            try
+            {
+                var iss = await _context.Issues.FindAsync(rq.IdIssue);
+                if (iss != null)
+                {
+                    iss.Id_Stage = rq.IdStage;
+                    _context.Issues.Update(iss);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: GetIssueAssignedToMe. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
+
+        }
     }
 }

@@ -166,7 +166,6 @@ namespace MarvicSolution.BackendApi.Controllers
             var id_Issue = await _issueService.Create(rq);
             if (id_Issue.Equals(Guid.Empty))
                 return BadRequest("Cannot create a Issue");
-
             await _actionHub.Clients.All.Issue();
             return Ok(id_Issue);
         }
@@ -325,5 +324,17 @@ namespace MarvicSolution.BackendApi.Controllers
             _context.SaveChanges();
             return Ok(wo);
         }
+
+        [HttpPost]
+        [Route("ChangeStage")]
+        public async Task<IActionResult> ChangeStage([FromBody] ChangeStage_Request rq)
+        {
+            if (await _issueService.ChangeStage(rq))
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+
     }
 }
