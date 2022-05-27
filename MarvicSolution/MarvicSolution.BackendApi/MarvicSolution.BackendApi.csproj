@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\upload files\Avatar\" />
+    <Folder Include="wwwroot\upload files\Avatar\" />
   </ItemGroup>
 
 </Project>
