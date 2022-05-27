@@ -32,6 +32,8 @@ namespace MarvicSolution.Services.Answer_Request.Services
             {
                 try
                 {
+                    string A = EnumPriority.High.ToString();
+                 
                     // lọc ra những answer đúng từ ds input
                     var answerCorrect = await (from ans in _context.Answers
                                                join qus in _context.Questions on ans.Id_Question equals qus.Id
