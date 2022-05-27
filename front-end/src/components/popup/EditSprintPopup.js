@@ -28,8 +28,8 @@ function EditSprintPopup({ onClose, setshow, sprint, project }) {
         resolver: yupResolver(schema),
         defaultValues: {
             name: sprint?.sprintName,
-            startDate,
-            endDate
+            startDate: new Date(),
+            endDate: new Date()
         },
 
     })
