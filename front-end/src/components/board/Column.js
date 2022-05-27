@@ -17,7 +17,7 @@ function Column({ stage, currentSprint }) {
     const [, dispatchIssue] = useListIssueContext();
     const [, dispatchBoard] = useBoardContext();
 
-    // create connection
+    //create connection
     const connection = new HubConnectionBuilder()
         .withUrl('https://localhost:5001/hubs/marvic')
         .configureLogging(LogLevel.Information)

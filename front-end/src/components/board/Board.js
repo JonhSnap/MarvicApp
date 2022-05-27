@@ -6,14 +6,17 @@ import './Board.scss'
 import Column from './Column'
 import { useStageContext } from '../../contexts/stageContext'
 import { Container, Draggable } from 'react-smooth-dnd'
-import { fetchStage, updateStage } from '../../reducers/stageReducer';
 import { useSelector } from 'react-redux'
 import { fetchBoard } from '../../reducers/boardReducer';
 import { useBoardContext } from '../../contexts/boardContext';
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import { BASE_URL } from '../../util/constants'
 
+let countRender = 1;
+
 function Board({ board, project, currentSprint }) {
+    console.log('Count render ~ ', countRender);
+    countRender++;
     const { currentUser } = useSelector(state => state.auth.login)
     const [, dispatch] = useStageContext();
     const [, dispatchBoard] = useBoardContext();
@@ -40,29 +43,6 @@ function Board({ board, project, currentSprint }) {
                 console.log(error);
             }
         }
-        // const StageAdded = { ...listStage[removedIndex] };
-        // const StageRemove = { ...listStage[addedIndex] };
-        // let stageUpdateAdded = {};
-        // let stageUpdateRemoved = {};
-        // if (StageAdded) {
-        //     stageUpdateAdded.stage_Name = StageAdded?.stage_Name;
-        //     stageUpdateAdded.id_Updator = currentUser?.id;
-        //     stageUpdateAdded.order = StageRemove?.order;
-        // }
-        // if (StageRemove) {
-        //     stageUpdateRemoved.stage_Name = StageRemove?.stage_Name;
-        //     stageUpdateRemoved.id_Updator = currentUser?.id;
-        //     stageUpdateRemoved.order = StageAdded?.order;
-
-        // }
-        // await updateStage(StageAdded.id, stageUpdateAdded, dispatch);
-        // await updateStage(StageRemove.id, stageUpdateRemoved, dispatch);
-        // await fetchStage(project.id, dispatch);
-        // fetchBoard({
-        //     idSprint: currentSprint.id,
-        //     idEpic: null,
-        //     type: 0
-        // }, dispatchBoard);
     }
     useEffect(() => {
         connection
