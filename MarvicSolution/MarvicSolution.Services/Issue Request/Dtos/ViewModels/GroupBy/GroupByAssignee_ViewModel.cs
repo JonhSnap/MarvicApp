@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels
+namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels.GroupBy
 {
     public class GroupByAssignee_ViewModel
     {

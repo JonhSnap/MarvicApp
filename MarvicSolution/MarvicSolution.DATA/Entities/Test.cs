@@ -11,6 +11,5 @@ namespace MarvicSolution.DATA.Entities
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public EnumStatus IsDeleted { get; set; } = EnumStatus.False;
     }
 }
