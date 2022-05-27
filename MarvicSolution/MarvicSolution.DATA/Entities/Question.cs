@@ -12,7 +12,6 @@ namespace MarvicSolution.DATA.Entities
         public Guid Id { get; set; }
         public string Name { get; set; }
         public Guid Id_Test { get; set; }
-        public EnumPoint Scores { get; set; } = EnumPoint.One;
-        public EnumStatus IsDeleted { get; set; } = EnumStatus.False;
+        public EnumPoint Scores { get; set; }
     }
 }

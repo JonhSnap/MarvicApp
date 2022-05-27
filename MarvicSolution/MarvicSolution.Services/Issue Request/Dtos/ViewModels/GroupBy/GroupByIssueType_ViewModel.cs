@@ -6,16 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels
+namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels.GroupBy
 {
-    public class GroupByPriority_ViewModel
+    public class GroupByIssueType_ViewModel
     {
-        public string Priority { get; set; }
+        public string TypeName{ get; set; }
         public List<Issue_ViewModel> ListIssue { get; set; }
 
-        public GroupByPriority_ViewModel()
+        public GroupByIssueType_ViewModel()
         {
-            this.Priority = string.Empty;
+            this.TypeName = string.Empty;
             this.ListIssue = new List<Issue_ViewModel>();
         }
     }

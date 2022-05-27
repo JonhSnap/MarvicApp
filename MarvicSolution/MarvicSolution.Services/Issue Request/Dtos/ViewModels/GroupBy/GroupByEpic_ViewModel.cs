@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels
+namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels.GroupBy
 {
-     public class GroupByParentIssue_ViewModel
+    public class GroupByEpic_ViewModel
     {
-        public Guid? Id_Parent { get; set; }
+        public string EpicName { get; set; }
         public List<Issue_ViewModel> ListIssue { get; set; }
 
-        public GroupByParentIssue_ViewModel()
+        public GroupByEpic_ViewModel()
         {
-            this.Id_Parent = Guid.Empty;
+            this.EpicName = string.Empty;
             this.ListIssue = new List<Issue_ViewModel>();
         }
     }

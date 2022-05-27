@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels
+namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels.GroupBy
 {
-    public class GroupByIdLabel_ViewModel
+    public class GroupByProject_ViewModel
     {
-        public Guid? Id_Label { get; set; }
+        public string ProjectName { get; set; }
         public List<Issue_ViewModel> ListIssue { get; set; }
 
-        public GroupByIdLabel_ViewModel()
+        public GroupByProject_ViewModel()
         {
-            this.Id_Label = Guid.Empty;
+            this.ProjectName = string.Empty;
             this.ListIssue = new List<Issue_ViewModel>();
         }
     }
