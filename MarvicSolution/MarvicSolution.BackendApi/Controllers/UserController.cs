@@ -110,6 +110,7 @@ namespace MarvicSolution.BackendApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            //Guid id_User = ValidateUser();
             var user = _userService.GetUserbyIdVM(UserLogin.Id, rqVM);
             if (user == null)
                 return BadRequest($"Cannot find user with id = {UserLogin.Id}");
