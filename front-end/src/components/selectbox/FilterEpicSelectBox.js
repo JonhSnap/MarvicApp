@@ -1,9 +1,6 @@
 import React from 'react'
 import SelectBoxBase from './SelectBoxBase'
 import CreateComponent from '../CreateComponent'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import { v4, NIL } from 'uuid';
 
 function FilterEpicSelectBox({ onClose, bodyStyle, epics, issueEpics, project, handleChooseEpic }) {
     return (
@@ -12,42 +9,38 @@ function FilterEpicSelectBox({ onClose, bodyStyle, epics, issueEpics, project, h
             bodyStyle={bodyStyle}
         >
             <div
-                className='epic-dropdown have-y-scroll p-2 w-[300px] h-[200px] overflow-y-auto
-                mx-4 bg-white rounded-[5px] flex items-center flex-col shadow-lg shadow-epic-color'>
-                <div className='flex justify-between w-full px-4 py-2'>
+                className='epic-dropdown have-y-scroll px-4 w-[200px] h-[200px] overflow-y-auto
+                mx-4 bg-white rounded-[5px] flex flex-col gap-y-2 shadow-lg shadow-epic-color'>
+                <div className='flex justify-between w-full py-2'>
                     <span className='font-bold text-lg text-[#8777D9]'>Epic</span>
                 </div>
                 <div
                     onClick={() => handleChooseEpic('issues without epic')}
-                    className={`w-full p-3 mb-2 flex items-center font-semibold cursor-pointer
-                            shadow-md rounded-[5px] ${epics.includes('issues without epic') ? 'bg-[#8777D9] text-white' : 'bg-white'}`}>
-                    issues without epic
-                </div>
-                <div>
+                    className='flex items-center gap-x-2'>
                     <input
+                        className='cursor-pointer'
                         id='none-epic'
                         checked={epics.includes('issues without epic')}
                         type="checkbox"
+                        readOnly
                     />
-                    <label htmlFor="none-epic">Issues without epic</label>
+                    <label className='text-base font-semibold' htmlFor="none-epic">Issues without epic</label>
                 </div>
                 {
                     issueEpics.length > 0 &&
                     issueEpics.map(item => (
                         <div
-                            key={v4()}
+                            key={item.id}
                             onClick={() => handleChooseEpic(item.id)}
-                            className={`w-full p-3 flex flex-col font-semibold shadow-md rounded-[5px] mb-2 cursor-pointer
-                                ${epics.includes(item.id) ? 'bg-[#8777D9] text-white' : 'bg-white'}`}>
-                            <div className='flex items-center'>
-                                <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleRight} />
-                                <div className='h-5 w-5 inline-block bg-[#d0c6ff] rounded-[5px] mx-2'></div>
-                                {item.summary}
-                            </div>
-                            <div className='h-2 w-full bg-[#ddd] rounded-[5px] my-2 relative'>
-                                <div className='absolute top-0 left-0  bottom-0 bg-blue-600 rounded-[10px]' style={{ width: "40%" }}>
-                                </div>
-                            </div>
+                            className='flex items-center gap-x-2'>
+                            <input
+                                className='cursor-pointer'
+                                id={item.id}
+                                checked={epics.includes(item.id)}
+                                readOnly
+                                type="checkbox"
+                            />
+                            <label className='text-base font-semibold' htmlFor={item.id}>{item.summary}</label>
                         </div>
                     ))
                 }

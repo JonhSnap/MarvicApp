@@ -18,5 +18,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewMode
         public string Department { get; set; }
         public string Organization { get; set; }
         public string PhoneNumber { get; set; }
+        public string Avatar { get; set; }
+        public string Avatar_Path { get; set; }
     }
 }

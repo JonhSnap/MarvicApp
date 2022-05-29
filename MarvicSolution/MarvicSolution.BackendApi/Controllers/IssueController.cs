@@ -10,6 +10,7 @@ using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -44,8 +45,7 @@ namespace MarvicSolution.BackendApi.Controllers
             var issues = _issueService.Get_Issues_By_IdProject(idProject, rq);
             if (issues == null)
                 return BadRequest($"Cannot get issue by IdProject = {idProject}");
-
-            _context.SaveChanges();
+            
             return Ok(issues);
         }
         // /api/Issue/GetIssuesByIdSprint
@@ -174,7 +174,7 @@ namespace MarvicSolution.BackendApi.Controllers
             var idIssue = await _issueService.Update(rq);
             if (idIssue.Equals(Guid.Empty))
                 return BadRequest();
-            //await _actionHub.Clients.All.Issue();
+            await _actionHub.Clients.All.Issue();
             return Ok(idIssue);
         }
         [HttpDelete("{IdIssue}")]
@@ -290,6 +290,35 @@ namespace MarvicSolution.BackendApi.Controllers
             if (issues == null)
                 return BadRequest($"Cannot get issue assigned to user {UserLogin.Id}");
             return Ok(issues);
+        }
+
+        // /api/Issue/GetIssuesArchive
+        [HttpGet]
+        [Route("/api/Issue/GetIssuesArchive/{idProject}")]
+        public IActionResult GetIssuesArchive(Guid idProject)
+        {
+            RequestVM rq = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var issues = _issueService.GetIssuesArchive(idProject, rq);
+            if (issues == null)
+                return BadRequest($"Cannot get issue assigned to user {UserLogin.Id}");
+            return Ok(issues);
+        }
+        // /api/WorkedOn
+        [HttpGet]
+        [Route("/api/WorkedOn")]
+        public IActionResult WorkedOn()
+        {
+            RequestVM rqVM = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var wo = _issueService.GetIssueForWorkedOn(UserLogin.Id, rqVM);
+            if (wo == null)
+                return BadRequest($"Cannot get issue by UserID = {UserLogin.Id}");
+
+            _context.SaveChanges();
+            return Ok(wo);
         }
     }
 }

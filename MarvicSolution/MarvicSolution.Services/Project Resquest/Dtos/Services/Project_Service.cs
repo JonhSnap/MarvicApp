@@ -2,6 +2,7 @@
 using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewModels;
 using MarvicSolution.Services.SendMail_Request.Dtos.Requests;
@@ -11,6 +12,7 @@ using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,63 +24,20 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
 {
     public class Project_Service : IProject_Service
     {
-        #region Test
-        // T-script
-        public async Task<List<Project_ViewModel>> GetAlls_Tscript()
-        {
-            try
-            {
-                var data = await _context.Projects.FromSqlInterpolated($"Select * from Project Where Project.IsDelete = 0").Select(x => new Project_ViewModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Key = x.Key
-                }).ToListAsync();
-
-                return data;
-            }
-            catch (Exception e)
-            {
-                throw new MarvicException($"Error: {e}");
-            }
-        }
-
-        // Proc
-        public async Task<List<Project_ViewModel>> GetAlls_Proc()
-        {
-            try
-            {
-                var proc = await _context.Projects.FromSqlInterpolated($"exec [dbo].[GetAlls_Proc]")
-                    .ToListAsync();
-                var data = proc.Select(x => new Project_ViewModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Key = x.Key
-                }).ToList();
-
-                return data;
-            }
-            catch (Exception e)
-            {
-                throw new MarvicException($"Error: {e}");
-            }
-        }
-        #endregion
         private readonly MarvicDbContext _context;
         private readonly IUser_Service _userService;
         private readonly IMailService _mailService;
-        private readonly IStage_Service _stage_Service;
+        private readonly ILogger<Project_Service> _logger;
 
         public Project_Service(MarvicDbContext context
             , IUser_Service userService
             , IMailService mailService
-            , IStage_Service stage_Service)
+            , ILogger<Project_Service> logger)
         {
             _context = context;
             _userService = userService;
             _mailService = mailService;
-            _stage_Service = stage_Service;
+            _logger = logger;
         }
         public async Task<Guid> Create(Project_CreateRequest rq)
         {
@@ -103,9 +62,9 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                     await _context.SaveChangesAsync();
 
                     // add 3 stage
-                    var stageTodo = new Stage(proj.Id,StageName.TODO, UserLogin.Id,0,EnumStatus.False, EnumStatus.True);
-                    var stageInprogress = new Stage(proj.Id, StageName.INPROCESS, UserLogin.Id,1, EnumStatus.False, EnumStatus.False);
-                    var stageDone = new Stage(proj.Id, StageName.DONE, UserLogin.Id,2, EnumStatus.True, EnumStatus.False);
+                    var stageTodo = new Stage(proj.Id, StageName.TODO, UserLogin.Id, 0, EnumStatus.False, EnumStatus.True);
+                    var stageInprogress = new Stage(proj.Id, StageName.INPROCESS, UserLogin.Id, 1, EnumStatus.False, EnumStatus.False);
+                    var stageDone = new Stage(proj.Id, StageName.DONE, UserLogin.Id, 2, EnumStatus.True, EnumStatus.False);
                     _context.Stages.Add(stageTodo);
                     _context.Stages.Add(stageInprogress);
                     _context.Stages.Add(stageDone);
@@ -138,6 +97,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 catch (Exception e)
                 {
                     tran.Rollback();
+                    _logger.LogInformation($"Controller: Project. Method: Create. Marvic Error: {e}");
                     throw new MarvicException($"Error: {e}");
                 }
             }
@@ -172,6 +132,8 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
             catch (Exception e)
             {
+
+                _logger.LogInformation($"Controller: Project. Method: GetProjectById. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
@@ -212,6 +174,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 catch (Exception e)
                 {
                     tran.Rollback();
+                    _logger.LogInformation($"Controller: Project. Method: Update. Marvic Error: {e}");
                     throw new MarvicException($"Error: {e}");
                 }
             }
@@ -239,6 +202,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 catch (Exception e)
                 {
                     tran.Rollback();
+                    _logger.LogInformation($"Controller: Project. Method: Delete. Marvic Error: {e}");
                     throw new MarvicException($"Error: {e}");
                 }
             }
@@ -270,6 +234,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: Project. Method: GetProjectByIdUser. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
@@ -281,6 +246,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: Project. Method: GetIdUserByUserName. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
@@ -303,6 +269,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 catch (Exception e)
                 {
                     tran.Rollback();
+                    _logger.LogInformation($"Controller: Project. Method: AddMembers. Marvic Error: {e}");
                     throw new MarvicException($"Error: {e}");
                 }
             }
@@ -320,12 +287,24 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 _context.SaveChanges();
                 return IdProject;
             }
-            catch (Exception e) { throw new MarvicException($"Error: {e}"); }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Project. Method: Create. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public List<Guid> Get_IdMembers_By_IdProject(Guid IdProject)
         {
-            return _context.Members.Where(m => m.Id_Project.Equals(IdProject)
-                                        ).Select(m => m.Id_User).ToList();
+            try
+            {
+                return _context.Members.Where(m => m.Id_Project.Equals(IdProject)
+                                            ).Select(m => m.Id_User).ToList();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Project. Method: Get_IdMembers_By_IdProject. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         public List<Guid> Get_All_IdMembers()
         {
@@ -335,6 +314,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: Project. Method: Get_All_IdMembers. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
@@ -354,6 +334,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: Project. Method: Get_UserNames_By_Ids. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
@@ -362,7 +343,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             try
             {
                 // All Id members
-                var listIdAllUser = _context.App_Users.Select(u=>u.Id).ToList();
+                var listIdAllUser = _context.App_Users.Select(u => u.Id).ToList();
                 // Id Member in Project
                 var listIdMembers = Get_IdMembers_By_IdProject(IdProject);
                 // not contain in Project
@@ -373,6 +354,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: Project. Method: Get_List_UserName_Can_Added_By_IdProject. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
@@ -389,6 +371,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: Project. Method: Remove_Member_From_Project. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
@@ -404,10 +387,11 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: Project. Method: Remove_Many_Member_From_Project. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public List<Member_ViewModel> Get_AllMembers_By_IdProject(Guid IdProject)
+        public List<Member_ViewModel> Get_AllMembers_By_IdProject(Guid IdProject, RequestVM rqVM)
         {
             try
             {
@@ -423,32 +407,45 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                             JobTitle = u.JobTitle,
                             Department = u.Department,
                             Organization = u.Organization,
-                            PhoneNumber = u.PhoneNumber
+                            PhoneNumber = u.PhoneNumber,
+                            Avatar = u.Avatar,
+                            Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar),
                         }).ToList();
             }
             catch (Exception e)
             {
+                _logger.LogInformation($"Controller: Project. Method: Get_AllMembers_By_IdProject. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
         public List<App_User> GetAllMembersByIdProject(Guid idProject)
         {
-            var user = from mem in _context.Members
-                       join u in _context.App_Users on mem.Id_User equals u.Id
-                       where mem.Id_Project.Equals(idProject) && u.IsDeleted.Equals(EnumStatus.False)
-                       select new App_User()
-                       {
-                           Id = u.Id,
-                           FullName = u.FullName,
-                           UserName = u.UserName,
-                           Password = u.Password,
-                           Email = u.Email,
-                           JobTitle = u.JobTitle,
-                           Department = u.Department,
-                           Organization = u.Organization,
-                           PhoneNumber = u.PhoneNumber
-                       };
-            return user.ToList();
+            try
+            {
+
+
+                var user = from mem in _context.Members
+                           join u in _context.App_Users on mem.Id_User equals u.Id
+                           where mem.Id_Project.Equals(idProject) && u.IsDeleted.Equals(EnumStatus.False)
+                           select new App_User()
+                           {
+                               Id = u.Id,
+                               FullName = u.FullName,
+                               UserName = u.UserName,
+                               Password = u.Password,
+                               Email = u.Email,
+                               JobTitle = u.JobTitle,
+                               Department = u.Department,
+                               Organization = u.Organization,
+                               PhoneNumber = u.PhoneNumber
+                           };
+                return user.ToList();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Project. Method: GetAllMembersByIdProject. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
         // GetAlls Linq
         public async Task<List<Project_ViewModel>> GetAlls()
@@ -478,33 +475,21 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
             catch (Exception e)
             {
-                throw new MarvicException($"Error: {e}");
-            }
-        }
-        // T-script
-        public async Task<List<Project_ViewModel>> Groupby_ProjectType_Tscript(Guid projType_Id)
-        {
-            try
-            {
-                var data = await _context.Projects.
-                    FromSqlInterpolated($"SELECT *FROM Project WHERE ProjectType_Id = {projType_Id}")
-                    .Select(x => new Project_ViewModel()
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        Key = x.Key
-                    }).ToListAsync();
-
-                return data;
-            }
-            catch (NullReferenceException e)
-            {
+                _logger.LogInformation($"Controller: Project. Method: GetAlls. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
         public List<Project> GetStarredProject(Guid idUserLogin)
         {
-            return _context.Projects.Where(p => p.IsStared.Equals(EnumStatus.True)).Select(p => p).ToList();
+            try
+            {
+                return _context.Projects.Where(p => p.IsStared.Equals(EnumStatus.True)).Select(p => p).ToList();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Project. Method: GetStarredProject. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
         }
     }
 }
