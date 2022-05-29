@@ -25,10 +25,12 @@ export default function OptionComponent({ project, issue, child = null }) {
     return (
         <>
             <div onClick={handleClick} ref={nodeRef} className='flex flex-col h-full'>
-                <div className='option relative p-1  text-[0.1rem] h-full aspect-square inline-flex justify-center items-center  rounded-[4px] bg-white text-[#000] cursor-pointer'>
-                    <FontAwesomeIcon size='4x' className='p-[0.1rem]' icon={faCircle} />
-                    <FontAwesomeIcon size='4x' className='p-[0.1rem]' icon={faCircle} />
-                    <FontAwesomeIcon size='4x' className='p-[0.1rem]' icon={faCircle} />
+                <div className='flex items-center justify-center cursor-pointer'>
+                    <span className='inline-flex items-center justify-center text-gray-500 w-6 h-6 hover:text-gray-800'>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                        </svg>
+                    </span>
                 </div>
                 {
                     show &&

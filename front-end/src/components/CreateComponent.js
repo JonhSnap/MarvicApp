@@ -42,7 +42,7 @@ function InputComponent({
           attachment_Path: [],
           id_Parent_Issue: idParent,
           priority: 3,
-          id_Stage: stageTodo.id,
+          id_Stage: NIL,
           id_Assignee: null,
           summary: valueInput,
           isFlagged: 0,
@@ -109,7 +109,6 @@ function InputComponent({
 export default function CreateIssuesComponent({
   createWhat,
   idParent = null,
-
   listIssue,
   setListIssue,
   project,
