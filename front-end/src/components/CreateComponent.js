@@ -109,7 +109,6 @@ function InputComponent({
 export default function CreateIssuesComponent({
   createWhat,
   idParent = null,
-
   listIssue,
   setListIssue,
   project,
