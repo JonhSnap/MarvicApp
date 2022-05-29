@@ -32,7 +32,7 @@ import Stages from "./Stages";
 
 function TaskItemComponent({ members, issue, project, issueEpics }) {
   const [{ stages }] = useStageContext();
-  const [showEdit, setShow, handleClose] = useModal();
+  const [showEdit, setShow] = useModal();
   const [, dispatch] = useListIssueContext();
   const [showFlag, setShowFlag] = useState(false);
   const [showInputPoint, setShowInputPoint] = useState(false);
@@ -103,9 +103,8 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
         ref={ref}
         className={`item hover:bg-[#eee] cursor-pointer rounded-md w-full h-[30px] p-1
             px-4 mt-[-1px] border-solid border-[1px] border-[#ccc]
-            flex justify-between items-center ${
-              issue.isFlagged ? "bg-[#ffe8e6] hover:bg-[#ffb9b3]" : "bg-white"
-            }`}
+            flex justify-between items-center ${issue.isFlagged ? "bg-[#ffe8e6] hover:bg-[#ffb9b3]" : "bg-white"
+          }`}
       >
         <div className="flex items-center h-full left-item">
           <div className="w-5 h-5">
@@ -121,18 +120,16 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
           <div className="inline-block mx-1">
             <span>{issue?.summary}</span>
           </div>
-          {issue?.id_Parent_Issue &&
-            issue?.id_Parent_Issue !==
-              "00000000-0000-0000-0000-000000000000" && (
-              <div
-                onClick={handleClickParent}
-                className="parent ml-5 bg-[#8777D9] bg-opacity-60 hover:bg-[#8777D9] flex items-center justify-center p-1 rounded-[2px]"
-              >
-                <span className="text-[10px] pointer-events-none text-white font-semibold">
-                  {currentEpic?.summary}
-                </span>
-              </div>
-            )}
+          {currentEpic && (
+            <div
+              onClick={handleClickParent}
+              className="parent ml-5 bg-[#8777D9] bg-opacity-60 hover:bg-[#8777D9] flex items-center justify-center p-1 rounded-[2px]"
+            >
+              <span className="text-[10px] pointer-events-none text-white font-semibold">
+                {currentEpic?.summary}
+              </span>
+            </div>
+          )}
         </div>
         <div className="flex items-center h-full right-item w-fit">
           {issue.isFlagged === 1 && (
