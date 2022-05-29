@@ -157,40 +157,18 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest($"Cannot get group issue by Idlabel = {rq.IdLabel} from IdProject = {rq.IdProject}");
             return Ok(groupIssues);
         }
-        [HttpPost]
-        [Route("/api/Issue/Create")]
-        public async Task<IActionResult> Create([FromBody] Issue_CreateRequest rq)
+        [HttpGet]
+        [Route("/api/Issue/GroupIssueForBoardByAssignee")]
+        public IActionResult GroupIssueForBoardByAssignee(Guid idSprint, Guid? idEpic, EnumIssueType? type)
         {
+            RequestVM rqVM = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
+            GetBoardIssue_Request rq = new GetBoardIssue_Request(idSprint, idEpic, type);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var id_Issue = await _issueService.Create(rq);
-            if (id_Issue.Equals(Guid.Empty))
-                return BadRequest("Cannot create a Issue");
-            await _actionHub.Clients.All.Issue();
-            return Ok(id_Issue);
-        }
-        [HttpPut]
-        [Route("/api/Issue/Update")]
-        public async Task<IActionResult> Update([FromBody] Issue_UpdateRequest rq)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            var idIssue = await _issueService.Update(rq);
-            if (idIssue.Equals(Guid.Empty))
-                return BadRequest();
-            await _actionHub.Clients.All.Issue();
-            return Ok(idIssue);
-        }
-        [HttpDelete("{IdIssue}")]
-        public async Task<IActionResult> Delete(Guid IdIssue)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            var idIssue = await _issueService.Delete(IdIssue);
-            if (idIssue.Equals(Guid.Empty))
-                return BadRequest();
-            await _actionHub.Clients.All.Issue();
-            return Ok(idIssue);
+            var groupIssues = _issueService.GroupIssueForBoardByAssignee(rq, rqVM);
+            if (groupIssues == null)
+                return BadRequest($"Cannot get group issue by issue priority from idSprint = {rq.IdSprint}");
+            return Ok(groupIssues);
         }
         [HttpGet]
         [Route("/api/Issue/GetIssueForBoard")]
@@ -205,70 +183,6 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest($"Cannot get Board's issue by idSprint = {rq.IdSprint}");
             return Ok(boardIssues);
         }
-        [HttpGet]
-        [Route("/api/Issue/GroupIssueForBoardByAssignee")]
-        public IActionResult GroupIssueForBoardByAssignee(Guid idSprint, Guid? idEpic, EnumIssueType? type)
-        {
-            RequestVM rqVM = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
-            GetBoardIssue_Request rq = new GetBoardIssue_Request(idSprint, idEpic, type);
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            var groupIssues = _issueService.GroupIssueForBoardByAssignee(rq, rqVM);
-            if (groupIssues == null)
-                return BadRequest($"Cannot get group issue by issue priority from idSprint = {rq.IdSprint}");
-            return Ok(groupIssues);
-        }
-        [HttpGet("download")]
-        public FileResult DownloadFile([FromQuery] string fileName)
-        {
-            //Build the File Path.
-            string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files//{fileName}");
-
-            //Read the File data into Byte Array.
-            byte[] bytes = System.IO.File.ReadAllBytes(path);
-
-            //Send the File to Download.
-            return File(bytes, "application/octet-stream", fileName);
-        }
-        [HttpPost]
-        [Route("DeleteFile")]
-        public async Task<IActionResult> DeleteFileAsync([FromBody] DeleteFile_Request rq)
-        {
-            // delete file in wwwroot/upload files
-            string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\{rq.FileName}");
-            if (System.IO.File.Exists(path))
-                System.IO.File.Delete(path);
-            // update attachment_path of issue
-            var result = _issueService.DeleteFileIssue(rq);
-            if (result)
-            {
-                await _actionHub.Clients.All.Issue();
-                return Ok("Delete file success");
-            }
-            else return BadRequest($"Cannot delete file in issue {rq.IdIssue}");
-        }
-        // Test bang Swagger co the bi loi CORS, hay test voi post man
-        [HttpPost]
-        [Route("UploadFile")]
-        public async Task<IActionResult> UploadFileAsync([FromForm] UploadFile_Request rq)
-        {
-            // replace file exist
-            // delete file in wwwroot/upload files
-            var issue = _issueService.Get_Issues_By_Id(rq.IdIssue);
-            string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\{issue.FileName}");
-            if (System.IO.File.Exists(path))
-                System.IO.File.Delete(path);
-            if (rq.File != null)
-            {
-                _issueService.DeleteFileIssue(new DeleteFile_Request(rq.IdIssue, rq.File.FileName));
-                // update file for issue
-                _issueService.UploadedFile(rq.IdIssue, rq.File);
-            }
-
-            await _actionHub.Clients.All.Issue();
-            return Ok($"Upload file success for issue = {rq.IdIssue}");
-        }
-
         // /api/Issue/GroupByEpic
         [HttpGet]
         [Route("/api/Issue/GroupByEpic")]
@@ -295,7 +209,6 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest($"Cannot get issue assigned to user {UserLogin.Id}");
             return Ok(issues);
         }
-
         // /api/Issue/GetIssuesArchive
         [HttpGet]
         [Route("/api/Issue/GetIssuesArchive/{idProject}")]
@@ -324,7 +237,88 @@ namespace MarvicSolution.BackendApi.Controllers
             _context.SaveChanges();
             return Ok(wo);
         }
+        [HttpPost]
+        [Route("/api/Issue/Create")]
+        public async Task<IActionResult> Create([FromBody] Issue_CreateRequest rq)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var id_Issue = await _issueService.Create(rq);
+            if (id_Issue.Equals(Guid.Empty))
+                return BadRequest("Cannot create a Issue");
+            return Ok(id_Issue);
+        }
+        [HttpPut]
+        [Route("/api/Issue/Update")]
+        public async Task<IActionResult> Update([FromBody] Issue_UpdateRequest rq)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var idIssue = await _issueService.Update(rq);
+            if (idIssue.Equals(Guid.Empty))
+                return BadRequest();
+            await _actionHub.Clients.All.Issue();
+            return Ok(idIssue);
+        }
+        [HttpDelete("{IdIssue}")]
+        public async Task<IActionResult> Delete(Guid IdIssue)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var idIssue = await _issueService.Delete(IdIssue);
+            if (idIssue.Equals(Guid.Empty))
+                return BadRequest();
+            return Ok(idIssue);
+        }
+        [HttpGet("download")]
+        public FileResult DownloadFile([FromQuery] string fileName)
+        {
+            //Build the File Path.
+            string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files//{fileName}");
 
+            //Read the File data into Byte Array.
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+            //Send the File to Download.
+            return File(bytes, "application/octet-stream", fileName);
+        }
+        [HttpPost]
+        [Route("DeleteFile")]
+        public IActionResult DeleteFileAsync([FromBody] DeleteFile_Request rq)
+        {
+            // delete file in wwwroot/upload files
+            string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\{rq.FileName}");
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+            // update attachment_path of issue
+            var result = _issueService.DeleteFileIssue(rq);
+            if (result)
+            {
+                return Ok("Delete file success");
+            }
+            else return BadRequest($"Cannot delete file in issue {rq.IdIssue}");
+        }
+        // Test bang Swagger co the bi loi CORS, hay test voi post man
+        [HttpPost]
+        [Route("UploadFile")]
+        public IActionResult UploadFileAsync([FromForm] UploadFile_Request rq)
+        {
+            // replace file exist
+            // delete file in wwwroot/upload files
+            var issue = _issueService.Get_Issues_By_Id(rq.IdIssue);
+            string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\{issue.FileName}");
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+            if (rq.File != null)
+            {
+                _issueService.DeleteFileIssue(new DeleteFile_Request(rq.IdIssue, rq.File.FileName));
+                // update file for issue
+                _issueService.UploadedFile(rq.IdIssue, rq.File);
+            }
+
+            return Ok($"Upload file success for issue = {rq.IdIssue}");
+        }
+        // /api/ChangeStage
         [HttpPost]
         [Route("ChangeStage")]
         public async Task<IActionResult> ChangeStage([FromBody] ChangeStage_Request rq)

@@ -67,21 +67,19 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Id_Label = rq.Id_Label,
                         Summary = rq.Summary,
                         Description = rq.Description,
-                        Id_Assignee = rq.Id_Assignee,
+                        Id_Assignee = rq.Id_Assignee != null ? rq.Id_Assignee : Guid.Empty,
                         Story_Point_Estimate = rq.Story_Point_Estimate,
                         Id_Reporter = rq.Id_Reporter.Equals(Guid.Empty) ? UserLogin.Id : rq.Id_Reporter,
                         FileName = string.Empty,
                         Id_Linked_Issue = rq.Id_Linked_Issue,
-                        Id_Parent_Issue = rq.Id_Parent_Issue,
+                        Id_Parent_Issue = rq.Id_Parent_Issue != null ? rq.Id_Parent_Issue : Guid.Empty,
                         Priority = rq.Priority,
                         Id_Restrict = rq.Id_Restrict,
                         IsFlagged = rq.IsFlagged,
                         IsWatched = rq.IsWatched,
                         Id_Creator = UserLogin.Id,
                         DateCreated = DateTime.Now,
-                        DateStarted = rq.DateStarted,
                         Order = rq.Order,
-                        DateEnd = rq.DateEnd
                     };
 
                     _context.Issues.Add(issue);
@@ -105,6 +103,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             {
                 try
                 {
+                    var sprint = _context.Sprints.Find(rq.Id_Sprint);
                     var issue = _context.Issues.Find(rq.Id);
                     if (issue == null)
                         throw new MarvicException($"Cannot find the issue with id: {rq.Id}");
@@ -124,8 +123,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     issue.Id_Restrict = rq.Id_Restrict;
                     issue.IsFlagged = rq.IsFlagged;
                     issue.IsWatched = rq.IsWatched;
-                    issue.DateStarted = rq.DateStarted;
-                    issue.DateEnd = rq.DateEnd;
+                    issue.DateStarted = sprint != null ? sprint.Start_Date : new DateTime();
+                    issue.DateEnd = sprint != null ? sprint.End_Date : new DateTime();
                     issue.Id_Updator = UserLogin.Id;
                     issue.Order = rq.Order;
                     issue.UpdateDate = DateTime.Now;
@@ -1291,7 +1290,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
 
         }
-
         public async Task<bool> ChangeStage(ChangeStage_Request rq)
         {
             try
@@ -1300,6 +1298,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 if (iss != null)
                 {
                     iss.Id_Stage = rq.IdStage;
+                    iss.UpdateDate = DateTime.Now;
+                    iss.Id_Updator = rq.IdUpdator;
                     _context.Issues.Update(iss);
                     await _context.SaveChangesAsync();
                     return true;
