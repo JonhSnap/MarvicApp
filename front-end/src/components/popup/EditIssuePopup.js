@@ -1,4 +1,5 @@
-import React, { useEffect, useState, memo, useMemo } from 'react'
+/* eslint-disable react/jsx-no-comment-textnodes */
+import React, { useEffect, useState, memo, useMemo, useRef } from 'react'
 import './EditIssuePopup.scss'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,7 +12,8 @@ import { useListIssueContext } from '../../contexts/listIssueContext'
 import createToast from '../../util/createToast'
 import OptionsEditIssue from '../option/OptionsEditIssue'
 import IssueCanAddSelectbox from '../selectbox/IssueCanAddSelectbox'
-import { issueTypes } from '../../util/constants'
+import { BASE_URL, issueTypes } from '../../util/constants'
+import AttachmentForm from '../form/AttachmentForm'
 
 function EditIssuePopup({ members, project, issue, setShow }) {
     const [{ issueEpics }, dispatch] = useListIssueContext();
@@ -20,6 +22,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
     const [valuesStore, setValuesStore] = useState({});
     const [showCKEditorCMT, setShowCKEditorCMT] = useState(false)
     const [showAddchild, setShowAddchild] = useState(false);
+    const [showAttachment, setShowAttachment] = useState(false);
     const [childIssues, setChildIssues] = useState([]);
 
     const [values, setValues] = useState({
@@ -145,6 +148,11 @@ function EditIssuePopup({ members, project, issue, setShow }) {
                         setShowAddchild={setShowAddchild}
                         childIssues={childIssues}
                     />
+                    <AttachmentForm
+                        issue={issue}
+                        setShowAttachment={setShowAttachment}
+                        showAttachment={showAttachment}
+                    />
                     <div className='flex justify-between items-start'>
                         {
                             issue.id_IssueType !== 1 &&
@@ -200,6 +208,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
                         }
                         <div className='flex items-center gap-x-2'>
                             <OptionsEditIssue
+                                setShowAttachment={setShowAttachment}
                                 setShowAddchild={setShowAddchild}
                             />
                             <div
@@ -256,6 +265,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
                             name='description'
                         ></textarea>
                     </div>
+                    <Attachment issue={issue} />
                     <ChildIssue
                         issues={childIssues}
                     />
@@ -421,6 +431,40 @@ function ChildIssue({ issues }) {
                     ))
                 }
             </div>
+        </div>
+    )
+}
+function Attachment({ issue }) {
+    const downloadRef = useRef();
+    // handle download
+    const handleDownload = () => {
+        const lastBacklashIndex = issue.attachment_Path.lastIndexOf('/');
+        const fileName = issue.attachment_Path.slice(lastBacklashIndex + 1)
+        const path = `${BASE_URL}/api/Issue/download?fileName=${fileName}`;
+        if (fileName) {
+            downloadRef.current.href = path;
+            downloadRef.current.click();
+        }
+    }
+
+    return (
+        <div className='attach'>
+            <p className='title'>Attachment</p>
+            {
+                !issue.attachment_Path ?
+                    <p>No attachment</p> :
+                    <div className='download'>
+                        <div className='image'>
+                            <img src={issue.attachment_Path} alt="" />
+                        </div>
+                        <a ref={downloadRef} hidden href='/'>download</a>
+                        <span onClick={handleDownload} className='btn-download'>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                        </span>
+                    </div>
+            }
         </div>
     )
 }
