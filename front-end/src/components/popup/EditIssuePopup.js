@@ -206,7 +206,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
                 </div>
               </div>
             }
-            <div className='flex items-center gap-x-2'>
+            <div className='flex items-center gap-x-2 ml-auto'>
               <OptionsEditIssue
                 setShowAttachment={setShowAttachment}
                 setShowAddchild={setShowAddchild}

@@ -5,16 +5,16 @@ import { useListIssueContext } from '../../contexts/listIssueContext';
 import { useMembersContext } from '../../contexts/membersContext';
 import { useBoardContext } from '../../contexts/boardContext';
 import useModal from '../../hooks/useModal';
-import { CHANGE_FILTERS_EPIC, CHANGE_FILTERS_NAME, CHANGE_FILTERS_TYPE, CHANGE_FILTER_EPIC_BOARD, CHANGE_FILTER_NAME_BOARD } from '../../reducers/actions';
+import { CHANGE_FILTERS_EPIC, CHANGE_FILTERS_NAME, CHANGE_FILTERS_TYPE, CHANGE_FILTER_EPIC_BOARD, CHANGE_FILTER_NAME_BOARD, CHANGE_FILTER_TYPE_BOARD } from '../../reducers/actions';
 import { fetchBoard } from '../../reducers/boardReducer';
 import { fetchIssue } from '../../reducers/listIssueReducer';
 import { deleteMembers, fetchMembers } from '../../reducers/membersReducer';
 import { getProjects, updateProjects } from '../../redux/apiRequest';
 import { documentHeight, issueTypes } from '../../util/constants';
 import AddMemberPopup from '../popup/AddMemberPopup';
-import FilterEpicBoardSelectBox from '../selectbox/FilterEpicSelectBox';
-import FilterTypeSelectBox from '../selectbox/FilterTypeSelectBox';
+import FilterEpicBoardSelectBox from '../selectbox/FilterEpicBoardSelectBox';
 import './TopDetail.scss';
+import FilterTypeBoardSelectBox from '../selectbox/FilterTypeBoardSelectBox';
 
 const secondThirdScreen = documentHeight * 2 / 3;
 function TopDetailBoard({ project, currentSprint }) {
@@ -149,14 +149,16 @@ function TopDetailBoard({ project, currentSprint }) {
         }, dispatchBoard)
     }
     // handle choose type
-    const handleChooseType = (idType) => {
-        dispatchIssue({
-            type: CHANGE_FILTERS_TYPE,
+    const handleChooseType = async (idType) => {
+        await dispatchBoard({
+            type: CHANGE_FILTER_TYPE_BOARD,
             payload: idType
         });
-        setTimeout(() => {
-            fetchIssue(project.id, dispatchIssue);
-        }, 500);
+        fetchBoard({
+            idSprint: currentSprint.id,
+            idEpic: null,
+            type: 0
+        }, dispatchBoard)
     }
 
     return (
@@ -179,7 +181,7 @@ function TopDetailBoard({ project, currentSprint }) {
             }
             {
                 showType &&
-                <FilterTypeSelectBox
+                <FilterTypeBoardSelectBox
                     issueTypes={issueTypes}
                     type={types}
                     handleChooseType={handleChooseType}
