@@ -1294,6 +1294,21 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                                       DateEnd = i.DateEnd,
                                                       Id_Updator = i.Id_Updator,
                                                       Order = i.Order,
+<<<<<<< HEAD
+                                                      Users = _context.App_Users.Where(u => u.Id == i.Id_Updator || u.Id == i.Id_Creator || u.Id == i.Id_Assignee).Select(u => new User_ViewModel()
+                                                      {
+                                                          Department = u.Department,
+                                                          Email = u.Email,
+                                                          FullName = u.FullName,
+                                                          Id = u.Id,
+                                                          JobTitle = u.JobTitle,
+                                                          Organization = u.Organization,
+                                                          PhoneNumber = u.PhoneNumber,
+                                                          UserName = u.UserName,
+                                                          Avatar = u.Avatar,
+                                                          Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar)
+                                                      }).ToList()
+=======
                                                       Users = _context.App_Users.Where(u => u.Id == i.Id_Updator
                                                                                           || u.Id == i.Id_Creator
                                                                                           || u.Id == i.Id_Assignee)
@@ -1310,6 +1325,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                                                                               Avatar = u.Avatar,
                                                                                               Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar)
                                                                                           }).ToList()
+>>>>>>> FE
                                                   }).ToList()
                                               }).ToList();
                     return listIssueArchiveVM;
