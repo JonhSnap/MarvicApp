@@ -71,7 +71,7 @@ namespace MarvicSolution.BackendApi.Controllers
                 // Thiet lap thong tin cho user da login
                 UserLogin.SetInfo(user);
                 // Tao token theo JWT
-                var jwt = _userService.Authenticate(rq, user);
+                var jwt = _userService.GetJwt(rq, user);
                 // Tao cookie
                 Response.Cookies.Append("jwt", jwt, new CookieOptions
                 {
@@ -110,6 +110,7 @@ namespace MarvicSolution.BackendApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            //Guid id_User = ValidateUser();
             var user = _userService.GetUserbyIdVM(UserLogin.Id, rqVM);
             if (user == null)
                 return BadRequest($"Cannot find user with id = {UserLogin.Id}");
@@ -158,9 +159,9 @@ namespace MarvicSolution.BackendApi.Controllers
                 _userService.DeleteUserAvatar(rq.File.FileName);
                 // update avatar
                 _userService.UploadAvatar(rq.File);
-            }
-
             return Ok($"Upload file success for user = {UserLogin.Id}");
+            }
+            return BadRequest();
         }
         [HttpPut]
         [Route("DeleteAvatar")]

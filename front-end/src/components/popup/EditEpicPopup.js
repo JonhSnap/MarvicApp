@@ -86,7 +86,7 @@ function EditEpicPopup({ project, issue, setShow, donePercent }) {
 
       await updateIssues(issueUpdate, dispatch);
       await fetchIssue(project.id, dispatch);
-      createToast("success", "Update issue successfully!");
+      // createToast("success", "Update issue successfully!");
       setShow(false);
     }
   };

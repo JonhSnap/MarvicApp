@@ -7,6 +7,8 @@ import { BASE_URL } from "../../util/constants";
 import { useSelector } from "react-redux";
 import { v4 } from "uuid";
 
+import "./Comment.scss";
+
 const Comments = ({ commentURL, IdIssueComment }) => {
   const [comments, setComments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
@@ -51,7 +53,6 @@ const Comments = ({ commentURL, IdIssueComment }) => {
         setActiveComment(null);
       });
   };
-  // https://localhost:5001/api/Comments/90c871a8-4f30-4a0a-6276-08da28bd73fd
   const deleteComment = async (commentId) => {
     if (window.confirm("Are you sure that you want to remove comment")) {
       await axios
@@ -82,7 +83,7 @@ const Comments = ({ commentURL, IdIssueComment }) => {
       <div className="w-full mx-auto comments">
         <h3 className="text-blue-600 select-none comments-title">Comments</h3>
         <CommentForm submitLabel="Write" handleSubmit={addComment} />
-        <div className="comments-container overflow-y-auto h-[500px] border-t-2 border-slate-300 pt-2">
+        <div className="comments-container pb-[120px] overflow-y-auto h-[500px] border-t-2 border-slate-300">
           {comments.length > 0 &&
             comments.map((item) => (
               <Comment

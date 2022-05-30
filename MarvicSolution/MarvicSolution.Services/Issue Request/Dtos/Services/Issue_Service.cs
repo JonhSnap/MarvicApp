@@ -1136,7 +1136,9 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                                                     JobTitle = u.JobTitle,
                                                                     Organization = u.Organization,
                                                                     PhoneNumber = u.PhoneNumber,
-                                                                    UserName = u.UserName
+                                                                    UserName = u.UserName,
+                                                                    Avatar = u.Avatar,
+                                                                    Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar)
                                                                 }).ToList()
                                   }).ToList();
                 // gom nhom workedOnVM theo thang, sort giam dan 

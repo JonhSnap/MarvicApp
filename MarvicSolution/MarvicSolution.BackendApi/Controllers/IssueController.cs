@@ -222,9 +222,9 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest($"Cannot get issue assigned to user {UserLogin.Id}");
             return Ok(issues);
         }
-        // /api/WorkedOn
+        // /api/Issue/WorkedOn
         [HttpGet]
-        [Route("/api/WorkedOn")]
+        [Route("/api/Issue/WorkedOn")]
         public IActionResult WorkedOn()
         {
             RequestVM rqVM = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
