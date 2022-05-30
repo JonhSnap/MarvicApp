@@ -26,14 +26,14 @@ namespace MarvicSolution.BackendApi.Controllers
         private readonly IIssue_Service _issueService;
         private readonly MarvicDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IHubContext<ActionHub, IActionHub> _actionHub;
 
-        public IssueController(IIssue_Service issueService, IWebHostEnvironment webHostEnvironment, MarvicDbContext context, IHubContext<ActionHub, IActionHub> actionHub)
+        public IssueController(IIssue_Service issueService, 
+                                IWebHostEnvironment webHostEnvironment, 
+                                MarvicDbContext context)
         {
             _issueService = issueService;
             _webHostEnvironment = webHostEnvironment;
             _context = context;
-            _actionHub = actionHub;
         }
         // /api/Issue/GetIssuesByIdProject
         [HttpGet]
@@ -257,7 +257,6 @@ namespace MarvicSolution.BackendApi.Controllers
             var idIssue = await _issueService.Update(rq);
             if (idIssue.Equals(Guid.Empty))
                 return BadRequest();
-            await _actionHub.Clients.All.Issue();
             return Ok(idIssue);
         }
         [HttpDelete("{IdIssue}")]
