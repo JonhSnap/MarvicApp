@@ -78,7 +78,7 @@ const YourWorkIssue = ({ dataIssue }) => {
                     + {dataIssue.users.length - 1}
                   </div>
                   <img
-                    src={avtUser}
+                    src={dataIssue.users[1].avatar_Path || avtUser}
                     alt=""
                     className="w-[40px] h-[40px] rounded-full"
                   />

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import UserYourWork from "./UserYourWork";
 import { v4 } from "uuid";
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
 import useHover from "../../hooks/useHover";
 import avtUser from "../../images/avt-user.png";
@@ -78,7 +79,7 @@ const YourWorkIssue = ({ dataIssue }) => {
                     + {dataIssue.users.length - 1}
                   </div>
                   <img
-                    src={avtUser}
+                    src={ avtUser}
                     alt=""
                     className="w-[40px] h-[40px] rounded-full"
                   />

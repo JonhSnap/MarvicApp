@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import UserYourWork from "./UserYourWork";
 import { v4 } from "uuid";
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
 import useHover from "../../hooks/useHover";
 import avtUser from "../../images/avt-user.png";
