@@ -26,6 +26,7 @@ namespace MarvicSolution.Services.Stage_Request.Services
         {
             try
             {
+                stage.Stage_Name = stage.Stage_Name.ToUpper();
                 _context.Stages.Add(stage);
                 await _context.SaveChangesAsync();
                 return true;

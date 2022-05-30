@@ -28,7 +28,6 @@ function Board({ board, project, currentSprint }) {
         .withUrl('https://localhost:5001/hubs/marvic')
         .configureLogging(LogLevel.Information)
         .build();
-
     // handle column drop
     const handleColumnDrop = async (dropResult) => {
         const { addedIndex, removedIndex } = dropResult;
@@ -45,9 +44,11 @@ function Board({ board, project, currentSprint }) {
         }
     }
     useEffect(() => {
+
         connection
             .start()
             .then((res) => {
+                console.log("connection....")
                 connection.on("Stage", () => {
                     fetchBoard({
                         idSprint: currentSprint.id,

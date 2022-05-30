@@ -10,7 +10,7 @@ namespace MarvicSolution.Services.System.Users.Services
 {
     public interface IUser_Service
     {
-        string Authenticate(Login_Request rq, App_User user);
+        string GetJwt(Login_Request rq, App_User user);
         bool Register(Register_Request rq);
         Task<Guid> Create(Create_User_Request rq);
         Guid Update(Update_User_Request rq);

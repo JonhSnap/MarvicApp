@@ -63,7 +63,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
 
                     // add 3 stage
                     var stageTodo = new Stage(proj.Id, StageName.TODO, UserLogin.Id, 0, EnumStatus.False, EnumStatus.True);
-                    var stageInprogress = new Stage(proj.Id, StageName.INPROCESS, UserLogin.Id, 1, EnumStatus.False, EnumStatus.False);
+                    var stageInprogress = new Stage(proj.Id, StageName.INPROGRESS, UserLogin.Id, 1, EnumStatus.False, EnumStatus.False);
                     var stageDone = new Stage(proj.Id, StageName.DONE, UserLogin.Id, 2, EnumStatus.True, EnumStatus.False);
                     _context.Stages.Add(stageTodo);
                     _context.Stages.Add(stageInprogress);

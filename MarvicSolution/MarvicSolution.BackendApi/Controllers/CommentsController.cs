@@ -25,10 +25,6 @@ namespace MarvicSolution.BackendApi.Controllers
         public async Task<IActionResult> GetComments(Guid Id_Issue)
         {
             var comments= await _comment_Service.GetCommentsById_Issue(Id_Issue);
-            if (comments.Count==0)
-            {
-                return NotFound();
-            }
             return Ok(comments);
         }
 
