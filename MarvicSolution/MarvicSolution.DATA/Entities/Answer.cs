@@ -13,7 +13,6 @@ namespace MarvicSolution.DATA.Entities
         public Guid Id { get; set; }
         public Guid Id_Question { get; set; }
         public string Name { get; set; }
-        public EnumStatus IsAnswer { get; set; } = EnumStatus.False;
-        public EnumStatus IsDeleted { get; set; } = EnumStatus.False;
+        public EnumStatus IsCorrect { get; set; }
     }
 }

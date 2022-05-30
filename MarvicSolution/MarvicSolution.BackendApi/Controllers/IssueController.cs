@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MarvicSolution.BackendApi.Controllers
@@ -39,6 +40,10 @@ namespace MarvicSolution.BackendApi.Controllers
         [Route("/api/Issue/GetIssuesByIdProject")]
         public IActionResult GetIssuesByIdProject(Guid idProject)
         {
+            var issue = (from i in _context.Issues.AsEnumerable()
+                        group i by i.DateCreated.Value.Month into g
+                        select g).ToList();
+
             RequestVM rq = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
