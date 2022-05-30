@@ -318,7 +318,7 @@ namespace MarvicSolution.BackendApi.Controllers
 
             return Ok($"Upload file success for issue = {rq.IdIssue}");
         }
-        // /api/ChangeStage
+        // /api/Issue/ChangeStage
         [HttpPost]
         [Route("ChangeStage")]
         public async Task<IActionResult> ChangeStage([FromBody] ChangeStage_Request rq)
