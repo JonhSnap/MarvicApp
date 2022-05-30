@@ -32,4 +32,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Answer Request\Validators\" />
+  </ItemGroup>
+
 </Project>

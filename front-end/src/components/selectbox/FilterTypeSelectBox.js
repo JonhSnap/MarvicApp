@@ -25,7 +25,7 @@ function FilterTypeSelectBox({ issueTypes, handleChooseType, type, onClose, body
                             <div className="w-5 h-5">
                                 <img className='block w-full h-full object-cover rounded-md' src={item.thumbnail} alt="" />
                             </div>
-                            <label htmlFor={item.id}>{item.title}</label>
+                            <label className='capitalize' htmlFor={item.id}>{item.title}</label>
                         </div>
                     ))
                 }

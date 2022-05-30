@@ -8,6 +8,7 @@ using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Archive;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.AssignedToMe;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Board;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.GroupBy;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.WorkedOn;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels;
@@ -54,11 +55,14 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             {
                 try
                 {
+                    // lấy ra default stage và gắn id vào issue
+                    var dfStage = _context.Stages.FirstOrDefault(s => s.Id_Project.Equals(rq.Id_Project) && s.isDefault.Equals(EnumStatus.True));
+
                     var issue = new Issue()
                     {
                         Id_Project = rq.Id_Project,
                         Id_IssueType = rq.Id_IssueType,
-                        Id_Stage = rq.Id_Stage,
+                        Id_Stage = dfStage.Id,
                         Id_Sprint = rq.Id_Sprint,
                         Id_Label = rq.Id_Label,
                         Summary = rq.Summary,
@@ -81,6 +85,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     };
 
                     _context.Issues.Add(issue);
+
                     await _context.SaveChangesAsync();
                     tran.Commit();
                     return issue.Id;

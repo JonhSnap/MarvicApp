@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "../util/constants";
-import { CHANGE_FILTER_EPIC_BOARD, CHANGE_FILTER_NAME_BOARD, GET_BOARD } from "./actions";
+import { CHANGE_FILTER_EPIC_BOARD, CHANGE_FILTER_NAME_BOARD, CHANGE_FILTER_TYPE_BOARD, GET_BOARD } from "./actions";
 
 // fetch board
 const fetchBoard = async (dataGet, dispatch) => {
@@ -51,10 +51,12 @@ const boardReducer = (state, action) => {
                 if (epicFilter.includes('issues without epic')) {
                     stateCopy.boards.forEach(board => {
                         board.listStage.forEach(stage => {
-                            // const listIssueCopy = [...stage.listIssue]
-                            // stage.listIssue = listIssueCopy.filter(item => {
-                            //     return !item.id_Parent_Issue || item.id_Parent_Issue === '00000000-0000-0000-0000-000000000000';
-                            // })
+                            stage.listIssue = stage.listIssue.filter(issue => {
+                                return (
+                                    !issue.id_Parent_Issue ||
+                                    issue.id_Parent_Issue === "00000000-0000-0000-0000-000000000000"
+                                )
+                            })
                         })
                     })
                 }
@@ -69,6 +71,17 @@ const boardReducer = (state, action) => {
                 stateCopy = {
                     ...stateCopy
                 }
+            }
+
+            // filter type
+            if (typeFilter.length > 0) {
+                stateCopy.boards.forEach(board => {
+                    board.listStage.forEach(stage => {
+                        stage.listIssue = stage.listIssue.filter(issue => typeFilter.includes(issue.id_IssueType))
+                    })
+                })
+            } else {
+                stateCopy = { ...stateCopy }
             }
             state = { ...stateCopy };
             break;
@@ -97,6 +110,38 @@ const boardReducer = (state, action) => {
                     filters: {
                         ...stateCopy.filters,
                         epics: [...stateCopy.filters.epics, action.payload]
+                    }
+                }
+            }
+            state = { ...stateCopy }
+            break;
+        case CHANGE_FILTER_TYPE_BOARD:
+            let typeFilterCopy = stateCopy.filters.types;
+            if (typeFilterCopy.length > 0) {
+                if (typeFilterCopy.includes(action.payload)) {
+                    const newFilterType = typeFilterCopy.filter(item => item !== action.payload);
+                    stateCopy = {
+                        ...stateCopy,
+                        filters: {
+                            ...stateCopy.filters,
+                            types: [...newFilterType]
+                        }
+                    }
+                } else {
+                    stateCopy = {
+                        ...stateCopy,
+                        filters: {
+                            ...stateCopy.filters,
+                            types: [...stateCopy.filters.types, action.payload]
+                        }
+                    }
+                }
+            } else {
+                stateCopy = {
+                    ...stateCopy,
+                    filters: {
+                        ...stateCopy.filters,
+                        types: [action.payload]
                     }
                 }
             }
