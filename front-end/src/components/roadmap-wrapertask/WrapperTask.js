@@ -36,6 +36,7 @@ function WrapperTask({ members, project, issues }) {
       {issues?.length > 0 &&
         issues.map((item) => (
           <TaskItemComponent
+            key={item.id}
             members={members}
             project={project}
             issueEpics={issueEpics}

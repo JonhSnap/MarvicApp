@@ -4,9 +4,7 @@ import axios from 'axios';
 import sorter from '../../util/sorter';
 import './Board.scss'
 import Column from './Column'
-import { useStageContext } from '../../contexts/stageContext'
 import { Container, Draggable } from 'react-smooth-dnd'
-import { useSelector } from 'react-redux'
 import { fetchBoard } from '../../reducers/boardReducer';
 import { useBoardContext } from '../../contexts/boardContext';
 import { BASE_URL } from '../../util/constants'

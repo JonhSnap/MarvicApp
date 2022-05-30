@@ -67,21 +67,19 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Id_Label = rq.Id_Label,
                         Summary = rq.Summary,
                         Description = rq.Description,
-                        Id_Assignee = rq.Id_Assignee,
+                        Id_Assignee = rq.Id_Assignee != null ? rq.Id_Assignee : Guid.Empty,
                         Story_Point_Estimate = rq.Story_Point_Estimate,
                         Id_Reporter = rq.Id_Reporter.Equals(Guid.Empty) ? UserLogin.Id : rq.Id_Reporter,
                         FileName = string.Empty,
                         Id_Linked_Issue = rq.Id_Linked_Issue,
-                        Id_Parent_Issue = rq.Id_Parent_Issue,
+                        Id_Parent_Issue = rq.Id_Parent_Issue != null ? rq.Id_Parent_Issue : Guid.Empty,
                         Priority = rq.Priority,
                         Id_Restrict = rq.Id_Restrict,
                         IsFlagged = rq.IsFlagged,
                         IsWatched = rq.IsWatched,
                         Id_Creator = UserLogin.Id,
                         DateCreated = DateTime.Now,
-                        DateStarted = rq.DateStarted,
                         Order = rq.Order,
-                        DateEnd = rq.DateEnd
                     };
 
                     _context.Issues.Add(issue);
@@ -105,6 +103,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             {
                 try
                 {
+                    var sprint = _context.Sprints.Find(rq.Id_Sprint);
                     var issue = _context.Issues.Find(rq.Id);
                     if (issue == null)
                         throw new MarvicException($"Cannot find the issue with id: {rq.Id}");
@@ -124,8 +123,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     issue.Id_Restrict = rq.Id_Restrict;
                     issue.IsFlagged = rq.IsFlagged;
                     issue.IsWatched = rq.IsWatched;
-                    issue.DateStarted = rq.DateStarted;
-                    issue.DateEnd = rq.DateEnd;
+                    issue.DateStarted = sprint != null ? sprint.Start_Date : new DateTime();
+                    issue.DateEnd = sprint != null ? sprint.End_Date : new DateTime();
                     issue.Id_Updator = UserLogin.Id;
                     issue.Order = rq.Order;
                     issue.UpdateDate = DateTime.Now;
@@ -721,8 +720,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     var stage = _context.Stages.FirstOrDefault(s => s.Id.Equals(i_id));
                     var stageVM = new StageViewModel(stage.Id, stage.Id_Project, stage.Stage_Name, stage.Id_Creator, stage.DateCreated, stage.UpdateDate, stage.Order);
 
-
-
                     //get list issue by id stage, stage belong to sprint, sprint not archieve, issue is not epic
                     var listIssueVM = (from i in _context.Issues.ToList()
                                        join s in _context.Stages.ToList() on i.Id_Stage equals s.Id
@@ -788,8 +785,38 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
 
                 boardVM.ListStageOrder = listIdStageOrder;
                 boardVM.ListStage = listStageVM;
-                boardVM.ListEpic = Get_Issues_By_IdSprint(sprint.Id, rqVM)
-                                    .Where(i => i.Id_IssueType.Equals(EnumIssueType.Epic)).ToList();
+                boardVM.ListEpic = _context.Issues.Where(i => i.Id_Project.Equals(sprint.Id_Project)
+                                                            && i.Id_IssueType.Equals(EnumIssueType.Epic))
+                                                  .Select(i => new Issue_ViewModel()
+                                                  {
+                                                      Id = i.Id,
+                                                      Id_Project = i.Id_Project,
+                                                      Id_IssueType = i.Id_IssueType,
+                                                      Id_Stage = i.Id_Stage,
+                                                      Id_Sprint = i.Id_Sprint,
+                                                      Id_Label = i.Id_Label,
+                                                      Summary = i.Summary,
+                                                      Description = i.Description,
+                                                      Id_Assignee = i.Id_Assignee,
+                                                      Story_Point_Estimate = i.Story_Point_Estimate,
+                                                      Id_Reporter = i.Id_Reporter,
+                                                      FileName = i.FileName,
+                                                      Attachment_Path = i.FileName.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, i.FileName),
+                                                      Id_Linked_Issue = i.Id_Linked_Issue,
+                                                      Id_Parent_Issue = i.Id_Parent_Issue,
+                                                      Priority = i.Priority,
+                                                      Id_Restrict = i.Id_Restrict,
+                                                      IsFlagged = i.IsFlagged,
+                                                      IsWatched = i.IsWatched,
+                                                      Id_Creator = i.Id_Creator,
+                                                      DateCreated = i.DateCreated,
+                                                      DateStarted = i.DateStarted,
+                                                      DateEnd = i.DateEnd,
+                                                      Id_Updator = i.Id_Updator,
+                                                      UpdateDate = i.UpdateDate,
+                                                      Order = i.Order
+                                                  }).ToList();
+
                 listBoardVM.Add(boardVM);
                 return listBoardVM;
             }
@@ -1137,7 +1164,9 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                                                     JobTitle = u.JobTitle,
                                                                     Organization = u.Organization,
                                                                     PhoneNumber = u.PhoneNumber,
-                                                                    UserName = u.UserName
+                                                                    UserName = u.UserName,
+                                                                    Avatar = u.Avatar,
+                                                                    Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar)
                                                                 }).ToList()
                                   }).ToList();
                 // gom nhom workedOnVM theo thang, sort giam dan 
@@ -1265,19 +1294,22 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                                       DateEnd = i.DateEnd,
                                                       Id_Updator = i.Id_Updator,
                                                       Order = i.Order,
-                                                      Users = _context.App_Users.Where(u => u.Id == i.Id_Updator || u.Id == i.Id_Creator || u.Id == i.Id_Assignee).Select(u => new User_ViewModel()
-                                                      {
-                                                          Department = u.Department,
-                                                          Email = u.Email,
-                                                          FullName = u.FullName,
-                                                          Id = u.Id,
-                                                          JobTitle = u.JobTitle,
-                                                          Organization = u.Organization,
-                                                          PhoneNumber = u.PhoneNumber,
-                                                          UserName = u.UserName,
-                                                          Avatar = u.Avatar,
-                                                          Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar)
-                                                      }).ToList()
+                                                      Users = _context.App_Users.Where(u => u.Id == i.Id_Updator
+                                                                                          || u.Id == i.Id_Creator
+                                                                                          || u.Id == i.Id_Assignee)
+                                                                                          .Select(u => new User_ViewModel()
+                                                                                          {
+                                                                                              Department = u.Department,
+                                                                                              Email = u.Email,
+                                                                                              FullName = u.FullName,
+                                                                                              Id = u.Id,
+                                                                                              JobTitle = u.JobTitle,
+                                                                                              Organization = u.Organization,
+                                                                                              PhoneNumber = u.PhoneNumber,
+                                                                                              UserName = u.UserName,
+                                                                                              Avatar = u.Avatar,
+                                                                                              Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar)
+                                                                                          }).ToList()
                                                   }).ToList()
                                               }).ToList();
                     return listIssueArchiveVM;
@@ -1288,6 +1320,29 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             {
 
                 return null;
+            }
+
+        }
+        public async Task<bool> ChangeStage(ChangeStage_Request rq)
+        {
+            try
+            {
+                var iss = await _context.Issues.FindAsync(rq.IdIssue);
+                if (iss != null)
+                {
+                    iss.Id_Stage = rq.IdStage;
+                    iss.UpdateDate = DateTime.Now;
+                    iss.Id_Updator = rq.IdUpdator;
+                    _context.Issues.Update(iss);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: GetIssueAssignedToMe. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
 
         }
