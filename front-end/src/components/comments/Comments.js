@@ -49,7 +49,7 @@ const Comments = ({ commentURL, IdIssueComment }) => {
         id_ParentComment,
       })
       .then((cmt) => {
-        setComments([cmt, ...comments]);
+        // setComments([cmt, ...comments]);
         setActiveComment(null);
       });
   };
@@ -60,7 +60,7 @@ const Comments = ({ commentURL, IdIssueComment }) => {
           data: { id_User: id_User },
         })
         .then(() => {
-          loadComment();
+          // loadComment();
         });
     }
   };

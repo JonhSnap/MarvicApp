@@ -177,7 +177,6 @@ const ContainerRoadmap = ({ project }) => {
     };
   }, []);
   useEffect(() => {
-    console.log("chay vao useeffect");
     const fetchMember = async () => {
       try {
         const resp = await axios.get(
@@ -356,11 +355,10 @@ const ContainerRoadmap = ({ project }) => {
                 {/* <div
                   onClick={() => handleChooseEpic("issues without epic")}
                   className={`w-full p-3 mb-2 flex items-center font-semibold
-                            shadow-md rounded-[5px] ${
-                              epics.includes("issues without epic")
-                                ? "bg-[#8777D9] text-white"
-                                : "bg-white"
-                            }`}
+                            shadow-md rounded-[5px] ${epics.includes("issues without epic")
+                      ? "bg-[#8777D9] text-white"
+                      : "bg-white"
+                    }`}
                 >
                   issues without epic
                 </div> */}
@@ -370,11 +368,10 @@ const ContainerRoadmap = ({ project }) => {
                       key={v4()}
                       onClick={() => handleChooseEpic(item.id)}
                       className={`w-full p-3 relative z-40 flex flex-col font-semibold shadow-md rounded-[5px] mb-2
-                                ${
-                                  epics.includes(item.id)
-                                    ? "bg-[#8777D9] text-white"
-                                    : "bg-white"
-                                }`}
+                                ${epics.includes(item.id)
+                          ? "bg-[#8777D9] text-white"
+                          : "bg-white"
+                        }`}
                     >
                       <div className="flex items-center">
                         <div className="h-5 w-5 inline-block bg-[#d0c6ff] rounded-[5px] mx-2"></div>
@@ -429,9 +426,8 @@ const ContainerRoadmap = ({ project }) => {
                     <div
                       key={item.id}
                       onClick={() => handleChooseType(item.value)}
-                      className={`flex items-center gap-x-2 p-1 rounded hover:bg-gray-300 mb-2 ${
-                        type.includes(item.value) ? "bg-[#e2e2e2]" : "bg-white"
-                      }`}
+                      className={`flex items-center gap-x-2 p-1 rounded hover:bg-gray-300 mb-2 ${type.includes(item.value) ? "bg-[#e2e2e2]" : "bg-white"
+                        }`}
                     >
                       <div className="w-5 h-5">
                         <img
