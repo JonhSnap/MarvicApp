@@ -33,7 +33,7 @@ namespace MarvicSolution.Services.System.Users.Services
             _webHostEnvironment = webHostEnvironment;
             _logger = logger;
         }
-        public string Authenticate(Login_Request rq, App_User user)
+        public string GetJwt(Login_Request rq, App_User user)
         {
             try
             {

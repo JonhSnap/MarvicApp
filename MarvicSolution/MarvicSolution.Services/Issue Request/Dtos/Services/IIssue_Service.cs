@@ -47,5 +47,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         List<GroupWorkedOn_ViewModel> GetIssueForWorkedOn(Guid IdUserLogin, RequestVM rqVM);
         List<GroupAssignedTM_ViewModel> GetIssueAssignedToMe(Guid IdUserLogin, RequestVM rqVM);
         List<IssueArchive_ViewModel> GetIssuesArchive(Guid idProject, RequestVM rqVM);
+
+        Task<bool> ChangeStage(ChangeStage_Request rq);
+
     }
 }

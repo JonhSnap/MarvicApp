@@ -17,7 +17,7 @@ function Column({ stage, currentSprint }) {
     const [, dispatchIssue] = useListIssueContext();
     const [, dispatchBoard] = useBoardContext();
 
-    // create connection
+    //create connection
     const connection = new HubConnectionBuilder()
         .withUrl('https://localhost:5001/hubs/marvic')
         .configureLogging(LogLevel.Information)
@@ -37,11 +37,11 @@ function Column({ stage, currentSprint }) {
             console.log('issue remove ~ ', issueRemoved);
             await updateIssues(payload, dispatchIssue);
             await updateIssues(issueRemoved, dispatchIssue);
-            // fetchBoard({
-            //     idSprint: currentSprint.id,
-            //     idEpic: null,
-            //     type: 0
-            // }, dispatchBoard);
+            fetchBoard({
+                idSprint: currentSprint.id,
+                idEpic: null,
+                type: 0
+            }, dispatchBoard);
             return;
         }
 

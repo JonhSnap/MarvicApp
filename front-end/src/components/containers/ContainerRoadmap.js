@@ -66,8 +66,18 @@ const ContainerRoadmap = ({ project }) => {
   const [showMembers, setShowMembers] = useState(false);
   const [members, setMembers] = useState([]);
   const [focus, setFocus] = useState(false);
+
+  const [epicSelected, setEpicSelected] = useState({
+    issues: issueEpics,
+    filter: [],
+  });
+
+  useEffect(() => {
+    setEpicSelected((pre) => {
+      return { ...pre, issues: issueEpics };
+    });
+  }, [issueEpics]);
   const inputRef = useRef();
-  console.log(project);
   const handleFocus = () => {
     setFocus(true);
   };
@@ -167,7 +177,6 @@ const ContainerRoadmap = ({ project }) => {
     };
   }, []);
   useEffect(() => {
-    console.log("chay vao useeffect");
     const fetchMember = async () => {
       try {
         const resp = await axios.get(
@@ -182,10 +191,9 @@ const ContainerRoadmap = ({ project }) => {
     if (id) {
       fetchMember();
     } else {
-      console.log("id null");
     }
   }, [id, show]);
-  // dispatch search
+
   useEffect(() => {
     if (project?.id) {
       timer.current = setTimeout(() => {
@@ -198,7 +206,6 @@ const ContainerRoadmap = ({ project }) => {
     }
     return () => clearTimeout(timer.current);
   }, [search]);
-
   return (
     <div className="container">
       <div className="top">
@@ -264,12 +271,12 @@ const ContainerRoadmap = ({ project }) => {
                   />
                 </svg>
                 {showMembers && (
-                  <div className="current-members">
+                  <div className="z-50 current-members">
                     {members.length > 0 ? (
                       members.map((item) => (
                         <div
                           key={v4()}
-                          className="w-full flex justify-between items-center px-[10px]"
+                          className="w-full  flex justify-between items-center px-[10px]"
                         >
                           <span className="text-primary">{item.userName}</span>
                           <div
@@ -345,45 +352,31 @@ const ContainerRoadmap = ({ project }) => {
                 <div className="flex justify-between w-full px-4 py-2">
                   <span className="font-bold text-lg text-[#8777D9]">Epic</span>
                 </div>
-                <div
+                {/* <div
                   onClick={() => handleChooseEpic("issues without epic")}
                   className={`w-full p-3 mb-2 flex items-center font-semibold
-                            shadow-md rounded-[5px] ${
-                              epics.includes("issues without epic")
-                                ? "bg-[#8777D9] text-white"
-                                : "bg-white"
-                            }`}
+                            shadow-md rounded-[5px] ${epics.includes("issues without epic")
+                      ? "bg-[#8777D9] text-white"
+                      : "bg-white"
+                    }`}
                 >
                   issues without epic
-                </div>
+                </div> */}
                 {issueEpics.length > 0 &&
                   issueEpics.map((item) => (
                     <div
                       key={v4()}
                       onClick={() => handleChooseEpic(item.id)}
                       className={`w-full p-3 relative z-40 flex flex-col font-semibold shadow-md rounded-[5px] mb-2
-                                ${
-                                  epics.includes(item.id)
-                                    ? "bg-[#8777D9] text-white"
-                                    : "bg-white"
-                                }`}
+                                ${epics.includes(item.id)
+                          ? "bg-[#8777D9] text-white"
+                          : "bg-white"
+                        }`}
                     >
                       <div className="flex items-center">
-                        <FontAwesomeIcon
-                          size="1x"
-                          className="inline-block px-2"
-                          icon={faAngleRight}
-                        />
                         <div className="h-5 w-5 inline-block bg-[#d0c6ff] rounded-[5px] mx-2"></div>
                         {item.summary}
                       </div>
-                      {/* <Progress done={60} /> */}
-                      {/* <div className="h-2 w-full bg-[#ddd] rounded-[5px] my-2 relative">
-                        <div
-                          className="absolute z-50 top-0 left-0  bottom-0 bg-blue-600 rounded-[10px]"
-                          style={{ width: "40%" }}
-                        ></div>
-                      </div> */}
                     </div>
                   ))}
                 <CreateComponent
@@ -433,9 +426,8 @@ const ContainerRoadmap = ({ project }) => {
                     <div
                       key={item.id}
                       onClick={() => handleChooseType(item.value)}
-                      className={`flex items-center gap-x-2 p-1 rounded hover:bg-gray-300 mb-2 ${
-                        type.includes(item.value) ? "bg-[#e2e2e2]" : "bg-white"
-                      }`}
+                      className={`flex items-center gap-x-2 p-1 rounded hover:bg-gray-300 mb-2 ${type.includes(item.value) ? "bg-[#e2e2e2]" : "bg-white"
+                        }`}
                     >
                       <div className="w-5 h-5">
                         <img
@@ -461,6 +453,8 @@ const ContainerRoadmap = ({ project }) => {
             {issueEpics.length > 0 &&
               issueEpics.map((item) => (
                 <RoadmapItem
+                  epicSelected={epicSelected}
+                  setEpicSelected={setEpicSelected}
                   key={v4()}
                   item={item}
                   project={project}
@@ -475,7 +469,7 @@ const ContainerRoadmap = ({ project }) => {
           </div>
         </div>
         <div className="basis-[70%] relative">
-          <Roadmap />
+          <Roadmap epicSelected={epicSelected} issueEpics={issueEpics} />
         </div>
       </div>
     </div>

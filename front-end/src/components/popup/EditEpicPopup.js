@@ -47,7 +47,6 @@ function EditEpicPopup({ project, issue, setShow, donePercent }) {
     description: issue?.description || "",
   });
   const [{ issueNormals }] = useListIssueContext();
-  console.log(issue.dateStarted);
   const issueCollect = useMemo(() => {
     return issueNormals.filter((item) => item.id_Parent_Issue === issue.id);
   }, [issue, issueNormals]);
@@ -87,7 +86,7 @@ function EditEpicPopup({ project, issue, setShow, donePercent }) {
 
       await updateIssues(issueUpdate, dispatch);
       await fetchIssue(project.id, dispatch);
-      createToast("success", "Update issue successfully!");
+      // createToast("success", "Update issue successfully!");
       setShow(false);
     }
   };
@@ -197,17 +196,18 @@ function EditEpicPopup({ project, issue, setShow, donePercent }) {
                         )
                         .map((item) => (
                           <div
+                            key={item.id}
                             onClick={() => handleChooseEpic(item)}
                             className="w-[150px] mb-2 p-3 bg-white rounded shadow-md font-semibold
                                             hover:bg-[#8777D9] hover:text-white"
-                            key={item.id}
+
                           >
                             {item.summary}
                           </div>
                         ))}
                     {issue.id_Parent_Issue &&
                       issue.id_Parent_Issue !==
-                        "00000000-0000-0000-0000-000000000000" && (
+                      "00000000-0000-0000-0000-000000000000" && (
                         <div
                           onClick={handleRemoveEpic}
                           className="flex items-center gap-x-2 w-[150px] mb-2 p-3 bg-red-500 text-white rounded shadow-md font-semibold"
