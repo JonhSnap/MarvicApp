@@ -114,7 +114,8 @@ const listIssueReducer = (state, action) => {
           result = stateCopy.issueNormals.filter((item) => {
             return (
               !item.id_Parent_Issue ||
-              item.id_Parent_Issue === "00000000-0000-0000-0000-000000000000"
+              item.id_Parent_Issue === "00000000-0000-0000-0000-000000000000" ||
+              !stateCopy.issueEpics.find(e => e.id === item.id_Parent_Issue)
             );
           });
         }

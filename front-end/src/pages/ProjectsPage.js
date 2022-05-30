@@ -26,6 +26,7 @@ function ProjectsPage() {
     return () => clearTimeout(timerRef.current)
   }, [search])
   useEffect(() => {
+    document.title = 'Marvic-Projects'
     const inputRefCopy = inputRef.current;
     const handleFoucs = e => {
       setIsFocusInput(true);

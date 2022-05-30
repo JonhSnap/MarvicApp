@@ -1,11 +1,16 @@
 import React, { memo, useMemo, useState } from 'react'
+import { useBoardContext } from '../../contexts/boardContext';
 import { useListIssueContext } from '../../contexts/listIssueContext'
+import { useSprintContext } from '../../contexts/sprintContext'
+import { fetchBoard } from '../../reducers/boardReducer';
 import { fetchIssue, updateIssues } from '../../reducers/listIssueReducer';
 import { issueTypes } from '../../util/constants'
 
 function IssueCanAddSelectbox({ showAddchild, setShowAddchild, issue, project, childIssues }) {
     const [, dispatchIssue] = useListIssueContext();
     const [{ issueNormals }] = useListIssueContext();
+    const { state: { sprints } } = useSprintContext();
+    const [, dispatchBoard] = useBoardContext();
     const [search, setSearch] = useState('');
     const parentIssue = issueNormals.find(item => item.id === issue.id_Parent_Issue);
     const issueCanAdd = useMemo(() => {
@@ -17,12 +22,23 @@ function IssueCanAddSelectbox({ showAddchild, setShowAddchild, issue, project, c
         });
     }, [issueNormals, childIssues, issue, parentIssue, search])
 
+    const currentSprint = useMemo(() => {
+        return sprints.find(item => item.is_Started === 1)
+    }, [sprints])
+
     // handle add child
     const handleAddChild = async (child) => {
         if (child) {
             child.id_Parent_Issue = issue.id;
             await updateIssues(child, dispatchIssue);
             fetchIssue(project.id, dispatchIssue);
+            if (window.location.href.includes('projects/board')) {
+                fetchBoard({
+                    idSprint: currentSprint.id,
+                    idEpic: null,
+                    type: 0
+                }, dispatchBoard);
+            }
         }
     }
 

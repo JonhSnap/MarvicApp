@@ -14,6 +14,7 @@ function BoardPage() {
   const { projects } = useSelector(state => state.projects);
   const [currentProject, setCurrentProject] = useState({});
   useEffect(() => {
+    document.title = 'Marvic-Board';
     const currProject = projects.find(item => item.key === key);
     setCurrentProject(currProject);
   }, [projects, key])
