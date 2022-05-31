@@ -82,6 +82,11 @@ html {
     border-radius: 10px;
   }
 }
+.hide-scroll {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 // drag and drop
 .cards-drop-preview {
   background-color: rgba(26, 26, 51, 0.1);

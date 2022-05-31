@@ -3,9 +3,11 @@ import { NIL, v4 } from 'uuid';
 import { useBoardContext } from '../../contexts/boardContext';
 import { useSprintContext } from '../../contexts/sprintContext';
 import { useStageContext } from '../../contexts/stageContext';
+import { CHANGE_FILTER_EPIC_BOARD } from '../../reducers/actions';
 import { fetchBoard } from '../../reducers/boardReducer';
 import { fetchSprint } from '../../reducers/sprintReducer';
 import { fetchStage } from '../../reducers/stageReducer';
+import { KEY_FILTER_EPIC } from '../../util/constants';
 import Board from '../board/Board';
 import TopDetailBoard from '../project-detail/TopDetailBoard';
 import './ContainerBoard.scss'
@@ -19,6 +21,7 @@ function ContainerBoard({ project }) {
         const result = sprints.find(item => item.is_Started === 1);
         return result;
     }, [sprints])
+    const epicFilterStorage = localStorage.getItem(KEY_FILTER_EPIC);
 
     useEffect(() => {
         if (project && project.id) {
@@ -27,6 +30,13 @@ function ContainerBoard({ project }) {
     }, [project, dispatch])
     useEffect(() => {
         if (currentSprint) {
+            if (epicFilterStorage) {
+                dispatchBoard({
+                    type: CHANGE_FILTER_EPIC_BOARD,
+                    payload: epicFilterStorage
+                })
+            }
+            localStorage.removeItem(KEY_FILTER_EPIC);
             const dataGet = {
                 idSprint: currentSprint.id,
                 idEpic: null,
@@ -34,7 +44,7 @@ function ContainerBoard({ project }) {
             }
             fetchBoard(dataGet, dispatchBoard);
         }
-    }, [currentSprint, dispatchBoard])
+    }, [currentSprint, dispatchBoard, epicFilterStorage])
     useEffect(() => {
         if (project && project.id) {
             fetchStage(project.id, dispatchStage);

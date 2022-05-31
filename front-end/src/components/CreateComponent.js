@@ -23,10 +23,6 @@ function InputComponent({
   const [valueInput, setValueInput] = useState("");
   const { currentUser } = useSelector((state) => state.auth.login);
 
-  const stageTodo = useMemo(() => {
-    return stages.find((item) => item.stage_Name === "To do");
-  }, [stages]);
-
   const handleChange = (e) => {
     setSelectedValue(e.value);
   };
@@ -48,6 +44,7 @@ function InputComponent({
           isFlagged: 0,
           isWatched: 0,
           id_Creator: currentUser.id,
+          id_Reporter: currentUser.id,
           isDeleted: 0,
           dateCreated: new Date(),
           dateStarted: new Date(project.dateStarted),

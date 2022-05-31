@@ -10,10 +10,11 @@ const createPortalWrapper = () => {
   return element;
 };
 const portalWrapperElm = createPortalWrapper();
+
 function Portal({
   containerclassName = "",
   bodyClassName = "",
-  onClose = () => {},
+  onClose = () => { },
   overlay = true,
   containerStyle,
   bodyStyle,
