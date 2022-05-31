@@ -42,7 +42,7 @@ function Sprint({ sprint, members, project }) {
 
     // handle complete sprint
     const handleCompleteSprint = async () => {
-        const stageDone = stages.find(item => item.stage_Name === 'Done');
+        const stageDone = stages.find(item => item.isDone === 1);
         const issuesNotDone = issueWithSprint.filter(item => item.id_Stage !== stageDone.id);
         if (issuesNotDone && issuesNotDone.length > 0) {
             const bounding = completeSprintRef.current.getBoundingClientRect();

@@ -26,7 +26,7 @@ const TooltipContent = ({ event, issueEpics, projects }) => {
   console.log("ToBoard", ToBoard);
   // console.log("projects", projects);
   const handleClickName = (key) => {
-    localStorage.setItem(KEY_FILTER_EPIC, JSON.stringify([key]));
+    localStorage.setItem(KEY_FILTER_EPIC, key);
     navigate(`/projects/board/${localStorage.getItem(KEY_CURRENT_PROJECT)}`);
   };
   return (
