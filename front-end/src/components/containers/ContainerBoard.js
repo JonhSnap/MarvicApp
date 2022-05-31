@@ -36,6 +36,7 @@ function ContainerBoard({ project }) {
                     payload: epicFilterStorage
                 })
             }
+            localStorage.removeItem(KEY_FILTER_EPIC);
             const dataGet = {
                 idSprint: currentSprint.id,
                 idEpic: null,
