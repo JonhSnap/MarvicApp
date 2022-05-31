@@ -30,18 +30,23 @@ import { useMembersContext } from "../../contexts/membersContext";
 import Progress from "../progress/Progress";
 
 function EditEpicPopup({ project, issue, setShow, donePercent }) {
+  const issueUpdate = useMemo(() => {
+    const issueCopy = { ...issue, ...values };
+    return issueCopy;
+  }, [values.description, values.summary]);
+
   const [{ issueEpics }, dispatch] = useListIssueContext();
   const [showEpic, setShowEpic] = useState(false);
   const [valuesStore, setValuesStore] = useState({});
   const [selectedDateStart, setSelectedDateStart] = useState(
-    new Date(issue.dateStarted)
+    new Date(issueUpdate.dateStarted)
+  );
+  const [selectedDateEnd, setSelectedDateEnd] = useState(
+    new Date(issue.dateEnd)
   );
   const {
     state: { members },
   } = useMembersContext();
-  const [selectedDateEnd, setSelectedDateEnd] = useState(
-    new Date(issue.dateEnd)
-  );
   const [values, setValues] = useState({
     summary: issue?.summary,
     description: issue?.description || "",
@@ -51,10 +56,7 @@ function EditEpicPopup({ project, issue, setShow, donePercent }) {
     return issueNormals.filter((item) => item.id_Parent_Issue === issue.id);
   }, [issue, issueNormals]);
   // create issue update
-  const issueUpdate = useMemo(() => {
-    const issueCopy = { ...issue, ...values };
-    return issueCopy;
-  }, [values.description, values.summary]);
+
   // handle close edit
   const handleCloseEditByButton = async () => {
     if (
@@ -145,9 +147,8 @@ function EditEpicPopup({ project, issue, setShow, donePercent }) {
       fetchIssue(project.id, dispatch);
     }, 500);
   };
-
-  console.log("issueUpdate.dateStarted", issueUpdate);
-  console.log("selectedDateStart", selectedDateStart);
+  console.log("====================================");
+  console.log("issueUpdate", issueUpdate);
   return (
     <ModalBase
       containerclassName="fixed inset-0 z-10 flex items-center justify-center"

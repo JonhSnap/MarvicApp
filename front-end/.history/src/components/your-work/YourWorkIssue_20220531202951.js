@@ -30,7 +30,7 @@ const YourWorkIssue = ({ dataIssue }) => {
     navigate(`/projects/board/${key}`);
   };
 
-  console.log("dataIssue", dataIssue.users.length === 1);
+  console.log("dataIssue", dataIssue.users);
   return (
     <div className="flex items-center w-full p-1 rounded-lg cursor-pointer hover:bg-slate-200">
       <div>
@@ -135,7 +135,7 @@ const YourWorkIssue = ({ dataIssue }) => {
                   )}
 
                   <img
-                    src={dataIssue.users[0].avatar_Path || avtUser}
+                    src={avtUser || dataIssue.users[0].avatar_Path}
                     alt=""
                     className="w-[40px] h-[40px] border-2 border-white rounded-full"
                   />

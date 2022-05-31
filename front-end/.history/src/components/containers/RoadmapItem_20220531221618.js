@@ -12,7 +12,6 @@ import useModal from "../../hooks/useModal";
 import EditEpicPopup from "../popup/EditEpicPopup.js";
 import Progress from "../progress/Progress";
 import { useStageContext } from "../../contexts/stageContext";
-import EditIssuePopup from "../popup/EditIssuePopup";
 
 const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
   const [showIssue, setShowIssue] = useState(false);
@@ -73,13 +72,13 @@ const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
   return (
     <>
       {showEditEpic && (
-        <EditIssuePopup
+        <EditEpicPopup
           donePercent={donePercent}
           project={project}
           setShow={setShowEditEpic}
           handleClose={handleCloseEpic}
           issue={epic}
-        ></EditIssuePopup>
+        ></EditEpicPopup>
       )}
       <div
         key={v4()}

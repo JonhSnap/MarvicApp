@@ -146,8 +146,6 @@ function EditEpicPopup({ project, issue, setShow, donePercent }) {
     }, 500);
   };
 
-  console.log("issueUpdate.dateStarted", issueUpdate);
-  console.log("selectedDateStart", selectedDateStart);
   return (
     <ModalBase
       containerclassName="fixed inset-0 z-10 flex items-center justify-center"

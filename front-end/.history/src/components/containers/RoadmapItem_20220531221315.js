@@ -12,7 +12,6 @@ import useModal from "../../hooks/useModal";
 import EditEpicPopup from "../popup/EditEpicPopup.js";
 import Progress from "../progress/Progress";
 import { useStageContext } from "../../contexts/stageContext";
-import EditIssuePopup from "../popup/EditIssuePopup";
 
 const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
   const [showIssue, setShowIssue] = useState(false);
@@ -68,18 +67,16 @@ const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
     });
     console.log(epicSelected.filter.includes(epicChoose.id));
   };
-  const symbolRoadmap = epicSelected.filter.includes(epic.id);
-  console.log(symbolRoadmap);
   return (
     <>
       {showEditEpic && (
-        <EditIssuePopup
+        <EditEpicPopup
           donePercent={donePercent}
           project={project}
           setShow={setShowEditEpic}
           handleClose={handleCloseEpic}
           issue={epic}
-        ></EditIssuePopup>
+        ></EditEpicPopup>
       )}
       <div
         key={v4()}
@@ -103,7 +100,7 @@ const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
                 <div
                   onClick={() => handleSelectedEpic(epic)}
                   className={`inline-block ${
-                    symbolRoadmap ? "bg-blue-400" : ""
+                    epicSelected.filter.includes(epic.id) ? "bg-blue-400" : ""
                   } w-5 h-5 mx-2 rounded-md bg-slate-300 `}
                 ></div>
                 <span

@@ -157,7 +157,7 @@ function YourWorkPage() {
           {isWorkOn && (
             <div
               id="style-15"
-              className="flex flex-col w-full h-[400px] overflow-y-auto pb-10"
+              className="flex flex-col w-full h-[400px] overflow-y-auto "
             >
               <h2 className="my-5 text-xl font-semibold text-slate-400">
                 IN THE LAST MONTH
