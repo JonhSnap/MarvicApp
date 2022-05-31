@@ -61,7 +61,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   const issueUpdate = useMemo(() => {
     const issueCopy = { ...issue, ...values };
     return issueCopy;
-  }, [values]);
+  }, [values.description, values.summary]);
   // stage
   const stage = useMemo(() => {
     const result = stages.find((item) => item.id === issue.id_Stage);

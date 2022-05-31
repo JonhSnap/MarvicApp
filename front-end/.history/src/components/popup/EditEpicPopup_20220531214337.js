@@ -72,7 +72,7 @@ function EditEpicPopup({ project, issue, setShow, donePercent }) {
   // handle close edit by click outside
   const handleCloseEditByClickOutside = async (e) => {
     if (!e.target.closest(".content")) {
-      issueUpdate.dateStarted = selectedDateStart;
+      issueUpdate.dateStarted = new Date("2022-05-12T17:00:00");
       issueUpdate.dateEnd = selectedDateEnd;
       // if (
       //   issueUpdate.summary === valuesStore.summary &&
@@ -146,7 +146,7 @@ function EditEpicPopup({ project, issue, setShow, donePercent }) {
     }, 500);
   };
 
-  console.log("issueUpdate.dateStarted", issueUpdate);
+  console.log("issueUpdate.dateStarted", issueUpdate.dateStarted);
   console.log("selectedDateStart", selectedDateStart);
   return (
     <ModalBase

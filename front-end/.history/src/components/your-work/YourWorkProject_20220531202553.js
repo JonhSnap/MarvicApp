@@ -2,6 +2,7 @@ import React from "react";
 import YourWorkIssue from "./YourWorkIssue";
 import { v4 } from "uuid";
 const YourWorkProject = ({ dataYourWork }) => {
+  console.log("dataYourWork", dataYourWork);
   return (
     <div className="w-full">
       <h3 className="">{dataYourWork.title}</h3>

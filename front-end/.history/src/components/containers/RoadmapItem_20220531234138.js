@@ -13,11 +13,11 @@ import EditEpicPopup from "../popup/EditEpicPopup.js";
 import Progress from "../progress/Progress";
 import { useStageContext } from "../../contexts/stageContext";
 import EditIssuePopup from "../popup/EditIssuePopup";
-import { useMembersContext } from "../../contexts/membersContext";
 
 const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
   const [showIssue, setShowIssue] = useState(false);
   const [showCreateComponent, setShowCreateComponent] = useState(false);
+  const [members, setMembers] = useState([]);
   const [{ stages }] = useStageContext();
   const handleshowIssue = () => {
     setShowIssue(!showIssue);
@@ -40,9 +40,6 @@ const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
     return result;
   }, [stages]);
 
-  const {
-    state: { members },
-  } = useMembersContext();
   const donePercent = useMemo(() => {
     if (issueCollect.length > 0 && stages.length > 0) {
       const doneStage = stages.find((item) => {
@@ -76,12 +73,7 @@ const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
   return (
     <>
       {showEditEpic && (
-        <EditIssuePopup
-          members={members}
-          project={project}
-          issue={epic}
-          setShow={setShowEditEpic}
-        ></EditIssuePopup>
+        <EditIssuePopup project={project} issue={epic}></EditIssuePopup>
       )}
       <div
         key={v4()}

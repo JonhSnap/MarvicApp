@@ -33,9 +33,7 @@ function EditEpicPopup({ project, issue, setShow, donePercent }) {
   const [{ issueEpics }, dispatch] = useListIssueContext();
   const [showEpic, setShowEpic] = useState(false);
   const [valuesStore, setValuesStore] = useState({});
-  const [selectedDateStart, setSelectedDateStart] = useState(
-    new Date(issue.dateStarted)
-  );
+  const [selectedDateStart, setSelectedDateStart] = useState(new Date());
   const {
     state: { members },
   } = useMembersContext();
@@ -145,9 +143,9 @@ function EditEpicPopup({ project, issue, setShow, donePercent }) {
       fetchIssue(project.id, dispatch);
     }, 500);
   };
-
-  console.log("issueUpdate.dateStarted", issueUpdate);
-  console.log("selectedDateStart", selectedDateStart);
+  console.log("====================================");
+  console.log(project);
+  console.log("issue", issue);
   return (
     <ModalBase
       containerclassName="fixed inset-0 z-10 flex items-center justify-center"

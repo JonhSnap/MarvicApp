@@ -136,7 +136,7 @@ function YourWorkPage() {
               <h3 className="flex items-center text-xl font-semibold">
                 Assigned to me{" "}
                 <span className="flex items-center justify-center w-6 h-6 ml-3 text-black rounded-full bg-yellow-50">
-                  {assignToMe.length}
+                  {starred.length}
                 </span>
               </h3>
             </div>
@@ -146,22 +146,16 @@ function YourWorkPage() {
                 isStart ? "border-b-2 border-white  " : ""
               } inline-block cursor-pointer mr-5 p-2 rounded-lg hover:bg-blue-600`}
             >
-              <h3 className="flex items-center text-xl font-semibold">
+              <h3 className="text-xl font-semibold">
                 Starred
                 <span className="flex items-center justify-center w-6 h-6 ml-3 text-black rounded-full bg-yellow-50">
-                  {starred.length}
+                  {assignToMe.length}
                 </span>
               </h3>
             </div>
           </div>
           {isWorkOn && (
-            <div
-              id="style-15"
-              className="flex flex-col w-full h-[400px] overflow-y-auto pb-10"
-            >
-              <h2 className="my-5 text-xl font-semibold text-slate-400">
-                IN THE LAST MONTH
-              </h2>
+            <div className="flex w-full">
               {dataYourWork &&
                 dataYourWork.length > 0 &&
                 dataYourWork.map((item) => (

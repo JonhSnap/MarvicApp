@@ -135,7 +135,7 @@ const YourWorkIssue = ({ dataIssue }) => {
                   )}
 
                   <img
-                    src={dataIssue.users[0].avatar_Path || avtUser}
+                    src={avtUser || dataIssue.users[0].avatar_Path}
                     alt=""
                     className="w-[40px] h-[40px] border-2 border-white rounded-full"
                   />

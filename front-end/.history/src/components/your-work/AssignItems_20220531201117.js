@@ -77,7 +77,7 @@ const AssignItems = ({ assignItem }) => {
             </svg>
           </span>
         ) : (
-          <div className="w-5 h-5"></div>
+          <div></div>
         )}
         <div className="flex items-center justify-center w-6 h-6 rounded-full bg-yellow-50">
           {assignItem.story_Point_Estimate}
