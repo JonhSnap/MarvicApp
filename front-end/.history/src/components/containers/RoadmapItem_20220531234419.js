@@ -76,12 +76,7 @@ const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
   return (
     <>
       {showEditEpic && (
-        <EditIssuePopup
-          members={members}
-          project={project}
-          issue={epic}
-          setShow={setShowEditEpic}
-        ></EditIssuePopup>
+        <EditIssuePopup project={project} issue={epic}></EditIssuePopup>
       )}
       <div
         key={v4()}

@@ -80,7 +80,6 @@ const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
           members={members}
           project={project}
           issue={epic}
-          setShow={setShowEditEpic}
         ></EditIssuePopup>
       )}
       <div

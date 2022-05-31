@@ -40,9 +40,7 @@ const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
     return result;
   }, [stages]);
 
-  const {
-    state: { members },
-  } = useMembersContext();
+  const {}= useMembersContext()
   const donePercent = useMemo(() => {
     if (issueCollect.length > 0 && stages.length > 0) {
       const doneStage = stages.find((item) => {
@@ -76,12 +74,7 @@ const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
   return (
     <>
       {showEditEpic && (
-        <EditIssuePopup
-          members={members}
-          project={project}
-          issue={epic}
-          setShow={setShowEditEpic}
-        ></EditIssuePopup>
+        <EditIssuePopup project={project} issue={epic}></EditIssuePopup>
       )}
       <div
         key={v4()}

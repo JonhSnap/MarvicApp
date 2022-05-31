@@ -61,7 +61,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   const issueUpdate = useMemo(() => {
     const issueCopy = { ...issue, ...values };
     return issueCopy;
-  }, [values]);
+  }, [values.description, values.summary]);
   // stage
   const stage = useMemo(() => {
     const result = stages.find((item) => item.id === issue.id_Stage);
@@ -92,14 +92,12 @@ function EditIssuePopup({ members, project, issue, setShow }) {
     if (!e.target.closest(".content")) {
       if (
         issueUpdate.summary === valuesStore.summary &&
-        issueUpdate.description === valuesStore.description &&
-        issueUpdate.dateStarted === valuesStore.dateStarted &&
-        issueUpdate.dateEnd === valuesStore.dateEnd
+        issueUpdate.description === valuesStore.description
       ) {
         setShow(false);
         return;
       }
-      // issueUpdate.attachment_Path = null;
+      issueUpdate.attachment_Path = null;
       await updateIssues(issueUpdate, dispatch);
       await fetchIssue(project.id, dispatch);
       createToast("success", "Update issue successfully!");
@@ -122,20 +120,8 @@ function EditIssuePopup({ members, project, issue, setShow }) {
         ...values,
         [e.target.name]: e.target.value,
       });
-    } else if (e.target.name === "dateStarted") {
-      setValues({
-        ...values,
-        [e.target.name]: e.target.value,
-      });
-    } else if (e.target.name === "dateEnd") {
-      setValues({
-        ...values,
-        [e.target.name]: e.target.value,
-      });
     }
   };
-  console.log("values", values);
-  console.log("valuesStore", valuesStore);
   // useEffect
   useEffect(() => {
     setValuesStore({
@@ -391,21 +377,11 @@ function EditIssuePopup({ members, project, issue, setShow }) {
               <div className="w-[60%]">{issue?.story_Point_Estimate}</div>
               <div className="w-[40%] h-13 my-4">Date started</div>
               <div className="w-[60%]">
-                <input
-                  name="dateStarted"
-                  onChange={handleValuesChange}
-                  value={values.dateStarted}
-                  type="date"
-                />
+                <input value={selectedDateStart} type="date" />
               </div>
               <div className="w-[40%] h-13 my-4">Date end</div>
               <div className="w-[60%]">
-                <input
-                  name="dateEnd"
-                  onChange={handleValuesChange}
-                  value={values.dateEnd}
-                  type="date"
-                />
+                <input value={selectedDateEnd} type="date" />
               </div>
 
               <div className="w-[40%] h-13 my-4">Reporter</div>

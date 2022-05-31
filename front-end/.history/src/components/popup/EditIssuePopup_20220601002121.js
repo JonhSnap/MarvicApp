@@ -61,7 +61,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   const issueUpdate = useMemo(() => {
     const issueCopy = { ...issue, ...values };
     return issueCopy;
-  }, [values]);
+  }, [values.description, values.summary]);
   // stage
   const stage = useMemo(() => {
     const result = stages.find((item) => item.id === issue.id_Stage);
@@ -99,7 +99,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
         setShow(false);
         return;
       }
-      // issueUpdate.attachment_Path = null;
+      issueUpdate.attachment_Path = null;
       await updateIssues(issueUpdate, dispatch);
       await fetchIssue(project.id, dispatch);
       createToast("success", "Update issue successfully!");
@@ -134,8 +134,6 @@ function EditIssuePopup({ members, project, issue, setShow }) {
       });
     }
   };
-  console.log("values", values);
-  console.log("valuesStore", valuesStore);
   // useEffect
   useEffect(() => {
     setValuesStore({
