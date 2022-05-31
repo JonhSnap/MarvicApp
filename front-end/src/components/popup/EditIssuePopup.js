@@ -520,7 +520,7 @@ function Assignee({ members, project, issue }) {
       {
         currentAssignee ?
           <span
-            className='pointer-events-none flex items-center justify-center w-full h-full rounded-full bg-orange-500 text-white'>{currentAssignee.userName.slice(0, 1)}</span> :
+            className='pointer-events-none inline-flex items-center justify-center w-full h-full rounded-full bg-orange-500 text-white'>{currentAssignee.userName.slice(0, 1)}</span> :
           <span className="inline-block w-full h-full text-[#ccc] hover:text-gray-500 pointer-events-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -583,7 +583,7 @@ function Reporter({ members, project, issue }) {
       {
         currentAssignee ?
           <span
-            className='pointer-events-none flex items-center justify-center w-full h-full rounded-full bg-orange-500 text-white'>{currentAssignee.userName.slice(0, 1)}</span> :
+            className='pointer-events-none inline-flex items-center justify-center w-full h-full rounded-full bg-orange-500 text-white'>{currentAssignee.userName.slice(0, 1)}</span> :
           <span className="inline-block w-full h-full text-[#ccc] hover:text-gray-500 pointer-events-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
