@@ -12,6 +12,7 @@ using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.GroupBy;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.WorkedOn;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels;
+using MarvicSolution.Services.Label_Request.Services;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Utilities.Exceptions;
@@ -37,17 +38,20 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         private readonly IProject_Service _projectService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILogger<Issue_Service> _logger;
+        private readonly ILabel_Service _label_Service;
         public Issue_Service(MarvicDbContext context
             , IUser_Service userService
             , IProject_Service projectService
             , IWebHostEnvironment webHostEnvironment
-            , ILogger<Issue_Service> logger)
+            , ILogger<Issue_Service> logger
+            , ILabel_Service label_Service)
         {
             _context = context;
             _userService = userService;
             _projectService = projectService;
             _webHostEnvironment = webHostEnvironment;
             _logger = logger;
+            _label_Service = label_Service;
         }
         public async Task<Guid> Create(Issue_CreateRequest rq)
         {
@@ -1345,6 +1349,50 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 throw new MarvicException($"Error: {e}");
             }
 
+        }
+
+        public async Task<bool> AddLabel(IssueLabel_Request rq)
+        {
+            using (IDbContextTransaction tran = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var issue = Get_Issues_By_Id(rq.IdIssue);
+                    issue.Id_Label = rq.IdLabel;
+                    _context.Update(issue);
+                    await _context.SaveChangesAsync();
+                    await tran.CommitAsync();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    await tran.RollbackAsync();
+                    _logger.LogInformation($"Controller: Issue. Method: AddLabel. Marvic Error: {e}");
+                    throw new MarvicException($"Error: {e}");
+                }
+            }
+        }
+
+        public async Task<bool> RemoveLabel(Guid idIssue)
+        {
+            using (IDbContextTransaction tran = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var issue = Get_Issues_By_Id(idIssue);
+                    issue.Id_Label = Guid.Empty;
+                    _context.Update(issue);
+                    await _context.SaveChangesAsync();
+                    await tran.CommitAsync();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    await tran.RollbackAsync();
+                    _logger.LogInformation($"Controller: Issue. Method: RemoveLabel. Marvic Error: {e}");
+                    throw new MarvicException($"Error: {e}");
+                }
+            }
         }
     }
 }
