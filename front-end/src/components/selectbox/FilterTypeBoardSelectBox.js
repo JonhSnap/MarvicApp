@@ -1,7 +1,7 @@
 import React from 'react'
 import SelectBoxBase from './SelectBoxBase'
 
-function FilterTypeSelectBox({ issueTypes, handleChooseType, type, onClose, bodyStyle }) {
+function FilterTypeBoardSelectBox({ issueTypes, handleChooseType, type, onClose, bodyStyle }) {
     return (
         <SelectBoxBase
             onClose={onClose}
@@ -15,12 +15,13 @@ function FilterTypeSelectBox({ issueTypes, handleChooseType, type, onClose, body
                         <div
                             key={item.id}
                             onClick={() => handleChooseType(item.value)}
-                            className='flex items-center gap-x-2'>
+                            className='flex items-center gap-x-2 hover:bg-gray-main cursor-pointer'>
                             <input
                                 id={item.id}
                                 checked={type.includes(item.value)}
                                 type="checkbox"
                                 onChange={() => { }}
+                                className='cursor-pointer'
                             />
                             <div className="w-5 h-5">
                                 <img className='block w-full h-full object-cover rounded-md' src={item.thumbnail} alt="" />
@@ -34,4 +35,4 @@ function FilterTypeSelectBox({ issueTypes, handleChooseType, type, onClose, body
     )
 }
 
-export default FilterTypeSelectBox
+export default FilterTypeBoardSelectBox

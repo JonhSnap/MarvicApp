@@ -1,8 +1,12 @@
 import React from 'react'
 import SelectBoxBase from './SelectBoxBase'
 import CreateComponent from '../CreateComponent'
+import EditIssuePopup from '../popup/EditIssuePopup'
+import useModal from '../../hooks/useModal';
+import { useMembersContext } from '../../contexts/membersContext';
 
 function FilterEpicBoardSelectBox({ onClose, bodyStyle, epics, issueEpics, project, handleChooseEpic }) {
+
     return (
         <SelectBoxBase
             onClose={onClose}
@@ -15,9 +19,9 @@ function FilterEpicBoardSelectBox({ onClose, bodyStyle, epics, issueEpics, proje
                     <span className='font-bold text-lg text-[#8777D9]'>Epic</span>
                 </div>
                 <div
-                    onClick={() => handleChooseEpic('issues without epic')}
                     className='flex items-center gap-x-2'>
                     <input
+                        onClick={() => handleChooseEpic('issues without epic')}
                         className='cursor-pointer'
                         id='none-epic'
                         checked={epics.includes('issues without epic')}
@@ -29,19 +33,7 @@ function FilterEpicBoardSelectBox({ onClose, bodyStyle, epics, issueEpics, proje
                 {
                     issueEpics.length > 0 &&
                     issueEpics.map(item => (
-                        <div
-                            key={item.id}
-                            onClick={() => handleChooseEpic(item.id)}
-                            className='flex items-center gap-x-2'>
-                            <input
-                                className='cursor-pointer'
-                                id={item.id}
-                                checked={epics.includes(item.id)}
-                                readOnly
-                                type="checkbox"
-                            />
-                            <label className='text-base font-semibold' htmlFor={item.id}>{item.summary}</label>
-                        </div>
+                        <EpicItem key={item.id} project={project} epics={epics} epic={item} handleChooseEpic={handleChooseEpic} />
                     ))
                 }
                 <CreateComponent idIssueType={1} project={project} createWhat={"epic"} />
@@ -51,3 +43,32 @@ function FilterEpicBoardSelectBox({ onClose, bodyStyle, epics, issueEpics, proje
 }
 
 export default FilterEpicBoardSelectBox
+
+function EpicItem({ project, epics, epic, handleChooseEpic }) {
+    const [show, setShow] = useModal();
+    const { state: { members }
+    } = useMembersContext();
+
+    return (
+        <>
+            {
+                show && <EditIssuePopup members={members} project={project} issue={epic} setShow={setShow} />
+            }
+            <div
+                onClick={() => handleChooseEpic(epic.id)}
+                className='flex items-center gap-x-2'>
+                <input
+                    className='cursor-pointer border-gray-500'
+                    id={epic.id}
+                    checked={epics.includes(epic.id)}
+                    readOnly
+                    type="checkbox"
+                />
+                <label
+                    onClick={() => setShow(true)}
+                    className='text-base font-semibold hover:underline hover:text-epic-color cursor-pointer'
+                    htmlFor={epic.id}>{epic.summary}</label>
+            </div>
+        </>
+    )
+}

@@ -48,6 +48,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         List<GroupAssignedTM_ViewModel> GetIssueAssignedToMe(Guid IdUserLogin, RequestVM rqVM);
         List<IssueArchive_ViewModel> GetIssuesArchive(Guid idProject, RequestVM rqVM);
         Task<bool> ChangeStage(ChangeStage_Request rq);
+        Task<bool> AddLabel(IssueLabel_Request rq);
+        Task<bool> RemoveLabel(Guid idIssue);
 
     }
 }
