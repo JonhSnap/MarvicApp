@@ -76,9 +76,7 @@ function Board({ board, project, currentSprint }) {
                 dragClass=""
                 dropClass=""
                 style={{
-                    maxWidth: '100%',
-                    display: 'flex',
-                    alignItems: 'stretch'
+                    width: 'auto',
                 }}
                 dropPlaceholder={{
                     animationDuration: 150,
@@ -97,6 +95,9 @@ function Board({ board, project, currentSprint }) {
                     ))
                 }
             </Container>
+            <div className="add-column">
+                <img src="https://tse4.mm.bing.net/th?id=OIP.XVkE9uAqQTvg9O1wAjLxDwHaDt&pid=Api&P=0&w=406&h=203" alt="" />
+            </div>
         </div>
     )
 }

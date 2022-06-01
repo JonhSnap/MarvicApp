@@ -1,3 +1,5 @@
+@import "../../index.scss";
+
 .column {
   flex-shrink: 0;
   display: flex;
@@ -14,6 +16,19 @@
     font-size: 14px;
     font-weight: 550;
     color: #5e6e88;
+    .stage-name {
+      cursor: pointer;
+      transition: all ease-in-out 0.1s;
+      &:hover {
+        color: #333;
+      }
+    }
+    .input-stage-name {
+      outline: none;
+      border: 2px solid $main-color;
+      border-radius: 4px;
+      padding: 5px;
+    }
   }
   .header-selector {
     cursor: move;

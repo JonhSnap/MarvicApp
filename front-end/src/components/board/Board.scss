@@ -1,9 +1,12 @@
 .board {
-  width: auto;
+  width: fit-content;
+  padding-right: 55px;
   margin-bottom: 40px;
   height: 100%;
   user-select: none;
   position: relative;
+  display: flex;
+  gap: 10px;
   .refresh {
     position: absolute;
     z-index: 10;
@@ -29,6 +32,22 @@
       width: 20px;
       height: 20px;
       transition: all linear 0.1s;
+    }
+  }
+  .add-column {
+    width: 268px;
+    @apply bg-gray-main;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img {
+      display: block;
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      border-radius: 50%;
     }
   }
 }

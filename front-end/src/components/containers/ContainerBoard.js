@@ -52,7 +52,7 @@ function ContainerBoard({ project }) {
     }, [project, dispatchStage])
 
     return (
-        <div className='container'>
+        <div className='container-board'>
             <TopDetailBoard currentSprint={currentSprint} project={project} />
             <div className="bottom have-y-scroll">
                 {

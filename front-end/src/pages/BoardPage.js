@@ -28,10 +28,10 @@ function BoardPage() {
           <BoardProvider>
             <StageProvider>
               <div className="flex">
-                <div className='basis-[20%] shrink-0'>
+                <div className='w-[20%] shrink-0'>
                   <Sidebar nameProject={currentProject.name}></Sidebar>
                 </div>
-                <div className='basis-[80%]'>
+                <div className='w-[80%]'>
                   <ContainerBoard project={currentProject}></ContainerBoard>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import './Column.scss'
 import Issue from './Issue'
 import { v4 } from 'uuid'
@@ -8,8 +8,10 @@ import { updateIssues } from '../../reducers/listIssueReducer'
 import { useListIssueContext } from '../../contexts/listIssueContext'
 import { fetchBoard } from '../../reducers/boardReducer'
 import { useBoardContext } from '../../contexts/boardContext'
+import InputStageName from './InputStageName'
 
 function Column({ stage, currentSprint }) {
+    const [showInput, setShowInput] = useState(false);
     const { listIssue, listIssueOrder } = stage;
     sorter(listIssue, listIssueOrder);
     const columnRef = useRef();
@@ -78,7 +80,13 @@ function Column({ stage, currentSprint }) {
 
     return (
         <div ref={columnRef} data-id={stage?.id} className='column'>
-            <div className="header header-selector">{stage.stage_Name}</div>
+            <div className="header header-selector">
+                {
+                    showInput ?
+                        <InputStageName currentSprint={currentSprint} stage={stage} setShowInput={setShowInput} /> :
+                        <span onClick={() => setShowInput(true)} className='stage-name'>{stage.stage_Name}</span>
+                }
+            </div>
             <div className="container-issue">
                 <Container
                     orientation="vertical"
