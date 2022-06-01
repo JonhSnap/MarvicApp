@@ -2,6 +2,7 @@
 import React, { useEffect, useState, memo, useMemo, useRef } from 'react'
 import './EditIssuePopup.scss'
 import axios from 'axios'
+import { NIL } from 'uuid'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faSquareCheck, faTimes, faFlag, faBolt, faPlus, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons'
 import MemberComponent from '../board/MemberComponent'
@@ -256,63 +257,26 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             Description
           </div>
           <div>
-            <textarea
+            <TextBox
               spellCheck={false}
               value={values.description}
               onChange={handleValuesChange}
               placeholder='Enter description...'
-              className='have-y-scroll max-h-[100px] w-full outline-none border-2 border-transparent p-2 rounded-md focus:border-primary'
               name='description'
-            ></textarea>
+            />
           </div>
           <Attachment issue={issue} />
           <ChildIssue
+            project={project}
             issues={childIssues}
           />
-          <div className='link-issue mb-6'>
-            <div className='flex justify-between w-full h-11 items-center my-2'>
-              <div className='font-bold m-1'>
-                Link issue
-              </div>
-              <div className='flex h-full w-fit items-center'>
-                <FontAwesomeIcon size='2x' className='mx-4 text-[1.5rem]' icon={faPlus} />
-              </div>
-            </div>
-            <div className='item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border-[1px] border-[#ccc] flex justify-between items-center'>
-              <div className='left-item h-full flex items-center'>
-                <div className='icon mx-1 inline-block'>
-                  <FontAwesomeIcon size='1x' className='text-[#4bade8]' icon={faSquareCheck} />
-                </div>
-                <div className='mx-1 inline-block text-[#acacac]'>
-                  <span>MPM-2</span>
-                </div>
-                <div className='mx-1 inline-block'>
-                  <span>Name</span>
-                </div>
-              </div>
-              <div className='right-item h-full w-fit flex items-center'>
-                <div className='rounded-full  inline-flex w-5 h-5 text-xs bg-[#dfe1e6] mx-[0.2rem]'>
-                  <span className='m-auto'>4</span>
-                </div>
-                {showFlag && <FontAwesomeIcon color='#EF0000' className='mx-2' icon={faFlag} />}
-                <div className='whitespace-nowrap h-4 w-auto uppercase text-xs font-bold  mx-2 border-solid border-[0.5px] border-[#ccc] flex justify-center items-center py-3 px-2 bg-[#ccc]'>
-                  to do
-                  <FontAwesomeIcon size='1x' className='px-2 inline-block' icon={faAngleDown} />
-                </div>
-                <MemberComponent />
-                <FontAwesomeIcon size='2x' className='mx-4 text-[1.5rem]' icon={faTimes} />
-              </div>
-            </div>
-          </div>
+
           <div className='detail'>
             <div className='item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border-[1px] border-[#ccc] border-b-0 flex justify-between items-center'>
               <div className='flex justify-between w-full h-8 items-center my-2'>
-                <div className='font-bold m-1'>
-                  Link issue
-                </div>
-                <div className='flex h-full w-fit items-center'>
-                  <FontAwesomeIcon size='2x' className='mx-4 text-[1.5rem]' icon={faAngleDown} />
-                </div>
+                <p className='font-bold m-1'>
+                  Detail
+                </p>
               </div>
             </div>
             <div className='item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border-[1px] border-[#ccc] flex justify-between items-center flex-wrap'>
@@ -409,7 +373,16 @@ function EditIssuePopup({ members, project, issue, setShow }) {
 
 export default memo(EditIssuePopup)
 
-function ChildIssue({ issues }) {
+// child issue
+function ChildIssue({ issues, project }) {
+  const [, dispatchIssue] = useListIssueContext();
+
+  // handle remove child
+  const handleRemoveChild = async (child) => {
+    child.id_Parent_Issue = NIL;
+    await updateIssues(child, dispatchIssue);
+    fetchIssue(project.id, dispatchIssue);
+  }
 
   return (
     <div className='child-issue'>
@@ -426,7 +399,12 @@ function ChildIssue({ issues }) {
               <div className='img'>
                 <img src={issueTypes.find(item => item.value === issue.id_IssueType).thumbnail} alt="" />
               </div>
-              <span>{issue.summary}</span>
+              <span className='summary'>{issue.summary}</span>
+              <span onClick={() => handleRemoveChild(issue)} title='Remove' className='delete-child'>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </span>
             </div>
           ))
         }
@@ -434,6 +412,7 @@ function ChildIssue({ issues }) {
     </div>
   )
 }
+// attachment
 function Attachment({ issue }) {
   const downloadRef = useRef();
   // handle download
@@ -466,5 +445,29 @@ function Attachment({ issue }) {
           </div>
       }
     </div>
+  )
+}
+// text area
+function TextBox({ onChange, ...props }) {
+  const nodeRef = useRef();
+  const heightRef = useRef(40)
+  const [height, setHeight] = useState(heightRef.current);
+  // handle change
+  const handleChange = (e) => {
+    const valueScrollY = nodeRef.current.scrollTop;
+    if (valueScrollY) {
+      setHeight(heightRef.current + valueScrollY)
+    }
+    onChange(e);
+  }
+  return (
+    <textarea
+      ref={nodeRef}
+      style={{ height: height }}
+      {...props}
+      onChange={handleChange}
+      className='hide-scroll resize-none h-fit w-full outline-none border-2 border-transparent p-2
+    rounded-md focus:border-primary'
+    ></textarea>
   )
 }

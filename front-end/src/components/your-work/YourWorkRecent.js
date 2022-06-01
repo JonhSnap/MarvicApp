@@ -4,7 +4,6 @@ import { KEY_CURRENT_PROJECT } from "../../util/constants";
 
 const YourWorkRecent = ({ project }) => {
   const navigate = useNavigate();
-  console.log("project", project);
   const handleClickName = (key) => {
     localStorage.setItem(KEY_CURRENT_PROJECT, key);
     navigate(`/projects/board/${key}`);
