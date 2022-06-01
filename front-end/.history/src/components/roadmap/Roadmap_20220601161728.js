@@ -30,11 +30,14 @@ const TooltipContent = ({ event, issueEpics, projects }) => {
     localStorage.setItem(KEY_FILTER_EPIC, key);
     navigate(`/projects/board/${localStorage.getItem(KEY_CURRENT_PROJECT)}`);
   };
+  const [hoverRef, isHovered] = useHover();
   return (
     <div
       onClick={() => handleClickName(ToBoard.id)}
-      className="absolute top-0 left-0 z-50 inline-block text-blue-900 rounded-lg hover:bg-slate-300 bg-slate-100"
+      className="absolute top-0 left-0 z-50 inline-block text-black rounded-lg hover:bg-slate-200 bg-slate-100"
+      ref={hoverRef}
     >
+    {isHovered ? (<span>To Board {event.title}:null </span>)}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="w-6 h-6"

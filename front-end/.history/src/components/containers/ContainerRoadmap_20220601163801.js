@@ -20,6 +20,7 @@ import { useStageContext } from "../../contexts/stageContext";
 import TopDetail from "../project-detail/TopDetail";
 
 const ContainerRoadmap = ({ project }) => {
+  const { id } = project;
   const [
     {
       issueEpics,
@@ -29,7 +30,10 @@ const ContainerRoadmap = ({ project }) => {
     dispatchIssue,
   ] = useListIssueContext();
   const { currentUser } = useSelector((state) => state.auth.login);
+  const dispatch = useDispatch();
+  const [show, setShow, handleClose] = useModal();
 
+  const timer = useRef();
   const { dispatch: dispatchMember } = useMembersContext();
   const [{ stages }, dispatchStage] = useStageContext();
 

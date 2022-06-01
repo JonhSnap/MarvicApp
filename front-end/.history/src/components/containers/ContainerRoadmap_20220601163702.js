@@ -20,6 +20,7 @@ import { useStageContext } from "../../contexts/stageContext";
 import TopDetail from "../project-detail/TopDetail";
 
 const ContainerRoadmap = ({ project }) => {
+  const { id } = project;
   const [
     {
       issueEpics,
@@ -29,7 +30,10 @@ const ContainerRoadmap = ({ project }) => {
     dispatchIssue,
   ] = useListIssueContext();
   const { currentUser } = useSelector((state) => state.auth.login);
+  const dispatch = useDispatch();
+  const [show, setShow, handleClose] = useModal();
 
+  const timer = useRef();
   const { dispatch: dispatchMember } = useMembersContext();
   const [{ stages }, dispatchStage] = useStageContext();
 
@@ -43,6 +47,11 @@ const ContainerRoadmap = ({ project }) => {
       fetchMembers(project.id, dispatchMember);
     }
   }, [project]);
+
+  const [search, setSearch] = useState("");
+
+  const [members, setMembers] = useState([]);
+
   const [epicSelected, setEpicSelected] = useState({
     issues: issueEpics,
     filter: [],
@@ -59,6 +68,24 @@ const ContainerRoadmap = ({ project }) => {
       fetchIssue(project.id, dispatchIssue);
     }
   }, [project]);
+
+  useEffect(() => {
+    const fetchMember = async () => {
+      try {
+        const resp = await axios.get(
+          `${BASE_URL}/api/Project/GetAllMemberByIdProject?IdProject=${project.id}`
+        );
+        const data = resp.data;
+        setMembers(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (id) {
+      fetchMember();
+    } else {
+    }
+  }, [id, show]);
 
   return (
     <div className="container">

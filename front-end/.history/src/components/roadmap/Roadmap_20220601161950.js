@@ -33,7 +33,7 @@ const TooltipContent = ({ event, issueEpics, projects }) => {
   return (
     <div
       onClick={() => handleClickName(ToBoard.id)}
-      className="absolute top-0 left-0 z-50 inline-block text-blue-900 rounded-lg hover:bg-slate-300 bg-slate-100"
+      className="absolute top-0 left-0 z-50 inline-block text-black rounded-lg hover:bg-slate-300 bg-slate-100"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

@@ -1,25 +1,37 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getProjects, updateProjects } from "../../redux/apiRequest";
 import "./ContainerRoadmap.scss";
 import { fetchIssue } from "../../reducers/listIssueReducer";
-import { CHANGE_FILTERS_NAME } from "../../reducers/actions";
+import {
+  CHANGE_FILTERS_EPIC,
+  CHANGE_FILTERS_NAME,
+  CHANGE_FILTERS_TYPE,
+} from "../../reducers/actions";
 import CreateComponent from "../CreateComponent";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import useModal from "../../hooks/useModal";
 import { useListIssueContext } from "../../contexts/listIssueContext";
 import { v4 } from "uuid";
-import { BASE_URL } from "../../util/constants";
+import { BASE_URL, issueTypes } from "../../util/constants";
 import axios from "axios";
+import AddMemberPopup from "../popup/AddMemberPopup";
 import useHover from "../../hooks/useHover";
 import RoadmapItem from "./RoadmapItem";
 import Roadmap from "../roadmap/Roadmap";
-import { useMembersContext } from "../../contexts/membersContext";
+import {
+  MembersProvider,
+  useMembersContext,
+} from "../../contexts/membersContext";
 import { fetchMembers } from "../../reducers/membersReducer";
 import { fetchStage } from "../../reducers/stageReducer";
 import { useStageContext } from "../../contexts/stageContext";
+import Progress from "../progress/Progress";
 import TopDetail from "../project-detail/TopDetail";
 
 const ContainerRoadmap = ({ project }) => {
+  const { id } = project;
   const [
     {
       issueEpics,
@@ -29,7 +41,11 @@ const ContainerRoadmap = ({ project }) => {
     dispatchIssue,
   ] = useListIssueContext();
   const { currentUser } = useSelector((state) => state.auth.login);
+  const dispatch = useDispatch();
+  const [show, setShow, handleClose] = useModal();
 
+  const [hoverRef, isHovered] = useHover();
+  const timer = useRef();
   const { dispatch: dispatchMember } = useMembersContext();
   const [{ stages }, dispatchStage] = useStageContext();
 
@@ -43,6 +59,12 @@ const ContainerRoadmap = ({ project }) => {
       fetchMembers(project.id, dispatchMember);
     }
   }, [project]);
+
+  const [search, setSearch] = useState("");
+
+  const [members, setMembers] = useState([]);
+  const [focus, setFocus] = useState(false);
+
   const [epicSelected, setEpicSelected] = useState({
     issues: issueEpics,
     filter: [],
@@ -53,13 +75,65 @@ const ContainerRoadmap = ({ project }) => {
       return { ...pre, issues: issueEpics };
     });
   }, [issueEpics]);
+  const inputRef = useRef();
+  const handleFocus = () => {
+    setFocus(true);
+  };
 
+  // handle change show members
+
+  // handle close epic
+
+  // handle close type
+
+  // handle choose epic
+
+  // useEffect get issues
   useEffect(() => {
     if (project && Object.entries(project).length > 0) {
       fetchIssue(project.id, dispatchIssue);
     }
   }, [project]);
+  useEffect(() => {
+    const inputEl = inputRef.current;
+    inputEl.addEventListener("focus", handleFocus);
+    inputEl.addEventListener("blur", handleBlur);
 
+    return () => {
+      inputEl.removeEventListener("focus", handleFocus);
+      inputEl.removeEventListener("blur", handleBlur);
+    };
+  }, []);
+  useEffect(() => {
+    const fetchMember = async () => {
+      try {
+        const resp = await axios.get(
+          `${BASE_URL}/api/Project/GetAllMemberByIdProject?IdProject=${project.id}`
+        );
+        const data = resp.data;
+        setMembers(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (id) {
+      fetchMember();
+    } else {
+    }
+  }, [id, show]);
+
+  useEffect(() => {
+    if (project?.id) {
+      timer.current = setTimeout(() => {
+        dispatchIssue({
+          type: CHANGE_FILTERS_NAME,
+          payload: search,
+        });
+        fetchIssue(project.id, dispatchIssue);
+      }, 1000);
+    }
+    return () => clearTimeout(timer.current);
+  }, [search]);
   return (
     <div className="container">
       <TopDetail project={project} />

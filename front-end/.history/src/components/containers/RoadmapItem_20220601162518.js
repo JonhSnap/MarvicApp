@@ -106,8 +106,8 @@ const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
                 <div
                   onClick={() => handleSelectedEpic(epic)}
                   className={`inline-block ${
-                    symbolRoadmap ? "bg-blue-400" : "bg-slate-300"
-                  } w-5 h-5 mx-2 rounded-md  `}
+                    showSymbol ? "bg-blue-400" : ""
+                  } w-5 h-5 mx-2 rounded-md bg-slate-300 `}
                 ></div>
                 <span
                   onClick={() => {
