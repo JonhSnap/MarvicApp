@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { KEY_CURRENT_PROJECT, KEY_FILTER_EPIC } from "../../util/constants";
-import useHover from "../../hooks/useHover";
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
 };
@@ -33,7 +32,7 @@ const TooltipContent = ({ event, issueEpics, projects }) => {
   return (
     <div
       onClick={() => handleClickName(ToBoard.id)}
-      className="absolute top-0 left-0 z-50 inline-block text-blue-900 rounded-lg hover:bg-slate-300 bg-slate-100"
+      className=" hover:bg-slate-200 text-black bg-slate-100 absolute z-50 rounded-lg inline-block top-0 left-[20%] "
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
