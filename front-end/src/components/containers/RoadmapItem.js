@@ -48,7 +48,7 @@ const RoadmapItem = ({
   const donePercent = useMemo(() => {
     if (issueCollect.length > 0 && stages.length > 0) {
       const doneStage = stages.find((item) => {
-        return item?.stage_Name === "Done";
+        return item?.stage_Name === "DONE";
       });
 
       return (
@@ -59,6 +59,8 @@ const RoadmapItem = ({
     }
   }, [issueCollect, stages]);
   // const [{ issueEpics }] = useListIssueContext();
+  console.log("issueCollect", issueCollect);
+  console.log("stages", stages);
   const handleSelectedEpic = (epicChoose) => {
     setEpicSelected((prev) => {
       if (prev.filter.includes(epicChoose.id)) {
@@ -106,7 +108,7 @@ const RoadmapItem = ({
                 <div
                   onClick={() => handleSelectedEpic(item)}
                   className={`inline-block ${
-                    epicSelected.filter.includes(item.id) ? "bg-blue-400" : ""
+                    epicSelected.filter.includes(item.id) ? "bg-epic-color" : ""
                   } w-5 h-5 mx-2 rounded-md bg-slate-300 `}
                 ></div>
                 <span

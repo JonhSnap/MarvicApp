@@ -7,26 +7,35 @@ import { useListIssueContext } from "../../contexts/listIssueContext";
 import "./Roadmap.scss";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { KEY_CURRENT_PROJECT, KEY_FILTER_EPIC } from "../../util/constants";
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
 };
 
 const localizer = momentLocalizer(moment);
 const TooltipContent = ({ event, issueEpics, projects }) => {
-  // console.log("issueEpics", issueEpics);
+  const navigate = useNavigate();
+  console.log("event", event);
   // console.log("event", event);
   const ToBoard = issueEpics.find((isEpic) => isEpic.summary === event.title);
-  const keyToBoard = projects.find(
-    (project) => project.id === ToBoard.id_Project
-  );
-  console.log("keyToBoard", keyToBoard);
+  // const keyToBoard = projects.find(
+  //   (project) => project.id === ToBoard.id_Project
+  // );
+
+  console.log("ToBoard", ToBoard);
   // console.log("projects", projects);
+  const handleClickName = (key) => {
+    localStorage.setItem(KEY_FILTER_EPIC, key);
+    navigate(`/projects/board/${localStorage.getItem(KEY_CURRENT_PROJECT)}`);
+  };
   return (
-    <Link to={`/projects/board/${keyToBoard.key}`}>
-      <div className=" hover:bg-slate-200 text-black bg-slate-100 absolute z-50 rounded-lg inline-block px-5 top-0 left-[125%] ">
-        To Board {event.title}
-      </div>
-    </Link>
+    <div
+      onClick={() => handleClickName(ToBoard.id)}
+      className=" hover:bg-slate-200 text-black bg-slate-100 absolute z-50 rounded-lg inline-block px-5 top-0 left-[125%] "
+    >
+      To Board {event.title}
+    </div>
   );
 };
 

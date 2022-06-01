@@ -1,4 +1,4 @@
-﻿using MarvicSolution.DATA.Common;
+﻿using MarvicSolution.BackendApi.Constants;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
@@ -110,7 +110,7 @@ namespace MarvicSolution.BackendApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             // Create a project
-            var IdProj = await _projectService.Create(rq);
+            var IdProj = await _projectService.Create(UserLogin.Id, rq);
             if (IdProj.Equals(Guid.Empty))
                 return BadRequest();
             return Ok("Create project success");
@@ -126,7 +126,7 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest(ModelState);
             var idProject = _projectService.AddMembers(rq.IdProject, rq.UserNames);
             if (idProject.Equals(Guid.Empty))
-                return BadRequest($"Cannot get projects of idUser = {UserLogin.Id}");
+                return BadRequest($"Cannot get projects = {rq.IdProject}");
             return Ok(idProject);
         }
 
@@ -157,7 +157,7 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var affectedResult = await _projectService.Update(rq);
+            var affectedResult = await _projectService.Update(UserLogin.Id, rq);
             if (affectedResult.Equals(Guid.Empty))
                 return BadRequest();
             return Ok("Update project success");

@@ -8,16 +8,20 @@ import YourWorkRecent from "../components/your-work/YourWorkRecent";
 import projectStart from "../components/your-work/projectStart";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
+import YourWorkAssign from "../components/your-work/YourWorkAssign";
+import YourWorkStarred from "../components/your-work/YourWorkStarred";
 
 function YourWorkPage() {
   const [dataYourWork, setDataYourWork] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [assignToMe, setAssignToMe] = useState([]);
+  const [starred, setStarred] = useState([]);
   const [isWorkOn, setIsWorkOn] = useState(true);
   const [isStart, setIsStart] = useState(false);
   const [isViewd, setIsViewd] = useState(false);
   const [isAssign, setIsAssign] = useState(false);
   const getYourWork = async () => {
-    const resp = await axios.get(`${BASE_URL}/api/WorkedOn`);
+    const resp = await axios.get(`${BASE_URL}/api/Issue/WorkedOn`);
     if (resp && resp.status === 200) {
       setDataYourWork(resp.data);
     } else {
@@ -32,10 +36,29 @@ function YourWorkPage() {
       throw new Error("Error when fetch projects ");
     }
   };
+  const getIssueAssignedToMe = async () => {
+    const resp = await axios.get(`${BASE_URL}/api/Issue/GetIssuesAssignedToMe`);
+    if (resp && resp.status === 200) {
+      setAssignToMe(resp.data);
+    } else {
+      throw new Error("Error when fetch projects ");
+    }
+  };
+  const getStarred = async () => {
+    const resp = await axios.get(`${BASE_URL}/api/Project/GetStarredProject`);
+    if (resp && resp.status === 200) {
+      setStarred(resp.data);
+    } else {
+      throw new Error("Error when fetch projects ");
+    }
+  };
+
   useEffect(() => {
     document.title = "Your work";
     getProject();
     getYourWork();
+    getIssueAssignedToMe();
+    getStarred();
   }, []);
   const handleIsStart = () => {
     setIsStart(true);
@@ -66,7 +89,7 @@ function YourWorkPage() {
     <div className="w-[1320px] mx-auto flex flex-col mt-8 pb-24">
       <div className="flex flex-col">
         <h2 className="text-4xl font-semibold">Your work</h2>
-        <div className="flex flex-col p-5 mt-7 rounded-xl bg-slate-100">
+        <div className="flex flex-col p-5 pl-6 mt-7 rounded-xl bg-slate-100">
           <h3 className="text-xl font-normal text-slate-600">
             Recent projects
           </h3>
@@ -96,21 +119,26 @@ function YourWorkPage() {
             >
               <h3 className="text-xl font-semibold">Worked on</h3>
             </div>
-            <div
+            {/* <div
               onClick={handleIsViewd}
               className={`${
                 isViewd ? "border-b-2 border-white  " : ""
               } inline-block cursor-pointer mr-5 p-2 rounded-lg hover:bg-blue-600`}
             >
               <h3 className="text-xl font-semibold">Viewd</h3>
-            </div>
+            </div> */}
             <div
               onClick={handleIsAssigned}
               className={`${
                 isAssign ? "border-b-2 border-white  " : ""
               } inline-block cursor-pointer mr-5 p-2 rounded-lg hover:bg-blue-600`}
             >
-              <h3 className="text-xl font-semibold">Assigned to me</h3>
+              <h3 className="flex items-center text-xl font-semibold">
+                Assigned to me{" "}
+                <span className="flex items-center justify-center w-6 h-6 ml-3 text-black rounded-full bg-yellow-50">
+                  {assignToMe.length}
+                </span>
+              </h3>
             </div>
             <div
               onClick={handleIsStart}
@@ -135,12 +163,28 @@ function YourWorkPage() {
           )}
 
           {isStart && (
-            <div className="flex w-full">
-              <h2>Starred</h2>
+            <div className="flex flex-col w-full p-4 mb-4">
+              {" "}
+              {assignToMe &&
+                starred.length > 0 &&
+                starred.map((item) => (
+                  <YourWorkStarred
+                    key={v4()}
+                    dataStarred={item}
+                  ></YourWorkStarred>
+                ))}
             </div>
           )}
-          {isViewd && <div>Viewd</div>}
-          {isAssign && <div>Assigned to me</div>}
+          {/* {isViewd && <div>Viewd</div>} */}
+          {isAssign && (
+            <div className="flex flex-col w-full p-4 mb-4">
+              {assignToMe &&
+                assignToMe.length > 0 &&
+                assignToMe.map((item) => (
+                  <YourWorkAssign key={v4()} dataAssign={item}></YourWorkAssign>
+                ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

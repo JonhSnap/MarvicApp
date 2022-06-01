@@ -6,15 +6,30 @@ import "swiper/scss";
 import useHover from "../../hooks/useHover";
 import avtUser from "../../images/avt-user.png";
 import useClickOutSide from "../../hooks/useClickOutSide";
+import { useSelector } from "react-redux";
+import { KEY_CURRENT_PROJECT } from "../../util/constants";
+import { useNavigate } from "react-router-dom";
 
 const YourWorkIssue = ({ dataIssue }) => {
+  const navigate = useNavigate();
   const isType2 = dataIssue.id_IssueType === 2;
   const isType3 = dataIssue.id_IssueType === 3;
   const isType4 = dataIssue.id_IssueType === 4;
   const isType1 = dataIssue.id_IssueType === 1;
   const [hoverRef, isHovered] = useHover();
+  const [hoverRef1, isHovered1] = useHover();
   const { show, setShow, nodeRef } = useClickOutSide();
 
+  const projects = useSelector((state) => state.projects.projects);
+  const keyProject = projects.find(
+    (project) => project.id === dataIssue.id_Project
+  );
+  console.log("keyProject", keyProject.key);
+
+  const handleClickName = (key) => {
+    localStorage.setItem(KEY_CURRENT_PROJECT, key);
+    navigate(`/projects/board/${key}`);
+  };
   return (
     <div className="flex items-center w-full p-1 rounded-lg cursor-pointer hover:bg-slate-200">
       <div>
@@ -42,7 +57,7 @@ const YourWorkIssue = ({ dataIssue }) => {
           ))}
       </div>
       <div className="flex items-center justify-between w-full ml-4">
-        <div className="">
+        <div onClick={() => handleClickName(keyProject.key)} className="">
           <h4 className="text-xl font-semibold">{dataIssue.summary}</h4>
           <span className="text-base font-normal text-slate-600">
             {dataIssue.projectName}
@@ -54,7 +69,61 @@ const YourWorkIssue = ({ dataIssue }) => {
           </span>
           <div className="flex justify-between ">
             <div className="flex">
-              <>
+              {dataIssue.users.length > 2 ? (
+                <>
+                  <div ref={hoverRef} className=" w-[40px] [h-40px] relative ">
+                    {isHovered ? (
+                      <span className="w-auto absolute z-10  bg-black text-white text-sm px-2 py-1  l-0 rounded-lg top-[100%]">
+                        {dataIssue.users[0].userName}
+                      </span>
+                    ) : (
+                      ""
+                    )}
+
+                    <img
+                      src={dataIssue.users[0].avatar_Path || avtUser}
+                      alt=""
+                      className="w-[40px] h-[40px] border-2 border-white rounded-full"
+                    />
+                  </div>
+                  <div ref={hoverRef1} className=" w-[40px] [h-40px] relative ">
+                    {isHovered1 ? (
+                      <span className="w-auto absolute z-10  bg-black text-white text-sm px-2 py-1  l-0 rounded-lg top-[100%]">
+                        {dataIssue.users[1].userName}
+                      </span>
+                    ) : (
+                      ""
+                    )}
+
+                    <img
+                      src={dataIssue.users[1].avatar_Path || avtUser}
+                      alt=""
+                      className="w-[40px] h-[40px] border-2 border-white rounded-full"
+                    />
+                  </div>
+                  <div className=" w-[40px] h-[40px] relative ">
+                    <div
+                      ref={nodeRef}
+                      onClick={() => setShow(!show)}
+                      className="absolute inset-0 z-10 flex items-center justify-center text-white bg-black rounded-full opacity-50 item-center"
+                    >
+                      + {dataIssue.users.length - 2}
+                    </div>
+                    <img
+                      src={dataIssue.users[2].avatar_Path || avtUser}
+                      alt=""
+                      className="w-[40px] h-[40px] rounded-full"
+                    />
+                    {show && (
+                      <div className="absolute shadow-lg flex flex-col top-[100%] p-2 z-[9999] bg-slate-50 rounded-lg">
+                        {dataIssue.users.map((user) => (
+                          <UserYourWork key={v4()} user={user}></UserYourWork>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : dataIssue.users.length === 1 ? (
                 <div ref={hoverRef} className=" w-[40px] [h-40px] relative ">
                   {isHovered ? (
                     <span className="w-auto absolute z-10  bg-black text-white text-sm px-2 py-1  l-0 rounded-lg top-[100%]">
@@ -70,28 +139,39 @@ const YourWorkIssue = ({ dataIssue }) => {
                     className="w-[40px] h-[40px] border-2 border-white rounded-full"
                   />
                 </div>
-                <div className=" w-[40px] h-[40px] relative ">
-                  <div
-                    ref={nodeRef}
-                    onClick={() => setShow(!show)}
-                    className="absolute inset-0 z-10 flex items-center justify-center text-white bg-black rounded-full opacity-50 item-center"
-                  >
-                    + {dataIssue.users.length - 1}
+              ) : (
+                <>
+                  <div ref={hoverRef} className=" w-[40px] [h-40px] relative ">
+                    {isHovered ? (
+                      <span className="w-auto absolute z-10  bg-black text-white text-sm px-2 py-1  l-0 rounded-lg top-[100%]">
+                        {dataIssue.users[0].userName}
+                      </span>
+                    ) : (
+                      ""
+                    )}
+
+                    <img
+                      src={dataIssue.users[0].avatar_Path || avtUser}
+                      alt=""
+                      className="w-[40px] h-[40px] border-2 border-white rounded-full"
+                    />
                   </div>
-                  <img
-                    src={avtUser || dataIssue.users[1].avatar_Path}
-                    alt=""
-                    className="w-[40px] h-[40px] rounded-full"
-                  />
-                  {show && (
-                    <div className="absolute shadow-lg flex flex-col top-[100%] p-2 z-[9999] bg-slate-50 rounded-lg">
-                      {dataIssue.users.map((user) => (
-                        <UserYourWork key={v4()} user={user}></UserYourWork>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </>
+                  <div ref={hoverRef1} className=" w-[40px] h-[40px] relative ">
+                    {isHovered1 ? (
+                      <span className="w-auto absolute z-10  bg-black text-white text-sm px-2 py-1  l-0 rounded-lg top-[100%]">
+                        {dataIssue.users[1].userName}
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                    <img
+                      src={dataIssue.users[1].avatar_Path || avtUser}
+                      alt=""
+                      className="w-[40px] h-[40px] rounded-full"
+                    />
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

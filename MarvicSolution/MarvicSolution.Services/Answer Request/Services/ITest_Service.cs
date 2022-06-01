@@ -11,7 +11,7 @@ namespace MarvicSolution.Services.Answer_Request.Services
 {
     public interface ITest_Service
     {
-        Task<double> GetTestScore(SubmitTest_Request rq);
+        Task<double> GetTestScore(Guid idUser, SubmitTest_Request rq);
         List<TestResult_ViewModel> GetTestResult(Guid idUser);
     }
 }

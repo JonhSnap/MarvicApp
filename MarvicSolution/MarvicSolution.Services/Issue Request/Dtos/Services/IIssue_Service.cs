@@ -22,8 +22,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
     public interface IIssue_Service
     {
         // INPUT
-        Task<Guid> Create(Issue_CreateRequest rq);
-        Task<Guid> Update(Issue_UpdateRequest request);
+        Task<Guid> Create(Guid idUser, Issue_CreateRequest rq);
+        Task<Guid> Update(Guid idUser, Issue_UpdateRequest request);
         Task<Guid> Delete(Guid Id);
 
         // OUTPUT

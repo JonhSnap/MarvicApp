@@ -12,8 +12,8 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
 {
     public interface IProject_Service
     {
-        Task<Guid> Create(Project_CreateRequest request);
-        Task<Guid> Update(Project_UpdateRequest request);
+        Task<Guid> Create(Guid idUser, Project_CreateRequest request);
+        Task<Guid> Update(Guid idUser, Project_UpdateRequest request);
         Task<Guid> Delete(Guid Id);
 
         Guid GetIdUserByUserName(string userName);

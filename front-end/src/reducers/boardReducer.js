@@ -1,30 +1,38 @@
 import axios from "axios";
-import { BASE_URL } from "../util/constants";
-import { CHANGE_FILTER_EPIC_BOARD, CHANGE_FILTER_NAME_BOARD, CHANGE_FILTER_TYPE_BOARD, GET_BOARD } from "./actions";
+import { BASE_URL, KEY_FILTER_EPIC } from "../util/constants";
+import {
+    CHANGE_FILTER_EPIC_BOARD,
+    CHANGE_FILTER_NAME_BOARD,
+    CHANGE_FILTER_TYPE_BOARD,
+    GET_BOARD,
+} from "./actions";
 
 // fetch board
 const fetchBoard = async (dataGet, dispatch) => {
     try {
-        const resp = await axios.get(`${BASE_URL}/api/Issue/GetIssueForBoard?idSprint=${dataGet?.idSprint}${dataGet?.idEpic ? `&idEpic=${dataGet.idEpic}` : ''}${dataGet?.type ? `&type=${dataGet.type}` : ''}`);
+        const resp = await axios.get(
+            `${BASE_URL}/api/Issue/GetIssueForBoard?idSprint=${dataGet?.idSprint}${dataGet?.idEpic ? `&idEpic=${dataGet.idEpic}` : ""
+            }${dataGet?.type ? `&type=${dataGet.type}` : ""}`
+        );
         if (resp.status === 200) {
             dispatch({
                 type: GET_BOARD,
-                payload: resp.data
-            })
+                payload: resp.data,
+            });
         }
     } catch (error) {
         console.log(error);
     }
-}
+};
 
 const initialValue = {
     boards: [],
     filters: {
-        name: '',
+        name: "",
         epics: [],
-        types: []
-    }
-}
+        types: [],
+    },
+};
 
 const boardReducer = (state, action) => {
     let stateCopy = { ...state };
@@ -152,4 +160,4 @@ const boardReducer = (state, action) => {
     }
     return state
 }
-export { initialValue, boardReducer, fetchBoard }
+export { initialValue, boardReducer, fetchBoard };
