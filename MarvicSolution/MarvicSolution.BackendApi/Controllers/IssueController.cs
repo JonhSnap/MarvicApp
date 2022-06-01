@@ -1,5 +1,4 @@
-﻿using MarvicSolution.BackendApi.Hubs;
-using MarvicSolution.DATA.Common;
+﻿using MarvicSolution.BackendApi.Constants;
 using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests;
@@ -7,14 +6,11 @@ using MarvicSolution.Services.Issue_Request.Dtos.Requests.Board;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Issue_Request.Issue_Request;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
-using MarvicSolution.Services.Label_Request.Services;
+using MarvicSolution.Utilities.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MarvicSolution.BackendApi.Controllers
@@ -258,7 +254,7 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var id_Issue = await _issueService.Create(rq);
+            var id_Issue = await _issueService.Create(UserLogin.Id, rq);
             if (id_Issue.Equals(Guid.Empty))
                 return BadRequest("Cannot create a Issue");
             return Ok(id_Issue);
@@ -284,20 +280,26 @@ namespace MarvicSolution.BackendApi.Controllers
         [Route("UploadFile")]
         public IActionResult UploadFileAsync([FromForm] UploadFile_Request rq)
         {
-            // replace file exist
-            // delete file in wwwroot/upload files
-            var issue = _issueService.Get_Issues_By_Id(rq.IdIssue);
-            string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\{issue.FileName}");
-            if (System.IO.File.Exists(path))
-                System.IO.File.Delete(path);
-            if (rq.File != null)
+            try
             {
-                _issueService.DeleteFileIssue(new DeleteFile_Request(rq.IdIssue, rq.File.FileName));
-                // update file for issue
-                _issueService.UploadedFile(rq.IdIssue, rq.File);
+                // replace file exist
+                // delete file in wwwroot/upload files
+                var issue = _issueService.Get_Issues_By_Id(rq.IdIssue);
+                string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\{issue.FileName}");
+                if (System.IO.File.Exists(path))
+                    System.IO.File.Delete(path);
+                if (rq.File != null)
+                {
+                    _issueService.DeleteFileIssue(new DeleteFile_Request(rq.IdIssue, rq.File.FileName));
+                    // update file for issue
+                    _issueService.UploadedFile(rq.IdIssue, rq.File);
+                }
+                return Redirect(rq.Url);
             }
-
-            return Redirect(rq.Url);
+            catch (Exception e)
+            {
+                throw new MarvicException($"Error: {e}");
+            }
         }
         // /api/Issue/ChangeStage
         [HttpPost]
@@ -318,7 +320,7 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var idIssue = await _issueService.Update(rq);
+            var idIssue = await _issueService.Update(UserLogin.Id, rq);
             if (idIssue.Equals(Guid.Empty))
                 return BadRequest();
             return Ok(idIssue);
@@ -355,9 +357,9 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest();
             return Ok(idIssue);
         }
-        
-        
-        
+
+
+
 
     }
 }

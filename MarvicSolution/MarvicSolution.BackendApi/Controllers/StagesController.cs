@@ -5,11 +5,7 @@ using MarvicSolution.Services.Stage_Request.Services;
 using MarvicSolution.Services.Stage_Request.Requests;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
-using MarvicSolution.DATA.EF;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using MarvicSolution.BackendApi.Hubs;
-using Microsoft.AspNetCore.SignalR;
 
 namespace MarvicSolution.BackendApi.Controllers
 {
