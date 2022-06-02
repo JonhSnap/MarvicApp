@@ -2,6 +2,7 @@
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewModels;
+using MarvicSolution.Services.Project_Resquest.Dtos.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
 {
     public interface IProject_Service
     {
-        Task<Guid> Create(Project_CreateRequest request);
-        Task<Guid> Update(Project_UpdateRequest request);
+        Task<Guid> Create(Guid idUser, Project_CreateRequest request);
+        Task<Guid> Update(Guid idUser, Project_UpdateRequest request);
         Task<Guid> Delete(Guid Id);
 
         Guid GetIdUserByUserName(string userName);
@@ -29,5 +30,6 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         Guid AddMembers(Guid IdProject, List<string> userNames);
         Guid Remove_Member_From_Project(Guid IdProject, Guid IdUser);
         List<Project> GetStarredProject(Guid idUserLogin);
+        bool DisableMember(DisableMember_ViewModel rq);
     }
 }
