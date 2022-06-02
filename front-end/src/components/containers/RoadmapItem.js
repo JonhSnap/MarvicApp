@@ -12,17 +12,13 @@ import useModal from "../../hooks/useModal";
 import EditEpicPopup from "../popup/EditEpicPopup.js";
 import Progress from "../progress/Progress";
 import { useStageContext } from "../../contexts/stageContext";
+import EditIssuePopup from "../popup/EditIssuePopup";
+import { useMembersContext } from "../../contexts/membersContext";
 
-const RoadmapItem = ({
-  item,
-  project,
-  epic,
-  epicSelected,
-  setEpicSelected,
-}) => {
+const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
   const [showIssue, setShowIssue] = useState(false);
+  const [showSymbol, setShowSymbol] = useState(false);
   const [showCreateComponent, setShowCreateComponent] = useState(false);
-  const [members, setMembers] = useState([]);
   const [{ stages }] = useStageContext();
   const handleshowIssue = () => {
     setShowIssue(!showIssue);
@@ -45,6 +41,9 @@ const RoadmapItem = ({
     return result;
   }, [stages]);
 
+  const {
+    state: { members },
+  } = useMembersContext();
   const donePercent = useMemo(() => {
     if (issueCollect.length > 0 && stages.length > 0) {
       const doneStage = stages.find((item) => {
@@ -59,8 +58,6 @@ const RoadmapItem = ({
     }
   }, [issueCollect, stages]);
   // const [{ issueEpics }] = useListIssueContext();
-  console.log("issueCollect", issueCollect);
-  console.log("stages", stages);
   const handleSelectedEpic = (epicChoose) => {
     setEpicSelected((prev) => {
       if (prev.filter.includes(epicChoose.id)) {
@@ -75,16 +72,17 @@ const RoadmapItem = ({
     });
     console.log(epicSelected.filter.includes(epicChoose.id));
   };
+  const symbolRoadmap = epicSelected.filter.includes(epic.id);
+  console.log(symbolRoadmap);
   return (
     <>
       {showEditEpic && (
-        <EditEpicPopup
-          donePercent={donePercent}
+        <EditIssuePopup
+          members={members}
           project={project}
-          setShow={setShowEditEpic}
-          handleClose={handleCloseEpic}
           issue={epic}
-        ></EditEpicPopup>
+          setShow={setShowEditEpic}
+        ></EditIssuePopup>
       )}
       <div
         key={v4()}
@@ -106,10 +104,10 @@ const RoadmapItem = ({
             <div className="flex items-center justify-between flex-1">
               <div className="flex items-center justify-center">
                 <div
-                  onClick={() => handleSelectedEpic(item)}
+                  onClick={() => handleSelectedEpic(epic)}
                   className={`inline-block ${
-                    epicSelected.filter.includes(item.id) ? "bg-epic-color" : ""
-                  } w-5 h-5 mx-2 rounded-md bg-slate-300 `}
+                    symbolRoadmap ? "bg-blue-400" : "bg-slate-300"
+                  } w-5 h-5 mx-2 rounded-md  `}
                 ></div>
                 <span
                   onClick={() => {
@@ -117,7 +115,7 @@ const RoadmapItem = ({
                   }}
                   className="text-base font-semibold text-slate-600 "
                 >
-                  {item.summary}
+                  {epic.summary}
                 </span>
               </div>
             </div>

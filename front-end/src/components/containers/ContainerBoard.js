@@ -36,6 +36,7 @@ function ContainerBoard({ project }) {
                     payload: epicFilterStorage
                 })
             }
+            localStorage.removeItem(KEY_FILTER_EPIC);
             const dataGet = {
                 idSprint: currentSprint.id,
                 idEpic: null,
@@ -51,7 +52,7 @@ function ContainerBoard({ project }) {
     }, [project, dispatchStage])
 
     return (
-        <div className='container'>
+        <div className='container-board'>
             <TopDetailBoard currentSprint={currentSprint} project={project} />
             <div className="bottom have-y-scroll">
                 {

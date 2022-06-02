@@ -24,12 +24,13 @@ const YourWorkIssue = ({ dataIssue }) => {
   const keyProject = projects.find(
     (project) => project.id === dataIssue.id_Project
   );
-  console.log("keyProject", keyProject.key);
 
   const handleClickName = (key) => {
     localStorage.setItem(KEY_CURRENT_PROJECT, key);
     navigate(`/projects/board/${key}`);
   };
+
+  console.log("dataIssue", dataIssue.users.length === 1);
   return (
     <div className="flex items-center w-full p-1 rounded-lg cursor-pointer hover:bg-slate-200">
       <div>
@@ -134,7 +135,7 @@ const YourWorkIssue = ({ dataIssue }) => {
                   )}
 
                   <img
-                    src={avtUser || dataIssue.users[0].avatar_Path}
+                    src={dataIssue.users[0].avatar_Path || avtUser}
                     alt=""
                     className="w-[40px] h-[40px] border-2 border-white rounded-full"
                   />
