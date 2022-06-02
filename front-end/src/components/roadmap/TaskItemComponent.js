@@ -43,13 +43,13 @@ function TaskItemComponent({ issue, project, issueEpics }) {
       )}
       <div
         ref={ref}
-        className={`item hover:bg-[#eee] cursor-pointer w-full h-[40px] p-1
+        className={`item hover:bg-[#eee]  cursor-pointer w-full h-[40px] p-1
             px-4 mt-[-1px] border-solid 
             flex justify-between items-center ${
               issue.isFlagged ? "bg-[#ffe8e6] hover:bg-[#ffb9b3]" : "bg-white"
             }`}
       >
-        <div className="flex items-center w-full h-full left-item">
+        <div className="flex items-center justify-between w-full h-full left-item">
           <img
             className="object-cover w-5 h-5 rounded"
             src={

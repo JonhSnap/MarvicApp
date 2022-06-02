@@ -294,6 +294,7 @@ namespace MarvicSolution.BackendApi.Controllers
                     // update file for issue
                     _issueService.UploadedFile(rq.IdIssue, rq.File);
                 }
+                rq.Url = $"{SystemConstant.BaseUrl}/projects/backlog/PA";
                 return Redirect(rq.Url);
             }
             catch (Exception e)

@@ -31,7 +31,6 @@ export const loginUser = async (user, dispatch, navigate) => {
 
     dispatch(loginSuccess(res.data));
     navigate("/");
-    console.log(document.cookie);
   } catch (err) {
     dispatch(loginFailed());
     alert("Ten dang nhap hoac mat khau khong chinh xac");
