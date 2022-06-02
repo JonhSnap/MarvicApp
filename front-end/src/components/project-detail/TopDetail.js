@@ -13,6 +13,7 @@ import { useMembersContext } from '../../contexts/membersContext';
 import { documentHeight, issueTypes } from '../../util/constants';
 import FilterEpicSelectBox from '../selectbox/FilterEpicSelectBox';
 import FilterTypeSelectBox from '../selectbox/FilterTypeSelectBox';
+import FilterLabelSelectBox from '../selectbox/FilterLabelSelectBox';
 
 const secondThirdScreen = documentHeight * 2 / 3;
 
@@ -27,13 +28,16 @@ function TopDetail({ project }) {
     const [search, setSearch] = useState('')
     const [coordEpic, setCoordEpic] = useState({});
     const [coordType, setCoordType] = useState({});
+    const [coordLabel, setCoordLabel] = useState({});
     const [showEpic, setShowEpic, handleCloseEpic] = useModal();
     const [showType, setShowType, handleCloseType] = useModal();
+    const [showLabel, setShowLabel, handleCloseLabel] = useModal();
     const [showMembers, setShowMembers] = useState(false);
     const [focus, setFocus] = useState(false);
     const inputRef = useRef();
     const filterEpicRef = useRef();
     const filterTypeRef = useRef();
+    const filterLabelRef = useRef();
 
     const handleFocus = () => {
         setFocus(true);
@@ -130,6 +134,14 @@ function TopDetail({ project }) {
             setShowType(true);
         }
     }
+    // handle show filter label
+    const handleShowFilterLabel = () => {
+        const bounding = filterLabelRef.current.getBoundingClientRect();
+        if (bounding) {
+            setCoordLabel(bounding);
+            setShowLabel(true);
+        }
+    }
     // handle choose epic
     const handleChooseEpic = (idEpic) => {
         dispatchIssue({
@@ -180,6 +192,17 @@ function TopDetail({ project }) {
                         top: coordType.bottom <= secondThirdScreen ? coordType.bottom + 10 : null,
                         left: coordType.left,
                         bottom: !(coordType.bottom <= secondThirdScreen) ? (documentHeight - coordType.top - 10) : null
+                    }}
+                />
+            }
+            {
+                showLabel &&
+                <FilterLabelSelectBox
+                    onClose={handleCloseLabel}
+                    bodyStyle={{
+                        top: coordLabel.bottom <= secondThirdScreen ? coordLabel.bottom + 10 : null,
+                        left: coordLabel.left,
+                        bottom: !(coordLabel.bottom <= secondThirdScreen) ? (documentHeight - coordLabel.top - 10) : null
                     }}
                 />
             }
@@ -261,6 +284,18 @@ function TopDetail({ project }) {
                         onClick={handleShowFilterType} className="type">
                         <span className={`type-number ${showType ? 'active' : ''}`}>{type.length}</span>
                         <span className='title pointer-events-none'>Type</span>
+                        <span className="icon pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </div>
+                    <div
+                        ref={filterLabelRef}
+                        style={showLabel ? { backgroundColor: '#555', color: 'white' } : {}}
+                        onClick={handleShowFilterLabel} className="label">
+                        <span className={`label-number ${showLabel ? 'active' : ''}`}>{type.length}</span>
+                        <span className='title pointer-events-none'>Label</span>
                         <span className="icon pointer-events-none">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />

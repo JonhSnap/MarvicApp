@@ -118,7 +118,7 @@
       width: 80px;
       height: 35px;
       border-radius: 4px;
-      background-color: #ccc;
+      @apply bg-gray-main;
       transition: all linear 0.1s;
       .epic-number {
         position: absolute;
@@ -130,7 +130,7 @@
         width: 20px;
         height: 20px;
         border-radius: 50%;
-        background-color: #ccc;
+        @apply bg-gray-main;
         border: 2px solid #fff;
         font-size: 12px;
         color: #333;
@@ -175,7 +175,7 @@
       width: 80px;
       height: 35px;
       border-radius: 4px;
-      background-color: #ccc;
+      @apply bg-gray-main;
       transition: all linear 0.1s;
       .type-number {
         position: absolute;
@@ -187,7 +187,7 @@
         width: 20px;
         height: 20px;
         border-radius: 50%;
-        background-color: #ccc;
+        @apply bg-gray-main;
         border: 2px solid #fff;
         font-size: 12px;
         color: #333;
@@ -204,6 +204,54 @@
         .type-number {
           @apply bg-task-color;
           color: #fff;
+        }
+      }
+      .title {
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .icon {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        color: inherit;
+      }
+    }
+    .label {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      width: 80px;
+      height: 35px;
+      border-radius: 4px;
+      @apply bg-gray-main;
+      transition: all linear 0.1s;
+      .label-number {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        @apply bg-gray-main;
+        border: 2px solid #fff;
+        font-size: 12px;
+        color: #333;
+        transform: translate(50%, -50%);
+        transition: all linear 0.1s;
+      }
+      .label-number.active {
+        background-color: #555;
+        color: white;
+      }
+      &:hover {
+        background-color: #ccc;
+        .label-number {
+          background-color: #ccc;
         }
       }
       .title {
