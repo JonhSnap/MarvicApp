@@ -214,28 +214,6 @@ namespace MarvicSolution.BackendApi.Controllers
                 throw new MarvicException($"Error: {e}");
             }
         }
-
-        // /api/user/GetAllMember
-        [HttpGet]
-        public IActionResult GetAllMember(Guid idProject)
-        {
-            try
-            {
-                RequestVM rqVM = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
-                var member = _userService.GetAllMember(idProject, rqVM);
-                if (userId.Equals(Guid.Empty))
-                    return BadRequest();
-                return Ok("Recovery password for user success");
-            }
-            catch (Exception e)
-            {
-                throw new MarvicException($"Error: {e}");
-            }
-        }
-
         private Guid ValidateUser()
         {
             try

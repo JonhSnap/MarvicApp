@@ -2,6 +2,7 @@
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
+using MarvicSolution.Services.Project_Resquest.Dtos.Requests;
 using MarvicSolution.Services.SendMail_Request.Dtos.Services;
 using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Utilities.Exceptions;
@@ -119,7 +120,6 @@ namespace MarvicSolution.BackendApi.Controllers
         // api/Project/AddMember?IdProject=xxx-xxx-xx
         [HttpPost]
         [Route("/api/Project/AddMember")]
-        //public IActionResult AddMember(Guid IdProject, params string[] userNames)
         public IActionResult AddMember([FromBody] AddMember_Request rq)
         {
             if (!ModelState.IsValid)
@@ -161,6 +161,17 @@ namespace MarvicSolution.BackendApi.Controllers
             if (affectedResult.Equals(Guid.Empty))
                 return BadRequest();
             return Ok("Update project success");
+        }
+        [HttpPut]
+        [Route("/api/Project/DisableMember")]// remember to check this route
+        public IActionResult DisableMember([FromBody] DisableMember_ViewModel rq)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var affectedResult = _projectService.DisableMember(rq);
+            if (!affectedResult)
+                return BadRequest();
+            return Ok("Disable member success");
         }
 
         [HttpDelete("{proj_Id}")]

@@ -28,31 +28,36 @@ namespace MarvicSolution.DATA.Configurations
                 {
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
                     Id_User = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // User KhietPT pass KhietPT@123
-                    Role = EnumRole.ProductOwner
+                    Role = EnumRole.ProductOwner,
+                    IsActive = EnumStatus.True
                 },
                 new Member
                 {
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
                     Id_User = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD pass ThangVD@123
-                    Role = EnumRole.ProjectManager
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
                 },
                 new Member
                 {
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
                     Id_User = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // NhanNT pass NhanNT@123
-                    Role = EnumRole.ProjectManager
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
                 },
                 new Member
                 {
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
                     Id_User = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ pass ThinhLQ@123
-                    Role = EnumRole.Developer
+                    Role = EnumRole.Developer,
+                    IsActive = EnumStatus.True
                 },
                 new Member
                 {
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
                     Id_User = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV pass TungNV@123
-                    Role = EnumRole.Developer
+                    Role = EnumRole.Developer,
+                    IsActive = EnumStatus.True
                 }
                 );
         }

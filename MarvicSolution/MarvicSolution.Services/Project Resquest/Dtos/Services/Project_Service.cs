@@ -5,6 +5,7 @@ using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewModels;
+using MarvicSolution.Services.Project_Resquest.Dtos.Requests;
 using MarvicSolution.Services.SendMail_Request.Dtos.Requests;
 using MarvicSolution.Services.SendMail_Request.Dtos.Services;
 using MarvicSolution.Services.Stage_Request.Services;
@@ -258,7 +259,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 {
                     foreach (var i_name in userNames)
                     {
-                        Member member = new Member { Id_Project = IdProject, Id_User = GetIdUserByUserName(i_name) };
+                        Member member = new Member { Id_Project = IdProject, Id_User = GetIdUserByUserName(i_name), Role = EnumRole.Developer, IsActive = EnumStatus.True };
                         _context.Members.Add(member);
                     }
 
@@ -488,6 +489,25 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             catch (Exception e)
             {
                 _logger.LogInformation($"Controller: Project. Method: GetStarredProject. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+        public bool DisableMember(DisableMember_ViewModel rq)
+        {
+            try
+            {
+                foreach (var i_user in rq.ListIdUser)
+                {
+                    var member = _context.Members.SingleOrDefault(mem => mem.Id_Project.Equals(rq.IdProject)
+                                                                        && mem.Id_User.Equals(i_user));
+                    member.IsActive = EnumStatus.False;
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Project. Method: DisableMember. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
