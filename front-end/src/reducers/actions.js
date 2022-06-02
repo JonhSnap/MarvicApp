@@ -23,6 +23,8 @@ const COMPLETE_SPRINT = "complete_sprint";
 // stage actions
 const GET_STAGE = "get_stage";
 const UPDATE_STAGE = "update_stage";
+const CREATE_STAGE = 'create_stage';
+const DELETE_STAGE = 'delete_stage';
 // board action
 const GET_BOARD = "get_board";
 const CHANGE_FILTER_NAME_BOARD = "change_filter_name";
@@ -49,6 +51,8 @@ export {
   COMPLETE_SPRINT,
   GET_BOARD,
   UPDATE_STAGE,
+  CREATE_STAGE,
+  DELETE_STAGE,
   CHANGE_FILTER_NAME_BOARD,
   CHANGE_FILTER_EPIC_BOARD,
   CHANGE_FILTER_TYPE_BOARD,

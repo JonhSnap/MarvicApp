@@ -5,6 +5,7 @@ import { useSprintContext } from '../../contexts/sprintContext'
 import { fetchBoard } from '../../reducers/boardReducer';
 import { fetchIssue, updateIssues } from '../../reducers/listIssueReducer';
 import { issueTypes } from '../../util/constants'
+import createToast from '../../util/createToast';
 
 function IssueCanAddSelectbox({ showAddchild, setShowAddchild, issue, project, childIssues }) {
     const [, dispatchIssue] = useListIssueContext();
@@ -39,6 +40,7 @@ function IssueCanAddSelectbox({ showAddchild, setShowAddchild, issue, project, c
                     type: 0
                 }, dispatchBoard);
             }
+            createToast('success', 'Add child issue sucessfully');
         }
     }
 
