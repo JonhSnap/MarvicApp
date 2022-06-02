@@ -24,15 +24,7 @@ function OptionsEditIssue({ setShowAddchild, setShowAttachment }) {
                     </div>
                 </div>
                 <AddChildIssue setShowAddchild={setShowAddchild} />
-                <div onClick={() => setShowAttachment(pre => !pre)} style={{ '--rotate': 2, '--color': '#0052cc' }} className='option-item'>
-                    <div className='item'>
-                        <span title='Attachment' className='icon'>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                            </svg>
-                        </span>
-                    </div>
-                </div>
+                <Attachment setShowAttachment={setShowAttachment} />
             </div>
         </div>
     )
@@ -42,17 +34,43 @@ export default OptionsEditIssue
 
 // add child issue component
 function AddChildIssue({ setShowAddchild }) {
+    // handle show
+    const handleShow = (e) => {
+        if (e.target.matches('#btn-addchild')) {
+            setShowAddchild(prev => !prev);
+        }
+    }
     return (
-        <div onClick={() => setShowAddchild(prev => !prev)} style={{ '--rotate': 1, '--color': '#8777D9' }} className='option-item'>
+        <div onClick={handleShow} style={{ '--rotate': 1, '--color': '#8777D9' }} className='option-item'>
             <div className='item'>
-                <span title='Add child issue' className='icon'>
-                    <svg viewBox="0 0 24 24" role="presentation">
+                <span id='btn-addchild' title='Add child issue' className='icon'>
+                    <svg className='pointer-events-none' viewBox="0 0 24 24" role="presentation">
                         <g fill="currentColor" fillRule="evenodd">
                             <path d="M11 7h2v5h-2zm5 6h2v3h-2zM6 13h2v3H6z"></path>
                             <path d="M7 11h10a1 1 0 011 1v1H6v-1a1 1 0 011-1z"></path>
                             <path d="M5 18v1h4v-1H5zm0-2h4a2 2 0 012 2v1a2 2 0 01-2 2H5a2 2 0 01-2-2v-1a2 2 0 012-2zm10 2v1h4v-1h-4zm0-2h4a2 2 0 012 2v1a2 2 0 01-2 2h-4a2 2 0 01-2-2v-1a2 2 0 012-2zM10 5v1h4V5h-4zm0-2h4a2 2 0 012 2v1a2 2 0 01-2 2h-4a2 2 0 01-2-2V5a2 2 0 012-2z" fillRule="nonzero">
                             </path>
                         </g>
+                    </svg>
+                </span>
+            </div>
+        </div>
+    )
+}
+// upload file
+function Attachment({ setShowAttachment }) {
+    // handle show
+    const handleShow = (e) => {
+        if (e.target.matches('#btn-attachment')) {
+            setShowAttachment(prev => !prev)
+        }
+    }
+    return (
+        <div onClick={handleShow} style={{ '--rotate': 2, '--color': '#0052cc' }} className='option-item'>
+            <div className='item'>
+                <span id='btn-attachment' title='Attachment' className='icon'>
+                    <svg className='pointer-events-none' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                     </svg>
                 </span>
             </div>

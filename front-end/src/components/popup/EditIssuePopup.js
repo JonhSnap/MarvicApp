@@ -269,7 +269,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
                           ))}
                       {issue.id_Parent_Issue &&
                         issue.id_Parent_Issue !==
-                          "00000000-0000-0000-0000-000000000000" && (
+                        "00000000-0000-0000-0000-000000000000" && (
                           <div
                             onClick={handleRemoveEpic}
                             className="flex items-center gap-x-2 w-[150px] mb-2 p-3 bg-red-500 text-white rounded shadow-md font-semibold"
@@ -372,10 +372,12 @@ function EditIssuePopup({ members, project, issue, setShow }) {
           <Attachment issue={issue} />
           <ChildIssue project={project} issues={childIssues} />
 
-          <div className="detail">
-            <div className="item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border-[1px] border-[#ccc] border-b-0 flex justify-between items-center">
-              <div className="flex items-center justify-between w-full h-8 my-2">
-                <p className="m-1 font-bold">Detail</p>
+          <div className='detail'>
+            <div className='item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border border-[#ccc] border-b-0 flex justify-between items-center'>
+              <div className='flex justify-between w-full h-8 items-center my-2'>
+                <p className='font-bold m-1'>
+                  Detail
+                </p>
               </div>
             </div>
             <div className="item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border-[1px] border-[#ccc] flex justify-between items-center flex-wrap">
@@ -437,7 +439,8 @@ function ChildIssue({ issues, project }) {
     child.id_Parent_Issue = NIL;
     await updateIssues(child, dispatchIssue);
     fetchIssue(project.id, dispatchIssue);
-  };
+    createToast('success', 'Remove child successfully')
+  }
 
   return (
     <div className="child-issue">
@@ -541,8 +544,10 @@ function TextBox({ value, onChange, ...props }) {
     onChange(e);
   };
   useEffect(() => {
-    setHeight(nodeRef.current.scrollHeight);
-  }, [text]);
+    if (text) {
+      setHeight(nodeRef.current.scrollHeight);
+    }
+  }, [text])
   return (
     <textarea
       {...props}
@@ -570,44 +575,32 @@ function Stage({ project, issue, stages, stage }) {
       issue.id_Stage = stage.id;
       await updateIssues(issue, dispatchIssue);
       fetchIssue(project.id, dispatchIssue);
+      createToast('success', 'Update stage successfully');
     }
   };
 
   return (
-    <div
-      onClick={toggle}
-      className="relative flex items-center justify-center px-4 py-2 transition-all rounded cursor-pointer btn-toggle gap-x-2 bg-gray-main hover:bg-gray-200"
-    >
-      <span className="inline-block font-semibold pointer-events-none">
-        {stage.stage_Name}
-      </span>
-      <span className="inline-block w-5 h-5 pointer-events-none text-inherit">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fillRule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clipRule="evenodd"
-          />
+    <div onClick={toggle} className='btn-toggle relative flex gap-x-2 items-center justify-center px-4 py-2
+    rounded bg-gray-main cursor-pointer hover:bg-gray-200 transition-all'>
+      <span className='inline-block uppercase font-semibold pointer-events-none'>{stage.stage_Name}</span>
+      <span className='inline-block w-5 h-5 text-inherit pointer-events-none'>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
         </svg>
       </span>
       {show && (
         <div className="absolute w-[110%] z-10 top-[105%] left-0 bg-gray-main rounded shadow-md">
-          {stages.length > 0 &&
-            stages.map((item) => {
-              return item.id !== stage.id ? (
-                <p
-                  key={item.id}
-                  onClick={() => handleChangeStage(item)}
-                  className="p-2 cursor-pointer hover:bg-gray-200"
-                >
-                  {item.stage_Name}
-                </p>
-              ) : null;
-            })}
+          {
+            stages.length > 0 &&
+            stages.map(item => {
+              return (
+                item.id !== stage.id
+                  ? <p key={item.id} onClick={() => handleChangeStage(item)} className='p-2 uppercase cursor-pointer hover:bg-gray-200'>{item.stage_Name}</p>
+                  : null
+              )
+
+            })
+          }
         </div>
       )}
     </div>
@@ -637,7 +630,8 @@ function Assignee({ members, project, issue }) {
     }
     await updateIssues(issue, dispathIssue);
     fetchIssue(project.id, dispathIssue);
-  };
+    createToast('success', 'Change assignee sucessfully');
+  }
 
   return (
     <div
@@ -679,11 +673,10 @@ function Assignee({ members, project, issue }) {
               <div
                 onClick={() => handleSelectMember(item)}
                 key={item.id}
-                className={`p-2 flex items-center hover:bg-gray-main ${
-                  issue.id_Assignee === item.id
+                className={`p-2 flex items-center hover:bg-gray-main ${issue.id_Assignee === item.id
                     ? "bg-orange-500 text-white pointer-events-none"
                     : ""
-                }`}
+                  }`}
               >
                 {item.userName}
               </div>
@@ -713,7 +706,8 @@ function Reporter({ members, project, issue }) {
     issue.id_Assignee = member.id;
     await updateIssues(issue, dispathIssue);
     fetchIssue(project.id, dispathIssue);
-  };
+    createToast('success', 'Change reporter sucessfully');
+  }
 
   return (
     <div
@@ -749,11 +743,10 @@ function Reporter({ members, project, issue }) {
               <div
                 onClick={() => handleSelectMember(item)}
                 key={item.id}
-                className={`p-2 flex items-center hover:bg-gray-main ${
-                  issue.id_Reporter === item.id
+                className={`p-2 flex items-center hover:bg-gray-main ${issue.id_Reporter === item.id
                     ? "bg-orange-500 text-white pointer-events-none"
                     : ""
-                }`}
+                  }`}
               >
                 {item.userName}
               </div>
