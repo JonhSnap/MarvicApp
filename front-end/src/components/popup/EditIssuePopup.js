@@ -284,7 +284,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
           />
 
           <div className='detail'>
-            <div className='item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border-[1px] border-[#ccc] border-b-0 flex justify-between items-center'>
+            <div className='item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border border-[#ccc] border-b-0 flex justify-between items-center'>
               <div className='flex justify-between w-full h-8 items-center my-2'>
                 <p className='font-bold m-1'>
                   Detail
@@ -351,6 +351,7 @@ function ChildIssue({ issues, project }) {
     child.id_Parent_Issue = NIL;
     await updateIssues(child, dispatchIssue);
     fetchIssue(project.id, dispatchIssue);
+    createToast('success', 'Remove child successfully')
   }
 
   return (
@@ -428,7 +429,9 @@ function TextBox({ value, onChange, ...props }) {
     onChange(e);
   }
   useEffect(() => {
-    setHeight(nodeRef.current.scrollHeight);
+    if (text) {
+      setHeight(nodeRef.current.scrollHeight);
+    }
   }, [text])
   return (
     <textarea
@@ -458,13 +461,14 @@ function Stage({ project, issue, stages, stage }) {
       issue.id_Stage = stage.id;
       await updateIssues(issue, dispatchIssue);
       fetchIssue(project.id, dispatchIssue);
+      createToast('success', 'Update stage successfully');
     }
   }
 
   return (
     <div onClick={toggle} className='btn-toggle relative flex gap-x-2 items-center justify-center px-4 py-2
     rounded bg-gray-main cursor-pointer hover:bg-gray-200 transition-all'>
-      <span className='inline-block font-semibold pointer-events-none'>{stage.stage_Name}</span>
+      <span className='inline-block uppercase font-semibold pointer-events-none'>{stage.stage_Name}</span>
       <span className='inline-block w-5 h-5 text-inherit pointer-events-none'>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
           <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -478,7 +482,7 @@ function Stage({ project, issue, stages, stage }) {
             stages.map(item => {
               return (
                 item.id !== stage.id
-                  ? <p key={item.id} onClick={() => handleChangeStage(item)} className='p-2 cursor-pointer hover:bg-gray-200'>{item.stage_Name}</p>
+                  ? <p key={item.id} onClick={() => handleChangeStage(item)} className='p-2 uppercase cursor-pointer hover:bg-gray-200'>{item.stage_Name}</p>
                   : null
               )
 
@@ -513,6 +517,7 @@ function Assignee({ members, project, issue }) {
     }
     await updateIssues(issue, dispathIssue);
     fetchIssue(project.id, dispathIssue);
+    createToast('success', 'Change assignee sucessfully');
   }
 
   return (
@@ -576,6 +581,7 @@ function Reporter({ members, project, issue }) {
     issue.id_Assignee = member.id;
     await updateIssues(issue, dispathIssue);
     fetchIssue(project.id, dispathIssue);
+    createToast('success', 'Change reporter sucessfully');
   }
 
   return (
