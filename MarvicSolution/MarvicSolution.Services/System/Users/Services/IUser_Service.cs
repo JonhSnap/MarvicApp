@@ -4,6 +4,7 @@ using MarvicSolution.Services.System.Users.Requests;
 using MarvicSolution.Services.System.Users.View_Model;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MarvicSolution.Services.System.Users.Services
@@ -21,7 +22,8 @@ namespace MarvicSolution.Services.System.Users.Services
         User_ViewModel GetUserbyIdVM(Guid Id, RequestVM rqVM);
         App_User GetUserbyUserName(string userName);
         User_ViewModel GetUserbyUserNameVM(string userName, RequestVM rqVM);
-        void UploadAvatar(IFormFile file);
-        bool DeleteUserAvatar(string fileName);
+        void UploadAvatar(Guid idUser, IFormFile file);
+        bool DeleteUserAvatar(Guid idUser, string fileName);
+        List<User_ViewModel> GetAllMember(Guid idProject, RequestVM rqVM);
     }
 }

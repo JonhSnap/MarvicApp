@@ -22,8 +22,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
     public interface IIssue_Service
     {
         // INPUT
-        Task<Guid> Create(Issue_CreateRequest rq);
-        Task<Guid> Update(Issue_UpdateRequest request);
+        Task<Guid> Create(Guid idUser, Issue_CreateRequest rq);
+        Task<Guid> Update(Guid idUser, Issue_UpdateRequest request);
         Task<Guid> Delete(Guid Id);
 
         // OUTPUT
@@ -48,6 +48,8 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         List<GroupAssignedTM_ViewModel> GetIssueAssignedToMe(Guid IdUserLogin, RequestVM rqVM);
         List<IssueArchive_ViewModel> GetIssuesArchive(Guid idProject, RequestVM rqVM);
         Task<bool> ChangeStage(ChangeStage_Request rq);
+        Task<bool> AddLabel(IssueLabel_Request rq);
+        Task<bool> RemoveLabel(Guid idIssue);
 
     }
 }

@@ -98,7 +98,7 @@ namespace MarvicSolution.BackendApi
             app.UseRouting();
 
             app.UseCors(option => option
-            .WithOrigins(new[] { "http://localhost:3000", "http://localhost:8000", "http://localhost:4200" }) // FE's port
+            .WithOrigins(new[] { "https://marvicapp.surge.sh", "http://localhost:3000", "http://localhost:8000", "http://localhost:4200" }) // FE's port
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials()); // send cookie to FE

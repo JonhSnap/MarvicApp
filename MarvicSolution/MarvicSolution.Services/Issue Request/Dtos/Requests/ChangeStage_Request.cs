@@ -10,7 +10,7 @@ namespace MarvicSolution.Services.Issue_Request.Dtos.Requests
         public Guid IdStage { get; set; }
         public ChangeStage_Request()
         {
-            IdUpdator = UserLogin.Id;
+            IdUpdator = Guid.NewGuid();
             IdIssue = Guid.NewGuid();
             IdStage = Guid.NewGuid();
         }

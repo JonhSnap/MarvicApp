@@ -1,10 +1,8 @@
-﻿using MarvicSolution.DATA.Common;
-using MarvicSolution.DATA.EF;
+﻿using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Answer_Request.Requests;
 using MarvicSolution.Services.Answer_Request.ViewModels;
-using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -12,7 +10,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MarvicSolution.Services.Answer_Request.Services
@@ -26,7 +23,7 @@ namespace MarvicSolution.Services.Answer_Request.Services
             _context = context;
             _logger = logger;
         }
-        public async Task<double> GetTestScore(SubmitTest_Request rq)
+        public async Task<double> GetTestScore(Guid idUser, SubmitTest_Request rq)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
@@ -46,7 +43,7 @@ namespace MarvicSolution.Services.Answer_Request.Services
                                  join ansed in rq.listId on ans.id_ans equals ansed
                                  group ans.Scores by ans.Scores into g
                                  select g).Sum(a => (long)a.Key);
-                    var testResult = new TestResut(Guid.NewGuid(), UserLogin.Id, rq.IdTest, DateTime.Now, score);
+                    var testResult = new TestResut(Guid.NewGuid(), idUser, rq.IdTest, DateTime.Now, score);
                     await _context.TestResuts.AddAsync(testResult);
                     await _context.SaveChangesAsync();
                     tran.Commit();
