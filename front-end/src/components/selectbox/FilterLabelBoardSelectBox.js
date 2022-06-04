@@ -5,13 +5,14 @@ import { useListIssueContext } from '../../contexts/listIssueContext'
 import { useSelector } from 'react-redux';
 import { createLabel, deleteLabel, fetchLabel, updateLabel } from '../../reducers/labelReducer';
 import { v4 } from 'uuid';
-import { CHANGE_FILTERS_LABEL } from '../../reducers/actions';
-import { fetchIssue } from '../../reducers/listIssueReducer';
+import { CHANGE_FILTER_LABEL_BOARD } from '../../reducers/actions';
+import { fetchBoard } from '../../reducers/boardReducer';
+import { useBoardContext } from '../../contexts/boardContext';
 
-function FilterLabelSelectBox({ onClose, bodyStyle, project }) {
+function FilterLabelBoardSelectBox({ onClose, bodyStyle, project, currentSprint }) {
     const { currentUser } = useSelector(state => state.auth.login);
     const [{ labels }, dispatchLabel] = useLabelContext();
-    const [{ filters: { label } }, dispatchIssue] = useListIssueContext();
+    const [{ filters: { labels: filterLabels } }, dispatchBoard] = useBoardContext();
     const [showInput, setShowInput] = useState(false);
     const [labelName, setLabelName] = useState('');
     const inputRef = useRef();
@@ -22,11 +23,15 @@ function FilterLabelSelectBox({ onClose, bodyStyle, project }) {
     }
     // handle select label
     const handleSelectLabel = async (label) => {
-        await dispatchIssue({
-            type: CHANGE_FILTERS_LABEL,
+        await dispatchBoard({
+            type: CHANGE_FILTER_LABEL_BOARD,
             payload: label.id
         });
-        fetchIssue(project.id, dispatchIssue);
+        fetchBoard({
+            idSprint: currentSprint?.id,
+            idEpic: null,
+            type: 0
+        }, dispatchBoard);
     }
 
     useEffect(() => {
@@ -67,7 +72,7 @@ function FilterLabelSelectBox({ onClose, bodyStyle, project }) {
                     labels.map(item => (
                         <div key={v4()} className='flex items-center gap-x-2 group mb-2'>
                             <input
-                                checked={label.includes(item.id)}
+                                checked={filterLabels.includes(item.id)}
                                 onChange={() => handleSelectLabel(item)}
                                 type="checkbox" className='cursor-pointer' />
                             <NameLabel key={item.id} label={item} project={project} />
@@ -110,7 +115,7 @@ function FilterLabelSelectBox({ onClose, bodyStyle, project }) {
     )
 }
 
-export default FilterLabelSelectBox
+export default FilterLabelBoardSelectBox
 
 function NameLabel({ label, project }) {
     const [showInput, setShowInput] = useState(false);

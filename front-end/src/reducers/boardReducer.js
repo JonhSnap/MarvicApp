@@ -1,9 +1,11 @@
 import axios from "axios";
-import { BASE_URL, KEY_FILTER_EPIC } from "../util/constants";
+import { BASE_URL } from "../util/constants";
 import {
     CHANGE_FILTER_EPIC_BOARD,
+    CHANGE_FILTER_LABEL_BOARD,
     CHANGE_FILTER_NAME_BOARD,
     CHANGE_FILTER_TYPE_BOARD,
+    CLEAR_FILTER_BOARD,
     GET_BOARD,
 } from "./actions";
 
@@ -31,6 +33,7 @@ const initialValue = {
         name: "",
         epics: [],
         types: [],
+        labels: []
     },
 };
 
@@ -44,7 +47,11 @@ const boardReducer = (state, action) => {
             const epicFilter = stateCopy.filters.epics;
             // filter type
             const typeFilter = stateCopy.filters.types;
+            // filter label
+            const labelFilter = stateCopy.filters.labels;
             stateCopy.boards = action.payload;
+            // all epics
+            const listEpic = stateCopy.boards[0]?.listEpic.map(item => item.id);
             // filter name
             if (nameFilter) {
                 stateCopy.boards.forEach(board => {
@@ -60,27 +67,20 @@ const boardReducer = (state, action) => {
                     stateCopy.boards.forEach(board => {
                         board.listStage.forEach(stage => {
                             stage.listIssue = stage.listIssue.filter(issue => {
-                                return (
-                                    !issue.id_Parent_Issue ||
-                                    issue.id_Parent_Issue === "00000000-0000-0000-0000-000000000000"
-                                )
+                                return !listEpic.includes(issue.id_Parent_Issue) || epicFilter.includes(issue.id_Parent_Issue)
+                            })
+                        })
+                    })
+                } else {
+                    stateCopy.boards.forEach(board => {
+                        board.listStage.forEach(stage => {
+                            stage.listIssue = stage.listIssue.filter(item => {
+                                return epicFilter.includes(item.id_Parent_Issue)
                             })
                         })
                     })
                 }
-                stateCopy.boards.forEach(board => {
-                    board.listStage.forEach(stage => {
-                        stage.listIssue = stage.listIssue.filter(item => {
-                            return epicFilter.includes(item.id_Parent_Issue)
-                        })
-                    })
-                })
-            } else {
-                stateCopy = {
-                    ...stateCopy
-                }
             }
-
             // filter type
             if (typeFilter.length > 0) {
                 stateCopy.boards.forEach(board => {
@@ -88,8 +88,14 @@ const boardReducer = (state, action) => {
                         stage.listIssue = stage.listIssue.filter(issue => typeFilter.includes(issue.id_IssueType))
                     })
                 })
-            } else {
-                stateCopy = { ...stateCopy }
+            }
+            // filter label
+            if (labelFilter.length > 0) {
+                stateCopy.boards.forEach(board => {
+                    board.listStage.forEach(stage => {
+                        stage.listIssue = stage.listIssue.filter(issue => labelFilter.includes(issue.id_Label))
+                    })
+                })
             }
             state = { ...stateCopy };
             break;
@@ -155,6 +161,25 @@ const boardReducer = (state, action) => {
             }
             state = { ...stateCopy }
             break;
+        case CHANGE_FILTER_LABEL_BOARD:
+            const filterLabels = stateCopy.filters.labels;
+            const isExist = filterLabels.includes(action.payload);
+            if (isExist) {
+                stateCopy.filters.labels = filterLabels.filter(item => item !== action.payload);
+            } else {
+                stateCopy.filters.labels.push(action.payload);
+            }
+            state = { ...stateCopy };
+            break;
+        case CLEAR_FILTER_BOARD:
+            stateCopy.filters = {
+                ...stateCopy.filters,
+                epics: [],
+                types: [],
+                labels: []
+            }
+            state = { ...stateCopy };
+            break
         default:
             break;
     }

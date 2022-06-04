@@ -13,16 +13,20 @@ import WrapperTask from "../backlog/WrapperTask";
 import { useMembersContext } from "../../contexts/membersContext";
 import WrapperSprint from "../sprint/WrapperSprint";
 import { fetchStage } from "../../reducers/stageReducer";
+import { fetchLabel } from "../../reducers/labelReducer";
 import { useStageContext } from "../../contexts/stageContext";
+import { useLabelContext } from "../../contexts/labelContext";
+
 function ContainerBacklog({ project }) {
   const [{ issueNormals }, dispatchIssue] = useListIssueContext();
   const [, dispatchStage] = useStageContext();
+  const [, dispatchLabel] = useLabelContext();
   const {
     state: { members },
   } = useMembersContext();
 
   const issueNoSprint = useMemo(() => {
-    return issueNormals.filter((item) => item.id_Sprint === NIL);
+    return issueNormals.filter((item) => item.id_Sprint === NIL || !item.id_Sprint);
   }, [issueNormals]);
 
   // useEffect get issues
@@ -30,6 +34,7 @@ function ContainerBacklog({ project }) {
     if (project && Object.entries(project).length > 0) {
       fetchIssue(project.id, dispatchIssue);
       fetchStage(project.id, dispatchStage);
+      fetchLabel(project.id, dispatchLabel);
     }
   }, [project]);
 

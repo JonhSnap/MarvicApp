@@ -3,8 +3,10 @@ import { BASE_URL } from "../util/constants";
 import createToast from "../util/createToast";
 import {
   CHANGE_FILTERS_EPIC,
+  CHANGE_FILTERS_LABEL,
   CHANGE_FILTERS_NAME,
   CHANGE_FILTERS_TYPE,
+  CLEAR_FILTERS,
   CREATE_ISSUE,
   DELETE_ISSUE,
   GET_ISSUES,
@@ -70,6 +72,7 @@ const initialIssues = {
     name: "",
     type: [],
     epics: [],
+    label: []
   },
 };
 
@@ -88,6 +91,7 @@ const listIssueReducer = (state, action) => {
       const nameFilter = stateCopy.filters.name;
       const epicFilter = stateCopy.filters.epics;
       const typeFilter = stateCopy.filters.type;
+      const labelFilter = stateCopy.filters.label;
       // filter name
       if (nameFilter) {
         const result = issueNormalData.filter((item) =>
@@ -147,6 +151,16 @@ const listIssueReducer = (state, action) => {
         stateCopy = {
           ...stateCopy,
         };
+      }
+      // filter label
+      if (labelFilter.length > 0) {
+        const result = stateCopy.issueNormals.filter(item => labelFilter.includes(item.id_Label));
+        stateCopy = {
+          ...stateCopy,
+          issueNormals: [...result]
+        }
+      } else {
+        stateCopy = { ...stateCopy };
       }
       state = { ...stateCopy };
       break;
@@ -250,6 +264,25 @@ const listIssueReducer = (state, action) => {
         };
       }
       state = { ...stateCopy };
+      break;
+    case CHANGE_FILTERS_LABEL:
+      const filterLabel = stateCopy.filters.label;
+      const isExist = filterLabel.includes(action.payload);
+      if (isExist) {
+        stateCopy.filters.label = filterLabel.filter(item => item !== action.payload);
+      } else {
+        stateCopy.filters.label.push(action.payload);
+      }
+      state = { ...stateCopy };
+      break;
+    case CLEAR_FILTERS:
+      stateCopy.filters = {
+        ...stateCopy.filters,
+        epics: [],
+        type: [],
+        label: []
+      }
+      state = { ...stateCopy }
       break;
     default:
       break;
