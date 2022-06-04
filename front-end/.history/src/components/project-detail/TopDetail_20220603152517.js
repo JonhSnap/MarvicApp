@@ -324,16 +324,14 @@ function TopDetail({ project }) {
                 />
               </svg>
               {showMembers && (
-                <div className="relative z-30  current-members">
+                <div className="current-members">
                   {members.length > 3 ? (
-                    <>
+                      <>
                       <div
                         key={v4()}
                         className="w-full flex justify-between items-center px-[10px]"
                       >
-                        <span className="text-primary">
-                          {members[0].userName}
-                        </span>
+                        <span className="text-primary">{members[0].userName}</span>
                         <div
                           onClick={() => handleDeleteMember(members[0].id)}
                           className="text-[#ccc]  hover:text-red-500 "
@@ -341,83 +339,9 @@ function TopDetail({ project }) {
                           remove
                         </div>
                       </div>
-                      <div
-                        key={v4()}
-                        className="w-full flex justify-between items-center px-[10px]"
-                      >
-                        <span className="text-primary">
-                          {members[1].userName}
-                        </span>
-                        <div
-                          onClick={() => handleDeleteMember(members[1].id)}
-                          className="text-[#ccc]  hover:text-red-500 "
-                        >
-                          remove
-                        </div>
-                      </div>
-                      <div
-                        key={v4()}
-                        className="w-full flex justify-between items-center px-[10px]"
-                      >
-                        <span className="text-primary">
-                          {members[2].userName}
-                        </span>
-                        <div
-                          onClick={() => handleDeleteMember(members[2].id)}
-                          className="text-[#ccc]  hover:text-red-500 "
-                        >
-                          remove
-                        </div>
-                      </div>
-                    </>
-                  ) : members.length === 2 ? (
-                    <>
-                      <div
-                        key={v4()}
-                        className="w-full flex justify-between items-center px-[10px]"
-                      >
-                        <span className="text-primary">
-                          {members[0].userName}
-                        </span>
-                        <div
-                          onClick={() => handleDeleteMember(members[0].id)}
-                          className="text-[#ccc]  hover:text-red-500 "
-                        >
-                          remove
-                        </div>
-                      </div>
-                      <div
-                        key={v4()}
-                        className="w-full flex justify-between items-center px-[10px]"
-                      >
-                        <span className="text-primary">
-                          {members[1].userName}
-                        </span>
-                        <div
-                          onClick={() => handleDeleteMember(members[1].id)}
-                          className="text-[#ccc]  hover:text-red-500 "
-                        >
-                          remove
-                        </div>
-                      </div>
-                    </>
-                  ) : members.length === 1 ? (
-                    <>
-                      <div
-                        key={v4()}
-                        className="w-full flex justify-between items-center px-[10px]"
-                      >
-                        <span className="text-primary">
-                          {members[0].userName}
-                        </span>
-                        <div
-                          onClick={() => handleDeleteMember(members[0].id)}
-                          className="text-[#ccc]  hover:text-red-500 "
-                        >
-                          remove
-                        </div>
-                      </div>
-                    </>
+
+                      </>
+                    )
                   ) : (
                     <p className="text-sm text-center text-[#999]">
                       Project has no members

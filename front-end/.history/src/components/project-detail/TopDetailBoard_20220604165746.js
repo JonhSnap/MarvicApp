@@ -1,38 +1,41 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./TopDetail.scss";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { v4 } from "uuid";
+import { useListIssueContext } from "../../contexts/listIssueContext";
+import { useMembersContext } from "../../contexts/membersContext";
+import { useBoardContext } from "../../contexts/boardContext";
 import useModal from "../../hooks/useModal";
-import { getProjects, updateProjects } from "../../redux/apiRequest";
-import { fetchIssue } from "../../reducers/listIssueReducer";
 import {
   CHANGE_FILTERS_EPIC,
   CHANGE_FILTERS_NAME,
   CHANGE_FILTERS_TYPE,
+  CHANGE_FILTER_EPIC_BOARD,
+  CHANGE_FILTER_NAME_BOARD,
+  CHANGE_FILTER_TYPE_BOARD,
 } from "../../reducers/actions";
-import AddMemberPopup from "../popup/AddMemberPopup";
-import { v4 } from "uuid";
-import { useListIssueContext } from "../../contexts/listIssueContext";
+import { fetchBoard } from "../../reducers/boardReducer";
+import { fetchIssue } from "../../reducers/listIssueReducer";
 import { deleteMembers, fetchMembers } from "../../reducers/membersReducer";
-import { useMembersContext } from "../../contexts/membersContext";
+import { getProjects, updateProjects } from "../../redux/apiRequest";
 import { documentHeight, issueTypes } from "../../util/constants";
-import FilterEpicSelectBox from "../selectbox/FilterEpicSelectBox";
-import FilterTypeSelectBox from "../selectbox/FilterTypeSelectBox";
-import FilterLabelSelectBox from "../selectbox/FilterLabelSelectBox";
+import AddMemberPopup from "../popup/AddMemberPopup";
+import FilterEpicBoardSelectBox from "../selectbox/FilterEpicBoardSelectBox";
+import "./TopDetail.scss";
+import FilterTypeBoardSelectBox from "../selectbox/FilterTypeBoardSelectBox";
 
 const secondThirdScreen = (documentHeight * 2) / 3;
-
-function TopDetail({ project }) {
-  const [
-    {
-      issueEpics,
-      filters: { epics, type },
-    },
-    dispatchIssue,
-  ] = useListIssueContext();
+function TopDetailBoard({ project, currentSprint }) {
+  const [{ issueEpics }, dispatchIssue] = useListIssueContext();
   const {
     state: { members },
     dispatch: dispatchMembers,
   } = useMembersContext();
+  const [
+    {
+      filters: { epics, types },
+    },
+    dispatchBoard,
+  ] = useBoardContext();
   const { currentUser } = useSelector((state) => state.auth.login);
   const dispatch = useDispatch();
   const [show, setShow, handleClose] = useModal();
@@ -41,17 +44,13 @@ function TopDetail({ project }) {
   const [search, setSearch] = useState("");
   const [coordEpic, setCoordEpic] = useState({});
   const [coordType, setCoordType] = useState({});
-  const [coordLabel, setCoordLabel] = useState({});
   const [showEpic, setShowEpic, handleCloseEpic] = useModal();
   const [showType, setShowType, handleCloseType] = useModal();
-  const [showLabel, setShowLabel, handleCloseLabel] = useModal();
   const [showMembers, setShowMembers] = useState(false);
-  const [showAllMembers, setShowAllMembers] = useState(false);
   const [focus, setFocus] = useState(false);
   const inputRef = useRef();
   const filterEpicRef = useRef();
   const filterTypeRef = useRef();
-  const filterLabelRef = useRef();
 
   const handleFocus = () => {
     setFocus(true);
@@ -82,12 +81,6 @@ function TopDetail({ project }) {
   const handleChangeShowMembers = (e) => {
     if (e.target.matches(".js-changeshow")) {
       setShowMembers((prev) => !prev);
-      setShowAllMembers(false);
-    }
-  };
-  const handleChangeShowAllMembers = (e) => {
-    if (e.target.matches(".js-changeshowallmember")) {
-      setShowAllMembers((prev) => !prev);
     }
   };
   // useEffect get issues
@@ -115,11 +108,18 @@ function TopDetail({ project }) {
   useEffect(() => {
     if (project?.id) {
       timer.current = setTimeout(() => {
-        dispatchIssue({
-          type: CHANGE_FILTERS_NAME,
+        dispatchBoard({
+          type: CHANGE_FILTER_NAME_BOARD,
           payload: search,
         });
-        fetchIssue(project.id, dispatchIssue);
+        fetchBoard(
+          {
+            idSprint: currentSprint?.id,
+            idEpic: null,
+            type: 0,
+          },
+          dispatchBoard
+        );
       }, 1000);
     }
     return () => clearTimeout(timer.current);
@@ -153,38 +153,41 @@ function TopDetail({ project }) {
       setShowType(true);
     }
   };
-  // handle show filter label
-  const handleShowFilterLabel = () => {
-    const bounding = filterLabelRef.current.getBoundingClientRect();
-    if (bounding) {
-      setCoordLabel(bounding);
-      setShowLabel(true);
-    }
-  };
   // handle choose epic
-  const handleChooseEpic = (idEpic) => {
-    dispatchIssue({
-      type: CHANGE_FILTERS_EPIC,
+  const handleChooseEpic = async (idEpic) => {
+    await dispatchBoard({
+      type: CHANGE_FILTER_EPIC_BOARD,
       payload: idEpic,
     });
-    setTimeout(() => {
-      fetchIssue(project.id, dispatchIssue);
-    }, 500);
+    fetchBoard(
+      {
+        idSprint: currentSprint.id,
+        idEpic: null,
+        type: 0,
+      },
+      dispatchBoard
+    );
   };
   // handle choose type
-  const handleChooseType = (idType) => {
-    dispatchIssue({
-      type: CHANGE_FILTERS_TYPE,
+  const handleChooseType = async (idType) => {
+    await dispatchBoard({
+      type: CHANGE_FILTER_TYPE_BOARD,
       payload: idType,
     });
-    setTimeout(() => {
-      fetchIssue(project.id, dispatchIssue);
-    }, 500);
+    fetchBoard(
+      {
+        idSprint: currentSprint.id,
+        idEpic: null,
+        type: 0,
+      },
+      dispatchBoard
+    );
   };
+
   return (
     <div className="top">
       {showEpic && (
-        <FilterEpicSelectBox
+        <FilterEpicBoardSelectBox
           handleChooseEpic={handleChooseEpic}
           onClose={handleCloseEpic}
           bodyStyle={{
@@ -203,9 +206,9 @@ function TopDetail({ project }) {
         />
       )}
       {showType && (
-        <FilterTypeSelectBox
+        <FilterTypeBoardSelectBox
           issueTypes={issueTypes}
-          type={type}
+          type={types}
           handleChooseType={handleChooseType}
           onClose={handleCloseType}
           bodyStyle={{
@@ -216,21 +219,6 @@ function TopDetail({ project }) {
             left: coordType.left,
             bottom: !(coordType.bottom <= secondThirdScreen)
               ? documentHeight - coordType.top - 10
-              : null,
-          }}
-        />
-      )}
-      {showLabel && (
-        <FilterLabelSelectBox
-          onClose={handleCloseLabel}
-          bodyStyle={{
-            top:
-              coordLabel.bottom <= secondThirdScreen
-                ? coordLabel.bottom + 10
-                : null,
-            left: coordLabel.left,
-            bottom: !(coordLabel.bottom <= secondThirdScreen)
-              ? documentHeight - coordLabel.top - 10
               : null,
           }}
         />
@@ -253,7 +241,7 @@ function TopDetail({ project }) {
           <svg
             onClick={handleClickStar}
             xmlns="http://www.w3.org/2000/svg"
-            className="w-8 h-8 cursor-pointer"
+            className="h-8 w-8 cursor-pointer"
             viewBox="0 0 20 20"
             fill="yellow"
           >
@@ -263,7 +251,7 @@ function TopDetail({ project }) {
           <svg
             onClick={handleClickStar}
             xmlns="http://www.w3.org/2000/svg"
-            className="w-8 h-8 cursor-pointer"
+            className="h-8 w-8 cursor-pointer"
             fill="none"
             viewBox="0 0 24 24"
             stroke="#ccc"
@@ -313,7 +301,7 @@ function TopDetail({ project }) {
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5 pointer-events-none"
+                className="h-5 w-5 pointer-events-none"
                 viewBox="0 0 20 20"
                 fill="#999"
               >
@@ -493,8 +481,8 @@ function TopDetail({ project }) {
             <span className={`epic-number ${showEpic ? "active" : ""}`}>
               {epics.length}
             </span>
-            <span className="pointer-events-none title">Epic</span>
-            <span className="pointer-events-none icon">
+            <span className="title pointer-events-none">Epic</span>
+            <span className="icon pointer-events-none">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -519,36 +507,10 @@ function TopDetail({ project }) {
             className="type"
           >
             <span className={`type-number ${showType ? "active" : ""}`}>
-              {type.length}
+              {types.length}
             </span>
-            <span className="pointer-events-none title">Type</span>
-            <span className="pointer-events-none icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </span>
-          </div>
-          <div
-            ref={filterLabelRef}
-            style={showLabel ? { backgroundColor: "#555", color: "white" } : {}}
-            onClick={handleShowFilterLabel}
-            className="label"
-          >
-            <span className={`label-number ${showLabel ? "active" : ""}`}>
-              {type.length}
-            </span>
-            <span className="pointer-events-none title">Label</span>
-            <span className="pointer-events-none icon">
+            <span className="title pointer-events-none">Type</span>
+            <span className="icon pointer-events-none">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -570,4 +532,4 @@ function TopDetail({ project }) {
   );
 }
 
-export default TopDetail;
+export default TopDetailBoard;

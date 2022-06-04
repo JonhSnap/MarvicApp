@@ -324,7 +324,7 @@ function TopDetail({ project }) {
                 />
               </svg>
               {showMembers && (
-                <div className="relative z-30  current-members">
+                <div className="current-members">
                   {members.length > 3 ? (
                     <>
                       <div
@@ -395,23 +395,6 @@ function TopDetail({ project }) {
                         </span>
                         <div
                           onClick={() => handleDeleteMember(members[1].id)}
-                          className="text-[#ccc]  hover:text-red-500 "
-                        >
-                          remove
-                        </div>
-                      </div>
-                    </>
-                  ) : members.length === 1 ? (
-                    <>
-                      <div
-                        key={v4()}
-                        className="w-full flex justify-between items-center px-[10px]"
-                      >
-                        <span className="text-primary">
-                          {members[0].userName}
-                        </span>
-                        <div
-                          onClick={() => handleDeleteMember(members[0].id)}
                           className="text-[#ccc]  hover:text-red-500 "
                         >
                           remove

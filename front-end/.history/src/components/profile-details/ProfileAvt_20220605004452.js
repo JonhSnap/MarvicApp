@@ -1,8 +1,6 @@
-import React, { useRef } from "react";
+import React from "react";
 // import avtUser from "../../images/avt-user.png";
-import { BASE_URL } from "../../util/constants";
-const ProfileAvt = ({ user, avt, setAvt }) => {
-  const imageRef = useRef();
+const ProfileAvt = ({ user, avt, setAvt, addOrEdit }) => {
   const showPriview = (e) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -15,18 +13,13 @@ const ProfileAvt = ({ user, avt, setAvt }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    e.target.submit();
-    // e.preventDefault();
-    // const formData = new FormData();
-    // formData.append("file", avt);
+    console.log("avt pf", avt);
+    const formData = new FormData();
+    formData.append("file", avt);
+    addOrEdit(formData);
   };
   return (
-    <form
-      onSubmit={handleSubmit}
-      method="post"
-      action={`${BASE_URL}/api/User/UploadAvatar`}
-      encType="multipart/form-data"
-    >
+    <form onSubmit={handleSubmit}>
       <div className="w-full h-[270px]  rounded-lg header-avt  border-slate-500 border-2">
         <div className="h-[110px] header-avt-top  p-10 flex ">
           <div className="items-center w-[105px] mt-5">
@@ -43,7 +36,7 @@ const ProfileAvt = ({ user, avt, setAvt }) => {
         <div className="mt-10 ml-5">
           <input
             type="file"
-            name="file"
+            name="image-upload"
             id="input-avt"
             accept="image/*"
             className="cursor-pointer "

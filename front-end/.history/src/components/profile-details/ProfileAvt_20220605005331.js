@@ -1,8 +1,7 @@
-import React, { useRef } from "react";
+import React from "react";
 // import avtUser from "../../images/avt-user.png";
 import { BASE_URL } from "../../util/constants";
 const ProfileAvt = ({ user, avt, setAvt }) => {
-  const imageRef = useRef();
   const showPriview = (e) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -15,10 +14,8 @@ const ProfileAvt = ({ user, avt, setAvt }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    e.target.submit();
-    // e.preventDefault();
-    // const formData = new FormData();
-    // formData.append("file", avt);
+    const formData = new FormData();
+    formData.append("file", avt);
   };
   return (
     <form
@@ -43,7 +40,7 @@ const ProfileAvt = ({ user, avt, setAvt }) => {
         <div className="mt-10 ml-5">
           <input
             type="file"
-            name="file"
+            name="image-upload"
             id="input-avt"
             accept="image/*"
             className="cursor-pointer "

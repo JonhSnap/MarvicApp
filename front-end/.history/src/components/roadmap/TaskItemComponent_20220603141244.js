@@ -37,8 +37,8 @@ function TaskItemComponent({ issue, project, issueEpics }) {
         <EditIssuePopup
           project={project}
           setShow={setShowEditEpic}
+          handleClose={handleCloseEpic}
           issue={issue}
-          members={members}
         ></EditIssuePopup>
       )}
       <div

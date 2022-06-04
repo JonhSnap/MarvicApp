@@ -324,7 +324,7 @@ function TopDetail({ project }) {
                 />
               </svg>
               {showMembers && (
-                <div className="relative z-30  current-members">
+                <div className="current-members">
                   {members.length > 3 ? (
                     <>
                       <div

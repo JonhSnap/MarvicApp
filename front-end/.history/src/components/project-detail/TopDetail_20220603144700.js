@@ -18,6 +18,7 @@ import { documentHeight, issueTypes } from "../../util/constants";
 import FilterEpicSelectBox from "../selectbox/FilterEpicSelectBox";
 import FilterTypeSelectBox from "../selectbox/FilterTypeSelectBox";
 import FilterLabelSelectBox from "../selectbox/FilterLabelSelectBox";
+import useClickOutSide from "../../hooks/useClickOutSide";
 
 const secondThirdScreen = (documentHeight * 2) / 3;
 
@@ -46,13 +47,17 @@ function TopDetail({ project }) {
   const [showType, setShowType, handleCloseType] = useModal();
   const [showLabel, setShowLabel, handleCloseLabel] = useModal();
   const [showMembers, setShowMembers] = useState(false);
-  const [showAllMembers, setShowAllMembers] = useState(false);
   const [focus, setFocus] = useState(false);
   const inputRef = useRef();
   const filterEpicRef = useRef();
   const filterTypeRef = useRef();
   const filterLabelRef = useRef();
-
+  const {
+    show: showAllMembers,
+    setShow: setShowAllMembers,
+    nodeRef: nodeRefAllMember,
+  } = useClickOutSide();
+  console.log(showAllMembers);
   const handleFocus = () => {
     setFocus(true);
   };
@@ -82,13 +87,11 @@ function TopDetail({ project }) {
   const handleChangeShowMembers = (e) => {
     if (e.target.matches(".js-changeshow")) {
       setShowMembers((prev) => !prev);
-      setShowAllMembers(false);
     }
   };
   const handleChangeShowAllMembers = (e) => {
-    if (e.target.matches(".js-changeshowallmember")) {
-      setShowAllMembers((prev) => !prev);
-    }
+    setShowAllMembers(!showAllMembers);
+    setShowMembers(false);
   };
   // useEffect get issues
   useEffect(() => {
@@ -181,6 +184,7 @@ function TopDetail({ project }) {
       fetchIssue(project.id, dispatchIssue);
     }, 500);
   };
+
   return (
     <div className="top">
       {showEpic && (
@@ -324,100 +328,22 @@ function TopDetail({ project }) {
                 />
               </svg>
               {showMembers && (
-                <div className="relative z-30  current-members">
-                  {members.length > 3 ? (
-                    <>
+                <div className="current-members">
+                  {members.length > 0 ? (
+                    members.map((item) => (
                       <div
                         key={v4()}
                         className="w-full flex justify-between items-center px-[10px]"
                       >
-                        <span className="text-primary">
-                          {members[0].userName}
-                        </span>
+                        <span className="text-primary">{item.userName}</span>
                         <div
-                          onClick={() => handleDeleteMember(members[0].id)}
+                          onClick={() => handleDeleteMember(item.id)}
                           className="text-[#ccc]  hover:text-red-500 "
                         >
                           remove
                         </div>
                       </div>
-                      <div
-                        key={v4()}
-                        className="w-full flex justify-between items-center px-[10px]"
-                      >
-                        <span className="text-primary">
-                          {members[1].userName}
-                        </span>
-                        <div
-                          onClick={() => handleDeleteMember(members[1].id)}
-                          className="text-[#ccc]  hover:text-red-500 "
-                        >
-                          remove
-                        </div>
-                      </div>
-                      <div
-                        key={v4()}
-                        className="w-full flex justify-between items-center px-[10px]"
-                      >
-                        <span className="text-primary">
-                          {members[2].userName}
-                        </span>
-                        <div
-                          onClick={() => handleDeleteMember(members[2].id)}
-                          className="text-[#ccc]  hover:text-red-500 "
-                        >
-                          remove
-                        </div>
-                      </div>
-                    </>
-                  ) : members.length === 2 ? (
-                    <>
-                      <div
-                        key={v4()}
-                        className="w-full flex justify-between items-center px-[10px]"
-                      >
-                        <span className="text-primary">
-                          {members[0].userName}
-                        </span>
-                        <div
-                          onClick={() => handleDeleteMember(members[0].id)}
-                          className="text-[#ccc]  hover:text-red-500 "
-                        >
-                          remove
-                        </div>
-                      </div>
-                      <div
-                        key={v4()}
-                        className="w-full flex justify-between items-center px-[10px]"
-                      >
-                        <span className="text-primary">
-                          {members[1].userName}
-                        </span>
-                        <div
-                          onClick={() => handleDeleteMember(members[1].id)}
-                          className="text-[#ccc]  hover:text-red-500 "
-                        >
-                          remove
-                        </div>
-                      </div>
-                    </>
-                  ) : members.length === 1 ? (
-                    <>
-                      <div
-                        key={v4()}
-                        className="w-full flex justify-between items-center px-[10px]"
-                      >
-                        <span className="text-primary">
-                          {members[0].userName}
-                        </span>
-                        <div
-                          onClick={() => handleDeleteMember(members[0].id)}
-                          className="text-[#ccc]  hover:text-red-500 "
-                        >
-                          remove
-                        </div>
-                      </div>
-                    </>
+                    ))
                   ) : (
                     <p className="text-sm text-center text-[#999]">
                       Project has no members
@@ -430,19 +356,18 @@ function TopDetail({ project }) {
                     Views all members
                   </span>
                   {showAllMembers && (
-                    <div className="absolute top-[100%] border-2 overflow-auto have-y-scroll border-slate-500 h-auto max-h-[225px] left-[100%] z-50 p-4 rounded-lg shadow-lg bg-slate-50">
+                    <div
+                      ref={nodeRefAllMember}
+                      className="relative  w-[400px] h-[400px]z-50 p-4 rounded-lg bg-slate-200"
+                    >
                       {members.length > 0 ? (
                         members.map((item) => (
                           <div
                             key={v4()}
-                            className="w-full hover:bg-slate-100  py-1 rounded-lg flex justify-between items-center px-[10px] mb-3"
+                            className="w-full flex justify-between items-center px-[10px]"
                           >
-                            <input
-                              type="checkbox"
-                              checked={item.jobTitle === "Product Onwer"}
-                              onChange={() => {}}
-                            />
-                            <span className="ml-3 mr-4 text-primary">
+                            <input type="checkbox" />
+                            <span className="text-primary">
                               {item.userName}
                             </span>
                             <div

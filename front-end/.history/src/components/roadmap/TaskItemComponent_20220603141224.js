@@ -10,7 +10,7 @@ import Stages from "../backlog/Stages";
 import { useStageContext } from "../../contexts/stageContext";
 import "./Roadmap.scss";
 import OptionComponent from "../option/OptionComponent";
-import EditIssuePopup from "../popup/EditIssuePopup";
+
 function TaskItemComponent({ issue, project, issueEpics }) {
   const [, dispatch] = useListIssueContext();
   const [{ stages }] = useStageContext();
@@ -37,8 +37,8 @@ function TaskItemComponent({ issue, project, issueEpics }) {
         <EditIssuePopup
           project={project}
           setShow={setShowEditEpic}
+          handleClose={handleCloseEpic}
           issue={issue}
-          members={members}
         ></EditIssuePopup>
       )}
       <div

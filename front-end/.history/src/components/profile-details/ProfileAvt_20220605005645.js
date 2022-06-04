@@ -43,7 +43,7 @@ const ProfileAvt = ({ user, avt, setAvt }) => {
         <div className="mt-10 ml-5">
           <input
             type="file"
-            name="file"
+            name="image-upload"
             id="input-avt"
             accept="image/*"
             className="cursor-pointer "
