@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import useModal from '../../hooks/useModal'
 import { getProjects, updateProjects } from '../../redux/apiRequest';
 import { fetchIssue } from '../../reducers/listIssueReducer'
-import { CHANGE_FILTERS_EPIC, CHANGE_FILTERS_NAME, CHANGE_FILTERS_TYPE } from '../../reducers/actions';
+import { CHANGE_FILTERS_EPIC, CHANGE_FILTERS_NAME, CHANGE_FILTERS_TYPE, CLEAR_FILTERS } from '../../reducers/actions';
 import AddMemberPopup from '../popup/AddMemberPopup';
 import { v4 } from 'uuid';
 import { useListIssueContext } from '../../contexts/listIssueContext';
@@ -18,7 +18,7 @@ import FilterLabelSelectBox from '../selectbox/FilterLabelSelectBox';
 const secondThirdScreen = documentHeight * 2 / 3;
 
 function TopDetail({ project }) {
-    const [{ issueEpics, filters: { epics, type } }, dispatchIssue] = useListIssueContext();
+    const [{ issueEpics, filters: { epics, type, label } }, dispatchIssue] = useListIssueContext();
     const { state: { members }, dispatch: dispatchMembers } = useMembersContext();
     const { currentUser } = useSelector(state => state.auth.login);
     const dispatch = useDispatch();
@@ -162,6 +162,11 @@ function TopDetail({ project }) {
             fetchIssue(project.id, dispatchIssue);
         }, 500);
     }
+    // handle clear filter
+    const handleClearFilter = async () => {
+        await dispatchIssue({ type: CLEAR_FILTERS });
+        fetchIssue(project.id, dispatchIssue);
+    }
 
     return (
         <div className="top">
@@ -198,6 +203,7 @@ function TopDetail({ project }) {
             {
                 showLabel &&
                 <FilterLabelSelectBox
+                    project={project}
                     onClose={handleCloseLabel}
                     bodyStyle={{
                         top: coordLabel.bottom <= secondThirdScreen ? coordLabel.bottom + 10 : null,
@@ -270,8 +276,8 @@ function TopDetail({ project }) {
                 </div>
                 <div className="filters">
                     <div ref={filterEpicRef} onClick={handleShowFilterEpic} style={showEpic ? { backgroundColor: '#8777D9', color: 'white' } : {}} className="epic">
-                        <span className={`epic-number ${showEpic ? 'active' : ''}`}>{epics.length}</span>
                         <span className='title pointer-events-none'>Epic</span>
+                        <span className={`epic-number ${showEpic ? 'active' : ''}`}>({epics.length})</span>
                         <span className="icon pointer-events-none">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -282,8 +288,8 @@ function TopDetail({ project }) {
                         ref={filterTypeRef}
                         style={showType ? { backgroundColor: '#4BADE8', color: 'white' } : {}}
                         onClick={handleShowFilterType} className="type">
-                        <span className={`type-number ${showType ? 'active' : ''}`}>{type.length}</span>
                         <span className='title pointer-events-none'>Type</span>
+                        <span className={`type-number ${showType ? 'active' : ''}`}>({type.length})</span>
                         <span className="icon pointer-events-none">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -294,14 +300,18 @@ function TopDetail({ project }) {
                         ref={filterLabelRef}
                         style={showLabel ? { backgroundColor: '#555', color: 'white' } : {}}
                         onClick={handleShowFilterLabel} className="label">
-                        <span className={`label-number ${showLabel ? 'active' : ''}`}>{type.length}</span>
                         <span className='title pointer-events-none'>Label</span>
+                        <span className={`label-number ${showLabel ? 'active' : ''}`}>({label.length})</span>
                         <span className="icon pointer-events-none">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                             </svg>
                         </span>
                     </div>
+                    {
+                        (epics.length > 0 || type.length > 0 || label.length > 0) &&
+                        <div onClick={handleClearFilter} className="clear-filter">Clear filter</div>
+                    }
                 </div>
             </div>
         </div>

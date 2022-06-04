@@ -5,7 +5,7 @@ import { useListIssueContext } from '../../contexts/listIssueContext';
 import { useMembersContext } from '../../contexts/membersContext';
 import { useBoardContext } from '../../contexts/boardContext';
 import useModal from '../../hooks/useModal';
-import { CHANGE_FILTERS_EPIC, CHANGE_FILTERS_NAME, CHANGE_FILTERS_TYPE, CHANGE_FILTER_EPIC_BOARD, CHANGE_FILTER_NAME_BOARD, CHANGE_FILTER_TYPE_BOARD } from '../../reducers/actions';
+import { CHANGE_FILTERS_EPIC, CHANGE_FILTERS_NAME, CHANGE_FILTERS_TYPE, CHANGE_FILTER_EPIC_BOARD, CHANGE_FILTER_NAME_BOARD, CHANGE_FILTER_TYPE_BOARD, CLEAR_FILTER_BOARD } from '../../reducers/actions';
 import { fetchBoard } from '../../reducers/boardReducer';
 import { fetchIssue } from '../../reducers/listIssueReducer';
 import { deleteMembers, fetchMembers } from '../../reducers/membersReducer';
@@ -15,12 +15,13 @@ import AddMemberPopup from '../popup/AddMemberPopup';
 import FilterEpicBoardSelectBox from '../selectbox/FilterEpicBoardSelectBox';
 import './TopDetail.scss';
 import FilterTypeBoardSelectBox from '../selectbox/FilterTypeBoardSelectBox';
+import FilterLabelBoardSelectBox from '../selectbox/FilterLabelBoardSelectBox';
 
 const secondThirdScreen = documentHeight * 2 / 3;
 function TopDetailBoard({ project, currentSprint }) {
     const [{ issueEpics }, dispatchIssue] = useListIssueContext();
     const { state: { members }, dispatch: dispatchMembers } = useMembersContext();
-    const [{ filters: { epics, types } }, dispatchBoard] = useBoardContext();
+    const [{ filters: { name, epics, types, labels } }, dispatchBoard] = useBoardContext();
     const { currentUser } = useSelector(state => state.auth.login);
     const dispatch = useDispatch();
     const [show, setShow, handleClose] = useModal();
@@ -29,13 +30,16 @@ function TopDetailBoard({ project, currentSprint }) {
     const [search, setSearch] = useState('')
     const [coordEpic, setCoordEpic] = useState({});
     const [coordType, setCoordType] = useState({});
+    const [coordLabel, setCoordLabel] = useState({});
     const [showEpic, setShowEpic, handleCloseEpic] = useModal();
     const [showType, setShowType, handleCloseType] = useModal();
+    const [showLabel, setShowLabel, handleCloseLabel] = useModal();
     const [showMembers, setShowMembers] = useState(false);
     const [focus, setFocus] = useState(false);
     const inputRef = useRef();
     const filterEpicRef = useRef();
     const filterTypeRef = useRef();
+    const filterLabelRef = useRef();
 
     const handleFocus = () => {
         setFocus(true);
@@ -66,6 +70,14 @@ function TopDetailBoard({ project, currentSprint }) {
     const handleChangeShowMembers = (e) => {
         if (e.target.matches('.js-changeshow')) {
             setShowMembers(prev => !prev);
+        }
+    }
+    // handle show filter label
+    const handleShowFilterLabel = () => {
+        const bounding = filterLabelRef.current.getBoundingClientRect();
+        if (bounding) {
+            setCoordLabel(bounding);
+            setShowLabel(true);
         }
     }
     // useEffect get issues
@@ -160,6 +172,17 @@ function TopDetailBoard({ project, currentSprint }) {
             type: 0
         }, dispatchBoard)
     }
+    // handle clear filter
+    const handleClearFilter = async () => {
+        await dispatchBoard({
+            type: CLEAR_FILTER_BOARD,
+        });
+        fetchBoard({
+            idSprint: currentSprint.id,
+            idEpic: null,
+            type: 0
+        }, dispatchBoard)
+    }
 
     return (
         <div className="top">
@@ -190,6 +213,19 @@ function TopDetailBoard({ project, currentSprint }) {
                         top: coordType.bottom <= secondThirdScreen ? coordType.bottom + 10 : null,
                         left: coordType.left,
                         bottom: !(coordType.bottom <= secondThirdScreen) ? (documentHeight - coordType.top - 10) : null
+                    }}
+                />
+            }
+            {
+                showLabel &&
+                <FilterLabelBoardSelectBox
+                    project={project}
+                    currentSprint={currentSprint}
+                    onClose={handleCloseLabel}
+                    bodyStyle={{
+                        top: coordLabel.bottom <= secondThirdScreen ? coordLabel.bottom + 10 : null,
+                        left: coordLabel.left,
+                        bottom: !(coordLabel.bottom <= secondThirdScreen) ? (documentHeight - coordLabel.top - 10) : null
                     }}
                 />
             }
@@ -257,8 +293,8 @@ function TopDetailBoard({ project, currentSprint }) {
                 </div>
                 <div className="filters">
                     <div ref={filterEpicRef} onClick={handleShowFilterEpic} style={showEpic ? { backgroundColor: '#8777D9', color: 'white' } : {}} className="epic">
-                        <span className={`epic-number ${showEpic ? 'active' : ''}`}>{epics.length}</span>
                         <span className='title pointer-events-none'>Epic</span>
+                        <span className={`epic-number ${showEpic ? 'active' : ''}`}>({epics.length})</span>
                         <span className="icon pointer-events-none">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -269,14 +305,30 @@ function TopDetailBoard({ project, currentSprint }) {
                         ref={filterTypeRef}
                         style={showType ? { backgroundColor: '#4BADE8', color: 'white' } : {}}
                         onClick={handleShowFilterType} className="type">
-                        <span className={`type-number ${showType ? 'active' : ''}`}>{types.length}</span>
                         <span className='title pointer-events-none'>Type</span>
+                        <span className={`type-number ${showType ? 'active' : ''}`}>({types.length})</span>
                         <span className="icon pointer-events-none">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                             </svg>
                         </span>
                     </div>
+                    <div
+                        ref={filterLabelRef}
+                        style={showLabel ? { backgroundColor: '#555', color: 'white' } : {}}
+                        onClick={handleShowFilterLabel} className="label">
+                        <span className='title pointer-events-none'>Label</span>
+                        <span className={`label-number ${showLabel ? 'active' : ''}`}>({labels.length})</span>
+                        <span className="icon pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </div>
+                    {
+                        (epics.length > 0 || types.length > 0 || labels.length > 0) &&
+                        <div onClick={handleClearFilter} className="clear-filter">Clear filter</div>
+                    }
                 </div>
             </div>
         </div>
