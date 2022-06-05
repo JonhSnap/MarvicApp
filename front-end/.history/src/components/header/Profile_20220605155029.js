@@ -93,7 +93,7 @@ function Profile() {
                   <div className="avt-user">
                     <img
                       className="w-[40px] h-[40px] rounded-full"
-                      src={user.avatar_Path || avtUser}
+                      src={avt}
                       alt=""
                     />
                   </div>

@@ -18,20 +18,24 @@ const ProfilePrimary = ({
   user,
 }) => {
   const [avt, setAvt] = useState(user.avatar_Path || avtUser);
-  useEffect(() => {
-    getUserDetails();
-  }, [user.avatar_Path]);
+  const addOrEdit = async (formData) => {
+    await axios
+      .post(`${BASE_URL}/api/User/UploadAvatar`, formData)
+      .then((res) => {
+        console.log(res);
+        getUserDetails();
+      })
+      .catch((err) => console.log(err));
+  };
   const handleDeleteAvt = async (urlDelete) => {
     await axios
       .put(`${BASE_URL}/api/User/DeleteAvatar?fileName=${urlDelete}`)
       .then((res) => {
         console.log("deleteSuccess");
         createToast("success", "Delete avatar successfully!");
-        setAvt(avtUser)
         getUserDetails();
       });
   };
-  console.log(avt);
   return (
     <div>
       <div className="w-full pb-20">
@@ -149,7 +153,7 @@ const ProfilePrimary = ({
               </h3>
               <ProfileAvt user={user} avt={avt} setAvt={setAvt} />
               <button
-                disabled={!user.avatar_Path}
+                disabled={avtUser}
                 className="px-3 py-2 disabled:bg-slate-500 text-white bg-red-500 rounded-lg hover:bg-red-600 float-right mt-[-60px] mr-5"
                 onClick={() => {
                   handleDeleteAvt(user.avatar);

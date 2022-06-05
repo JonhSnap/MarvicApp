@@ -27,7 +27,6 @@ const ProfilePrimary = ({
       .then((res) => {
         console.log("deleteSuccess");
         createToast("success", "Delete avatar successfully!");
-        setAvt(avtUser)
         getUserDetails();
       });
   };

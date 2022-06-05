@@ -13,8 +13,7 @@ import { BASE_URL } from "../../util/constants";
 function Profile() {
   // const { isHover, coord, nodeRef: nodeRef1 } = useTooltip();
   const { show, setShow, nodeRef } = useClickOutSide();
-  // const user = useSelector((state) => state.auth.login.currentUser);
-  const [user, setUser] = useState([]);
+  const user = useSelector((state) => state.auth.login.currentUser);
   const [avt, setAvt] = useState(user.avatar || avtUser);
   const id = user?._id;
   const dispatch = useDispatch();
@@ -93,7 +92,7 @@ function Profile() {
                   <div className="avt-user">
                     <img
                       className="w-[40px] h-[40px] rounded-full"
-                      src={user.avatar_Path || avtUser}
+                      src={avt}
                       alt=""
                     />
                   </div>

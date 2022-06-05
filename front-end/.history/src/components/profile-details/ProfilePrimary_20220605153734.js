@@ -20,18 +20,16 @@ const ProfilePrimary = ({
   const [avt, setAvt] = useState(user.avatar_Path || avtUser);
   useEffect(() => {
     getUserDetails();
-  }, [user.avatar_Path]);
+  }, [getUserDetails]);
   const handleDeleteAvt = async (urlDelete) => {
     await axios
       .put(`${BASE_URL}/api/User/DeleteAvatar?fileName=${urlDelete}`)
       .then((res) => {
         console.log("deleteSuccess");
         createToast("success", "Delete avatar successfully!");
-        setAvt(avtUser)
         getUserDetails();
       });
   };
-  console.log(avt);
   return (
     <div>
       <div className="w-full pb-20">

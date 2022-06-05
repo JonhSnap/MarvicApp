@@ -27,11 +27,9 @@ const ProfilePrimary = ({
       .then((res) => {
         console.log("deleteSuccess");
         createToast("success", "Delete avatar successfully!");
-        setAvt(avtUser)
         getUserDetails();
       });
   };
-  console.log(avt);
   return (
     <div>
       <div className="w-full pb-20">
