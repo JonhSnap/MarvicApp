@@ -23,6 +23,7 @@ import { useSprintContext } from "../../contexts/sprintContext";
 import Comments from "../comments/Comments";
 import { fetchBoard } from "../../reducers/boardReducer";
 import { useBoardContext } from "../../contexts/boardContext";
+import LinkIssueSelectbox from "../selectbox/LinkIssueSelectbox";
 
 
 function EditIssuePopup({ members, project, issue, setShow }) {
@@ -37,6 +38,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   const [showCKEditorCMT, setShowCKEditorCMT] = useState(false);
   const [showAddchild, setShowAddchild] = useState(false);
   const [showAttachment, setShowAttachment] = useState(false);
+  const [showLinkIssue, setShowLinkIssue] = useState(false);
   const [childIssues, setChildIssues] = useState([]);
 
   const [selectedDateStart, setSelectedDateStart] = useState(() => {
@@ -231,6 +233,12 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             setShowAttachment={setShowAttachment}
             showAttachment={showAttachment}
           />
+          <LinkIssueSelectbox
+            project={project}
+            issue={issue}
+            showLinkIssue={showLinkIssue}
+            setShowLinkIssue={setShowLinkIssue}
+          />
           <div className="flex items-start justify-between">
             {issue.id_IssueType !== 1 && (
               <div className="flex items-center">
@@ -313,6 +321,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
               <OptionsEditIssue
                 setShowAttachment={setShowAttachment}
                 setShowAddchild={setShowAddchild}
+                setShowLinkIssue={setShowLinkIssue}
               />
               <div
                 onClick={handleCloseEditByButton}
@@ -382,7 +391,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
           </div>
           <Attachment issue={issue} />
           <ChildIssue project={project} issues={childIssues} />
-
+          <LinkIssue project={project} issue={issue} />
           <div className='detail'>
             <div className='item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border border-[#ccc] border-b-0 flex justify-between items-center'>
               <div className='flex justify-between w-full h-8 items-center my-2'>
@@ -495,6 +504,62 @@ function ChildIssue({ issues, project }) {
       </div>
     </div>
   );
+}
+// link issue
+function LinkIssue({ project, issue }) {
+  const [{ issueNormals }, dispatchIssue] = useListIssueContext();
+  const issueLinked = useMemo(() => {
+    return issueNormals.filter(item => item.id_Linked_Issue === issue.id);
+  }, [issueNormals, issue])
+  // handle remove link
+  const handleRemoveChild = async (issueRemove) => {
+    issueRemove.id_Linked_Issue = NIL;
+    await updateIssues(issueRemove, dispatchIssue);
+    fetchIssue(project.id, dispatchIssue);
+    createToast('success', 'Remove link issue successfully!');
+  }
+
+  return (
+    <div className="show-link">
+      <p className="title">Linked issue</p>
+      <div className="list-issue have-y-scroll">
+        {issueLinked.length === 0 && <p>No link issue</p>}
+        {issueLinked.length > 0 &&
+          issueLinked.map((item) => (
+            <div key={item.id} className="issue-item">
+              <div className="img">
+                <img
+                  src={
+                    issueTypes.find((t) => t.value === item.id_IssueType).thumbnail
+                  }
+                  alt=""
+                />
+              </div>
+              <span className="summary">{item.summary}</span>
+              <span
+                onClick={() => handleRemoveChild(item)}
+                title="Remove"
+                className="delete-child"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </span>
+            </div>
+          ))}
+      </div>
+    </div>
+  )
 }
 // attachment
 function Attachment({ issue }) {
