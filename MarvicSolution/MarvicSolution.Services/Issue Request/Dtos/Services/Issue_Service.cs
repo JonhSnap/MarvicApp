@@ -12,6 +12,7 @@ using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.GroupBy;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.WorkedOn;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels;
+using MarvicSolution.Services.Label_Request.Services;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Utilities.Exceptions;
@@ -37,19 +38,22 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         private readonly IProject_Service _projectService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILogger<Issue_Service> _logger;
+        private readonly ILabel_Service _label_Service;
         public Issue_Service(MarvicDbContext context
             , IUser_Service userService
             , IProject_Service projectService
             , IWebHostEnvironment webHostEnvironment
-            , ILogger<Issue_Service> logger)
+            , ILogger<Issue_Service> logger
+            , ILabel_Service label_Service)
         {
             _context = context;
             _userService = userService;
             _projectService = projectService;
             _webHostEnvironment = webHostEnvironment;
             _logger = logger;
+            _label_Service = label_Service;
         }
-        public async Task<Guid> Create(Issue_CreateRequest rq)
+        public async Task<Guid> Create(Guid idUser, Issue_CreateRequest rq)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
@@ -69,7 +73,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Description = rq.Description,
                         Id_Assignee = rq.Id_Assignee != null ? rq.Id_Assignee : Guid.Empty,
                         Story_Point_Estimate = rq.Story_Point_Estimate,
-                        Id_Reporter = rq.Id_Reporter.Equals(Guid.Empty) ? UserLogin.Id : rq.Id_Reporter,
+                        Id_Reporter = rq.Id_Reporter.Equals(Guid.Empty) ? idUser : rq.Id_Reporter,
                         FileName = string.Empty,
                         Id_Linked_Issue = rq.Id_Linked_Issue,
                         Id_Parent_Issue = rq.Id_Parent_Issue != null ? rq.Id_Parent_Issue : Guid.Empty,
@@ -77,7 +81,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Id_Restrict = rq.Id_Restrict,
                         IsFlagged = rq.IsFlagged,
                         IsWatched = rq.IsWatched,
-                        Id_Creator = UserLogin.Id,
+                        Id_Creator = idUser,
                         DateCreated = DateTime.Now,
                         Order = rq.Order,
                     };
@@ -97,7 +101,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
 
         }
-        public async Task<Guid> Update(Issue_UpdateRequest rq)
+        public async Task<Guid> Update(Guid idUser, Issue_UpdateRequest rq)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
@@ -125,7 +129,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     issue.IsWatched = rq.IsWatched;
                     issue.DateStarted = sprint != null ? sprint.Start_Date : new DateTime();
                     issue.DateEnd = sprint != null ? sprint.End_Date : new DateTime();
-                    issue.Id_Updator = UserLogin.Id;
+                    issue.Id_Updator = idUser;
                     issue.Order = rq.Order;
                     issue.UpdateDate = DateTime.Now;
 
@@ -1294,7 +1298,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                                       DateEnd = i.DateEnd,
                                                       Id_Updator = i.Id_Updator,
                                                       Order = i.Order,
-<<<<<<< HEAD
                                                       Users = _context.App_Users.Where(u => u.Id == i.Id_Updator || u.Id == i.Id_Creator || u.Id == i.Id_Assignee).Select(u => new User_ViewModel()
                                                       {
                                                           Department = u.Department,
@@ -1308,24 +1311,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                                           Avatar = u.Avatar,
                                                           Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar)
                                                       }).ToList()
-=======
-                                                      Users = _context.App_Users.Where(u => u.Id == i.Id_Updator
-                                                                                          || u.Id == i.Id_Creator
-                                                                                          || u.Id == i.Id_Assignee)
-                                                                                          .Select(u => new User_ViewModel()
-                                                                                          {
-                                                                                              Department = u.Department,
-                                                                                              Email = u.Email,
-                                                                                              FullName = u.FullName,
-                                                                                              Id = u.Id,
-                                                                                              JobTitle = u.JobTitle,
-                                                                                              Organization = u.Organization,
-                                                                                              PhoneNumber = u.PhoneNumber,
-                                                                                              UserName = u.UserName,
-                                                                                              Avatar = u.Avatar,
-                                                                                              Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar)
-                                                                                          }).ToList()
->>>>>>> FE
                                                   }).ToList()
                                               }).ToList();
                     return listIssueArchiveVM;
@@ -1361,6 +1346,50 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 throw new MarvicException($"Error: {e}");
             }
 
+        }
+
+        public async Task<bool> AddLabel(IssueLabel_Request rq)
+        {
+            using (IDbContextTransaction tran = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var issue = Get_Issues_By_Id(rq.IdIssue);
+                    issue.Id_Label = rq.IdLabel;
+                    _context.Update(issue);
+                    await _context.SaveChangesAsync();
+                    await tran.CommitAsync();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    await tran.RollbackAsync();
+                    _logger.LogInformation($"Controller: Issue. Method: AddLabel. Marvic Error: {e}");
+                    throw new MarvicException($"Error: {e}");
+                }
+            }
+        }
+
+        public async Task<bool> RemoveLabel(Guid idIssue)
+        {
+            using (IDbContextTransaction tran = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var issue = Get_Issues_By_Id(idIssue);
+                    issue.Id_Label = Guid.Empty;
+                    _context.Update(issue);
+                    await _context.SaveChangesAsync();
+                    await tran.CommitAsync();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    await tran.RollbackAsync();
+                    _logger.LogInformation($"Controller: Issue. Method: RemoveLabel. Marvic Error: {e}");
+                    throw new MarvicException($"Error: {e}");
+                }
+            }
         }
     }
 }

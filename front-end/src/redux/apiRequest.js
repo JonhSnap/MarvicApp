@@ -26,7 +26,7 @@ import {
 export const loginUser = async (user, dispatch, navigate) => {
   dispatch(loginStart);
   try {
-    const res = await axios.post("https://localhost:5001/api/User/login", user);
+    const res = await axios.post(`${BASE_URL}/api/User/login`, user);
     console.log(res);
 
     dispatch(loginSuccess(res.data));
@@ -41,7 +41,7 @@ export const loginUser = async (user, dispatch, navigate) => {
 export const registerUser = async (user, dispatch, navigate) => {
   dispatch(registerStart);
   try {
-    await axios.post("https://localhost:5001/api/User/register", user);
+    await axios.post(`${BASE_URL}/api/User/register`, user);
     dispatch(registerSuccess());
     navigate("/login");
   } catch (error) {
@@ -52,7 +52,7 @@ export const registerUser = async (user, dispatch, navigate) => {
 export const logOut = async (dispatch, navigate, id) => {
   dispatch(logOutStart);
   try {
-    await axios.post("https://localhost:5001/api/User/logout");
+    await axios.post(`${BASE_URL}/api/User/logout`);
     dispatch(logOutSuccess());
     navigate("/login");
   } catch (error) {
