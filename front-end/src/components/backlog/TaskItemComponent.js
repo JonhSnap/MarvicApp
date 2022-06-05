@@ -4,40 +4,27 @@ import { issueTypes } from "../../util/constants";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faAngleDown,
-  faSquareCheck,
-  faTimes,
-  faAngleRight,
   faFlag,
-  faBolt,
-  faCheck,
-  faLock,
-  faEye,
-  faThumbsUp,
-  faTimeline,
-  faPaperclip,
-  faLink,
-  faPlus,
-  faArrowDownShortWide,
-  faArrowDownWideShort,
 } from "@fortawesome/free-solid-svg-icons";
 import MemberComponent from "../board/MemberComponent";
 import OptionComponent from "../option/OptionComponent";
-import useModal from "../../hooks/useModal";
-import EditIssuePopup from "../popup/EditIssuePopup";
 import { useListIssueContext } from "../../contexts/listIssueContext";
+import { useModalContext } from "../../contexts/modalContext";
 import { useStageContext } from "../../contexts/stageContext";
 import createToast from "../../util/createToast";
 import Stages from "./Stages";
 
+
 function TaskItemComponent({ members, issue, project, issueEpics }) {
   const [{ stages }] = useStageContext();
-  const [showEdit, setShow] = useModal();
+  const {
+    modal: [, setShow],
+    item: [, setIssue]
+  } = useModalContext();
   const [, dispatch] = useListIssueContext();
   const [showFlag, setShowFlag] = useState(false);
   const [showInputPoint, setShowInputPoint] = useState(false);
   const [valuePointStore, setValuePointStore] = useState("");
-  const [showEditEpic, setShowEditEpic, handleCloseEpic] = useModal();
   const [valuePoint, setValuePoint] = useState(
     issue?.story_Point_Estimate || 0
   );
@@ -53,6 +40,7 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
   const handleClickItem = (e) => {
     if (e.target.matches(".item")) {
       setShow(true);
+      setIssue(issue);
     }
   };
   // handle blur input poit
@@ -74,30 +62,9 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
   const currentEpic = issueEpics.find(
     (item) => item.id === issue.id_Parent_Issue
   );
-  const handleClickParent = (e) => {
-    if (e.target.matches(".parent")) {
-      setShowEditEpic(true);
-    }
-  };
 
   return (
     <>
-      {showEdit && (
-        <EditIssuePopup
-          members={members}
-          project={project}
-          setShow={setShow}
-          issue={issue}
-        ></EditIssuePopup>
-      )}
-      {showEditEpic && (
-        <EditIssuePopup
-          project={project}
-          setShow={setShowEditEpic}
-          handleClose={handleCloseEpic}
-          issue={currentEpic}
-        ></EditIssuePopup>
-      )}
       <div
         onClick={handleClickItem}
         ref={ref}
@@ -122,8 +89,7 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
           </div>
           {currentEpic && (
             <div
-              onClick={handleClickParent}
-              className="parent ml-5 bg-[#8777D9] bg-opacity-60 hover:bg-[#8777D9] flex items-center justify-center p-1 rounded-[2px]"
+              className="parent ml-5 bg-[#8777D9] flex items-center justify-center p-1 rounded-[2px]"
             >
               <span className="text-[10px] pointer-events-none text-white font-semibold">
                 {currentEpic?.summary}

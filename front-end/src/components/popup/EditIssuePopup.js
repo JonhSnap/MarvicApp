@@ -21,9 +21,13 @@ import AttachmentForm from "../form/AttachmentForm";
 import { useStageContext } from "../../contexts/stageContext";
 import { useSprintContext } from "../../contexts/sprintContext";
 import Comments from "../comments/Comments";
+import { fetchBoard } from "../../reducers/boardReducer";
+import { useBoardContext } from "../../contexts/boardContext";
+
 
 function EditIssuePopup({ members, project, issue, setShow }) {
   const [{ issueEpics }, dispatch] = useListIssueContext();
+  const [, dispatchBoard] = useBoardContext();
   const {
     state: { sprints },
   } = useSprintContext();
@@ -63,11 +67,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
     return issueCopy;
   }, [values]);
   // stage
-  const stage = useMemo(() => {
-    const result = stages.find((item) => item.id === issue.id_Stage);
-    if (!result) return null;
-    return result;
-  }, [stages]);
+  const stage = stages.find((item) => item.id === issue.id_Stage);
   // current sprint
   const currentSprint = useMemo(() => {
     return sprints.find((item) => item.is_Started);
@@ -101,7 +101,15 @@ function EditIssuePopup({ members, project, issue, setShow }) {
       }
       // issueUpdate.attachment_Path = null;
       await updateIssues(issueUpdate, dispatch);
-      await fetchIssue(project.id, dispatch);
+      if (window.location.href.includes('projects/board') >= 0) {
+        fetchBoard({
+          idSprint: currentSprint.id,
+          idEpic: null,
+          type: 0
+        }, dispatchBoard);
+      } else {
+        fetchIssue(project.id, dispatch);
+      }
       createToast("success", "Update issue successfully!");
       setShow(false);
     }
@@ -134,8 +142,6 @@ function EditIssuePopup({ members, project, issue, setShow }) {
       });
     }
   };
-  console.log("values", values);
-  console.log("valuesStore", valuesStore);
   // useEffect
   useEffect(() => {
     setValuesStore({
@@ -170,14 +176,20 @@ function EditIssuePopup({ members, project, issue, setShow }) {
     }
   };
   // handle choose epic
-  const handleChooseEpic = (epic) => {
+  const handleChooseEpic = async (epic) => {
     const issueUpdate = { ...issue };
     issueUpdate.id_Parent_Issue = epic.id;
-    updateIssues(issueUpdate, dispatch);
+    await updateIssues(issueUpdate, dispatch);
     createToast("success", `Update epic successfully!`);
-    setTimeout(() => {
+    if (window.location.href.includes('projects/board') >= 0) {
+      fetchBoard({
+        idSprint: currentSprint.id,
+        idEpic: null,
+        type: 0
+      }, dispatchBoard);
+    } else {
       fetchIssue(project.id, dispatch);
-    }, 500);
+    }
   };
   // handle remove epic
   const handleRemoveEpic = () => {
@@ -333,11 +345,10 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             />
           </div>
           <div className="flex items-center mb-4 gap-x-2">
-            {/* <Stages project={project} issue={issue} stage={stage} /> */}
             <Stage
+              currentSprint={currentSprint}
               project={project}
               issue={issue}
-              stages={stages}
               stage={stage}
             />
             {issue?.isFlagged === 1 && (
@@ -560,7 +571,9 @@ function TextBox({ value, onChange, ...props }) {
   );
 }
 // Stage
-function Stage({ project, issue, stages, stage }) {
+function Stage({ project, issue, stage, currentSprint }) {
+  const [{ stages }, dispatchStage] = useStageContext();
+  const [, dispatchBoard] = useBoardContext();
   const [show, setShow] = useState(false);
   const [, dispatchIssue] = useListIssueContext();
   // toggle
@@ -574,7 +587,15 @@ function Stage({ project, issue, stages, stage }) {
     if (stage) {
       issue.id_Stage = stage.id;
       await updateIssues(issue, dispatchIssue);
-      fetchIssue(project.id, dispatchIssue);
+      if (window.location.href.includes('projects/board') >= 0) {
+        fetchBoard({
+          idSprint: currentSprint.id,
+          idEpic: null,
+          type: 0
+        }, dispatchBoard);
+      } else {
+        fetchIssue(project.id, dispatchIssue);
+      }
       createToast('success', 'Update stage successfully');
     }
   };
@@ -674,8 +695,8 @@ function Assignee({ members, project, issue }) {
                 onClick={() => handleSelectMember(item)}
                 key={item.id}
                 className={`p-2 flex items-center hover:bg-gray-main ${issue.id_Assignee === item.id
-                    ? "bg-orange-500 text-white pointer-events-none"
-                    : ""
+                  ? "bg-orange-500 text-white pointer-events-none"
+                  : ""
                   }`}
               >
                 {item.userName}
@@ -703,7 +724,7 @@ function Reporter({ members, project, issue }) {
   };
   // handle select member
   const handleSelectMember = async (member) => {
-    issue.id_Assignee = member.id;
+    issue.id_Reporter = member.id;
     await updateIssues(issue, dispathIssue);
     fetchIssue(project.id, dispathIssue);
     createToast('success', 'Change reporter sucessfully');
@@ -744,8 +765,8 @@ function Reporter({ members, project, issue }) {
                 onClick={() => handleSelectMember(item)}
                 key={item.id}
                 className={`p-2 flex items-center hover:bg-gray-main ${issue.id_Reporter === item.id
-                    ? "bg-orange-500 text-white pointer-events-none"
-                    : ""
+                  ? "bg-orange-500 text-white pointer-events-none"
+                  : ""
                   }`}
               >
                 {item.userName}

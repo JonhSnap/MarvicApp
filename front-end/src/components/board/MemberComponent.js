@@ -67,6 +67,7 @@ function MemberComponent({ project, members, issue }) {
                 text-[12px] bg-orange-400 rounded-full"
           >
             {assignee?.userName?.slice(0, 1)}
+            <img src={assignee.avatar_Path} alt="" />
           </span>
         ) : (
           <span className="inline-block w-full h-full pointer-events-none text-[#ccc] hover:text-gray-500">
