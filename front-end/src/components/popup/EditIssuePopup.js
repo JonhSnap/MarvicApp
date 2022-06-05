@@ -24,6 +24,7 @@ import Comments from "../comments/Comments";
 import { fetchBoard } from "../../reducers/boardReducer";
 import { useBoardContext } from "../../contexts/boardContext";
 import LinkIssueSelectbox from "../selectbox/LinkIssueSelectbox";
+import { useLabelContext } from "../../contexts/labelContext";
 
 
 function EditIssuePopup({ members, project, issue, setShow }) {
@@ -406,7 +407,9 @@ function EditIssuePopup({ members, project, issue, setShow }) {
                 <Assignee members={members} project={project} issue={issue} />
               </div>
               <div className="w-[40%] h-13 my-4">Labels</div>
-              <div className="w-[60%]">None</div>
+              <div className="w-[60%]">
+                <Label project={project} issue={issue} />
+              </div>
               <div className="w-[40%] h-13 my-4">Sprint</div>
               <div className="w-[60%]">{currentSprint?.sprintName}</div>
               <div className="w-[40%] h-13 my-4">Story point estimate</div>
@@ -841,4 +844,20 @@ function Reporter({ members, project, issue }) {
       )}
     </div>
   );
+}
+// Label
+function Label({ project, issue }) {
+  const [{ labels }] = useLabelContext();
+  const currentLablel = useMemo(() => {
+    return labels.find(item => item.id === issue.id_Label)
+  }, [labels, issue])
+
+  return (
+    <div className="hidden w-fit relative">
+      <p className="w-fit p-2 rounded hover:bg-gray-main cursor-pointer">{currentLablel ? currentLablel.name : 'None'}</p>
+      <div className="bg-white shadow-md absolute top-full left-0 rounded min-w-[100px]">
+        <p className="p-2 cursor-pointer hover:bg-gray-main w-full">label name</p>
+      </div>
+    </div>
+  )
 }
