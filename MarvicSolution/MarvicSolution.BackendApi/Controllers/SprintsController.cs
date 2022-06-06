@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MarvicSolution.Services.Sprint_Request.Services;
 using MarvicSolution.Services.Sprint_Request.Requests;
 using MarvicSolution.DATA.Enums;
+using MarvicSolution.BackendApi.Constants;
 
 namespace MarvicSolution.BackendApi.Controllers
 {
@@ -41,62 +42,41 @@ namespace MarvicSolution.BackendApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Create_Sprint_Request model)
         {
-            try
+            var sprint = new Sprint(model.Id_Project, model.Sprint_Name, model.Id_Creator);
+            if (await _sprint_Service.AddSprint(sprint))
             {
-                var sprint = new Sprint(model.Id_Project, model.Sprint_Name, model.Id_Creator);
-                if (await _sprint_Service.AddSprint(sprint))
+                return Ok();
+            }
+            return BadRequest();
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] Update_Sprint_Request model)
+        {
+            if (DateTime.Compare(model.Start_Date, model.End_Date) > 0)
+            {
+                return BadRequest(new { message = model.End_Date + " is earlier than " + model.Start_Date });
+            }
+            var sprint = await _sprint_Service.GetSprintById(id);
+            if (sprint != null)
+            {
+                sprint.Id_Project = model.Id_Project;
+                sprint.SprintName = model.Sprint_Name;
+                sprint.Id_Creator = model.Id_Creator;
+                sprint.Start_Date = model.Start_Date;
+                sprint.End_Date = model.End_Date;
+                sprint.Update_Date = DateTime.Now;
+                if (await _sprint_Service.UpdateSprint(sprint, UserLogin.Id))
                 {
                     return Ok();
                 }
                 return BadRequest();
             }
-            catch (Exception)
-            {
-                //log here,,,
-                throw;
-            }
-        }
-
-
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] Update_Sprint_Request model)
-        {
-            try
-            {
-                if (DateTime.Compare(model.Start_Date, model.End_Date) > 0)
-                {
-                    return BadRequest(new { message = model.End_Date + " is earlier than " + model.Start_Date });
-                }
-                var sprint = await _sprint_Service.GetSprintById(id);
-                if (sprint != null)
-                {
-                    sprint.Id_Project = model.Id_Project;
-                    sprint.SprintName = model.Sprint_Name;
-                    sprint.Id_Creator = model.Id_Creator;
-                    sprint.Start_Date = model.Start_Date;
-                    sprint.End_Date = model.End_Date;
-                    sprint.Update_Date = DateTime.Now;
-                    if (await _sprint_Service.UpdateSprint(sprint))
-                    {
-                        return Ok();
-                    }
-                    return BadRequest();
-                }
-                return NotFound();
-            }
-            catch (Exception)
-            {
-                //log here,,,
-                throw;
-            }
+            return NotFound();
         }
 
         [HttpPut("start-print/{id}")]
         public async Task<IActionResult> StartPrint(Guid id, [FromBody] Start_Sprint_Request model)
         {
-            try
-            {
                 if (DateTime.Compare(model.Start_Date, model.End_Date) > 0)
                 {
                     return BadRequest(new { message = model.End_Date + " is earlier than " + model.Start_Date });
@@ -107,42 +87,28 @@ namespace MarvicSolution.BackendApi.Controllers
                     sprint.Start_Date = model.Start_Date;
                     sprint.End_Date = model.End_Date;
                     sprint.Is_Started = EnumStatus.True;
-                    if (await _sprint_Service.UpdateSprint(sprint))
+                    if (await _sprint_Service.UpdateSprint(sprint, UserLogin.Id))
                     {
                         return Ok(new { message = sprint.SprintName + " is started!" });
                     }
                 }
                 return NotFound(new { message = id + " not found!" });
-            }
-            catch (Exception)
-            {
-                //log here,,,
-                throw;
-            }
         }
 
 
         [HttpPost("complete-sprint")]
         public async Task<IActionResult> CompleteSprint([FromBody] Complete_Sprint_Request model)
         {
-            try
-            {
                 var sprintCurrent = await _sprint_Service.GetSprintById(model.CurrentSprintId);
                 if (sprintCurrent != null && sprintCurrent.Is_Started == EnumStatus.True)
                 {
-                    if (await _sprint_Service.CompleteSprint(sprintCurrent, model))
+                    if (await _sprint_Service.CompleteSprint(sprintCurrent, model, UserLogin.Id))
                     {
                         return Ok();
                     }
                     return BadRequest(new { message = "Complete sprint faild!" });
                 }
                 return NotFound(new { message = model.CurrentSprintId + " not found!" });
-            }
-            catch (Exception)
-            {
-                //log here,,,
-                throw;
-            }
         }
 
 
@@ -170,7 +136,7 @@ namespace MarvicSolution.BackendApi.Controllers
         [Route("/api/Sprints/Delete")]
         public async Task<IActionResult> Delete([FromBody] Delete_ViewModel rq)
         {
-            var result = await _sprint_Service.Delete(rq);
+            var result = await _sprint_Service.Delete(rq, UserLogin.Id);
             if (result == false)
                 return BadRequest($"Cannot delete Sprint {rq.idSprintDelete}");
             return Ok(result);

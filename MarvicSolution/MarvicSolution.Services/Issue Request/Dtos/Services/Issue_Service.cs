@@ -1,5 +1,4 @@
-﻿using MarvicSolution.DATA.Common;
-using MarvicSolution.DATA.EF;
+﻿using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests;
@@ -12,20 +11,19 @@ using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.GroupBy;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.WorkedOn;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels;
+using MarvicSolution.Services.Label_Request.Services;
+using MarvicSolution.Services.Notifications_Request.Services;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MarvicSolution.Services.Issue_Request.Issue_Request
@@ -37,19 +35,25 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         private readonly IProject_Service _projectService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILogger<Issue_Service> _logger;
+        private readonly ILabel_Service _label_Service;
+        private readonly INotifications_Service _notifService;
         public Issue_Service(MarvicDbContext context
             , IUser_Service userService
             , IProject_Service projectService
             , IWebHostEnvironment webHostEnvironment
-            , ILogger<Issue_Service> logger)
+            , ILogger<Issue_Service> logger
+            , ILabel_Service label_Service
+            , INotifications_Service notifService)
         {
             _context = context;
             _userService = userService;
             _projectService = projectService;
             _webHostEnvironment = webHostEnvironment;
             _logger = logger;
+            _label_Service = label_Service;
+            _notifService = notifService;
         }
-        public async Task<Guid> Create(Issue_CreateRequest rq)
+        public async Task<Guid> Create(Guid idUserLogin, Issue_CreateRequest rq)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
@@ -69,7 +73,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Description = rq.Description,
                         Id_Assignee = rq.Id_Assignee != null ? rq.Id_Assignee : Guid.Empty,
                         Story_Point_Estimate = rq.Story_Point_Estimate,
-                        Id_Reporter = rq.Id_Reporter.Equals(Guid.Empty) ? UserLogin.Id : rq.Id_Reporter,
+                        Id_Reporter = rq.Id_Reporter.Equals(Guid.Empty) ? idUserLogin : rq.Id_Reporter,
                         FileName = string.Empty,
                         Id_Linked_Issue = rq.Id_Linked_Issue,
                         Id_Parent_Issue = rq.Id_Parent_Issue != null ? rq.Id_Parent_Issue : Guid.Empty,
@@ -77,14 +81,20 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         Id_Restrict = rq.Id_Restrict,
                         IsFlagged = rq.IsFlagged,
                         IsWatched = rq.IsWatched,
-                        Id_Creator = UserLogin.Id,
+                        Id_Creator = idUserLogin,
                         DateCreated = DateTime.Now,
                         Order = rq.Order,
                     };
 
                     _context.Issues.Add(issue);
-
                     await _context.SaveChangesAsync();
+                    // add list user who recevied notif
+                    List<Guid> listUserInvolve = new List<Guid>();
+                    listUserInvolve.Add(issue.Id_Assignee.Value);
+                    listUserInvolve.Add(issue.Id_Reporter.Value);
+                    // send notif to list user involve
+                    _notifService.IssueSendNotif(issue.Id, listUserInvolve, issue.Id_Creator, 
+                        $"{_userService.GetUserbyId(issue.Id_Creator).UserName} has been created issue {issue.Summary} and assigned to you");
                     tran.Commit();
                     return issue.Id;
                 }
@@ -97,7 +107,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
 
         }
-        public async Task<Guid> Update(Issue_UpdateRequest rq)
+        public async Task<Guid> Update(Guid idUser, Issue_UpdateRequest rq)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
@@ -123,13 +133,21 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     issue.Id_Restrict = rq.Id_Restrict;
                     issue.IsFlagged = rq.IsFlagged;
                     issue.IsWatched = rq.IsWatched;
-                    issue.DateStarted = sprint != null ? sprint.Start_Date : new DateTime();
-                    issue.DateEnd = sprint != null ? sprint.End_Date : new DateTime();
-                    issue.Id_Updator = UserLogin.Id;
+                    issue.DateStarted = rq.DateStarted;
+                    issue.DateEnd = rq.DateEnd;
+                    issue.Id_Updator = idUser;
                     issue.Order = rq.Order;
                     issue.UpdateDate = DateTime.Now;
-
                     await _context.SaveChangesAsync();
+
+                    // add list user who recevied notif
+                    List<Guid> listUserInvolve = new List<Guid>();
+                    listUserInvolve.Add(issue.Id_Assignee.Value);
+                    listUserInvolve.Add(issue.Id_Reporter.Value);
+                    // send notif to list user involve
+                    _notifService.IssueSendNotif(issue.Id, listUserInvolve, issue.Id_Updator.Value,
+                        $"{_userService.GetUserbyId(issue.Id_Updator.Value).UserName} has been updated issue {issue.Summary} which you are working");
+
                     tran.Commit();
                     return rq.Id;
                 }
@@ -142,7 +160,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
 
         }
-        public async Task<Guid> Delete(Guid Id)
+        public async Task<Guid> Delete(Guid Id, Guid idUserLogin)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
@@ -151,6 +169,13 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     var issue = _context.Issues.Find(Id);
                     issue.IsDeleted = EnumStatus.True;
                     await _context.SaveChangesAsync();
+                    // add list user who recevied notif
+                    List<Guid> listUserInvolve = new List<Guid>();
+                    listUserInvolve.Add(issue.Id_Assignee.Value);
+                    listUserInvolve.Add(issue.Id_Reporter.Value);
+                    // send notif to list user involve
+                    _notifService.IssueSendNotif(issue.Id, listUserInvolve, issue.Id_Updator.Value,
+                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been deleted issue {issue.Summary} which you are working");
                     await tran.CommitAsync();
                     return Id;
                 }
@@ -176,6 +201,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                            Id_Stage = x.Id_Stage,
                                            Id_Sprint = x.Id_Sprint,
                                            Id_IssueType = x.Id_IssueType,
+                                           Id_Label = x.Id_Label,
                                            Summary = x.Summary,
                                            Description = x.Description,
                                            Id_Assignee = x.Id_Assignee,
@@ -844,23 +870,35 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public void UploadedFile(Guid idIssue, IFormFile file)
+        public void UploadedFile(Guid idIssue, IFormFile file, Guid idUserLogin)
         {
-            try
+            using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
-                var issue = Get_Issues_By_Id(idIssue);
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "upload files");
-                string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                    file.CopyTo(stream);
-                issue.FileName = uniqueFileName;
-                _context.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                _logger.LogInformation($"Controller: Issue. Method: UploadedFile. Marvic Error: {e}");
-                throw new MarvicException($"Error: {e}");
+                try
+                {
+                    var issue = Get_Issues_By_Id(idIssue);
+                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "upload files");
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                        file.CopyTo(stream);
+                    issue.FileName = uniqueFileName;
+                    _context.SaveChanges();
+                    // add list user who recevied notif
+                    List<Guid> listUserInvolve = new List<Guid>();
+                    listUserInvolve.Add(issue.Id_Assignee.Value);
+                    listUserInvolve.Add(issue.Id_Reporter.Value);
+                    // send notif to list user involve
+                    _notifService.IssueSendNotif(issue.Id, listUserInvolve, issue.Id_Updator.Value,
+                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been upload a file {file.FileName} to issue {issue.Summary} which you are working");
+                    tran.Commit();
+                }
+                catch (Exception e)
+                {
+                    tran.Rollback();
+                    _logger.LogInformation($"Controller: Issue. Method: UploadedFile. Marvic Error: {e}");
+                    throw new MarvicException($"Error: {e}");
+                }
             }
         }
         public bool DeleteFileIssue(DeleteFile_Request rq)
@@ -1322,26 +1360,82 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         }
         public async Task<bool> ChangeStage(ChangeStage_Request rq)
         {
-            try
+            using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
-                var iss = await _context.Issues.FindAsync(rq.IdIssue);
-                if (iss != null)
+                try
                 {
-                    iss.Id_Stage = rq.IdStage;
-                    iss.UpdateDate = DateTime.Now;
-                    iss.Id_Updator = rq.IdUpdator;
-                    _context.Issues.Update(iss);
-                    await _context.SaveChangesAsync();
-                    return true;
+                    var issue = await _context.Issues.FindAsync(rq.IdIssue);
+                    if (issue != null)
+                    {
+                        issue.Id_Stage = rq.IdStage;
+                        issue.UpdateDate = DateTime.Now;
+                        issue.Id_Updator = rq.IdUpdator;
+                        _context.Issues.Update(issue);
+                        await _context.SaveChangesAsync();
+                        // add list user who recevied notif
+                        List<Guid> listUserInvolve = new List<Guid>();
+                        listUserInvolve.Add(issue.Id_Assignee.Value);
+                        listUserInvolve.Add(issue.Id_Reporter.Value);
+                        // send notif to list user involve
+                        _notifService.IssueSendNotif(issue.Id, listUserInvolve, issue.Id_Updator.Value,
+                            $"{_userService.GetUserbyId(rq.IdUpdator).UserName} has been changed issue {issue.Summary} to {_context.Stages.SingleOrDefault(s=>s.Id.Equals(rq.IdStage)).Stage_Name}");
+                        await tran.CommitAsync();
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-            catch (Exception e)
-            {
-                _logger.LogInformation($"Controller: Issue. Method: GetIssueAssignedToMe. Marvic Error: {e}");
-                throw new MarvicException($"Error: {e}");
+                catch (Exception e)
+                {
+                    await tran.RollbackAsync();
+                    _logger.LogInformation($"Controller: Issue. Method: GetIssueAssignedToMe. Marvic Error: {e}");
+                    throw new MarvicException($"Error: {e}");
+                }
             }
 
+        }
+
+        public async Task<bool> AddLabel(IssueLabel_Request rq)
+        {
+            using (IDbContextTransaction tran = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var issue = Get_Issues_By_Id(rq.IdIssue);
+                    issue.Id_Label = rq.IdLabel;
+                    _context.Update(issue);
+                    await _context.SaveChangesAsync();
+                    await tran.CommitAsync();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    await tran.RollbackAsync();
+                    _logger.LogInformation($"Controller: Issue. Method: AddLabel. Marvic Error: {e}");
+                    throw new MarvicException($"Error: {e}");
+                }
+            }
+        }
+
+        public async Task<bool> RemoveLabel(Guid idIssue)
+        {
+            using (IDbContextTransaction tran = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var issue = Get_Issues_By_Id(idIssue);
+                    issue.Id_Label = Guid.Empty;
+                    _context.Update(issue);
+                    await _context.SaveChangesAsync();
+                    await tran.CommitAsync();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    await tran.RollbackAsync();
+                    _logger.LogInformation($"Controller: Issue. Method: RemoveLabel. Marvic Error: {e}");
+                    throw new MarvicException($"Error: {e}");
+                }
+            }
         }
     }
 }

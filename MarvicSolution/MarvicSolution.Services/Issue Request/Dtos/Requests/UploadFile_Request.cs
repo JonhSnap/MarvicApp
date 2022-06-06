@@ -11,11 +11,13 @@ namespace MarvicSolution.Services.Issue_Request.Dtos.Requests
     {
         public Guid IdIssue { get; set; }
         public IFormFile File { get; set; }
+        public string Url { get; set; }
 
         public UploadFile_Request()
         {
             IdIssue = Guid.Empty;
             File = null;
+            Url = string.Empty;
         }
     }
 }
