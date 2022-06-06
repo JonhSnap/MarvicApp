@@ -5,6 +5,7 @@ import ContainerRoadmap from "../components/containers/ContainerRoadmap";
 // import Roadmap from "../components/roadmap/Roadmap";
 import Sidebar from "../components/sidebar/Sidebar";
 import { BoardProvider } from "../contexts/boardContext";
+import { LabelProvider } from "../contexts/labelContext";
 import { ListIssueProvider } from "../contexts/listIssueContext";
 import { MembersProvider } from "../contexts/membersContext";
 import { SprintProvider } from "../contexts/sprintContext";
@@ -30,16 +31,18 @@ function RoadmapPage() {
           <SprintProvider>
             <ListIssueProvider>
               <MembersProvider>
-                <div className="flex overflow-hidden h-main-backlog">
-                  <div className="basis-[20%] h-main-backlog">
-                    <Sidebar nameProject={currentProject.name}></Sidebar>
+                <LabelProvider>
+                  <div className="flex overflow-hidden h-main-backlog">
+                    <div className="basis-[20%] h-main-backlog">
+                      <Sidebar nameProject={currentProject.name}></Sidebar>
+                    </div>
+                    <div className="basis-[80%] h-main-backlog">
+                      <ContainerRoadmap
+                        project={currentProject}
+                      ></ContainerRoadmap>
+                    </div>
                   </div>
-                  <div className="basis-[80%] h-main-backlog">
-                    <ContainerRoadmap
-                      project={currentProject}
-                    ></ContainerRoadmap>
-                  </div>
-                </div>
+                </LabelProvider>
               </MembersProvider>
             </ListIssueProvider>
           </SprintProvider>

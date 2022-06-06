@@ -9,6 +9,10 @@ const CHANGE_FILTERS_EPIC = "change_filter_epic";
 
 const CHANGE_FILTERS_TYPE = "change_filters_type";
 
+const CHANGE_FILTERS_LABEL = "change_filter_label";
+
+const CLEAR_FILTERS = 'clear_filter_label';
+
 // members actions
 const GET_MEMBERS = "get_members";
 const ADD_MEMBERS = "add_members";
@@ -25,20 +29,29 @@ const GET_STAGE = "get_stage";
 const UPDATE_STAGE = "update_stage";
 const CREATE_STAGE = 'create_stage';
 const DELETE_STAGE = 'delete_stage';
-// board action
+// board actions
 const GET_BOARD = "get_board";
 const CHANGE_FILTER_NAME_BOARD = "change_filter_name";
 const CHANGE_FILTER_EPIC_BOARD = "change_filter_epic_board";
 const CHANGE_FILTER_TYPE_BOARD = "change_filter_type_board";
+const CHANGE_FILTER_LABEL_BOARD = 'change_filter_label_board';
+const CLEAR_FILTER_BOARD = 'clear_filter_board';
+// label actions
+const GET_LABELS = 'get_labels';
+const CREATE_LABEL = 'create_label';
+const UPDATE_LABEL = 'update_label';
+const DELETE_LABEL = 'delete_label';
 
 export {
   GET_ISSUES,
   UPDATE_ISSUES,
   CREATE_ISSUE,
-  CHANGE_FILTERS_NAME,
   DELETE_ISSUE,
+  CHANGE_FILTERS_NAME,
   CHANGE_FILTERS_EPIC,
   CHANGE_FILTERS_TYPE,
+  CHANGE_FILTERS_LABEL,
+  CLEAR_FILTERS,
   GET_MEMBERS,
   ADD_MEMBERS,
   DELETE_MEMBERS,
@@ -56,4 +69,10 @@ export {
   CHANGE_FILTER_NAME_BOARD,
   CHANGE_FILTER_EPIC_BOARD,
   CHANGE_FILTER_TYPE_BOARD,
+  CHANGE_FILTER_LABEL_BOARD,
+  CLEAR_FILTER_BOARD,
+  GET_LABELS,
+  CREATE_LABEL,
+  UPDATE_LABEL,
+  DELETE_LABEL,
 };
