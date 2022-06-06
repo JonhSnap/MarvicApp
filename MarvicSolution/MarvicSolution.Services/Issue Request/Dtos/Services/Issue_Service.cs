@@ -201,6 +201,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                            Id_Stage = x.Id_Stage,
                                            Id_Sprint = x.Id_Sprint,
                                            Id_IssueType = x.Id_IssueType,
+                                           Id_Label = x.Id_Label,
                                            Summary = x.Summary,
                                            Description = x.Description,
                                            Id_Assignee = x.Id_Assignee,

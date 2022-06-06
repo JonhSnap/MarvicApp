@@ -13,6 +13,8 @@ namespace MarvicSolution.DATA.Entities
         public Guid IdItemRef { get; set; }
         public string Message { get; set; }
         public DateTime Date { get; set; }
+        public int IsProject { get; set; }
+        public int IsIssue { get; set; }
         public Notifications()
         {
             Id = Guid.Empty;
@@ -20,12 +22,14 @@ namespace MarvicSolution.DATA.Entities
             Message = string.Empty;
             Date = new DateTime();
         }
-        public Notifications(Guid idItemRef, string mess)
+        public Notifications(Guid idItemRef, string mess, int isProject, int isIssue)
         {
             Id = Guid.NewGuid();
             IdItemRef = idItemRef;
             Message = mess;
             Date = DateTime.Now;
+            IsProject = isProject;
+            IsIssue = isIssue;
         }
     }
 }

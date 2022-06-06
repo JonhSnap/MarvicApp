@@ -43,6 +43,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels
         {
             Id = Guid.Empty;
             Id_Project = Guid.Empty;
+            Id_Label = Guid.Empty;
             Id_IssueType = EnumIssueType.Task;
             Id_Stage = Guid.Empty;
             Id_Sprint = Guid.Empty;

@@ -18,8 +18,4 @@
     <ProjectReference Include="..\MarvicSolution.Utilities\MarvicSolution.Utilities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\upload files\Avatar\" />
-  </ItemGroup>
-
 </Project>

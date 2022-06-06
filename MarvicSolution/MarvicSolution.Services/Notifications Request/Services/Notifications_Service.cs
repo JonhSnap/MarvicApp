@@ -25,11 +25,11 @@ namespace MarvicSolution.Services.Notifications_Request.Services
             _context = context;
         }
 
-        public Notifications Create(Guid idItemRef, string mess)
+        public Notifications Create(Guid idItemRef, string mess, int isProject, int isIssue)
         {
             try
             {
-                var notif = new Notifications(idItemRef, mess);
+                var notif = new Notifications(idItemRef, mess, isProject, isIssue);
                 _context.Notifications.Add(notif);
                 _context.SaveChanges();
                 return notif;
@@ -53,7 +53,9 @@ namespace MarvicSolution.Services.Notifications_Request.Services
                                         IdItemRef = n.IdItemRef,
                                         Date = n.Date,
                                         Message = n.Message,
-                                        IsView = nu.IsView
+                                        IsView = nu.IsView,
+                                        IsProject = n.IsProject,
+                                        IsIssue = n.IsIssue
                                     }).ToListAsync();
 
                 var countUnView = notifs.Where(n => n.IsView.Equals(EnumStatus.False)).Count();
@@ -73,7 +75,7 @@ namespace MarvicSolution.Services.Notifications_Request.Services
             List<Guid> listMemberId = GetAllMembersByIdProject(idProject).Select(mem => mem.Id).ToList();
             // not send notif for user who made this action
             listMemberId = listMemberId.Except(new List<Guid>() { idUserAction }).ToList();
-            SendNotif(idProject, mess, listMemberId);
+            SendNotif(idProject, mess, listMemberId, 1,0);
         }
 
         public void IssueSendNotif(Guid idItemRef, List<Guid> listIdUserInvolve, Guid idUserAction, string mess)
@@ -81,15 +83,15 @@ namespace MarvicSolution.Services.Notifications_Request.Services
             // create and send notif 
             // not send notif for user who made this action
             listIdUserInvolve = listIdUserInvolve.Except(new List<Guid>() { idUserAction }).ToList();
-            SendNotif(idItemRef, mess, listIdUserInvolve);
+            SendNotif(idItemRef, mess, listIdUserInvolve, 0, 1);
         }
 
-        public void SendNotif(Guid idItemRef, string mess, List<Guid> listUser)
+        public void SendNotif(Guid idItemRef, string mess, List<Guid> listUser, int isProject, int isIssue)
         {
             // add many Notif_Users
             try
             {
-                var notif = Create(idItemRef, mess);
+                var notif = Create(idItemRef, mess, isProject, isIssue);
                 foreach (var i_user in listUser)
                 {
                     var notifUser = new Notif_User(notif.Id, i_user);

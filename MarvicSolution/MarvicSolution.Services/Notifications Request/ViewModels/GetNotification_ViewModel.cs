@@ -9,6 +9,7 @@ namespace MarvicSolution.Services.Notifications_Request.ViewModels
     public class GetNotification_ViewModel
     {
         public int CountUnView { get; set; }
+        
         public List<Notification_ViewModel> Items { get; set; }
         public GetNotification_ViewModel()
         {

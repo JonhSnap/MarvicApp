@@ -285,9 +285,14 @@ namespace MarvicSolution.BackendApi.Controllers
                 // replace file exist
                 // delete file in wwwroot/upload files
                 var issue = _issueService.Get_Issues_By_Id(rq.IdIssue);
-                string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\{issue.FileName}");
-                if (System.IO.File.Exists(path))
-                    System.IO.File.Delete(path);
+                // check container folder exist
+                string pathFolder = Path.Combine(_webHostEnvironment.WebRootPath, "upload files");
+                if (!Directory.Exists(pathFolder))
+                    Directory.CreateDirectory(pathFolder);
+                // check file exist
+                string pathFile = Path.Combine($"{pathFolder}\\{issue.FileName}");
+                if (System.IO.File.Exists(pathFile))
+                    System.IO.File.Delete(pathFile);
                 if (rq.File != null)
                 {
                     _issueService.DeleteFileIssue(new DeleteFile_Request(rq.IdIssue, rq.File.FileName));
