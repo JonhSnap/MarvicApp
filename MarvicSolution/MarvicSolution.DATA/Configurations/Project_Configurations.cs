@@ -37,7 +37,7 @@ namespace MarvicSolution.DATA.Configurations
                 DateEnd = DateTime.Parse("2022-9-21"),
                 Id_Updator = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // NhanNT
                 UpdateDate = DateTime.Parse("2021-7-21"),
-                IsStared = EnumStatus.False,
+                IsStared = EnumStatus.True,
                 IsDeleted = EnumStatus.False
             }
             );
