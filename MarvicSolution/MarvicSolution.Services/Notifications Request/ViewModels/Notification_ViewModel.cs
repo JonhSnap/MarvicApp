@@ -12,6 +12,8 @@ namespace MarvicSolution.Services.Notifications_Request.ViewModels
         public Guid IdItemRef { get; set; }
         public string Message { get; set; }
         public DateTime Date { get; set; }
+        public int IsProject { get; set; }
+        public int IsIssue { get; set; }
         public EnumStatus IsView { get; set; }
         public Notification_ViewModel()
         {
@@ -19,6 +21,8 @@ namespace MarvicSolution.Services.Notifications_Request.ViewModels
             Message = string.Empty;
             Date = DateTime.Now;
             IsView = EnumStatus.False;
+            IsProject = 0;
+            IsIssue = 0;
         }
     }
 }

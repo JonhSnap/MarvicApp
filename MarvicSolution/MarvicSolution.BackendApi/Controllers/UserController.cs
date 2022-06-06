@@ -146,17 +146,20 @@ namespace MarvicSolution.BackendApi.Controllers
         [Route("UploadAvatar")]
         public IActionResult UploadAvatar([FromForm] UploadAvatar_Request rq)
         {
+            string pathFolder = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\Avatar");
+            if (!Directory.Exists(pathFolder))
+                Directory.CreateDirectory(pathFolder);
             // replace file exist
             // delete file in wwwroot/upload files
-            string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\Avatar\\{_userService.GetUserbyId(UserLogin.Id).Avatar}");
-            if (System.IO.File.Exists(path))
-                System.IO.File.Delete(path);
+            string pathFile = Path.Combine($"{pathFolder}\\{_userService.GetUserbyId(UserLogin.Id).Avatar}");
+            if (System.IO.File.Exists(pathFile))
+                System.IO.File.Delete(pathFile);
             if (rq.File != null)
             {
                 _userService.DeleteUserAvatar(UserLogin.Id, rq.File.FileName);
                 // update avatar
                 _userService.UploadAvatar(UserLogin.Id, rq.File);
-                return Redirect($"{SystemConstant.BaseUrl}/profiles");
+                return Redirect(rq.Url);
             }
             return BadRequest();
         }
