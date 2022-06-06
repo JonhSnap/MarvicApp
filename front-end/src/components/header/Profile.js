@@ -9,7 +9,6 @@ import Tooltip from "../tooltip/Tooltip";
 import useTooltip from "../../hooks/useTooltip";
 import avtUser from "../../images/avt-user.png";
 import axios from "axios";
-import { BASE_URL } from "../../util/constants";
 function Profile() {
   // const { isHover, coord, nodeRef: nodeRef1 } = useTooltip();
   const { show, setShow, nodeRef } = useClickOutSide();
@@ -24,7 +23,9 @@ function Profile() {
   };
 
   const getUserDetails = async () => {
-    const resp = await axios.get(`${BASE_URL}/api/User/GetLoginUser`);
+    const resp = await axios.get(
+      "https://localhost:5001/api/User/GetLoginUser"
+    );
     if (resp && resp.status === 200) {
       setUser(resp.data);
     } else {

@@ -73,6 +73,7 @@ const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
     console.log(epicSelected.filter.includes(epicChoose.id));
   };
   const symbolRoadmap = epicSelected.filter.includes(epic.id);
+  console.log(symbolRoadmap);
   return (
     <>
       {showEditEpic && (
