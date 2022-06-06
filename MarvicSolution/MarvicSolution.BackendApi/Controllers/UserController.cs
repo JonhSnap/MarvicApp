@@ -1,10 +1,8 @@
-﻿using MarvicSolution.DATA.Common;
-using MarvicSolution.Services.Issue_Request.Dtos.Requests;
+﻿using MarvicSolution.BackendApi.Constants;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.System.Helpers;
 using MarvicSolution.Services.System.Users.Requests;
 using MarvicSolution.Services.System.Users.Services;
-using MarvicSolution.Services.System.Users.Validators;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +10,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace MarvicSolution.BackendApi.Controllers
 {
@@ -156,9 +153,9 @@ namespace MarvicSolution.BackendApi.Controllers
                 System.IO.File.Delete(path);
             if (rq.File != null)
             {
-                _userService.DeleteUserAvatar(rq.File.FileName);
+                _userService.DeleteUserAvatar(UserLogin.Id, rq.File.FileName);
                 // update avatar
-                _userService.UploadAvatar(rq.File);
+                _userService.UploadAvatar(UserLogin.Id, rq.File);
             return Ok($"Upload file success for user = {UserLogin.Id}");
             }
             return BadRequest();
@@ -172,7 +169,7 @@ namespace MarvicSolution.BackendApi.Controllers
             if (System.IO.File.Exists(path))
                 System.IO.File.Delete(path);
             // update attachment_path of issue
-            var result = _userService.DeleteUserAvatar(fileName);
+            var result = _userService.DeleteUserAvatar(UserLogin.Id, fileName);
             if (result)
                 return Ok("Delete file success");
             else return BadRequest($"Cannot delete avatar in user {UserLogin.Id}");
@@ -217,7 +214,6 @@ namespace MarvicSolution.BackendApi.Controllers
                 throw new MarvicException($"Error: {e}");
             }
         }
-
         private Guid ValidateUser()
         {
             try

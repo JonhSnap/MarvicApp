@@ -8,5 +8,6 @@ namespace MarvicSolution.BackendApi.Constants
     public class SystemConstant
     {
         public const string ConnectionString = "MarvicDbConnection";
+        public const string BaseUrl = "http://localhost:3000";
     }
 }

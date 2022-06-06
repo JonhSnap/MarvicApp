@@ -5,6 +5,7 @@ using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewModels;
+using MarvicSolution.Services.Project_Resquest.Dtos.Requests;
 using MarvicSolution.Services.SendMail_Request.Dtos.Requests;
 using MarvicSolution.Services.SendMail_Request.Dtos.Services;
 using MarvicSolution.Services.Stage_Request.Services;
@@ -39,7 +40,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             _mailService = mailService;
             _logger = logger;
         }
-        public async Task<Guid> Create(Project_CreateRequest rq)
+        public async Task<Guid> Create(Guid idUser, Project_CreateRequest rq)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
@@ -52,8 +53,8 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                         Name = rq.Name,
                         Key = rq.Key,
                         Access = rq.Access,
-                        Id_Lead = rq.Id_Lead.Equals(Guid.Empty) ? UserLogin.Id : rq.Id_Lead,
-                        Id_Creator = UserLogin.Id,
+                        Id_Lead = rq.Id_Lead.Equals(Guid.Empty) ? idUser : rq.Id_Lead,
+                        Id_Creator = idUser,
                         DateCreated = DateTime.Now,
                         DateStarted = rq.DateStarted,
                         DateEnd = rq.DateEnd
@@ -62,9 +63,9 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                     await _context.SaveChangesAsync();
 
                     // add 3 stage
-                    var stageTodo = new Stage(proj.Id, StageName.TODO, UserLogin.Id, 0, EnumStatus.False, EnumStatus.True);
-                    var stageInprogress = new Stage(proj.Id, StageName.INPROGRESS, UserLogin.Id, 1, EnumStatus.False, EnumStatus.False);
-                    var stageDone = new Stage(proj.Id, StageName.DONE, UserLogin.Id, 2, EnumStatus.True, EnumStatus.False);
+                    var stageTodo = new Stage(proj.Id, StageName.TODO, idUser, 0, EnumStatus.False, EnumStatus.True);
+                    var stageInprogress = new Stage(proj.Id, StageName.INPROGRESS, idUser, 1, EnumStatus.False, EnumStatus.False);
+                    var stageDone = new Stage(proj.Id, StageName.DONE, idUser, 2, EnumStatus.True, EnumStatus.False);
                     _context.Stages.Add(stageTodo);
                     _context.Stages.Add(stageInprogress);
                     _context.Stages.Add(stageDone);
@@ -137,7 +138,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public async Task<Guid> Update(Project_UpdateRequest rq)
+        public async Task<Guid> Update(Guid idUser, Project_UpdateRequest rq)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
@@ -153,7 +154,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                     proj.Id_Lead = rq.Id_Lead;
                     proj.DateStarted = rq.DateStarted;
                     proj.DateEnd = rq.DateEnd;
-                    proj.Id_Updator = UserLogin.Id;
+                    proj.Id_Updator = idUser;
                     proj.UpdateDate = DateTime.Now;
                     proj.IsStared = rq.IsStared;
 
@@ -258,7 +259,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 {
                     foreach (var i_name in userNames)
                     {
-                        Member member = new Member { Id_Project = IdProject, Id_User = GetIdUserByUserName(i_name) };
+                        Member member = new Member { Id_Project = IdProject, Id_User = GetIdUserByUserName(i_name), Role = EnumRole.Developer, IsActive = EnumStatus.True };
                         _context.Members.Add(member);
                     }
 
@@ -488,6 +489,25 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             catch (Exception e)
             {
                 _logger.LogInformation($"Controller: Project. Method: GetStarredProject. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+        public bool DisableMember(DisableMember_ViewModel rq)
+        {
+            try
+            {
+                foreach (var i_user in rq.ListIdUser)
+                {
+                    var member = _context.Members.SingleOrDefault(mem => mem.Id_Project.Equals(rq.IdProject)
+                                                                        && mem.Id_User.Equals(i_user));
+                    member.IsActive = EnumStatus.False;
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Project. Method: DisableMember. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
