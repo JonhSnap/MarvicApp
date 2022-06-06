@@ -163,11 +163,11 @@ namespace MarvicSolution.Services.System.Users.Services
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public void UploadAvatar(IFormFile file)
+        public void UploadAvatar(Guid idUser, IFormFile file)
         {
             try
             {
-                var user = GetUserbyId(UserLogin.Id);
+                var user = GetUserbyId(idUser);
                 string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "upload files\\Avatar");
                 string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
@@ -182,11 +182,11 @@ namespace MarvicSolution.Services.System.Users.Services
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public bool DeleteUserAvatar(string fileName)
+        public bool DeleteUserAvatar(Guid idUser, string fileName)
         {
             try
             {
-                var user = GetUserbyId(UserLogin.Id);
+                var user = GetUserbyId(idUser);
                 user.Avatar = string.Empty;
                 return _context.SaveChanges() > 0;
             }
@@ -283,6 +283,28 @@ namespace MarvicSolution.Services.System.Users.Services
                 _logger.LogInformation($"Controller: User. Method: GetUserbyId. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
+        }
+
+        public List<User_ViewModel> GetAllMember(Guid idProject, RequestVM rqVM)
+        {
+            var members = (from mem in _context.Members
+                         join u in _context.App_Users on mem.Id_User equals u.Id
+                         where mem.Id_Project.Equals(idProject)
+                               && u.IsDeleted.Equals(EnumStatus.False)
+                         select new User_ViewModel()
+                         {
+                             Id = u.Id,
+                             Avatar = u.Avatar,
+                             Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar),
+                             Department = u.Department,
+                             Email = u.Email,
+                             FullName = u.FullName,
+                             JobTitle = u.JobTitle,
+                             Organization = u.Organization,
+                             PhoneNumber = u.PhoneNumber,
+                             UserName = u.UserName
+                         }).ToList();
+            return members;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace MarvicSolution.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult>CreateCreate([FromBody] Create_Label_Request model)
+        public async Task<IActionResult>Create([FromBody] Create_Label_Request model)
         {
             var label = new Label(model.Id_Project,model.Name,model.Id_Creator);
             if (await _label_Service.AddLabel(label))
@@ -41,7 +41,7 @@ namespace MarvicSolution.BackendApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateStage(Guid id,[FromBody] Update_Label_Request model)
+        public async Task<IActionResult> Update(Guid id,[FromBody] Update_Label_Request model)
         {
             if (id!=Guid.Empty)
             {
@@ -63,7 +63,7 @@ namespace MarvicSolution.BackendApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteLabel(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             if (id != Guid.Empty)
             {

@@ -1,8 +1,11 @@
 ﻿using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
+using MarvicSolution.Services.Notifications_Request.Services;
+using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewModels;
 using MarvicSolution.Services.Sprint_Request.Requests;
 using MarvicSolution.Services.Sprint_Request.ViewModels;
+using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -18,11 +21,15 @@ namespace MarvicSolution.Services.Sprint_Request.Services
     {
         private readonly MarvicDbContext _context;
         private readonly ILogger<Sprint_Service> _logger;
+        private readonly INotifications_Service _notifService;
+        private readonly IUser_Service _userService;
 
-        public Sprint_Service(MarvicDbContext context, ILogger<Sprint_Service> logger)
+        public Sprint_Service(MarvicDbContext context, ILogger<Sprint_Service> logger, INotifications_Service notifService, IUser_Service userService)
         {
             _context = context;
             _logger = logger;
+            _notifService = notifService;
+            _userService = userService;
         }
 
         public Guid AddIssuesToSprint(AddIssue_Request rq)
@@ -46,22 +53,30 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             }
         }
 
-        public async Task<bool> AddSprint(Sprint sprint)
+        public async Task<bool> AddSprint(Sprint currentSprint)
         {
-            try
+            using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
-                _context.Sprints.Add(sprint);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception e)
-            {
-                _logger.LogInformation($"Controller: Sprints.Method: AddSprint. Marvic Error: {e}");
-                throw new MarvicException($"Error: {e}");
+                try
+                {
+                    _context.Sprints.Add(currentSprint);
+                    await _context.SaveChangesAsync();
+                    // sent notif 
+                    _notifService.PSS_SendNotif(currentSprint.Id_Project, currentSprint.Id_Creator, $"{_userService.GetUserbyId(currentSprint.Id_Creator).UserName} has been created Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project).Name}");
+                    await tran.CommitAsync();
+
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    _logger.LogInformation($"Controller: Sprints.Method: AddSprint. Marvic Error: {e}");
+                    throw new MarvicException($"Error: {e}");
+                    await tran.RollbackAsync();
+                }
             }
         }
 
-        public async Task<bool> CompleteSprint(Sprint currentSprint, Complete_Sprint_Request model)
+        public async Task<bool> CompleteSprint(Sprint currentSprint, Complete_Sprint_Request model, Guid idUserLogin)
         {
             using var transaction = _context.Database.BeginTransaction();
             try
@@ -85,16 +100,18 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 {
                     item.Id_Sprint = model.NewSprintId;
                 }
-                //change issue to new sprint
+                //change issue to new currentSprint
                 _context.Issues.UpdateRange(listIssueUnDone);
 
-                //remove current sprint
+                //remove current currentSprint
                 //var currentSprint = await _context.Sprints.FindAsync(model.CurrentSprintId);
                 currentSprint.Is_Archieved = EnumStatus.True;
                 currentSprint.End_Date = DateTime.Now;
                 _context.Sprints.Update(currentSprint);
 
                 await _context.SaveChangesAsync();
+                // sent notif 
+                _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin, $"{_userService.GetUserbyId(idUserLogin).UserName} has been complete Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project).Name}");
                 await transaction.CommitAsync();
                 return true;
             }
@@ -105,14 +122,14 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             }
         }
 
-        public async Task<bool> Delete(Delete_ViewModel rq)
+        public async Task<bool> Delete(Delete_ViewModel rq, Guid idUserLogin)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
                 try
                 {
-                    var sprint = _context.Sprints.Find(rq.idSprintDelete);
-                    // kiểm tra sprint này có tồn tại issue bên trong ko
+                    var currentSprint = _context.Sprints.Find(rq.idSprintDelete);
+                    // kiểm tra currentSprint này có tồn tại issue bên trong ko
                     var issuesInSprint = _context.Issues.Where(i => i.Id_Sprint.Equals(rq.idSprintDelete)
                                                                     && i.IsDeleted.Equals(EnumStatus.False))
                                                         .Select(i => i).ToList();
@@ -124,9 +141,11 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                         _context.Issues.UpdateRange(issuesInSprint);
                     }
                     // ko thì xóa luôn                
-                    _context.Sprints.Remove(sprint);
+                    _context.Sprints.Remove(currentSprint);
 
                     var result = await _context.SaveChangesAsync() > 0;
+                    // sent notif 
+                    _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin, $"{_userService.GetUserbyId(idUserLogin).UserName} has been deleted Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project).Name}");
                     await tran.CommitAsync();
                     return result;
                 }
@@ -143,8 +162,8 @@ namespace MarvicSolution.Services.Sprint_Request.Services
         {
             try
             {
-                var sprint = await _context.Sprints.FirstOrDefaultAsync(sprt => sprt.Id == id && sprt.Is_Archieved == EnumStatus.False);
-                return sprint;
+                var currentSprint = await _context.Sprints.FirstOrDefaultAsync(sprt => sprt.Id == id && sprt.Is_Archieved == EnumStatus.False);
+                return currentSprint;
             }
             catch (Exception e)
             {
@@ -192,17 +211,69 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             }
         }
 
-        public async Task<bool> UpdateSprint(Sprint sprint)
+        public async Task<bool> UpdateSprint(Sprint currentSprint, Guid idUserLogin)
+        {
+            using (IDbContextTransaction tran = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _context.Sprints.Update(currentSprint);
+                    await _context.SaveChangesAsync();
+                    // sent notif 
+                    if (currentSprint.Is_Started.Equals(EnumStatus.False))
+                    {
+                        _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin,
+                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been updated Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project).Name}");
+                    }
+                    else
+                    {
+                        _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin,
+                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been started Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project).Name}");
+                    }
+                    await tran.CommitAsync();
+
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    _logger.LogInformation($"Controller: Sprints.Method: UpdateSprint. Marvic Error: {e}");
+                    throw new MarvicException($"Error: {e}");
+                    await tran.RollbackAsync();
+                }
+            }
+        }
+        private Project_ViewModel GetProjectById(Guid Id)
         {
             try
             {
-                _context.Sprints.Update(sprint);
-                await _context.SaveChangesAsync();
-                return true;
+                var proj = (from p in _context.Projects
+                            join u in _context.App_Users on p.Id_Lead equals u.Id
+                            where p.Id.Equals(Id)
+                            select new Project_ViewModel()
+                            {
+                                Id = p.Id,
+                                Name = p.Name,
+                                Key = p.Key,
+                                Access = p.Access,
+                                Lead = u.UserName,
+                                Id_Creator = p.Id_Creator,
+                                DateCreated = p.DateCreated,
+                                DateStarted = p.DateStarted,
+                                DateEnd = p.DateEnd,
+                                Id_Updator = p.Id_Updator,
+                                UpdateDate = p.UpdateDate,
+                                IsStared = p.IsStared
+                            }).FirstOrDefault();
+
+                if (proj == null)
+                    throw new MarvicException($"Cannot find the project with id: {Id}");
+
+                return proj;
             }
             catch (Exception e)
             {
-                _logger.LogInformation($"Controller: Sprints.Method: UpdateSprint. Marvic Error: {e}");
+
+                _logger.LogInformation($"Controller: Project. Method: GetProjectById. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }

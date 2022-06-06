@@ -12,5 +12,14 @@ namespace MarvicSolution.DATA.Entities
         public Guid Id_Project { get; set; }
         public Guid Id_User { get; set; }
         public EnumRole Role { get; set; }
+        public EnumStatus IsActive { get; set; }
+
+        public Member()
+        {
+            Id_Project = Guid.Empty;
+            Id_User = Guid.Empty;
+            Role = EnumRole.Developer;
+            IsActive = EnumStatus.True;
+        }
     }
 }
