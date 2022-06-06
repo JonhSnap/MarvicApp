@@ -24,6 +24,7 @@ using MarvicSolution.Services.Stage_Request.Services;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using MarvicSolution.Services.Answer_Request.Services;
+using MarvicSolution.Services.Notifications_Request.Services;
 
 namespace MarvicSolution.BackendApi
 {
@@ -51,9 +52,11 @@ namespace MarvicSolution.BackendApi
             /// AddTransient: Moi lan request la tao moi 1 object
             services.AddTransient<IProjectType_Service, ProjectType_Service>();
             services.AddTransient<IProject_Service, Project_Service>();
-            services.AddScoped<IIssue_Service, Issue_Service>();
             services.AddTransient<ITest_Service, Test_Service>();
             services.AddTransient<IMailService, MailService>();
+            services.AddTransient<INotifications_Service, Notifications_Service>();
+
+            services.AddScoped<IIssue_Service, Issue_Service>();
             services.AddScoped<Jwt_Service, Jwt_Service>();
             services.AddScoped<IUser_Service, User_Service>();
             services.AddScoped<IComment_Service, Comment_Service>();

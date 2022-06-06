@@ -28,6 +28,8 @@ namespace MarvicSolution.DATA.EF
             modelBuilder.ApplyConfiguration(new Sprint_Configurations());
             modelBuilder.ApplyConfiguration(new Lablel_Configurations());
             modelBuilder.ApplyConfiguration(new Stage_Configurations());
+            modelBuilder.ApplyConfiguration(new Notif_User_Configurations());
+            modelBuilder.ApplyConfiguration(new Notification_Configurations());
 
             //base.OnModelCreating(modelBuilder);
         }
@@ -51,5 +53,7 @@ namespace MarvicSolution.DATA.EF
         public DbSet<Stage> Stages { get; set; }
         public DbSet<Label> Labels { get; set; }
         public DbSet<TestResut> TestResuts { get; set; }
+        public DbSet<Notifications> Notifications { get; set; }
+        public DbSet<Notif_User> Notif_Users { get; set; }
     }
 }

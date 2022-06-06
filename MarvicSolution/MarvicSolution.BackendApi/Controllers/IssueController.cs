@@ -291,10 +291,11 @@ namespace MarvicSolution.BackendApi.Controllers
                 if (rq.File != null)
                 {
                     _issueService.DeleteFileIssue(new DeleteFile_Request(rq.IdIssue, rq.File.FileName));
-                    // update file for issue
-                    _issueService.UploadedFile(rq.IdIssue, rq.File);
+                    // upload file for issue
+                    _issueService.UploadedFile(rq.IdIssue, rq.File, UserLogin.Id);
                 }
-                rq.Url = $"{SystemConstant.BaseUrl}/projects/backlog/PA";
+                var proj = _context.Projects.Find(issue.Id_Project);
+                //return Redirect($"{SystemConstant.BaseUrl}/projects/backlog/{proj.Key}");
                 return Redirect(rq.Url);
             }
             catch (Exception e)
@@ -353,7 +354,7 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var idIssue = await _issueService.Delete(IdIssue);
+            var idIssue = await _issueService.Delete(IdIssue, UserLogin.Id);
             if (idIssue.Equals(Guid.Empty))
                 return BadRequest();
             return Ok(idIssue);

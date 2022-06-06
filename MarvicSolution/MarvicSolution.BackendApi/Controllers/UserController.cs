@@ -156,7 +156,7 @@ namespace MarvicSolution.BackendApi.Controllers
                 _userService.DeleteUserAvatar(UserLogin.Id, rq.File.FileName);
                 // update avatar
                 _userService.UploadAvatar(UserLogin.Id, rq.File);
-            return Ok($"Upload file success for user = {UserLogin.Id}");
+                return Redirect($"{SystemConstant.BaseUrl}/profiles");
             }
             return BadRequest();
         }
