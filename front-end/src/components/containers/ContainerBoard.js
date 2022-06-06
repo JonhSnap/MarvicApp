@@ -1,10 +1,12 @@
 import React, { useEffect, useMemo } from 'react'
 import { NIL, v4 } from 'uuid';
 import { useBoardContext } from '../../contexts/boardContext';
+import { useLabelContext } from '../../contexts/labelContext';
 import { useSprintContext } from '../../contexts/sprintContext';
 import { useStageContext } from '../../contexts/stageContext';
 import { CHANGE_FILTER_EPIC_BOARD } from '../../reducers/actions';
 import { fetchBoard } from '../../reducers/boardReducer';
+import { fetchLabel } from '../../reducers/labelReducer';
 import { fetchSprint } from '../../reducers/sprintReducer';
 import { fetchStage } from '../../reducers/stageReducer';
 import { KEY_FILTER_EPIC } from '../../util/constants';
@@ -16,6 +18,7 @@ function ContainerBoard({ project }) {
     const { state: { sprints }, dispatch } = useSprintContext();
     const [{ boards }, dispatchBoard] = useBoardContext();
     const [, dispatchStage] = useStageContext();
+    const [, dispatchLabel] = useLabelContext();
 
     const currentSprint = useMemo(() => {
         const result = sprints.find(item => item.is_Started === 1);
@@ -26,8 +29,9 @@ function ContainerBoard({ project }) {
     useEffect(() => {
         if (project && project.id) {
             fetchSprint(project?.id, dispatch);
+            fetchLabel(project.id, dispatchLabel);
         }
-    }, [project, dispatch])
+    }, [project, dispatch, dispatchLabel])
     useEffect(() => {
         if (currentSprint) {
             if (epicFilterStorage) {

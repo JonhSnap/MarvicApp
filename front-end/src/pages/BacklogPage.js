@@ -9,6 +9,7 @@ import { MembersProvider } from '../contexts/membersContext'
 import { SprintProvider } from '../contexts/sprintContext'
 import { StageProvider } from '../contexts/stageContext'
 import { BoardProvider } from '../contexts/boardContext'
+import { LabelProvider } from '../contexts/labelContext'
 
 
 function BacklogPage() {
@@ -33,14 +34,16 @@ function BacklogPage() {
           <MembersProvider>
             <StageProvider>
               <BoardProvider>
-                <div className="flex overflow-hidden h-main-backlog">
-                  <div className='basis-[20%] h-main-backlog'>
-                    <Sidebar nameProject={currentProject.name}></Sidebar>
+                <LabelProvider>
+                  <div className="flex overflow-hidden h-main-backlog">
+                    <div className='basis-[20%] h-main-backlog'>
+                      <Sidebar nameProject={currentProject.name}></Sidebar>
+                    </div>
+                    <div className='basis-[80%] h-main-backlog'>
+                      <ContainerBacklog project={currentProject}></ContainerBacklog>
+                    </div>
                   </div>
-                  <div className='basis-[80%] h-main-backlog'>
-                    <ContainerBacklog project={currentProject}></ContainerBacklog>
-                  </div>
-                </div>
+                </LabelProvider>
               </BoardProvider>
             </StageProvider>
           </MembersProvider>

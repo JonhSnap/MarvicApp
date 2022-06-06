@@ -8,9 +8,6 @@ import CreateComponent from "../CreateComponent";
 import useModal from "../../hooks/useModal";
 import { useListIssueContext } from "../../contexts/listIssueContext";
 import { v4 } from "uuid";
-import { BASE_URL } from "../../util/constants";
-import axios from "axios";
-import useHover from "../../hooks/useHover";
 import RoadmapItem from "./RoadmapItem";
 import Roadmap from "../roadmap/Roadmap";
 import { useMembersContext } from "../../contexts/membersContext";
@@ -18,6 +15,8 @@ import { fetchMembers } from "../../reducers/membersReducer";
 import { fetchStage } from "../../reducers/stageReducer";
 import { useStageContext } from "../../contexts/stageContext";
 import TopDetail from "../project-detail/TopDetail";
+import { fetchLabel } from "../../reducers/labelReducer";
+import { useLabelContext } from "../../contexts/labelContext";
 
 const ContainerRoadmap = ({ project }) => {
   const [
@@ -32,6 +31,7 @@ const ContainerRoadmap = ({ project }) => {
 
   const { dispatch: dispatchMember } = useMembersContext();
   const [{ stages }, dispatchStage] = useStageContext();
+  const [, dispatchLabel] = useLabelContext();
 
   useEffect(() => {
     if (project && project.id) {
@@ -57,6 +57,7 @@ const ContainerRoadmap = ({ project }) => {
   useEffect(() => {
     if (project && Object.entries(project).length > 0) {
       fetchIssue(project.id, dispatchIssue);
+      fetchLabel(project.id, dispatchLabel);
     }
   }, [project]);
 
