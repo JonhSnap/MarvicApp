@@ -4,7 +4,6 @@ import TaskImage from "../images/type-issues/task.jpg";
 import BugImage from "../images/type-issues/bug.jpg";
 // Base url
 export const BASE_URL = "https://localhost:5001";
-// export const BASE_URL = "http://marvicweb.somee.com";
 // inner height
 export const documentHeight = window.innerHeight;
 // key current project

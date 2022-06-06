@@ -79,14 +79,26 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   const handleCloseEditByButton = async () => {
     if (
       issueUpdate.summary === valuesStore.summary &&
-      issueUpdate.description === valuesStore.description
+      issueUpdate.description === valuesStore.description &&
+      issueUpdate.dateStarted === valuesStore.dateStarted &&
+      issueUpdate.dateEnd === valuesStore.dateEnd
     ) {
       setShow(false);
       return;
     }
-    issueUpdate.attachment_Path = null;
+    console.log('issue update', issueUpdate);
     await updateIssues(issueUpdate, dispatch);
-    await fetchIssue(project.id, dispatch);
+    if (window.location.href.includes('projects/board') >= 0) {
+      if (currentSprint) {
+        fetchBoard({
+          idSprint: currentSprint.id,
+          idEpic: null,
+          type: 0
+        }, dispatchBoard);
+      }
+    } else {
+      fetchIssue(project.id, dispatch);
+    }
     createToast("success", "Update issue successfully!");
     setShow(false);
   };
@@ -102,14 +114,16 @@ function EditIssuePopup({ members, project, issue, setShow }) {
         setShow(false);
         return;
       }
-      // issueUpdate.attachment_Path = null;
+      console.log('issue update', issueUpdate);
       await updateIssues(issueUpdate, dispatch);
       if (window.location.href.includes('projects/board') >= 0) {
-        fetchBoard({
-          idSprint: currentSprint.id,
-          idEpic: null,
-          type: 0
-        }, dispatchBoard);
+        if (currentSprint) {
+          fetchBoard({
+            idSprint: currentSprint.id,
+            idEpic: null,
+            type: 0
+          }, dispatchBoard);
+        }
       } else {
         fetchIssue(project.id, dispatch);
       }
@@ -624,7 +638,7 @@ function TextBox({ value, onChange, ...props }) {
   };
   useEffect(() => {
     if (text) {
-      setHeight(nodeRef.current.scrollHeight);
+      setHeight(nodeRef.current.scrollHeight || 'auto');
     }
   }, [text])
   return (
@@ -848,16 +862,55 @@ function Reporter({ members, project, issue }) {
 // Label
 function Label({ project, issue }) {
   const [{ labels }] = useLabelContext();
+  const [, dispatchIssue] = useListIssueContext();
+  const [show, setShow] = useState(false);
   const currentLablel = useMemo(() => {
     return labels.find(item => item.id === issue.id_Label)
   }, [labels, issue])
+  // handle show
+  const handleShow = (e) => {
+    if (e.target.matches('.btn-label')) {
+      setShow(prev => !prev);
+    }
+  }
+  // handle select label
+  const handleSelectLabel = async (labelSelected) => {
+    try {
+      const resp = await axios.put(`${BASE_URL}/api/Issue/AddLabel`, {
+        idIssue: issue.id,
+        idLabel: labelSelected.id
+      })
+      if (resp.status === 200) {
+        fetchIssue(project.id, dispatchIssue);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
-    <div className="hidden w-fit relative">
-      <p className="w-fit p-2 rounded hover:bg-gray-main cursor-pointer">{currentLablel ? currentLablel.name : 'None'}</p>
-      <div className="bg-white shadow-md absolute top-full left-0 rounded min-w-[100px]">
-        <p className="p-2 cursor-pointer hover:bg-gray-main w-full">label name</p>
-      </div>
+    <div onClick={handleShow} className="w-fit relative">
+      <p className="btn-label w-fit p-2 rounded hover:bg-gray-main cursor-pointer">{currentLablel ? currentLablel.name : 'None'}</p>
+      {
+        show &&
+        <div className="bg-white shadow-md border border-gray-main absolute top-full left-0 rounded overflow-hidden min-w-[100px]">
+          <p
+            onClick={() => handleSelectLabel({ id: NIL })}
+            className={`p-2 cursor-pointer hover:bg-gray-main w-full
+          ${!currentLablel ? 'bg-orange-400 text-white pointer-events-none' : ''}`}
+          >None</p>
+          {
+            labels.length > 0 &&
+            labels.map(item => (
+              <p
+                key={item.id}
+                onClick={() => handleSelectLabel(item)}
+                className={`p-2 cursor-pointer hover:bg-gray-main w-full ${currentLablel?.id === item.id ? 'bg-orange-400 text-white pointer-events-none' : ''}`}>{item.name}</p>
+            )
+            )
+          }
+        </div>
+      }
     </div>
   )
 }

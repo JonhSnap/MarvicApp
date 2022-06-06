@@ -16,6 +16,7 @@ import FilterEpicBoardSelectBox from '../selectbox/FilterEpicBoardSelectBox';
 import './TopDetail.scss';
 import FilterTypeBoardSelectBox from '../selectbox/FilterTypeBoardSelectBox';
 import FilterLabelBoardSelectBox from '../selectbox/FilterLabelBoardSelectBox';
+import ButtonRefresh from './ButtonRefresh';
 
 const secondThirdScreen = documentHeight * 2 / 3;
 function TopDetailBoard({ project, currentSprint }) {
@@ -330,6 +331,7 @@ function TopDetailBoard({ project, currentSprint }) {
                         <div onClick={handleClearFilter} className="clear-filter">Clear filter</div>
                     }
                 </div>
+                <ButtonRefresh currentSprint={currentSprint} />
             </div>
         </div>
     )
