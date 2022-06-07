@@ -66,8 +66,11 @@ function MemberComponent({ project, members, issue }) {
             className="pointer-events-none inline-flex items-center justify-center w-full h-full text-white
                 text-[12px] bg-orange-400 rounded-full"
           >
-            {assignee?.userName?.slice(0, 1)}
-            <img src={assignee.avatar_Path} alt="" />
+            {
+              assignee.avatar_Path ?
+                (<img className="inline-block w-full h-full rounded-full" src={assignee.avatar_Path} alt="" />) :
+                (assignee?.userName?.slice(0, 1))
+            }
           </span>
         ) : (
           <span className="inline-block w-full h-full pointer-events-none text-[#ccc] hover:text-gray-500">
