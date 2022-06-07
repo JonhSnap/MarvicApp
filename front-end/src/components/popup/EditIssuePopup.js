@@ -6,10 +6,7 @@ import { NIL } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBolt,
-  faArrowDownWideShort,
 } from "@fortawesome/free-solid-svg-icons";
-import MemberPopup from "../board/MemberComponent";
-import CKEditorComponent from "../CKEditorComponent";
 import ModalBase from "../modal/ModalBase";
 import { fetchIssue, updateIssues } from "../../reducers/listIssueReducer";
 import { useListIssueContext } from "../../contexts/listIssueContext";
@@ -23,6 +20,7 @@ import { useSprintContext } from "../../contexts/sprintContext";
 import Comments from "../comments/Comments";
 import { fetchBoard } from "../../reducers/boardReducer";
 import { useBoardContext } from "../../contexts/boardContext";
+import { ModalProvider, useModalContext } from "../../contexts/modalContext";
 import LinkIssueSelectbox from "../selectbox/LinkIssueSelectbox";
 import { useLabelContext } from "../../contexts/labelContext";
 
@@ -405,7 +403,9 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             />
           </div>
           <Attachment issue={issue} />
-          <ChildIssue project={project} issues={childIssues} />
+          <ModalProvider project={project}>
+            <ChildIssue project={project} issues={childIssues} />
+          </ModalProvider>
           <LinkIssue project={project} issue={issue} />
           <div className='detail'>
             <div className='item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border border-[#ccc] border-b-0 flex justify-between items-center'>
@@ -470,6 +470,10 @@ export default memo(EditIssuePopup);
 // child issue
 function ChildIssue({ issues, project }) {
   const [, dispatchIssue] = useListIssueContext();
+  const {
+    modal: [, setShow,],
+    item: [, setIssue]
+  } = useModalContext();
 
   // handle remove child
   const handleRemoveChild = async (child) => {
@@ -477,6 +481,11 @@ function ChildIssue({ issues, project }) {
     await updateIssues(child, dispatchIssue);
     fetchIssue(project.id, dispatchIssue);
     createToast('success', 'Remove child successfully')
+  }
+  // handle show edit
+  const handleShowEdit = (issueEdit) => {
+    setIssue(issueEdit);
+    setShow(true);
   }
 
   return (
@@ -486,7 +495,7 @@ function ChildIssue({ issues, project }) {
         {issues.length === 0 && <p>No child issue</p>}
         {issues.length > 0 &&
           issues.map((issue) => (
-            <div key={issue.id} className="issue-item">
+            <div onClick={() => handleShowEdit(issue)} key={issue.id} className="issue-item">
               <div className="img">
                 <img
                   src={

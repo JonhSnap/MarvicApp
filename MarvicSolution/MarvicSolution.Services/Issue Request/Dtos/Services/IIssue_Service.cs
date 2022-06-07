@@ -1,5 +1,4 @@
-﻿
-using MarvicSolution.DATA.Entities;
+﻿using MarvicSolution.DATA.Entities;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests.Board;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
@@ -50,6 +49,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         Task<bool> ChangeStage(ChangeStage_Request rq);
         Task<bool> AddLabel(IssueLabel_Request rq);
         Task<bool> RemoveLabel(Guid idIssue);
+        List<IssueStatistic_ViewModel> StatisticIssue(Guid idProject, DateTime DateStarted, DateTime DateEnd);
 
     }
 }

@@ -93,7 +93,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     listUserInvolve.Add(issue.Id_Assignee.Value);
                     listUserInvolve.Add(issue.Id_Reporter.Value);
                     // send notif to list user involve
-                    _notifService.IssueSendNotif(issue.Id, listUserInvolve, issue.Id_Creator, 
+                    _notifService.IssueSendNotif(issue.Id, listUserInvolve, issue.Id_Creator,
                         $"{_userService.GetUserbyId(issue.Id_Creator).UserName} has been created issue {issue.Summary} and assigned to you");
                     tran.Commit();
                     return issue.Id;
@@ -1378,7 +1378,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         listUserInvolve.Add(issue.Id_Reporter.Value);
                         // send notif to list user involve
                         _notifService.IssueSendNotif(issue.Id, listUserInvolve, issue.Id_Updator.Value,
-                            $"{_userService.GetUserbyId(rq.IdUpdator).UserName} has been changed issue {issue.Summary} to {_context.Stages.SingleOrDefault(s=>s.Id.Equals(rq.IdStage)).Stage_Name}");
+                            $"{_userService.GetUserbyId(rq.IdUpdator).UserName} has been changed issue {issue.Summary} to {_context.Stages.SingleOrDefault(s => s.Id.Equals(rq.IdStage)).Stage_Name}");
                         await tran.CommitAsync();
                         return true;
                     }
@@ -1436,6 +1436,23 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                     throw new MarvicException($"Error: {e}");
                 }
             }
+        }
+
+        public List<IssueStatistic_ViewModel> StatisticIssue(Guid idProject, DateTime DateStarted, DateTime DateEnd)
+        {
+            var group = (from i in _context.Issues.AsEnumerable()
+                         join s in _context.Stages on i.Id_Stage equals s.Id
+                         where i.Id_Project.Equals(idProject)
+                                 && i.DateStarted >= DateStarted
+                                 && i.DateEnd <= DateEnd
+                         group i by s.Stage_Name into g
+                         orderby g.Key descending
+                         select new IssueStatistic_ViewModel()
+                         {
+                             Label = g.Key,
+                             y = g.Count()
+                         }).ToList();
+            return group;
         }
     }
 }

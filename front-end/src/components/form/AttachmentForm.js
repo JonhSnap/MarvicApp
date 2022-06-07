@@ -69,6 +69,13 @@ function AttachmentForm({ showAttachment, setShowAttachment, issue }) {
                     id='attachment'
                     type="file"
                 />
+                <input
+                    hidden
+                    name='Url'
+                    value={window.location.href}
+                    onChange={() => { }}
+                    type="text"
+                />
                 <div className='wrapper-btn'>
                     <button className='submit' type="submit">Save</button>
                     <button onClick={handleClear} className='reset' type='reset'>Clear</button>
