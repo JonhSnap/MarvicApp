@@ -1,4 +1,5 @@
 import React from 'react'
+import { v4 } from 'uuid'
 import './NotificationBoard.scss'
 import SelectBoxBase from './SelectBoxBase'
 
@@ -16,7 +17,7 @@ function NotificationBoard({ onClose, bodyStyle, notifyData }) {
                                 <div className='notification-list'>
                                     {
                                         notifyData.items.map(item => (
-                                            <div className={`notification-item ${!item.isView ? 'unview' : ''}`}>
+                                            <div key={v4()} className={`notification-item ${!item.isView ? 'unview' : ''}`}>
                                                 <div className="left">
                                                     <span className='text'>{item.message}</span>
                                                     <span className='time'>10/10/2022</span>
