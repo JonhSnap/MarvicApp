@@ -158,7 +158,7 @@ const ProfilePage = () => {
         getUserDetails();
       });
   };
-  console.log("render");
+
   return (
     <>
       {user && user?.fullName && user?.userName && user?.email ? (

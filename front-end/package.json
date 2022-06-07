@@ -15,6 +15,7 @@
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
+    "canvasjs-react-charts": "^1.0.5",
     "emoji-picker-react": "^3.5.1",
     "framer-motion": "^6.3.3",
     "jwt-decode": "^3.1.2",

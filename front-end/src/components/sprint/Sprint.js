@@ -126,7 +126,7 @@ function Sprint({ sprint, members, project }) {
                 <div className='main w-[98%] h-fit min-h-[5rem]'>
                     {
                         showWrapperTask &&
-                        <WrapperTask members={members} project={project} issues={issueWithSprint}></WrapperTask>
+                        <WrapperTask members={members} project={project} sprint={sprint}></WrapperTask>
                     }
                     <CreateIssuesComponent idSprint={sprint.id} project={project} createWhat={"issues"} />
                 </div>

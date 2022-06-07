@@ -1,6 +1,4 @@
 import React, { useRef, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircle } from '@fortawesome/free-solid-svg-icons'
 import useModal from '../../hooks/useModal'
 import OptionItemBacklogComponent from './OptionItemBacklogComponent';
 import { documentHeight } from '../../util/constants'

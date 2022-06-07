@@ -6,10 +6,7 @@ import { NIL } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBolt,
-  faArrowDownWideShort,
 } from "@fortawesome/free-solid-svg-icons";
-import MemberPopup from "../board/MemberComponent";
-import CKEditorComponent from "../CKEditorComponent";
 import ModalBase from "../modal/ModalBase";
 import { fetchIssue, updateIssues } from "../../reducers/listIssueReducer";
 import { useListIssueContext } from "../../contexts/listIssueContext";
@@ -21,9 +18,16 @@ import AttachmentForm from "../form/AttachmentForm";
 import { useStageContext } from "../../contexts/stageContext";
 import { useSprintContext } from "../../contexts/sprintContext";
 import Comments from "../comments/Comments";
+import { fetchBoard } from "../../reducers/boardReducer";
+import { useBoardContext } from "../../contexts/boardContext";
+import { ModalProvider, useModalContext } from "../../contexts/modalContext";
+import LinkIssueSelectbox from "../selectbox/LinkIssueSelectbox";
+import { useLabelContext } from "../../contexts/labelContext";
+
 
 function EditIssuePopup({ members, project, issue, setShow }) {
   const [{ issueEpics }, dispatch] = useListIssueContext();
+  const [, dispatchBoard] = useBoardContext();
   const {
     state: { sprints },
   } = useSprintContext();
@@ -33,6 +37,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   const [showCKEditorCMT, setShowCKEditorCMT] = useState(false);
   const [showAddchild, setShowAddchild] = useState(false);
   const [showAttachment, setShowAttachment] = useState(false);
+  const [showLinkIssue, setShowLinkIssue] = useState(false);
   const [childIssues, setChildIssues] = useState([]);
 
   const [selectedDateStart, setSelectedDateStart] = useState(() => {
@@ -63,11 +68,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
     return issueCopy;
   }, [values]);
   // stage
-  const stage = useMemo(() => {
-    const result = stages.find((item) => item.id === issue.id_Stage);
-    if (!result) return null;
-    return result;
-  }, [stages]);
+  const stage = stages.find((item) => item.id === issue.id_Stage);
   // current sprint
   const currentSprint = useMemo(() => {
     return sprints.find((item) => item.is_Started);
@@ -76,14 +77,26 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   const handleCloseEditByButton = async () => {
     if (
       issueUpdate.summary === valuesStore.summary &&
-      issueUpdate.description === valuesStore.description
+      issueUpdate.description === valuesStore.description &&
+      issueUpdate.dateStarted === valuesStore.dateStarted &&
+      issueUpdate.dateEnd === valuesStore.dateEnd
     ) {
       setShow(false);
       return;
     }
-    issueUpdate.attachment_Path = null;
+    console.log('issue update', issueUpdate);
     await updateIssues(issueUpdate, dispatch);
-    await fetchIssue(project.id, dispatch);
+    if (window.location.href.includes('projects/board') >= 0) {
+      if (currentSprint) {
+        fetchBoard({
+          idSprint: currentSprint.id,
+          idEpic: null,
+          type: 0
+        }, dispatchBoard);
+      }
+    } else {
+      fetchIssue(project.id, dispatch);
+    }
     createToast("success", "Update issue successfully!");
     setShow(false);
   };
@@ -99,9 +112,19 @@ function EditIssuePopup({ members, project, issue, setShow }) {
         setShow(false);
         return;
       }
-      // issueUpdate.attachment_Path = null;
+      console.log('issue update', issueUpdate);
       await updateIssues(issueUpdate, dispatch);
-      await fetchIssue(project.id, dispatch);
+      if (window.location.href.includes('projects/board') >= 0) {
+        if (currentSprint) {
+          fetchBoard({
+            idSprint: currentSprint.id,
+            idEpic: null,
+            type: 0
+          }, dispatchBoard);
+        }
+      } else {
+        fetchIssue(project.id, dispatch);
+      }
       createToast("success", "Update issue successfully!");
       setShow(false);
     }
@@ -134,8 +157,6 @@ function EditIssuePopup({ members, project, issue, setShow }) {
       });
     }
   };
-  console.log("values", values);
-  console.log("valuesStore", valuesStore);
   // useEffect
   useEffect(() => {
     setValuesStore({
@@ -170,14 +191,20 @@ function EditIssuePopup({ members, project, issue, setShow }) {
     }
   };
   // handle choose epic
-  const handleChooseEpic = (epic) => {
+  const handleChooseEpic = async (epic) => {
     const issueUpdate = { ...issue };
     issueUpdate.id_Parent_Issue = epic.id;
-    updateIssues(issueUpdate, dispatch);
+    await updateIssues(issueUpdate, dispatch);
     createToast("success", `Update epic successfully!`);
-    setTimeout(() => {
+    if (window.location.href.includes('projects/board') >= 0) {
+      fetchBoard({
+        idSprint: currentSprint.id,
+        idEpic: null,
+        type: 0
+      }, dispatchBoard);
+    } else {
       fetchIssue(project.id, dispatch);
-    }, 500);
+    }
   };
   // handle remove epic
   const handleRemoveEpic = () => {
@@ -202,7 +229,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
       bodyClassname="relative content-modal"
       onClose={handleCloseEditByClickOutside}
     >
-      <label htmlFor="close-option">
+      <label htmlFor={`close-option-${issue.id}`}>
         <div
           className="have-y-scroll h-[80vh] overflow-auto bg-white  mb-10 overflow-x-hidden
         flex flex-col flex-[2]  mx-4 relative p-5 rounded-md"
@@ -218,6 +245,12 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             issue={issue}
             setShowAttachment={setShowAttachment}
             showAttachment={showAttachment}
+          />
+          <LinkIssueSelectbox
+            project={project}
+            issue={issue}
+            showLinkIssue={showLinkIssue}
+            setShowLinkIssue={setShowLinkIssue}
           />
           <div className="flex items-start justify-between">
             {issue.id_IssueType !== 1 && (
@@ -299,8 +332,10 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             )}
             <div className="flex items-center ml-auto gap-x-2">
               <OptionsEditIssue
+                issue={issue}
                 setShowAttachment={setShowAttachment}
                 setShowAddchild={setShowAddchild}
+                setShowLinkIssue={setShowLinkIssue}
               />
               <div
                 onClick={handleCloseEditByButton}
@@ -333,11 +368,10 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             />
           </div>
           <div className="flex items-center mb-4 gap-x-2">
-            {/* <Stages project={project} issue={issue} stage={stage} /> */}
             <Stage
+              currentSprint={currentSprint}
               project={project}
               issue={issue}
-              stages={stages}
               stage={stage}
             />
             {issue?.isFlagged === 1 && (
@@ -370,8 +404,12 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             />
           </div>
           <Attachment issue={issue} />
-          <ChildIssue project={project} issues={childIssues} />
-
+          <ModalProvider project={project}>
+            <ChildIssue project={project} issues={childIssues} />
+          </ModalProvider>
+          <ModalProvider project={project}>
+            <LinkIssue project={project} issue={issue} />
+          </ModalProvider>
           <div className='detail'>
             <div className='item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border border-[#ccc] border-b-0 flex justify-between items-center'>
               <div className='flex justify-between w-full h-8 items-center my-2'>
@@ -386,7 +424,9 @@ function EditIssuePopup({ members, project, issue, setShow }) {
                 <Assignee members={members} project={project} issue={issue} />
               </div>
               <div className="w-[40%] h-13 my-4">Labels</div>
-              <div className="w-[60%]">None</div>
+              <div className="w-[60%]">
+                <Label project={project} issue={issue} />
+              </div>
               <div className="w-[40%] h-13 my-4">Sprint</div>
               <div className="w-[60%]">{currentSprint?.sprintName}</div>
               <div className="w-[40%] h-13 my-4">Story point estimate</div>
@@ -433,6 +473,10 @@ export default memo(EditIssuePopup);
 // child issue
 function ChildIssue({ issues, project }) {
   const [, dispatchIssue] = useListIssueContext();
+  const {
+    modal: [, setShow,],
+    item: [, setIssue]
+  } = useModalContext();
 
   // handle remove child
   const handleRemoveChild = async (child) => {
@@ -440,6 +484,11 @@ function ChildIssue({ issues, project }) {
     await updateIssues(child, dispatchIssue);
     fetchIssue(project.id, dispatchIssue);
     createToast('success', 'Remove child successfully')
+  }
+  // handle show edit
+  const handleShowEdit = (issueEdit) => {
+    setIssue(issueEdit);
+    setShow(true);
   }
 
   return (
@@ -449,7 +498,7 @@ function ChildIssue({ issues, project }) {
         {issues.length === 0 && <p>No child issue</p>}
         {issues.length > 0 &&
           issues.map((issue) => (
-            <div key={issue.id} className="issue-item">
+            <div onClick={() => handleShowEdit(issue)} key={issue.id} className="issue-item">
               <div className="img">
                 <img
                   src={
@@ -484,6 +533,70 @@ function ChildIssue({ issues, project }) {
       </div>
     </div>
   );
+}
+// link issue
+function LinkIssue({ project, issue }) {
+  const {
+    modal: [, setShow,],
+    item: [, setIssue]
+  } = useModalContext();
+  const [{ issueNormals }, dispatchIssue] = useListIssueContext();
+  const issueLinked = useMemo(() => {
+    return issueNormals.filter(item => item.id_Linked_Issue === issue.id);
+  }, [issueNormals, issue])
+  // handle remove link
+  const handleRemoveChild = async (issueRemove) => {
+    issueRemove.id_Linked_Issue = NIL;
+    await updateIssues(issueRemove, dispatchIssue);
+    fetchIssue(project.id, dispatchIssue);
+    createToast('success', 'Remove link issue successfully!');
+  }
+  const handleShowEdit = (issueEdit) => {
+    setIssue(issueEdit);
+    setShow(true);
+  }
+
+  return (
+    <div className="show-link">
+      <p className="title">Linked issue</p>
+      <div className="list-issue have-y-scroll">
+        {issueLinked.length === 0 && <p>No link issue</p>}
+        {issueLinked.length > 0 &&
+          issueLinked.map((item) => (
+            <div onClick={() => handleShowEdit(item)} key={item.id} className="issue-item">
+              <div className="img">
+                <img
+                  src={
+                    issueTypes.find((t) => t.value === item.id_IssueType).thumbnail
+                  }
+                  alt=""
+                />
+              </div>
+              <span className="summary">{item.summary}</span>
+              <span
+                onClick={() => handleRemoveChild(item)}
+                title="Remove"
+                className="delete-child"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </span>
+            </div>
+          ))}
+      </div>
+    </div>
+  )
 }
 // attachment
 function Attachment({ issue }) {
@@ -545,7 +658,7 @@ function TextBox({ value, onChange, ...props }) {
   };
   useEffect(() => {
     if (text) {
-      setHeight(nodeRef.current.scrollHeight);
+      setHeight(nodeRef.current.scrollHeight || 'auto');
     }
   }, [text])
   return (
@@ -560,7 +673,9 @@ function TextBox({ value, onChange, ...props }) {
   );
 }
 // Stage
-function Stage({ project, issue, stages, stage }) {
+function Stage({ project, issue, stage, currentSprint }) {
+  const [{ stages }, dispatchStage] = useStageContext();
+  const [, dispatchBoard] = useBoardContext();
   const [show, setShow] = useState(false);
   const [, dispatchIssue] = useListIssueContext();
   // toggle
@@ -574,7 +689,15 @@ function Stage({ project, issue, stages, stage }) {
     if (stage) {
       issue.id_Stage = stage.id;
       await updateIssues(issue, dispatchIssue);
-      fetchIssue(project.id, dispatchIssue);
+      if (window.location.href.includes('projects/board') >= 0) {
+        fetchBoard({
+          idSprint: currentSprint.id,
+          idEpic: null,
+          type: 0
+        }, dispatchBoard);
+      } else {
+        fetchIssue(project.id, dispatchIssue);
+      }
       createToast('success', 'Update stage successfully');
     }
   };
@@ -640,7 +763,11 @@ function Assignee({ members, project, issue }) {
     >
       {currentAssignee ? (
         <span className="inline-flex items-center justify-center w-full h-full text-white bg-orange-500 rounded-full pointer-events-none">
-          {currentAssignee.userName.slice(0, 1)}
+          {
+            currentAssignee.avatar_Path ?
+              (<img className="inline-block w-full h-full rounded-full" src={currentAssignee.avatar_Path} alt="" />) :
+              (currentAssignee?.userName?.slice(0, 1))
+          }
         </span>
       ) : (
         <span className="inline-block w-full h-full text-[#ccc] hover:text-gray-500 pointer-events-none">
@@ -674,8 +801,8 @@ function Assignee({ members, project, issue }) {
                 onClick={() => handleSelectMember(item)}
                 key={item.id}
                 className={`p-2 flex items-center hover:bg-gray-main ${issue.id_Assignee === item.id
-                    ? "bg-orange-500 text-white pointer-events-none"
-                    : ""
+                  ? "bg-orange-500 text-white pointer-events-none"
+                  : ""
                   }`}
               >
                 {item.userName}
@@ -703,7 +830,7 @@ function Reporter({ members, project, issue }) {
   };
   // handle select member
   const handleSelectMember = async (member) => {
-    issue.id_Assignee = member.id;
+    issue.id_Reporter = member.id;
     await updateIssues(issue, dispathIssue);
     fetchIssue(project.id, dispathIssue);
     createToast('success', 'Change reporter sucessfully');
@@ -716,7 +843,11 @@ function Reporter({ members, project, issue }) {
     >
       {currentAssignee ? (
         <span className="inline-flex items-center justify-center w-full h-full text-white bg-orange-500 rounded-full pointer-events-none">
-          {currentAssignee.userName.slice(0, 1)}
+          {
+            currentAssignee.avatar_Path ?
+              (<img className="inline-block w-full h-full rounded-full" src={currentAssignee.avatar_Path} alt="" />) :
+              (currentAssignee?.userName?.slice(0, 1))
+          }
         </span>
       ) : (
         <span className="inline-block w-full h-full text-[#ccc] hover:text-gray-500 pointer-events-none">
@@ -744,8 +875,8 @@ function Reporter({ members, project, issue }) {
                 onClick={() => handleSelectMember(item)}
                 key={item.id}
                 className={`p-2 flex items-center hover:bg-gray-main ${issue.id_Reporter === item.id
-                    ? "bg-orange-500 text-white pointer-events-none"
-                    : ""
+                  ? "bg-orange-500 text-white pointer-events-none"
+                  : ""
                   }`}
               >
                 {item.userName}
@@ -755,4 +886,59 @@ function Reporter({ members, project, issue }) {
       )}
     </div>
   );
+}
+// Label
+function Label({ project, issue }) {
+  const [{ labels }] = useLabelContext();
+  const [, dispatchIssue] = useListIssueContext();
+  const [show, setShow] = useState(false);
+  const currentLablel = useMemo(() => {
+    return labels.find(item => item.id === issue.id_Label)
+  }, [labels, issue])
+  // handle show
+  const handleShow = (e) => {
+    if (e.target.matches('.btn-label')) {
+      setShow(prev => !prev);
+    }
+  }
+  // handle select label
+  const handleSelectLabel = async (labelSelected) => {
+    try {
+      const resp = await axios.put(`${BASE_URL}/api/Issue/AddLabel`, {
+        idIssue: issue.id,
+        idLabel: labelSelected.id
+      })
+      if (resp.status === 200) {
+        fetchIssue(project.id, dispatchIssue);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  return (
+    <div onClick={handleShow} className="w-fit relative">
+      <p className="btn-label w-fit p-2 rounded hover:bg-gray-main cursor-pointer">{currentLablel ? currentLablel.name : 'None'}</p>
+      {
+        show &&
+        <div className="bg-white shadow-md border border-gray-main absolute top-full left-0 rounded overflow-hidden min-w-[100px]">
+          <p
+            onClick={() => handleSelectLabel({ id: NIL })}
+            className={`p-2 cursor-pointer hover:bg-gray-main w-full
+          ${!currentLablel ? 'bg-orange-400 text-white pointer-events-none' : ''}`}
+          >None</p>
+          {
+            labels.length > 0 &&
+            labels.map(item => (
+              <p
+                key={item.id}
+                onClick={() => handleSelectLabel(item)}
+                className={`p-2 cursor-pointer hover:bg-gray-main w-full ${currentLablel?.id === item.id ? 'bg-orange-400 text-white pointer-events-none' : ''}`}>{item.name}</p>
+            )
+            )
+          }
+        </div>
+      }
+    </div>
+  )
 }
