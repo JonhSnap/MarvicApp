@@ -1443,8 +1443,9 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             var group = (from i in _context.Issues.AsEnumerable()
                          join s in _context.Stages on i.Id_Stage equals s.Id
                          where i.Id_Project.Equals(idProject)
-                                 && i.DateStarted >= DateStarted
-                                 && i.DateEnd <= DateEnd
+                                && s.Id.Equals(i.Id_Stage)
+                                && i.DateStarted >= DateStarted
+                                && i.DateEnd <= DateEnd
                          group i by s.Stage_Name into g
                          orderby g.Key descending
                          select new IssueStatistic_ViewModel()
@@ -1452,6 +1453,27 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                              Label = g.Key,
                              y = g.Count()
                          }).ToList();
+            return group;
+        }
+
+        public List<StatisticIssueArchived_ViewModel> StatisticIssueArchived(Guid idProject, DateTime dateStarted, DateTime dateEnd)
+        {
+            var group = (from i in _context.Issues.AsEnumerable()
+                         join s in _context.Stages on i.Id_Stage equals s.Id
+                         join spr in _context.Sprints on i.Id_Sprint equals spr.Id
+                         where i.Id_Project.Equals(idProject)
+                                && s.Id.Equals(i.Id_Stage)
+                                && spr.Is_Archieved.Equals(EnumStatus.True)
+                                && i.DateStarted >= dateStarted
+                                && i.DateEnd <= dateEnd
+                         group i by spr.End_Date into g
+                         orderby g.Key
+                         select new StatisticIssueArchived_ViewModel()
+                         {
+                             x = g.Key,
+                             y = g.Count()
+                         }).ToList();
+
             return group;
         }
     }
