@@ -752,7 +752,11 @@ function Assignee({ members, project, issue }) {
     >
       {currentAssignee ? (
         <span className="inline-flex items-center justify-center w-full h-full text-white bg-orange-500 rounded-full pointer-events-none">
-          {currentAssignee.userName.slice(0, 1)}
+          {
+            currentAssignee.avatar_Path ?
+              (<img className="inline-block w-full h-full rounded-full" src={currentAssignee.avatar_Path} alt="" />) :
+              (currentAssignee?.userName?.slice(0, 1))
+          }
         </span>
       ) : (
         <span className="inline-block w-full h-full text-[#ccc] hover:text-gray-500 pointer-events-none">
@@ -828,7 +832,11 @@ function Reporter({ members, project, issue }) {
     >
       {currentAssignee ? (
         <span className="inline-flex items-center justify-center w-full h-full text-white bg-orange-500 rounded-full pointer-events-none">
-          {currentAssignee.userName.slice(0, 1)}
+          {
+            currentAssignee.avatar_Path ?
+              (<img className="inline-block w-full h-full rounded-full" src={currentAssignee.avatar_Path} alt="" />) :
+              (currentAssignee?.userName?.slice(0, 1))
+          }
         </span>
       ) : (
         <span className="inline-block w-full h-full text-[#ccc] hover:text-gray-500 pointer-events-none">
