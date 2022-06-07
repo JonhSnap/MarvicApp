@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import useModal from "../../hooks/useModal";
 import StageSelectbox from "../selectbox/StageSelectbox";
 import { documentHeight } from "../../util/constants";
+import { useSprintContext } from "../../contexts/sprintContext";
 
 const secondThirdScreen = (documentHeight * 2) / 3;
 
@@ -11,6 +12,11 @@ function Stages({ stage, issue, project }) {
   const [coord, setCoord] = useState({});
   const [show, setShow, handleClose] = useModal();
   const nodeRef = useRef();
+  const { state: { sprints } } = useSprintContext();
+  const sprintStarted = useMemo(() => {
+    return sprints.find(item => item.is_Started === 1);
+  }, [sprints])
+  if (!sprintStarted) return null;
 
   const handleClick = () => {
     const bounding = nodeRef.current.getBoundingClientRect();

@@ -39,7 +39,7 @@ function Notification() {
     connection
       .start()
       .then((res) => {
-        connection.on("Issue", () => {
+        connection.on("Notif", () => {
           loadNotification();
         });
       })
