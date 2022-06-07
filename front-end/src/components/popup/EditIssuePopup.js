@@ -229,7 +229,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
       bodyClassname="relative content-modal"
       onClose={handleCloseEditByClickOutside}
     >
-      <label htmlFor="close-option">
+      <label htmlFor={`close-option-${issue.id}`}>
         <div
           className="have-y-scroll h-[80vh] overflow-auto bg-white  mb-10 overflow-x-hidden
         flex flex-col flex-[2]  mx-4 relative p-5 rounded-md"
@@ -332,6 +332,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             )}
             <div className="flex items-center ml-auto gap-x-2">
               <OptionsEditIssue
+                issue={issue}
                 setShowAttachment={setShowAttachment}
                 setShowAddchild={setShowAddchild}
                 setShowLinkIssue={setShowLinkIssue}
@@ -406,7 +407,9 @@ function EditIssuePopup({ members, project, issue, setShow }) {
           <ModalProvider project={project}>
             <ChildIssue project={project} issues={childIssues} />
           </ModalProvider>
-          <LinkIssue project={project} issue={issue} />
+          <ModalProvider project={project}>
+            <LinkIssue project={project} issue={issue} />
+          </ModalProvider>
           <div className='detail'>
             <div className='item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border border-[#ccc] border-b-0 flex justify-between items-center'>
               <div className='flex justify-between w-full h-8 items-center my-2'>
@@ -533,6 +536,10 @@ function ChildIssue({ issues, project }) {
 }
 // link issue
 function LinkIssue({ project, issue }) {
+  const {
+    modal: [, setShow,],
+    item: [, setIssue]
+  } = useModalContext();
   const [{ issueNormals }, dispatchIssue] = useListIssueContext();
   const issueLinked = useMemo(() => {
     return issueNormals.filter(item => item.id_Linked_Issue === issue.id);
@@ -544,6 +551,10 @@ function LinkIssue({ project, issue }) {
     fetchIssue(project.id, dispatchIssue);
     createToast('success', 'Remove link issue successfully!');
   }
+  const handleShowEdit = (issueEdit) => {
+    setIssue(issueEdit);
+    setShow(true);
+  }
 
   return (
     <div className="show-link">
@@ -552,7 +563,7 @@ function LinkIssue({ project, issue }) {
         {issueLinked.length === 0 && <p>No link issue</p>}
         {issueLinked.length > 0 &&
           issueLinked.map((item) => (
-            <div key={item.id} className="issue-item">
+            <div onClick={() => handleShowEdit(item)} key={item.id} className="issue-item">
               <div className="img">
                 <img
                   src={
