@@ -1,8 +1,9 @@
-import React, { useRef, memo, useMemo } from "react";
+import React, { useRef, useState, memo, useMemo } from "react";
 import { issueTypes } from "../../util/constants";
 
 import MemberComponent from "../board/MemberComponent";
 import useModal from "../../hooks/useModal";
+import { useListIssueContext } from "../../contexts/listIssueContext";
 import { useMembersContext } from "../../contexts/membersContext";
 import Stages from "../backlog/Stages";
 import { useStageContext } from "../../contexts/stageContext";
@@ -11,6 +12,7 @@ import OptionComponent from "../option/OptionComponent";
 import EditIssuePopup from "../popup/EditIssuePopup";
 
 function TaskItemComponent({ issue, project, issueEpics }) {
+  const [, dispatch] = useListIssueContext();
   const [{ stages }] = useStageContext();
 
   const [showEditEpic, setShowEditEpic, handleCloseEpic] = useModal();

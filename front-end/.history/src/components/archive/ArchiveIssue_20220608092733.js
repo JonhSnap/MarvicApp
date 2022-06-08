@@ -56,8 +56,8 @@ const ArchiveIssue = ({ ArchiveIssue }) => {
               />
             ))}
         </div>
-        <div className="flex flex-col justify-start ml-3">
-          <h2 className="font-semibold">{ArchiveIssue.summary}</h2>
+        <div className="flex flex-col justify-start">
+          <h2 className="ml-3 font-semibold">{ArchiveIssue.summary}</h2>
           <div className="flex items-center font-normal">
             <span className="text-[9px]">({ArchiveIssue.dateStarted}) - </span>
             <p className="text-[9px]">({ArchiveIssue.dateEnd})</p>

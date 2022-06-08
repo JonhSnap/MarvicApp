@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { CanvasJSChart } from "canvasjs-react-charts";
-import axios from "axios";
+
 const BarChart = () => {
-  const [datapoint, setDatapoint] = useState([]);
-  var dataPoints = [];
   const options = {
     theme: "light2",
     animationEnabled: true,
@@ -20,13 +18,13 @@ const BarChart = () => {
         xValueFormatString: "YYYY",
         yValueFormatString: "#,##0.## Million",
         dataPoints: [
-          { x: new Date(2017, 0), y: 7.6 },
-          { x: new Date(2016, 0), y: 7.3 },
-          { x: new Date(2015, 0), y: 6.4 },
-          { x: new Date(2014, 0), y: 5.3 },
-          { x: new Date(2013, 0), y: 4.5 },
-          { x: new Date(2012, 0), y: 3.8 },
-          { x: new Date(2011, 0), y: 3.2 },
+          { x: Date.parse(2017, 0), y: 7.6 },
+          { x: Date.parse(2016, 0), y: 7.3 },
+          { x: Date.parse(2015, 0), y: 6.4 },
+          { x: Date.parse(2014, 0), y: 5.3 },
+          { x: Date.parse(2013, 0), y: 4.5 },
+          { x: Date.parse(2012, 0), y: 3.8 },
+          { x: Date.parse(2011, 0), y: 3.2 },
         ],
       },
     ],
@@ -51,27 +49,6 @@ const BarChart = () => {
     ],
   };
 
-  const dataP = async () => {
-    await axios
-      .get("https://canvasjs.com/data/gallery/react/nifty-stock-price.json")
-      .then((res) => {
-        setDatapoint(res.data);
-      });
-  };
-  useEffect(() => {
-    dataP();
-  }, []);
-
-  if (datapoint && datapoint.length > 0) {
-    for (var i = 0; i < datapoint.length; i++) {
-      dataPoints.push({
-        x: new Date(datapoint[i].x),
-        y: datapoint[i].y,
-      });
-    }
-  }
-  console.log("dataPoints", dataPoints);
-
   const optionsYMD = {
     theme: "light2",
     title: {
@@ -95,7 +72,20 @@ const BarChart = () => {
         showInLegend: true,
         xValueFormatString: "MMM YYYY",
         yValueFormatString: "₹#,##0.##",
-        dataPoints: dataPoints,
+        dataPoints: [
+          { x: new Date("2017- 01- 01"), y: 84.927 },
+          { x: new Date("2017- 02- 01"), y: 82.609 },
+          { x: new Date("2017- 03- 01"), y: 81.428 },
+          { x: new Date("2017- 04- 01"), y: 83.259 },
+          { x: new Date("2017- 05- 01"), y: 83.153 },
+          { x: new Date("2017- 06- 01"), y: 84.18 },
+          { x: new Date("2017- 07- 01"), y: 84.84 },
+          { x: new Date("2017- 08- 01"), y: 82.671 },
+          { x: new Date("2017- 09- 01"), y: 87.496 },
+          { x: new Date("2017- 10- 01"), y: 86.007 },
+          { x: new Date("2017- 11- 01"), y: 87.233 },
+          { x: new Date("2017- 12- 01"), y: 86.276 },
+        ],
       },
       // {
       //   type: "area",

@@ -5,7 +5,6 @@ import ArchiveSprint from "../archive/ArchiveSprint";
 import TopDetail from "../project-detail/TopDetail";
 import "./ContainerArchive.scss";
 import { v4 } from "uuid";
-import nullImg from "../../images/null.png";
 
 const ContainerArchive = ({ project }) => {
   const [archive, setArchive] = useState([]);
@@ -33,16 +32,7 @@ const ContainerArchive = ({ project }) => {
             <ArchiveSprint key={v4()} ArchiveSprint={item}></ArchiveSprint>
           ))
         ) : (
-          <div className="flex justify-center flex-col w-full">
-            <h2 className="text-xl font-semibold">Is not archive</h2>
-            <div className="w-full flex w-full justify-center h-[100vh] ">
-              <img
-                className="w-[200px] h-[200px] my-[40px] items-center"
-                src={nullImg}
-                alt=""
-              />
-            </div>
-          </div>
+          <div>Is not archive</div>
         )}
       </div>
     </div>
