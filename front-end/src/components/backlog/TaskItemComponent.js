@@ -13,6 +13,7 @@ import { useModalContext } from "../../contexts/modalContext";
 import { useStageContext } from "../../contexts/stageContext";
 import createToast from "../../util/createToast";
 import Stages from "./Stages";
+import { useLabelContext } from "../../contexts/labelContext";
 
 
 function TaskItemComponent({ members, issue, project, issueEpics }) {
@@ -21,6 +22,7 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
     modal: [, setShow],
     item: [, setIssue]
   } = useModalContext();
+  const [{ labels }] = useLabelContext();
   const [, dispatch] = useListIssueContext();
   const [showFlag, setShowFlag] = useState(false);
   const [showInputPoint, setShowInputPoint] = useState(false);
@@ -58,10 +60,12 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
     setShowInputPoint(false);
     createToast("success", "Update point estimate successfully!");
   };
-  // handle click parent
+  // find current epic
   const currentEpic = issueEpics.find(
     (item) => item.id === issue.id_Parent_Issue
   );
+  // find current label
+  const currentLabel = labels.find(item => item.id === issue.id_Label);
 
   return (
     <>
@@ -89,6 +93,7 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
           </div>
           {currentEpic && (
             <div
+              title="epic"
               className="parent ml-5 bg-[#8777D9] flex items-center justify-center p-1 rounded-[2px]"
             >
               <span className="text-[10px] pointer-events-none text-white font-semibold">
@@ -96,6 +101,12 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
               </span>
             </div>
           )}
+          {
+            currentLabel &&
+            <div
+              title='label'
+              className="ml-5 bg-task-color text-white text-[10px] rounded-[2px] py-1 px-3">{currentLabel.name}</div>
+          }
         </div>
         <div className="flex items-center h-full right-item w-fit">
           {issue.isFlagged === 1 && (

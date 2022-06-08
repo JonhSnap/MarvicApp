@@ -23,27 +23,14 @@ function Notification() {
       setShow(true);
     }
   }
-  const loadNotification = async () => {
-    const resp = await axios.get(`${BASE_URL}/api/Notifications/Get`);
-    if (resp.status === 200) {
-      setNotifyData(resp.data);
-    }
-  }
-  // create connection
-  const connection = new HubConnectionBuilder()
-    .withUrl('https://localhost:5001/hubs/marvic')
-    .configureLogging(LogLevel.Information)
-    .build();
   useEffect(() => {
+    const loadNotification = async () => {
+      const resp = await axios.get(`${BASE_URL}/api/Notifications/Get`);
+      if (resp.status === 200) {
+        setNotifyData(resp.data);
+      }
+    }
     loadNotification();
-    connection
-      .start()
-      .then((res) => {
-        connection.on("Notif", () => {
-          loadNotification();
-        });
-      })
-      .catch((e) => console.log("Connecttion faild", e));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
