@@ -41,14 +41,14 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   const [childIssues, setChildIssues] = useState([]);
 
   const [selectedDateStart, setSelectedDateStart] = useState(() => {
-    const date = new Date(issue.dateStarted);
+    const date = new Date(issue?.dateStarted);
     const dd = String(date.getDate()).padStart(2, "0");
     const mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
     const yyyy = date.getFullYear();
     return yyyy + "-" + mm + "-" + dd;
   });
   const [selectedDateEnd, setSelectedDateEnd] = useState(() => {
-    const date = new Date(issue.dateEnd);
+    const date = new Date(issue?.dateEnd);
     const dd = String(date.getDate()).padStart(2, "0");
     const mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
     const yyyy = date.getFullYear();

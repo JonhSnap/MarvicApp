@@ -4,13 +4,13 @@ import './OptionEditIssue.scss';
 function OptionsEditIssue({ issue, setShowAddchild, setShowAttachment, setShowLinkIssue }) {
     return (
         <div className='relative flex items-center justify-center cursor-pointer'>
-            <label htmlFor={issue.id} className='inline-flex items-center justify-center text-gray-500 w-6 h-6 hover:text-gray-800'>
+            <label htmlFor={issue?.id} className='inline-flex items-center justify-center text-gray-500 w-6 h-6 hover:text-gray-800'>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
                 </svg>
             </label>
-            <input hidden type="radio" name='option' id={issue.id} className='open-option' />
-            <input hidden type="radio" name='option' id={`close-option-${issue.id}`} className='close-option' />
+            <input hidden type="radio" name='option' id={issue?.id} className='open-option' />
+            <input hidden type="radio" name='option' id={`close-option-${issue?.id}`} className='close-option' />
             <div className='editIssue-options'>
                 <LinkIssue setShowLinkIssue={setShowLinkIssue} />
                 <AddChildIssue setShowAddchild={setShowAddchild} />

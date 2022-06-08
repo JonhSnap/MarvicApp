@@ -50,14 +50,12 @@ function Board({ board, project, currentSprint }) {
                 getChildPayload={index => listStage[index]}
                 dragClass=""
                 dropClass=""
-                style={{
-                    width: 'auto',
-                }}
                 dropPlaceholder={{
                     animationDuration: 150,
                     showOnTop: true,
                     className: 'cards-drop-preview'
                 }}
+                style={{ width: 'auto', display: 'flex', alignItems: 'stretch' }}
             >
                 {
                     listStage.length > 0 &&

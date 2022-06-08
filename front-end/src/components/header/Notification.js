@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import useTooltip from '../../hooks/useTooltip';
 import Tooltip from '../tooltip/Tooltip';
 import useModal from '../../hooks/useModal'
 import NotificationBoard from '../selectbox/NotificationBoard';
-import { BASE_URL, documentHeight } from "../../util/constants";
+import { BASE_URL, documentHeight, KEY_CURRENT_PROJECT } from "../../util/constants";
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import axios from 'axios';
+import { ModalProvider } from '../../contexts/modalContext';
+import { useSelector } from 'react-redux';
 
 const secondThirdScreen = (documentHeight * 2) / 3;
 
@@ -13,12 +15,16 @@ function Notification() {
   const { isHover, coord, nodeRef } = useTooltip();
   const [coordNotify, setCoorNotify] = useState({});
   const [show, setShow, handleClose] = useModal();
-  const [notifyData, setNotifyData] = useState({})
+  const [notifyData, setNotifyData] = useState({});
+  const { projects } = useSelector(state => state.projects);
+  const keyProject = localStorage.getItem(KEY_CURRENT_PROJECT);
+  const currentProject = useMemo(() => {
+    return projects.find(item => item.key === keyProject);
+  }, [projects, keyProject])
   // handle click
   const handleClick = () => {
     const bounding = nodeRef.current.getBoundingClientRect();
     if (bounding) {
-      console.log(bounding);
       setCoorNotify(bounding);
       setShow(true);
     }
@@ -38,18 +44,20 @@ function Notification() {
     <>
       {
         show &&
-        <NotificationBoard
-          bodyStyle={{
-            top: coordNotify.bottom <= secondThirdScreen ? coordNotify.bottom + 10 : null,
-            right: window.innerWidth - coordNotify.right,
-            bottom:
-              coordNotify.bottom > secondThirdScreen
-                ? documentHeight - coordNotify.top
-                : null,
-          }}
-          onClose={handleClose}
-          notifyData={notifyData}
-        />
+        <ModalProvider project={currentProject}>
+          <NotificationBoard
+            bodyStyle={{
+              top: coordNotify.bottom <= secondThirdScreen ? coordNotify.bottom + 10 : null,
+              right: window.innerWidth - coordNotify.right,
+              bottom:
+                coordNotify.bottom > secondThirdScreen
+                  ? documentHeight - coordNotify.top
+                  : null,
+            }}
+            onClose={handleClose}
+            notifyData={notifyData}
+          />
+        </ModalProvider>
       }
       {
         isHover &&
