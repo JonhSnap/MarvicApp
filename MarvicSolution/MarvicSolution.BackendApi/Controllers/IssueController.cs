@@ -366,10 +366,16 @@ namespace MarvicSolution.BackendApi.Controllers
         }
 
         [HttpGet("StatisticIssue")]
-        public IActionResult StatisticIssue(Guid idProject, DateTime DateStarted, DateTime DateEnd)
+        public IActionResult StatisticIssue(Guid idProject, DateTime dateStarted, DateTime dateEnd)
         {
-            var result =  _issueService.StatisticIssue(idProject, DateStarted, DateEnd);
-            
+            var result =  _issueService.StatisticIssue(idProject, dateStarted, dateEnd);            
+            return Ok(result);
+        }
+
+        [HttpGet("StatisticIssueArchived")]
+        public IActionResult StatisticIssueArchived(Guid idProject, DateTime dateStarted, DateTime dateEnd)
+        {
+            var result = _issueService.StatisticIssueArchived(idProject, dateStarted, dateEnd);
             return Ok(result);
         }
 
