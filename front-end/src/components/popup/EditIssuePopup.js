@@ -6,10 +6,7 @@ import { NIL } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBolt,
-  faArrowDownWideShort,
 } from "@fortawesome/free-solid-svg-icons";
-import MemberPopup from "../board/MemberComponent";
-import CKEditorComponent from "../CKEditorComponent";
 import ModalBase from "../modal/ModalBase";
 import { fetchIssue, updateIssues } from "../../reducers/listIssueReducer";
 import { useListIssueContext } from "../../contexts/listIssueContext";
@@ -23,6 +20,7 @@ import { useSprintContext } from "../../contexts/sprintContext";
 import Comments from "../comments/Comments";
 import { fetchBoard } from "../../reducers/boardReducer";
 import { useBoardContext } from "../../contexts/boardContext";
+import { ModalProvider, useModalContext } from "../../contexts/modalContext";
 import LinkIssueSelectbox from "../selectbox/LinkIssueSelectbox";
 import { useLabelContext } from "../../contexts/labelContext";
 
@@ -231,7 +229,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
       bodyClassname="relative content-modal"
       onClose={handleCloseEditByClickOutside}
     >
-      <label htmlFor="close-option">
+      <label htmlFor={`close-option-${issue.id}`}>
         <div
           className="have-y-scroll h-[80vh] overflow-auto bg-white  mb-10 overflow-x-hidden
         flex flex-col flex-[2]  mx-4 relative p-5 rounded-md"
@@ -334,6 +332,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             )}
             <div className="flex items-center ml-auto gap-x-2">
               <OptionsEditIssue
+                issue={issue}
                 setShowAttachment={setShowAttachment}
                 setShowAddchild={setShowAddchild}
                 setShowLinkIssue={setShowLinkIssue}
@@ -405,8 +404,12 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             />
           </div>
           <Attachment issue={issue} />
-          <ChildIssue project={project} issues={childIssues} />
-          <LinkIssue project={project} issue={issue} />
+          <ModalProvider project={project}>
+            <ChildIssue project={project} issues={childIssues} />
+          </ModalProvider>
+          <ModalProvider project={project}>
+            <LinkIssue project={project} issue={issue} />
+          </ModalProvider>
           <div className='detail'>
             <div className='item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border border-[#ccc] border-b-0 flex justify-between items-center'>
               <div className='flex justify-between w-full h-8 items-center my-2'>
@@ -470,6 +473,10 @@ export default memo(EditIssuePopup);
 // child issue
 function ChildIssue({ issues, project }) {
   const [, dispatchIssue] = useListIssueContext();
+  const {
+    modal: [, setShow,],
+    item: [, setIssue]
+  } = useModalContext();
 
   // handle remove child
   const handleRemoveChild = async (child) => {
@@ -477,6 +484,11 @@ function ChildIssue({ issues, project }) {
     await updateIssues(child, dispatchIssue);
     fetchIssue(project.id, dispatchIssue);
     createToast('success', 'Remove child successfully')
+  }
+  // handle show edit
+  const handleShowEdit = (issueEdit) => {
+    setIssue(issueEdit);
+    setShow(true);
   }
 
   return (
@@ -486,7 +498,7 @@ function ChildIssue({ issues, project }) {
         {issues.length === 0 && <p>No child issue</p>}
         {issues.length > 0 &&
           issues.map((issue) => (
-            <div key={issue.id} className="issue-item">
+            <div onClick={() => handleShowEdit(issue)} key={issue.id} className="issue-item">
               <div className="img">
                 <img
                   src={
@@ -524,6 +536,10 @@ function ChildIssue({ issues, project }) {
 }
 // link issue
 function LinkIssue({ project, issue }) {
+  const {
+    modal: [, setShow,],
+    item: [, setIssue]
+  } = useModalContext();
   const [{ issueNormals }, dispatchIssue] = useListIssueContext();
   const issueLinked = useMemo(() => {
     return issueNormals.filter(item => item.id_Linked_Issue === issue.id);
@@ -535,6 +551,10 @@ function LinkIssue({ project, issue }) {
     fetchIssue(project.id, dispatchIssue);
     createToast('success', 'Remove link issue successfully!');
   }
+  const handleShowEdit = (issueEdit) => {
+    setIssue(issueEdit);
+    setShow(true);
+  }
 
   return (
     <div className="show-link">
@@ -543,7 +563,7 @@ function LinkIssue({ project, issue }) {
         {issueLinked.length === 0 && <p>No link issue</p>}
         {issueLinked.length > 0 &&
           issueLinked.map((item) => (
-            <div key={item.id} className="issue-item">
+            <div onClick={() => handleShowEdit(item)} key={item.id} className="issue-item">
               <div className="img">
                 <img
                   src={
@@ -743,7 +763,11 @@ function Assignee({ members, project, issue }) {
     >
       {currentAssignee ? (
         <span className="inline-flex items-center justify-center w-full h-full text-white bg-orange-500 rounded-full pointer-events-none">
-          {currentAssignee.userName.slice(0, 1)}
+          {
+            currentAssignee.avatar_Path ?
+              (<img className="inline-block w-full h-full rounded-full" src={currentAssignee.avatar_Path} alt="" />) :
+              (currentAssignee?.userName?.slice(0, 1))
+          }
         </span>
       ) : (
         <span className="inline-block w-full h-full text-[#ccc] hover:text-gray-500 pointer-events-none">
@@ -819,7 +843,11 @@ function Reporter({ members, project, issue }) {
     >
       {currentAssignee ? (
         <span className="inline-flex items-center justify-center w-full h-full text-white bg-orange-500 rounded-full pointer-events-none">
-          {currentAssignee.userName.slice(0, 1)}
+          {
+            currentAssignee.avatar_Path ?
+              (<img className="inline-block w-full h-full rounded-full" src={currentAssignee.avatar_Path} alt="" />) :
+              (currentAssignee?.userName?.slice(0, 1))
+          }
         </span>
       ) : (
         <span className="inline-block w-full h-full text-[#ccc] hover:text-gray-500 pointer-events-none">

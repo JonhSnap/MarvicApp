@@ -45,6 +45,6 @@
     }
   }
 }
-#open-option:checked ~ .editIssue-options {
+.open-option:checked ~ .editIssue-options {
   transform: translate(50%, -50%) scale(1);
 }
