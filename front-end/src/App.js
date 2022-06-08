@@ -17,6 +17,7 @@ const BacklogPage = lazy(() => import("./pages/BacklogPage"));
 const RoadmapPage = lazy(() => import("./pages/RoadmapPage"));
 const Comments = lazy(() => import("./components/comments/Comments"));
 const Chart = lazy(() => import("./components/chart/Chart"));
+const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 
 function App() {
   return (
@@ -40,6 +41,10 @@ function App() {
             element={<ProjectsPage></ProjectsPage>}
           ></Route>
           <Route path="/profile" element={<ProfilePage></ProfilePage>}></Route>
+          <Route
+            path="/projects/dashboard/:key"
+            element={<DashboardPage />}
+          ></Route>
           <Route
             path="/projects/roadmap/:key"
             element={<RoadmapPage></RoadmapPage>}
