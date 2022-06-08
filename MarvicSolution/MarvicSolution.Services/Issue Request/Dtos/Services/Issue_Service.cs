@@ -1466,11 +1466,11 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                 && spr.Is_Archieved.Equals(EnumStatus.True)
                                 && i.DateStarted >= dateStarted
                                 && i.DateEnd <= dateEnd
-                         group i by spr.End_Date into g
+                         group i by spr.End_Date.Date into g
                          orderby g.Key
                          select new StatisticIssueArchived_ViewModel()
                          {
-                             x = g.Key,
+                             x = (g.Key - DateTime.MinValue).TotalMilliseconds,
                              y = g.Count()
                          }).ToList();
 
