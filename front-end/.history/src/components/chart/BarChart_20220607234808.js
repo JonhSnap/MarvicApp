@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { CanvasJSChart } from "canvasjs-react-charts";
 import axios from "axios";
 const BarChart = () => {
+  var datapoints = [];
   const [datapoint, setDatapoint] = useState([]);
-  var dataPoints = [];
   const options = {
     theme: "light2",
     animationEnabled: true,
@@ -60,9 +60,11 @@ const BarChart = () => {
   };
   useEffect(() => {
     dataP();
-  }, []);
+  }, [datapoint]);
+  console.log(datapoint);
 
-  if (datapoint && datapoint.length > 0) {
+  if (datapoint.length > 0) {
+    const dataPoints = [];
     for (var i = 0; i < datapoint.length; i++) {
       dataPoints.push({
         x: new Date(datapoint[i].x),
@@ -70,7 +72,7 @@ const BarChart = () => {
       });
     }
   }
-  console.log("dataPoints", dataPoints);
+  console.log(dataPoints);
 
   const optionsYMD = {
     theme: "light2",
@@ -95,7 +97,20 @@ const BarChart = () => {
         showInLegend: true,
         xValueFormatString: "MMM YYYY",
         yValueFormatString: "₹#,##0.##",
-        dataPoints: dataPoints,
+        dataPoints: [
+          { x: new Date("2017- 01- 01"), y: 84.927 },
+          { x: new Date("2017- 02- 01"), y: 82.609 },
+          { x: new Date("2017- 03- 01"), y: 81.428 },
+          { x: new Date("2017- 04- 01"), y: 83.259 },
+          { x: new Date("2017- 05- 01"), y: 83.153 },
+          { x: new Date("2017- 06- 01"), y: 84.18 },
+          { x: new Date("2017- 07- 01"), y: 84.84 },
+          { x: new Date("2017- 08- 01"), y: 82.671 },
+          { x: new Date("2017- 09- 01"), y: 87.496 },
+          { x: new Date("2017- 10- 01"), y: 86.007 },
+          { x: new Date("2017- 11- 01"), y: 87.233 },
+          { x: new Date("2017- 12- 01"), y: 86.276 },
+        ],
       },
       // {
       //   type: "area",

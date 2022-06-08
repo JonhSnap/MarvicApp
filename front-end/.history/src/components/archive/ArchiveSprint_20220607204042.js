@@ -28,6 +28,7 @@ const ArchiveSprint = ({ ArchiveSprint }) => {
           </div>
         )}
       </div>
+      )
     </>
   );
 };

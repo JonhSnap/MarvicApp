@@ -1,4 +1,4 @@
-import React, { useRef, memo, useMemo } from "react";
+import React, { useRef, useState, memo, useMemo } from "react";
 import { issueTypes } from "../../util/constants";
 
 import MemberComponent from "../board/MemberComponent";

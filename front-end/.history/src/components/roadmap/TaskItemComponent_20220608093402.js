@@ -1,8 +1,9 @@
-import React, { useRef, memo, useMemo } from "react";
+import React, { useRef, useState, memo, useMemo } from "react";
 import { issueTypes } from "../../util/constants";
 
 import MemberComponent from "../board/MemberComponent";
 import useModal from "../../hooks/useModal";
+import { useListIssueContext } from "../../contexts/listIssueContext";
 import { useMembersContext } from "../../contexts/membersContext";
 import Stages from "../backlog/Stages";
 import { useStageContext } from "../../contexts/stageContext";
