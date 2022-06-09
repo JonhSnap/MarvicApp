@@ -83,7 +83,7 @@ const Comments = ({ commentURL, IdIssueComment }) => {
       <div className="w-full mx-auto comments">
         <h3 className="text-blue-600 select-none comments-title">Comments</h3>
         <CommentForm submitLabel="Write" handleSubmit={addComment} />
-        <div className="comments-container pb-[120px] have-y-scroll overflow-y-auto h-[500px] border-t-2 border-slate-300">
+        <div className="comments-container pb-[120px] overflow-y-auto h-[500px] border-t-2 border-slate-300">
           {comments.length > 0 &&
             comments.map((item) => (
               <Comment

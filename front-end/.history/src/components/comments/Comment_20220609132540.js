@@ -67,14 +67,14 @@ const Comment = ({
     <div className="comment">
       <div className="comment-image-container ">
         <img
-        className="w-[40px] h-[40px] flex items-center  rounded-[50px] mt-3"
+        className="w-[40px] h-[40px] rounded-full"
           src={user.avatar_Path || avtUser}
           alt=""
         />
       </div>
       <div className="comment-right-part">
         <div className="comment-content">
-          <div className="comment-author text-[16px]">{comment.userName}</div>
+          <div className="comment-author">{comment.userName}</div>
           <div>{comment.create_Date}</div>
         </div>
         {!isEditting && (

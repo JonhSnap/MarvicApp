@@ -11,8 +11,20 @@ import "./Comment.scss";
 
 const Comments = ({ commentURL, IdIssueComment }) => {
   const [comments, setComments] = useState([]);
+  const [user, setUser] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
-  const user = useSelector((state) => state.auth.login.currentUser);
+  // const user = useSelector((state) => state.auth.login.currentUser);
+  const getUserDetails = async () => {
+    const resp = await axios.get(`${BASE_URL}/api/User/GetLoginUser`);
+    if (resp && resp.status === 200) {
+      setUser(resp.data);
+    } else {
+      throw new Error("Error when fetch user details");
+    }
+  };
+  useEffect(()=>{
+    getUserDetails()
+  }, [])
   const id_User = user?.id;
   const id_Issue = IdIssueComment;
   const loadComment = async () => {
@@ -56,7 +68,7 @@ const Comments = ({ commentURL, IdIssueComment }) => {
   const deleteComment = async (commentId) => {
     if (window.confirm("Are you sure that you want to remove comment")) {
       await axios
-        .delete(`${BASE_URL}/api/Comments/${commentId}`, {
+        .delete(`https://localhost:5001/api/Comments/${commentId}`, {
           data: { id_User: id_User },
         })
         .then(() => {
@@ -83,7 +95,7 @@ const Comments = ({ commentURL, IdIssueComment }) => {
       <div className="w-full mx-auto comments">
         <h3 className="text-blue-600 select-none comments-title">Comments</h3>
         <CommentForm submitLabel="Write" handleSubmit={addComment} />
-        <div className="comments-container pb-[120px] have-y-scroll overflow-y-auto h-[500px] border-t-2 border-slate-300">
+        <div className="comments-container pb-[120px] overflow-y-auto h-[500px] border-t-2 border-slate-300">
           {comments.length > 0 &&
             comments.map((item) => (
               <Comment
