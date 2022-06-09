@@ -50,6 +50,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         Task<bool> AddLabel(IssueLabel_Request rq);
         Task<bool> RemoveLabel(Guid idIssue);
         List<IssueStatistic_ViewModel> StatisticIssue(Guid idProject, DateTime DateStarted, DateTime DateEnd);
+        List<StatisticIssueArchived_ViewModel> StatisticIssueArchived(Guid idProject, DateTime DateStarted, DateTime DateEnd);
 
     }
 }
