@@ -29,26 +29,16 @@ function BacklogPage() {
 
   return (
     <>
-      <SprintProvider>
-        <ListIssueProvider>
-          <MembersProvider>
-            <StageProvider>
-              <BoardProvider>
-                <LabelProvider>
-                  <div className="flex overflow-hidden h-main-backlog">
-                    <div className='basis-[20%] h-main-backlog'>
-                      <Sidebar nameProject={currentProject.name}></Sidebar>
-                    </div>
-                    <div className='basis-[80%] h-main-backlog'>
-                      <ContainerBacklog project={currentProject}></ContainerBacklog>
-                    </div>
-                  </div>
-                </LabelProvider>
-              </BoardProvider>
-            </StageProvider>
-          </MembersProvider>
-        </ListIssueProvider>
-      </SprintProvider>
+
+      <div className="flex overflow-hidden h-main-backlog">
+        <div className='basis-[20%] h-main-backlog'>
+          <Sidebar nameProject={currentProject.name}></Sidebar>
+        </div>
+        <div className='basis-[80%] h-main-backlog'>
+          <ContainerBacklog project={currentProject}></ContainerBacklog>
+        </div>
+      </div>
+
     </>
   )
 }

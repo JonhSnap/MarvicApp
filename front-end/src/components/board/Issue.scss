@@ -32,13 +32,24 @@
       }
     }
   }
-  .epic {
-    width: fit-content;
-    padding: 4px;
-    @apply bg-epic-color;
-    border-radius: 4px;
-    color: white;
-    font-weight: 550;
-    opacity: 0.8;
+  .bottom {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    .epic,
+    .label {
+      width: fit-content;
+      padding: 4px;
+      @apply bg-epic-color;
+      border-radius: 4px;
+      color: white;
+      font-size: 12px;
+      font-weight: 300;
+      opacity: 0.8;
+    }
+    .label {
+      @apply bg-task-color;
+      padding: 4px 12px;
+    }
   }
 }
