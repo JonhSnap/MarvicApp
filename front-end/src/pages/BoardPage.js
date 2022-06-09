@@ -24,28 +24,18 @@ function BoardPage() {
   }, [projects, key])
 
   return (
-    <ListIssueProvider>
-      <MembersProvider>
-        <SprintProvider>
-          <BoardProvider>
-            <StageProvider>
-              <LabelProvider>
-                <ModalProvider project={currentProject}>
-                  <div className="flex">
-                    <div className='w-[20%] shrink-0'>
-                      <Sidebar nameProject={currentProject.name}></Sidebar>
-                    </div>
-                    <div className='w-[80%]'>
-                      <ContainerBoard project={currentProject}></ContainerBoard>
-                    </div>
-                  </div>
-                </ModalProvider>
-              </LabelProvider>
-            </StageProvider>
-          </BoardProvider>
-        </SprintProvider>
-      </MembersProvider>
-    </ListIssueProvider>
+    <BoardProvider>
+      <ModalProvider project={currentProject}>
+        <div className="flex">
+          <div className='w-[20%] shrink-0'>
+            <Sidebar nameProject={currentProject.name}></Sidebar>
+          </div>
+          <div className='w-[80%]'>
+            <ContainerBoard project={currentProject}></ContainerBoard>
+          </div>
+        </div>
+      </ModalProvider>
+    </BoardProvider>
   )
 }
 

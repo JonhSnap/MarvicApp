@@ -425,7 +425,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
               </div>
               <div className="w-[40%] h-13 my-4">Labels</div>
               <div className="w-[60%]">
-                <Label project={project} issue={issue} />
+                <Label project={project} issue={issue} currentSprint={currentSprint} />
               </div>
               <div className="w-[40%] h-13 my-4">Sprint</div>
               <div className="w-[60%]">{currentSprint?.sprintName}</div>
@@ -888,9 +888,10 @@ function Reporter({ members, project, issue }) {
   );
 }
 // Label
-function Label({ project, issue }) {
+function Label({ project, issue, currentSprint }) {
   const [{ labels }] = useLabelContext();
   const [, dispatchIssue] = useListIssueContext();
+  const [, dispatchBoard] = useBoardContext();
   const [show, setShow] = useState(false);
   const currentLablel = useMemo(() => {
     return labels.find(item => item.id === issue.id_Label)
@@ -909,7 +910,16 @@ function Label({ project, issue }) {
         idLabel: labelSelected.id
       })
       if (resp.status === 200) {
-        fetchIssue(project.id, dispatchIssue);
+        if (window.location.href.includes('/projects/board')) {
+          fetchIssue(project.id, dispatchIssue);
+          fetchBoard({
+            idSprint: currentSprint.id,
+            idEpic: null,
+            type: 0
+          }, dispatchBoard);
+        } else if (window.location.href.includes('/projects/backlog')) {
+          fetchIssue(project.id, dispatchIssue);
+        }
       }
     } catch (error) {
       console.log(error);
