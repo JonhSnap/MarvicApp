@@ -57,7 +57,7 @@ export const logOut = async (dispatch, navigate, id) => {
 };
 
 export const getProjects = async (dispatch, idUser) => {
-  dispatch(getProjectsStart);
+  dispatch(getProjectsStart());
   try {
     const resp = await axios.get(
       `${BASE_URL}/api/Project/GetProjectByIdUser/Id?IdUser=${idUser}`

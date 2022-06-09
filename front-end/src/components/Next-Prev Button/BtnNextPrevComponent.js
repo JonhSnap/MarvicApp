@@ -15,6 +15,8 @@ export default function BtnNextPrevComponent(props) {
     }
 
     const toggleBtn = (item) => {
+        props.setNextStep(false)
+        props.setClickButton(!props.clickButton)
         props.setShowAnimation(v => !v)
         props.setShow(v => !v)
         setTimeout(() => props.setShow(v => !v), -100)

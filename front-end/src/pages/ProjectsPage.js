@@ -6,12 +6,13 @@ import useModal from '../hooks/useModal';
 import { getProjects } from '../redux/apiRequest';
 import { useSelector, useDispatch } from 'react-redux'
 import { changeFilters } from '../redux/projectsSlice';
+import Loading from "../loading/Loading";
 
 function ProjectsPage() {
   const timerRef = useRef();
   const dispatch = useDispatch();
   const [search, setSearch] = useState('');
-  const {projects, error} = useSelector(state => state.projects);
+  const {projects, error, pending} = useSelector(state => state.projects);
   const { currentUser } = useSelector(state => state.auth.login);
   const [isShowProjectPopup, setIsShowProjectPopup, handleCloseProjectPopup] = useModal();
   const inputRef = useRef();
@@ -69,11 +70,13 @@ function ProjectsPage() {
           </div>
         </div>
         <div className="projects-bottom">
-          {
-            error ? <p className='text-center text-3xl opacity-50 py-10 text-red-500'>Error when get projects</p> :         
-            (projects.length === 0 ?
-            <p className='text-center text-3xl opacity-50 py-10'>You don't have any projects yet</p> :
-            <ListProject></ListProject>)
+          {pending ?
+              <Loading></Loading> :
+              (error ? <p className='text-center text-3xl opacity-50 py-10 text-red-500'>Error when get projects</p> :
+                  (projects.length === 0 ?
+                      <p className='text-center text-3xl opacity-50 py-10'>You don't have any projects yet</p> :
+                      <ListProject></ListProject>))
+            
           }
         </div>
       </div>

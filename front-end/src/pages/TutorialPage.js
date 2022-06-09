@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import '../scss/Tutorial.scss'
 import '../../src/index.scss'
 import ShowImageComponent from '../components/show-image/ShowImageComponent'
-import { data } from '../tutorial/data-tutorial'
+import {data} from '../tutorial/data-tutorial'
 import BtnNextPrevComponent from '../components/Next-Prev Button/BtnNextPrevComponent'
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
+import {faTimes} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export default function Tutorial() {
     const [showImg, setShowImg] = useState(false)
@@ -14,12 +16,35 @@ export default function Tutorial() {
     const [show, setShow] = useState(true)
     const [showAnimation, setShowAnimation] = useState(true)
     const [button, setButton] = useState(true) // True nếu là next
+    const [nextStep, setNextStep] = useState(false)
+    const [clickButton, setClickButton] = useState(true) // True nếu là next
+    let countNextStep = 0;
+    let setTOut
+
+    useEffect(function () {
+        if (!nextStep) {
+            setTOut = setTimeout(function () {
+                setNextStep(true)
+            }, 5000)
+        }
+    }, [])
+
+    useEffect(function () {
+        if (!nextStep) {
+            setTOut = setTimeout(function () {
+                setNextStep(true)
+            }, 5000)
+        }
+    }, [clickButton])
+
+
+
+
 
     const clickImg = (boolean, backGround) => {
         setShowImg(boolean)
         setBackGround(backGround)
     }
-
 
 
     var imgContent = "calc(-50vw + 70px)"
@@ -146,53 +171,103 @@ export default function Tutorial() {
                             (item.title2 != "") ? booleanText = true : booleanImg = true
                             html = <div id='main-tutorial'>
                                 <motion.div className='content-tutorial'
-                                    initial={false}
-                                    variants={button ? animationTextContent : animationPrev}
-                                    animate={show ? "show" : "hidden"}
-                                    transition={{ type: 'spring', stiffness: 60 }}
+                                            initial={false}
+                                            variants={button ? animationTextContent : animationPrev}
+                                            animate={show ? "show" : "hidden"}
+                                            transition={{type: 'spring', stiffness: 60}}
                                 >
                                     <div className='title-content'>
                                         {item.title1}
                                     </div>
                                     <div className='content'>
-                                        <p>Dựa trên phương pháp luận chuyển đổi số FPT Digital Kaizen, Chúng tôi cung cấp các dịch vụ tư vấn tùy chỉnh dựa trên chiến lược và định hướng phát triển, các đặc điểm và thế mạnh sẵn có của khách hàng, để phát triển và tăng trưởng, dưới dạng một lộ trình triển khai toàn diện và chi tiết. Tập trung vào hai lĩnh vực chính là Tư vấn chuyển đổi số cho doanh nghiệp và Tư vấn cho các tỉnh, thành phố.</p>
-                                        <p>Trong lĩnh vực Tư vấn chuyển đổi số doanh nghiệp, Chúng tôi thiết kế lộ trình chuyển đổi số tùy chỉnh cho doanh nghiệp dựa trên những điều kiện nền tảng là hệ thống công nghệ thông tin và đội ngũ nhân lực số giúp doanh nghiệp Vận hành xuất sắc, Trải nghiệm khách hàng vượt trội, Mô hình kinh doanh đổi mới, Kích hoạt năng lực công nghệ, Xây dựng đội ngũ nhân lực số.</p>
-                                        <p>Trong lĩnh vực Tư vấn cho các tỉnh thành, cùng các đối tác tư vấn chiến lược hàng đầu và các đối tác triển khai công nghệ, FPT cung cấp dịch vụ Tư vấn quy hoạch phát triển kinh tế xã hội và dịch vụ Tư vấn chuyển đổi số hướng tới sự phát triển nhảy vọt và bền vững.</p>
+                                        <p>Dựa trên phương pháp luận chuyển đổi số FPT Digital Kaizen, Chúng tôi cung
+                                            cấp các dịch vụ tư vấn tùy chỉnh dựa trên chiến lược và định hướng phát
+                                            triển, các đặc điểm và thế mạnh sẵn có của khách hàng, để phát triển và tăng
+                                            trưởng, dưới dạng một lộ trình triển khai toàn diện và chi tiết. Tập trung
+                                            vào hai lĩnh vực chính là Tư vấn chuyển đổi số cho doanh nghiệp và Tư vấn
+                                            cho các tỉnh, thành phố.</p>
+                                        <p>Trong lĩnh vực Tư vấn chuyển đổi số doanh nghiệp, Chúng tôi thiết kế lộ trình
+                                            chuyển đổi số tùy chỉnh cho doanh nghiệp dựa trên những điều kiện nền tảng
+                                            là hệ thống công nghệ thông tin và đội ngũ nhân lực số giúp doanh nghiệp Vận
+                                            hành xuất sắc, Trải nghiệm khách hàng vượt trội, Mô hình kinh doanh đổi mới,
+                                            Kích hoạt năng lực công nghệ, Xây dựng đội ngũ nhân lực số.</p>
+                                        <p>Trong lĩnh vực Tư vấn cho các tỉnh thành, cùng các đối tác tư vấn chiến lược
+                                            hàng đầu và các đối tác triển khai công nghệ, FPT cung cấp dịch vụ Tư vấn
+                                            quy hoạch phát triển kinh tế xã hội và dịch vụ Tư vấn chuyển đổi số hướng
+                                            tới sự phát triển nhảy vọt và bền vững.</p>
                                     </div>
                                 </motion.div>
                                 <motion.div className='image-tutorial'
-                                    initial={false}
-                                    variants={button ? animationImageContent : animationPrev}
-                                    animate={show ? "show" : "hidden"}
-                                    transition={{ type: 'spring', stiffness: 60 }}
+                                            initial={false}
+                                            variants={button ? animationImageContent : animationPrev}
+                                            animate={show ? "show" : "hidden"}
+                                            transition={{type: 'spring', stiffness: 60}}
                                 >
-                                    {booleanText && <><div className='title-content'>
-                                        {item.title2}
-                                    </div><div className='content'>
-                                            <p>Dựa trên phương pháp luận chuyển đổi số FPT Digital Kaizen, Chúng tôi cung cấp các dịch vụ tư vấn tùy chỉnh dựa trên chiến lược và định hướng phát triển, các đặc điểm và thế mạnh sẵn có của khách hàng, để phát triển và tăng trưởng, dưới dạng một lộ trình triển khai toàn diện và chi tiết. Tập trung vào hai lĩnh vực chính là Tư vấn chuyển đổi số cho doanh nghiệp và Tư vấn cho các tỉnh, thành phố.</p>
-                                            <p>Trong lĩnh vực Tư vấn chuyển đổi số doanh nghiệp, Chúng tôi thiết kế lộ trình chuyển đổi số tùy chỉnh cho doanh nghiệp dựa trên những điều kiện nền tảng là hệ thống công nghệ thông tin và đội ngũ nhân lực số giúp doanh nghiệp Vận hành xuất sắc, Trải nghiệm khách hàng vượt trội, Mô hình kinh doanh đổi mới, Kích hoạt năng lực công nghệ, Xây dựng đội ngũ nhân lực số.</p>
-                                            <p>Trong lĩnh vực Tư vấn cho các tỉnh thành, cùng các đối tác tư vấn chiến lược hàng đầu và các đối tác triển khai công nghệ, FPT cung cấp dịch vụ Tư vấn quy hoạch phát triển kinh tế xã hội và dịch vụ Tư vấn chuyển đổi số hướng tới sự phát triển nhảy vọt và bền vững.</p>
-                                        </div></>}
-                                    {booleanImg && <><motion.div initial={false}
-                                        variants={button ? animationImageLarge : animationPrev}
-                                        animate={show ? "show" : "hidden"}
-                                        transition={{ type: 'spring', stiffness: 60 }} whileHover={{ scale: 1.03, boxShadow: "0px 0px 8px #000" }} className='image-large' style={{ backgroundImage: "url(" + item.imageLager + ")" }} onClick={() => clickImg(true, item.imageLager)}></motion.div>
+                                    {booleanText && <>
+                                        <div className='title-content'>
+                                            {item.title2}
+                                        </div>
+                                        <div className='content'>
+                                            <p>Dựa trên phương pháp luận chuyển đổi số FPT Digital Kaizen, Chúng tôi
+                                                cung cấp các dịch vụ tư vấn tùy chỉnh dựa trên chiến lược và định hướng
+                                                phát triển, các đặc điểm và thế mạnh sẵn có của khách hàng, để phát
+                                                triển và tăng trưởng, dưới dạng một lộ trình triển khai toàn diện và chi
+                                                tiết. Tập trung vào hai lĩnh vực chính là Tư vấn chuyển đổi số cho doanh
+                                                nghiệp và Tư vấn cho các tỉnh, thành phố.</p>
+                                            <p>Trong lĩnh vực Tư vấn chuyển đổi số doanh nghiệp, Chúng tôi thiết kế lộ
+                                                trình chuyển đổi số tùy chỉnh cho doanh nghiệp dựa trên những điều kiện
+                                                nền tảng là hệ thống công nghệ thông tin và đội ngũ nhân lực số giúp
+                                                doanh nghiệp Vận hành xuất sắc, Trải nghiệm khách hàng vượt trội, Mô
+                                                hình kinh doanh đổi mới, Kích hoạt năng lực công nghệ, Xây dựng đội ngũ
+                                                nhân lực số.</p>
+                                            <p>Trong lĩnh vực Tư vấn cho các tỉnh thành, cùng các đối tác tư vấn chiến
+                                                lược hàng đầu và các đối tác triển khai công nghệ, FPT cung cấp dịch vụ
+                                                Tư vấn quy hoạch phát triển kinh tế xã hội và dịch vụ Tư vấn chuyển đổi
+                                                số hướng tới sự phát triển nhảy vọt và bền vững.</p>
+                                        </div>
+                                    </>}
+                                    {booleanImg && <>
                                         <motion.div initial={false}
-                                            variants={button ? animationImageChild1 : animationPrev}
-                                            animate={show ? "show" : "hidden"}
-                                            transition={{ type: 'spring', stiffness: 60 }} whileHover={{ scale: 1.03, boxShadow: "0px 0px 8px #000" }} className='image-child-1' style={{ backgroundImage: "url(" + item.imageChild1 + ")" }} onClick={() => clickImg(true, item.imageChild1)}></motion.div>
+                                                    variants={button ? animationImageLarge : animationPrev}
+                                                    animate={show ? "show" : "hidden"}
+                                                    transition={{type: 'spring', stiffness: 60}}
+                                                    whileHover={{scale: 1.03, boxShadow: "0px 0px 8px #000"}}
+                                                    className='image-large'
+                                                    style={{backgroundImage: "url(" + item.imageLager + ")"}}
+                                                    onClick={() => clickImg(true, item.imageLager)}></motion.div>
                                         <motion.div initial={false}
-                                            variants={button ? animationImageChild2 : animationPrev}
-                                            animate={show ? "show" : "hidden"}
-                                            transition={{ type: 'spring', stiffness: 60 }} whileHover={{ scale: 1.03, boxShadow: "0px 0px 8px #000" }} className='image-child-2' style={{ backgroundImage: "url(" + item.imageChild2 + ")" }} onClick={() => clickImg(true, item.imageChild2)}></motion.div>
+                                                    variants={button ? animationImageChild1 : animationPrev}
+                                                    animate={show ? "show" : "hidden"}
+                                                    transition={{type: 'spring', stiffness: 60}}
+                                                    whileHover={{scale: 1.03, boxShadow: "0px 0px 8px #000"}}
+                                                    className='image-child-1'
+                                                    style={{backgroundImage: "url(" + item.imageChild1 + ")"}}
+                                                    onClick={() => clickImg(true, item.imageChild1)}></motion.div>
                                         <motion.div initial={false}
-                                            variants={button ? animationImageChild3 : animationPrev}
-                                            animate={show ? "show" : "hidden"}
-                                            transition={{ type: 'spring', stiffness: 60 }} whileHover={{ scale: 1.03, boxShadow: "0px 0px 8px #000" }} className='image-child-3' style={{ backgroundImage: "url(" + item.imageChild3 + ")" }} onClick={() => clickImg(true, item.imageChild3)}></motion.div>
+                                                    variants={button ? animationImageChild2 : animationPrev}
+                                                    animate={show ? "show" : "hidden"}
+                                                    transition={{type: 'spring', stiffness: 60}}
+                                                    whileHover={{scale: 1.03, boxShadow: "0px 0px 8px #000"}}
+                                                    className='image-child-2'
+                                                    style={{backgroundImage: "url(" + item.imageChild2 + ")"}}
+                                                    onClick={() => clickImg(true, item.imageChild2)}></motion.div>
                                         <motion.div initial={false}
-                                            variants={button ? animationImageChild4 : animationPrev}
-                                            animate={show ? "show" : "hidden"}
-                                            transition={{ type: 'spring', stiffness: 60 }} whileHover={{ scale: 1.03, boxShadow: "0px 0px 8px #000" }} className='image-child-4' style={{ backgroundImage: "url(" + item.imageChild4 + ")" }} onClick={() => clickImg(true, item.imageChild4)}></motion.div></>}
+                                                    variants={button ? animationImageChild3 : animationPrev}
+                                                    animate={show ? "show" : "hidden"}
+                                                    transition={{type: 'spring', stiffness: 60}}
+                                                    whileHover={{scale: 1.03, boxShadow: "0px 0px 8px #000"}}
+                                                    className='image-child-3'
+                                                    style={{backgroundImage: "url(" + item.imageChild3 + ")"}}
+                                                    onClick={() => clickImg(true, item.imageChild3)}></motion.div>
+                                        <motion.div initial={false}
+                                                    variants={button ? animationImageChild4 : animationPrev}
+                                                    animate={show ? "show" : "hidden"}
+                                                    transition={{type: 'spring', stiffness: 60}}
+                                                    whileHover={{scale: 1.03, boxShadow: "0px 0px 8px #000"}}
+                                                    className='image-child-4'
+                                                    style={{backgroundImage: "url(" + item.imageChild4 + ")"}}
+                                                    onClick={() => clickImg(true, item.imageChild4)}></motion.div>
+                                    </>}
                                 </motion.div>
                             </div>
                         }
@@ -200,9 +275,26 @@ export default function Tutorial() {
                         return html
                     })
                 }
-                <BtnNextPrevComponent setButton={setButton} showAnimation={showAnimation} setShow={setShow} setShowAnimation={setShowAnimation} setCount={setCount} count={count} />
+                <BtnNextPrevComponent setNextStep={setNextStep} clickButton={clickButton} setClickButton={setClickButton} setButton={setButton} showAnimation={showAnimation}
+                                      setShow={setShow} setShowAnimation={setShowAnimation} setCount={setCount}
+                                      count={count}/>
+                {
+                    data.map((item) => {
+                        if (item.id == count) {
+                            if (item.nextStep !== "")
+                               return (
+                                   nextStep && <div
+                                   className="notify-tutorial absolute right-[50%] top-[85vh] w-fit h-[8rem] flex justify-center items-center text-3xl border-[1px] rounded-[10px] bg-white px-4"
+                                   style={{transform: "translateX(50%)"}}>
+                                   <button onClick={() => setNextStep(false)} className="absolute top-0 right-0 w-[30px] h-[30px] flex justify-center items-center "><FontAwesomeIcon size="1x"  icon={faTimes} /></button>
+                                   {item.nextStep}
+                               </div>)
+                        }
+                    })
+
+                }
             </div>
-            {showImg && <ShowImageComponent backGround={backGround} clickImg={clickImg} showImg={showImg} />}
+            {showImg && <ShowImageComponent backGround={backGround} clickImg={clickImg} showImg={showImg}/>}
         </>
     )
 }

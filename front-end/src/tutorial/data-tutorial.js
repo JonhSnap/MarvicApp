@@ -23,6 +23,7 @@ export const data = [
         content1: "content 1 lan 1",
         title2: "Welcome",
         content2: "content 2 lan 1",
+        nextStep: "Bước tiếp theo: Bước 2"
     },
     {
         id: 2,
@@ -34,7 +35,8 @@ export const data = [
         imageChild1: imageChild1_1,
         imageChild2: imageChild1_2,
         imageChild3: imageChild1_3,
-        imageChild4: imageChild1_4
+        imageChild4: imageChild1_4,
+        nextStep: "Bước tiếp theo: Bước 3"
     },
     {
         id: 3,
@@ -46,7 +48,8 @@ export const data = [
         imageChild1: imageChild2_1,
         imageChild2: imageChild2_2,
         imageChild3: imageChild2_3,
-        imageChild4: imageChild2_4
+        imageChild4: imageChild2_4,
+        nextStep: "Bước tiếp theo: Bước 4"
     },
     {
         id: 4,
@@ -58,5 +61,6 @@ export const data = [
         imageChild1: imageChild3_1,
         imageChild2: imageChild3_2,
         imageChild3: imageChild3_3,
-        imageChild4: imageChild3_4
+        imageChild4: imageChild3_4,
+        nextStep: ""
     }]

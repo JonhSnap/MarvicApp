@@ -11,7 +11,7 @@ function SprintProvider({ children }) {
 }
 function useSprintContext() {
     const value = useContext(sprintContext);
-    if (!value) throw new Error('Sprint context must be use inside sprint provider');
+    if (!value) throw new Error('SprintArchive context must be use inside sprint provider');
     return value;
 }
 export { SprintProvider, useSprintContext }

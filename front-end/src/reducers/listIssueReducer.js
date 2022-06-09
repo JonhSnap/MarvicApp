@@ -55,13 +55,15 @@ const initialIssues = {
         name: '',
         type: [],
         epics: []
-    }
+    },
+    pending: true
 }
 
 const listIssueReducer = (state, action) => {
     let stateCopy = {...state};
     switch (action.type) {
         case GET_ISSUES:
+            stateCopy.pending = false;
             // lấy ra các epic
             let issueEpicsData = action.payload.filter(item => item.id_IssueType === 1);
             // lấy ra các issue normal

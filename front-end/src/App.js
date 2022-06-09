@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Main from "./components/layouts/Main";
 import { ToastContainer } from 'react-toastify'
+import Loading from "./loading/Loading"
 
 const YourWorkPage = lazy(() => import("./pages/YourWorkPage"));
 const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
@@ -12,12 +13,14 @@ const TutorialPage2 = lazy(() => import("./pages/Tutorial2"));
 const TestPage = lazy(() => import("./pages/TestPage"));
 const BoardPage = lazy(() => import("./pages/BoardPage"));
 const BacklogPage = lazy(() => import("./pages/BacklogPage"));
+const ArchiveIssuse = lazy(() => import("./pages/ArchiveIssuse"));
 const RoadmapPage = lazy(() => import("./pages/RoadmapPage"));
 const Comments = lazy(() => import("./components/comments/Comments"));
+// const Loading = lazy(() => import("./loading/Loading"));
 
 function App() {
   return (
-    <Suspense fallback={<>Fall back component</>}>
+      <Suspense fallback={<Loading></Loading>}>
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -35,6 +38,7 @@ function App() {
           <Route path="/projects" element={<ProjectsPage></ProjectsPage>}></Route>
           <Route path="/projects/roadmap" element={<RoadmapPage></RoadmapPage>}></Route>
           <Route path="/projects/backlog/:key" element={<BacklogPage></BacklogPage>}></Route>
+          <Route path="/projects/archive/:key" element={<ArchiveIssuse></ArchiveIssuse>}></Route>
           <Route path="/projects/board/:key" element={<BoardPage></BoardPage>}></Route>
         </Route>
         <Route path="/login" element={<LoginPage></LoginPage>}></Route>
