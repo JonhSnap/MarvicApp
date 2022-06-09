@@ -16,10 +16,14 @@ function DashboardContainer({project}) {
         {chart === "column" && <BarChartColumn project={project} />}
         {chart === "doughnut" && <BarChartDoughnut project={project} />}
 
+        {/* <BarChartColumn />
+        <BarChartDoughnut /> */}
+
         <select
           onChange={(e) => setChart(e.target.value)}
           value={chart}
-          className="p-2 mt-3 border-2 border-blue-400 rounded-md cursor-pointer outline-blue-600"
+          name=""
+          id=""
         >
           <option value="area">Area Chart</option>
           <option value="column">Column Chart</option>
