@@ -7,7 +7,7 @@ import Sidebar from '../components/sidebar/Sidebar'
 function DashboardPage() {
     const [currentProject, setCurrentProject] = useState();
     const { projects } = useSelector(state => state.projects);
-    const keyProject = useParams('key').key;
+    const keyProject = useParams('key');
     console.log("keyProject", keyProject);
     useEffect(() => {
         document.title = 'Marvic-Dashboard'

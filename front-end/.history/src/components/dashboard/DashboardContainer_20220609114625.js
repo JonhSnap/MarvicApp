@@ -16,6 +16,9 @@ function DashboardContainer({project}) {
         {chart === "column" && <BarChartColumn project={project} />}
         {chart === "doughnut" && <BarChartDoughnut project={project} />}
 
+        {/* <BarChartColumn />
+        <BarChartDoughnut /> */}
+
         <select
           onChange={(e) => setChart(e.target.value)}
           value={chart}

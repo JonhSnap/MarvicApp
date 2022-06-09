@@ -59,8 +59,8 @@ const ArchiveIssue = ({ ArchiveIssue }) => {
         <div className="flex flex-col justify-start ml-3">
           <h2 className="font-semibold">{ArchiveIssue.summary}</h2>
           <div className="flex items-center font-normal">
-            <span className="text-[10px] mr-1">({ArchiveIssue.dateStarted.slice(0, 10)}) -</span>
-            <p className="text-[10px]"> ({ArchiveIssue.dateEnd.slice(0, 10)})</p>
+            <span className="text-[9px]">({ArchiveIssue.dateStarted.slice(0, 10)}) - </span>
+            <p className="text-[9px]"> ({ArchiveIssue.dateEnd.slice(0, 10)})</p>
           </div>
         </div>
       </div>

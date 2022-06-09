@@ -24,7 +24,8 @@ function DashboardPage() {
                 <Sidebar nameProject={currentProject?.name}></Sidebar>
             </div>
             <div className='basis-[80%] h-main-backlog'>
-                <DashboardContainer project={currentProject} />
+            {projects && projects.length>0 && <DashboardContainer project={currentProject} />}
+                
             </div>
         </div>
     )
