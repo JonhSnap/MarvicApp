@@ -6,8 +6,8 @@ import BarChartDoughnut from "../chart/BarChartDoughnut";
 import { timeLines } from "../../util/constants";
 
 function DashboardContainer({ project }) {
-  const dateStartedProject = new Date(project.dateStarted);
-  const dateEndProject = new Date(project.dateEnd);
+  const dateStartedProject = new Date(project?.dateStarted);
+  const dateEndProject = new Date(project?.dateEnd);
   const [timeLine, setTimeLine] = useState('project');
   const [chart, setChart] = useState("area");
   const [period, setPeriod] = useState({
