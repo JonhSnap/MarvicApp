@@ -99,7 +99,7 @@ const BarChartArea = ({ project, timeLine, period }) => {
   const options = {
     theme: "light2",
     title: {
-      text: `Issue Satisfaction - ${project?.dateEnd.slice(0, 4)}`,
+      text: `Issue Satisfaction Archive - ${project?.dateEnd.slice(0, 4)}`,
     },
     toolTip: {
       shared: true,

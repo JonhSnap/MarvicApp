@@ -4,7 +4,6 @@ import { BASE_URL } from "../../util/constants";
 import { useEffect, useState } from "react";
 import { v4 } from "uuid";
 import avtUser from "../../images/avt-user.png";
-import { useReplyCommentContext } from "../../contexts/replyCommentContext";
 const Comment = ({
   comment,
   currentUserId,
@@ -17,10 +16,7 @@ const Comment = ({
   loadComment,
 }) => {
   const [reply, setReply] = useState([]);
-  // const [showReply, setShowReply] = useState(false);
-
-  const {reply:[show, setShow], replyShow:[items, setItems] } = useReplyCommentContext()
-  const [showReply, setShowReply ] = useState(show)
+  const [showReply, setShowReply] = useState(false);
   const fiveMinutes = 300000;
   const timePassed =
     new Date().toISOString() - new Date(comment.create_Date) > fiveMinutes;
@@ -67,12 +63,6 @@ const Comment = ({
   const handleReply = () => {
     setActiveComment({ id: comment.id, type: "replying" });
   };
-  const handleShowReply = ()=>{
-      setItems(prev => [...prev, comment.id])
-      setShowReply(true)
-      setShow(true)
-  }
-  console.log("items", items);
   return (
     <div className="comment">
       <div className="comment-image-container ">
@@ -153,7 +143,7 @@ const Comment = ({
         )}
         {comment.countChild === 0
           ? null
-          : !showReply &&(
+          : !showReply && (
               <div className="flex items-center text-sm transition-all">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -172,7 +162,7 @@ const Comment = ({
 
                 <span
                   className="ml-2 font-semibold cursor-pointer text-slate-600 hover:underline"
-                  onClick={handleShowReply}
+                  onClick={() => setShowReply(true)}
                 >{`${comment.countChild} Phản hồi`}</span>
               </div>
             )}
