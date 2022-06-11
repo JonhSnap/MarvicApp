@@ -69,7 +69,6 @@ const Comment = ({
   };
   const handleShowReply = ()=>{
       setItems(prev => [...prev, comment.id])
-      setShowReply(true)
       setShow(true)
   }
   console.log("items", items);

@@ -19,8 +19,7 @@ const Comment = ({
   const [reply, setReply] = useState([]);
   // const [showReply, setShowReply] = useState(false);
 
-  const {reply:[show, setShow], replyShow:[items, setItems] } = useReplyCommentContext()
-  const [showReply, setShowReply ] = useState(show)
+  const {reply:[showReply, setShowReply], replyShow:[items, setItems] } = useReplyCommentContext()
   const fiveMinutes = 300000;
   const timePassed =
     new Date().toISOString() - new Date(comment.create_Date) > fiveMinutes;
@@ -68,11 +67,15 @@ const Comment = ({
     setActiveComment({ id: comment.id, type: "replying" });
   };
   const handleShowReply = ()=>{
-      setItems(prev => [...prev, comment.id])
+    if(items.includes(comment.id)){
+      setShowReply(false)
+    }else {
+      setItems(prev =>[...prev, comment.id])
       setShowReply(true)
-      setShow(true)
+       
+    }
   }
-  console.log("items", items);
+  console.log("comment", comment);
   return (
     <div className="comment">
       <div className="comment-image-container ">

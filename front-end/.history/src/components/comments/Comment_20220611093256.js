@@ -68,9 +68,14 @@ const Comment = ({
     setActiveComment({ id: comment.id, type: "replying" });
   };
   const handleShowReply = ()=>{
+
+    if(showReply){
+
+    }else {
       setItems(prev => [...prev, comment.id])
       setShowReply(true)
       setShow(true)
+    }
   }
   console.log("items", items);
   return (
