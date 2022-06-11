@@ -59,6 +59,7 @@ function WrapperTask({ members, project, sprint, issues = [] }) {
                 project={project}
                 issueEpics={issueEpics}
                 issue={item}
+                sprint={sprint}
               />
             </Draggable>
           ))}
