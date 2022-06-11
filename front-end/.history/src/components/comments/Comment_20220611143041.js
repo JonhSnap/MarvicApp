@@ -132,7 +132,7 @@ const Comment = ({
             handleCancel={() => setActiveComment(null)}
           />
         )}
-        {showReply && comment.countChild > 0 && (
+        {showReply && comment.countChild && items.includes(comment.id) > 0 && (
           <div className="transition-all replies">
             {reply.length > 0 &&
               reply.map((reply) => (
