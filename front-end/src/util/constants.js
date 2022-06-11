@@ -11,6 +11,8 @@ export const documentHeight = window.innerHeight;
 export const KEY_CURRENT_PROJECT = "key_current_project";
 // key timeline roadmap
 export const KEY_FILTER_EPIC = "key_filter_epic";
+// type timeline chart
+export const timeLines = ['project', 'week', 'month', 'year', 'custom'];
 // Levels
 export const levels = [
   {
