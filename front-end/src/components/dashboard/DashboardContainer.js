@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import "./Dashboard.scss";
 import BarChartArea from "../chart/BarChartArea";
 import BarChartColumn from "../chart/BarChartColumn";
