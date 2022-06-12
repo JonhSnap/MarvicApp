@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Dashboard.scss";
 import BarChartArea from "../chart/BarChartArea";
 import BarChartColumn from "../chart/BarChartColumn";
@@ -54,7 +54,7 @@ function DashboardContainer({ project }) {
           </select>
           {
             timeLine === 'custom' &&
-            <div className="flex p-1 ml-5 transition-all border-l-2 shadow-2xl animate__animated animate__backInLeft gap-x-2 ">
+            <div className="flex ml-5 gap-x-2 mb-[4px] p-1 shadow-4xl">
               <div className="flex flex-col gap-y-1">
                 <label>Date start:</label>
                 <input
@@ -62,7 +62,7 @@ function DashboardContainer({ project }) {
                   onChange={handleChangePeriod}
                   name='dateStart'
                   type="date"
-                  className="px-2 py-1 border-2 rounded outline-none cursor-pointer border-primary"
+                  className="px-2 py-1 border-2 rounded outline-none border-primary"
                 />
               </div>
               <div className="flex flex-col gap-y-1">
@@ -72,7 +72,7 @@ function DashboardContainer({ project }) {
                   onChange={handleChangePeriod}
                   name='dateEnd'
                   type="date"
-                  className="px-2 py-1 border-2 rounded outline-none cursor-pointer border-primary"
+                  className="px-2 py-1 border-2 rounded outline-none border-primary"
                 />
               </div>
 

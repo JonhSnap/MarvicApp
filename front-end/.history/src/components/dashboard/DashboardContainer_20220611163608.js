@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Dashboard.scss";
 import BarChartArea from "../chart/BarChartArea";
 import BarChartColumn from "../chart/BarChartColumn";
@@ -54,7 +54,7 @@ function DashboardContainer({ project }) {
           </select>
           {
             timeLine === 'custom' &&
-            <div className="flex p-1 ml-5 transition-all border-l-2 shadow-2xl animate__animated animate__backInLeft gap-x-2 ">
+            <div className="flex p-1 ml-5 border-l-2 shadow-2xl gap-x-2 ">
               <div className="flex flex-col gap-y-1">
                 <label>Date start:</label>
                 <input
