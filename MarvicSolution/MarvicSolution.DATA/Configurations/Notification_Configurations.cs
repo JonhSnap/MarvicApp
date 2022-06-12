@@ -29,13 +29,17 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("3F5F79B2-27C2-45E1-842C-71811F9C8260"),
                     IdItemRef = new Guid("EDFF3F58-7640-4F5A-ADA0-DC017F602501"),
                     Date = DateTime.Parse("2022-6-3"),
-                    Message = "Mr.A has create task A1.1"
+                    Message = "Mr.A has create task A1.1",
+                    IsIssue = 1,
+                    IsProject = 0
                 }, new Notifications()
                 {
                     Id = new Guid("20647F78-5EED-43BC-AC09-FCEBD546D2CE"),
                     IdItemRef = new Guid("DF2E4C8C-36D7-4448-96FC-5FE36363E1D6"),
                     Date = DateTime.Parse("2022-6-2"),
-                    Message = "Mr.B has update Task A1.2"
+                    Message = "Mr.B has update Task A1.2",
+                    IsIssue = 1,
+                    IsProject = 0
                 }
                 );
         }

@@ -8,12 +8,12 @@ namespace MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Archive
 {
     public class StatisticIssueArchived_ViewModel
     {
-        public double x { get; set; }
+        public DateTime x { get; set; }
         public double y { get; set; }
 
         public StatisticIssueArchived_ViewModel()
         {
-            x = 0;
+            x = new DateTime();
             y = 0;
         }
     }
