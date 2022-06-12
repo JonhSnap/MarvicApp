@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CanvasJSChart } from "canvasjs-react-charts";
 import axios from "axios";
 import { BASE_URL } from "../../util/constants";
-import useTimeLine from "../../hooks/useTimeLine";
 
-const BarChartColumn = ({ project, timeLine, period }) => {
+const BarChartColumn = ({ project, dateStarted, dateEnd }) => {
   const [datapoint, setDatapoint] = useState([]);
-  const [dateStarted, dateEnd] = useTimeLine(project, timeLine, period);
-
+  console.log('date', {
+    dateStarted, dateEnd
+  });
   let ref = useRef(null)
   useEffect(() => {
     const dataP = async () => {
