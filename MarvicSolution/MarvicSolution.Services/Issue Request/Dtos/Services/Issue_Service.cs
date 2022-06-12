@@ -1470,7 +1470,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                          orderby g.Key
                          select new StatisticIssueArchived_ViewModel()
                          {
-                             x = (g.Key - DateTime.MinValue).TotalMilliseconds,
+                             x = g.Key,
                              y = g.Count()
                          }).ToList();
 

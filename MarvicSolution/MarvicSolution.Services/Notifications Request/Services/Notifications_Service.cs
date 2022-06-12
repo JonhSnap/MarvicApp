@@ -41,13 +41,13 @@ namespace MarvicSolution.Services.Notifications_Request.Services
             }
         }
 
-        public async Task<GetNotification_ViewModel> Get(Guid idUser)
+        public async Task<GetNotification_ViewModel> Get(Guid idUserLogin)
         {
             try
             {
                 var notifs = await (from n in _context.Notifications
                                     join nu in _context.Notif_Users on n.Id equals nu.IdNotif
-                                    where nu.IdUser.Equals(idUser)
+                                    where nu.IdUser.Equals(idUserLogin)
                                     select new Notification_ViewModel()
                                     {
                                         IdItemRef = n.IdItemRef,
