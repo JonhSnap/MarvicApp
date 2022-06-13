@@ -35,9 +35,6 @@ const BarChartArea = ({ project, dateStarted, dateEnd }) => {
     title: {
       text: `Issue Satisfaction Archive - ${project?.dateEnd.slice(0, 4)}`,
     },
-    toolTip: {
-      shared: true,
-    },
     data: [
       {
         type: "area",

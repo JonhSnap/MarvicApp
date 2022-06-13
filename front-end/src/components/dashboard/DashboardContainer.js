@@ -113,7 +113,7 @@ function DashboardContainer({ project }) {
         {chart === "area" && <BarChartArea project={project} dateStarted={dateStarted} dateEnd={dateEnd} />}
         {chart === "column" && <BarChartColumn project={project} dateStarted={dateStarted} dateEnd={dateEnd} />}
         {chart === "doughnut" && <BarChartDoughnut project={project} dateStarted={dateStarted} dateEnd={dateEnd} />}
-        <div className="justify-self-end flex items-center gap-x-2 pb-5">
+        <div className="mt-auto flex items-center gap-x-2 pb-5">
           <select
             onChange={(e) => setChart(e.target.value)}
             value={chart}
