@@ -162,7 +162,7 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
             <FontAwesomeIcon color="#EF0000" className="mx-2" icon={faFlag} />
           )}
           {
-            sprint.is_Started ?
+            sprint?.is_Started ?
               <Stages project={project} issue={issue} stage={stage} /> :
               null
           }

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
-import { NIL, v4 } from 'uuid';
+import '../board/Column.scss'
 import { useBoardContext } from '../../contexts/boardContext';
 import { useLabelContext } from '../../contexts/labelContext';
 import { useSprintContext } from '../../contexts/sprintContext';
@@ -13,10 +13,12 @@ import { KEY_FILTER_EPIC } from '../../util/constants';
 import Board from '../board/Board';
 import TopDetailBoard from '../project-detail/TopDetailBoard';
 import './ContainerBoard.scss'
+import { v4 } from 'uuid';
 
 function ContainerBoard({ project }) {
     const { state: { sprints }, dispatch } = useSprintContext();
     const [{ boards }, dispatchBoard] = useBoardContext();
+    const [{ stages }] = useStageContext();
     const [, dispatchStage] = useStageContext();
     const [, dispatchLabel] = useLabelContext();
 
@@ -64,6 +66,23 @@ function ContainerBoard({ project }) {
                     boards.map((item) => (
                         <Board key={v4()} board={item} currentSprint={currentSprint} project={project} />
                     ))
+                }
+                {
+                    boards.length === 0 &&
+                    <div className="flex w-full h-full gap-x-2">
+                        {
+                            stages.length > 0 &&
+                            stages.map(item => (
+                                <div key={item.id} className='column'>
+                                    <div className="header header-selector">
+                                        <span className='stage-name'>{item.stage_Name}</span>
+                                    </div>
+                                    <div className="container-issue">
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
                 }
             </div>
         </div>
