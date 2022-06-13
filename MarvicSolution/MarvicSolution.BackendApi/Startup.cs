@@ -21,6 +21,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MarvicSolution.Services.Label_Request.Services;
 using MarvicSolution.Services.Stage_Request.Services;
+using Microsoft.Extensions.Logging;
+using System.IO;
+using MarvicSolution.Services.Answer_Request.Services;
+using MarvicSolution.Services.Notifications_Request.Services;
 
 namespace MarvicSolution.BackendApi
 {
@@ -48,10 +52,13 @@ namespace MarvicSolution.BackendApi
             /// AddTransient: Moi lan request la tao moi 1 object
             services.AddTransient<IProjectType_Service, ProjectType_Service>();
             services.AddTransient<IProject_Service, Project_Service>();
-            services.AddTransient<IIssue_Service, Issue_Service>();
+            services.AddTransient<ITest_Service, Test_Service>();
+            services.AddTransient<IMailService, MailService>();
+            services.AddTransient<INotifications_Service, Notifications_Service>();
+
+            services.AddScoped<IIssue_Service, Issue_Service>();
             services.AddScoped<Jwt_Service, Jwt_Service>();
             services.AddScoped<IUser_Service, User_Service>();
-            services.AddTransient<IMailService, MailService>();
             services.AddScoped<IComment_Service, Comment_Service>();
             services.AddScoped<ISprint_Service, Sprint_Service>();
             services.AddScoped<ILabel_Service, Label_Service>();
@@ -75,8 +82,9 @@ namespace MarvicSolution.BackendApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile($"{env.WebRootPath}\\Logs\\Log.txt");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -93,7 +101,7 @@ namespace MarvicSolution.BackendApi
             app.UseRouting();
 
             app.UseCors(option => option
-            .WithOrigins(new[] { "http://localhost:3000", "http://localhost:8000", "http://localhost:4200" }) // FE's port
+            .WithOrigins(new[] { "https://marvicapp.surge.sh", "http://localhost:3000", "http://localhost:8000", "http://localhost:4200" }) // FE's port
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials()); // send cookie to FE

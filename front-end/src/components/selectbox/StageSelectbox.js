@@ -29,7 +29,7 @@ function StageSelectbox({ onClose, bodyStyle, stage, issue, project }) {
                     stages.map(item => {
                         return (
                             item.id !== stage.id ?
-                                <div onClick={() => handleChooseStage(item.id)} key={v4()} className='px-3 py-2 hover:bg-gray-main cursor-pointer'>{item.stage_Name}</div> :
+                                <div onClick={() => handleChooseStage(item.id)} key={v4()} className='px-3 py-2 uppercase hover:bg-gray-main cursor-pointer'>{item.stage_Name}</div> :
                                 null
                         )
                     })

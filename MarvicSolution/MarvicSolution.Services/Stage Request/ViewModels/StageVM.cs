@@ -7,7 +7,7 @@ namespace MarvicSolution.Services.Stage_Request.ViewModels
     {
         public StageVM() { }
         public StageVM(Guid id, Guid id_Project, string stage_Name,
-            Guid id_Creator, DateTime dateCreated, DateTime updateDate, Guid id_Updator, int order,EnumStatus enumStatus)
+            Guid id_Creator, DateTime dateCreated, DateTime updateDate, Guid id_Updator, int order,EnumStatus isDone, EnumStatus isDefault)
         {
             Id = id;
             Id_Project = id_Project;
@@ -17,7 +17,8 @@ namespace MarvicSolution.Services.Stage_Request.ViewModels
             UpdateDate = updateDate.ToString("dd'/'MM'/'yyyy HH:mm:ss");
             Id_Updator = id_Updator;
             Order = order;
-            IsDone = enumStatus;
+            IsDone = isDone;
+            IsDefault = isDefault;
         }
 
         public Guid Id { get; set; }
@@ -29,6 +30,7 @@ namespace MarvicSolution.Services.Stage_Request.ViewModels
         public Guid Id_Updator { get; set; }
         public int Order { get; set; }
         public EnumStatus IsDone { get; set; }
+        public EnumStatus IsDefault { get; set; }
 
     }
 }

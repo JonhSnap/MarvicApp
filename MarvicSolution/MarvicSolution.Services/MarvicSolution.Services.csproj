@@ -5,6 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Answer Request\Validators\**" />
+    <Compile Remove="Notifications Request\Validators\**" />
+    <EmbeddedResource Remove="Answer Request\Validators\**" />
+    <EmbeddedResource Remove="Notifications Request\Validators\**" />
+    <None Remove="Answer Request\Validators\**" />
+    <None Remove="Notifications Request\Validators\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.4.0" />
     <PackageReference Include="MailKit" Version="2.8.0" />
@@ -30,6 +39,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Notifications Request\Requests\" />
   </ItemGroup>
 
 </Project>

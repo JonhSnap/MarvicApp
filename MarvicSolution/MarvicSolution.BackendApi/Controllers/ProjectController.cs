@@ -1,6 +1,8 @@
-﻿using MarvicSolution.DATA.Common;
+﻿using MarvicSolution.BackendApi.Constants;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
+using MarvicSolution.Services.Project_Resquest.Dtos.Requests;
 using MarvicSolution.Services.SendMail_Request.Dtos.Services;
 using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Utilities.Exceptions;
@@ -17,15 +19,9 @@ namespace MarvicSolution.BackendApi.Controllers
     {
         // Must declare DI in startup
         private readonly IProject_Service _projectService;
-        private readonly IUser_Service _userService;
-        private readonly IMailService _mailService;
-        public ProjectController(IProject_Service projectService
-            , IMailService mailService
-            , IUser_Service userService)
+        public ProjectController(IProject_Service projectService)
         {
             _projectService = projectService;
-            _mailService = mailService;
-            _userService = userService;
         }
 
         // /api/Project/GetAlls
@@ -87,9 +83,10 @@ namespace MarvicSolution.BackendApi.Controllers
         [Route("/api/Project/GetAllMemberByIdProject")]
         public IActionResult GetAllMemberByIdProject(Guid IdProject)
         {
+            RequestVM rqVM = new RequestVM(Request.Scheme, Request.Host, Request.PathBase);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var members = _projectService.Get_AllMembers_By_IdProject(IdProject);
+            var members = _projectService.Get_AllMembers_By_IdProject(IdProject, rqVM);
             if (!members.Any())
                 return BadRequest($"Cannot find any member from IdProject = {IdProject}");
             return Ok(members);
@@ -108,7 +105,7 @@ namespace MarvicSolution.BackendApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             // Create a project
-            var IdProj = await _projectService.Create(rq);
+            var IdProj = await _projectService.Create(UserLogin.Id, rq);
             if (IdProj.Equals(Guid.Empty))
                 return BadRequest();
             return Ok("Create project success");
@@ -117,14 +114,13 @@ namespace MarvicSolution.BackendApi.Controllers
         // api/Project/AddMember?IdProject=xxx-xxx-xx
         [HttpPost]
         [Route("/api/Project/AddMember")]
-        //public IActionResult AddMember(Guid IdProject, params string[] userNames)
         public IActionResult AddMember([FromBody] AddMember_Request rq)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var idProject = _projectService.AddMembers(rq.IdProject, rq.UserNames);
+            var idProject = _projectService.AddMembers(rq.IdProject, rq.UserNames, UserLogin.Id);
             if (idProject.Equals(Guid.Empty))
-                return BadRequest($"Cannot get projects of idUser = {UserLogin.Id}");
+                return BadRequest($"Cannot get projects = {rq.IdProject}");
             return Ok(idProject);
         }
 
@@ -138,7 +134,7 @@ namespace MarvicSolution.BackendApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var result = _projectService.Remove_Member_From_Project(rq.IdProject, rq.IdUser);
+                var result = _projectService.Remove_Member_From_Project(rq.IdProject, rq.IdUser, UserLogin.Id);
                 if (result.Equals(Guid.Empty))
                     return BadRequest($"Cannot remove idUser = {rq.IdUser} from IdProject = {rq.IdProject}");
                 return Ok(result);
@@ -155,10 +151,32 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var affectedResult = await _projectService.Update(rq);
-            if (affectedResult.Equals(Guid.Empty))
+            var result = await _projectService.Update(UserLogin.Id, rq);
+            if (result.Equals(Guid.Empty))
                 return BadRequest();
             return Ok("Update project success");
+        }
+        [HttpPatch]
+        [Route("/api/Project/UpdateStarredProject")]// remember to check this route
+        public async Task<IActionResult> UpdateStarredProject([FromBody] UpdateStarredProject_Request rq)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var result = await _projectService.UpdateStarredProject(rq);
+            if (result.Equals(Guid.Empty))
+                return BadRequest();
+            return Ok(result);
+        }
+        [HttpPut]
+        [Route("/api/Project/DisableMember")]// remember to check this route
+        public IActionResult DisableMember([FromBody] DisableMember_ViewModel rq)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var result = _projectService.DisableMember(rq);
+            if (!result)
+                return BadRequest();
+            return Ok("Disable member success");
         }
 
         [HttpDelete("{proj_Id}")]
@@ -166,7 +184,7 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var affectedResutl = await _projectService.Delete(proj_Id);
+            var affectedResutl = await _projectService.Delete(proj_Id, UserLogin.Id);
             if (affectedResutl.Equals(Guid.Empty))
                 return BadRequest();
             return Ok("Delete project success");
@@ -180,8 +198,8 @@ namespace MarvicSolution.BackendApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var project = _projectService.GetStarredProject(UserLogin.Id);
-            if (!project.Any()) // Kiem tra list ko rong
-                return BadRequest($"Cannot get list username by IdProject = {UserLogin.Id}");
+            //if (!project.Any()) // Kiem tra list ko rong
+            //    return BadRequest($"Cannot get list username by IdProject = {UserLogin.Id}");
             return Ok(project);
         }
     }

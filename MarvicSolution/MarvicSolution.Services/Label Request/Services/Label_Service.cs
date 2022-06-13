@@ -2,7 +2,9 @@
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Label_Request.ViewModels;
+using MarvicSolution.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,12 @@ namespace MarvicSolution.Services.Label_Request.Services
     public class Label_Service : ILabel_Service
     {
         private readonly MarvicDbContext _context;
+        private readonly ILogger<Label_Service> _logger;
 
-        public Label_Service(MarvicDbContext context)
+        public Label_Service(MarvicDbContext context, ILogger<Label_Service> logger)
         {
             _context = context;
+            _logger = logger;
         }
         public async Task<bool> AddLabel(Label label)
         {
@@ -26,10 +30,10 @@ namespace MarvicSolution.Services.Label_Request.Services
                 await _context.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //log here...
-                return false;
+                _logger.LogInformation($"Controller: Label. Method: AddLabel. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
@@ -38,13 +42,13 @@ namespace MarvicSolution.Services.Label_Request.Services
             try
             {
                 var label = await _context.Labels
-                    .FirstOrDefaultAsync(lb=>lb.Id==id && lb.isDeleted==EnumStatus.False);
+                    .FirstOrDefaultAsync(lb => lb.Id == id && lb.isDeleted == EnumStatus.False);
                 return label;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //log here...
-                return null;
+                _logger.LogInformation($"Controller: Label. Method: GetLabelById. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
@@ -54,14 +58,14 @@ namespace MarvicSolution.Services.Label_Request.Services
             {
                 var labels = await _context.Labels
                     .Where(lb => lb.Id_Project == id_Project && lb.isDeleted == EnumStatus.False)
-                    .Select(label=>new LabelVM(label.Id,label.Id_Project,label.Name,label.Id_Creator,label.DateCreated,label.UpdateDate,label.Id_Updator))
+                    .Select(label => new LabelVM(label.Id, label.Id_Project, label.Name, label.Id_Creator, label.DateCreated, label.UpdateDate, label.Id_Updator))
                     .ToListAsync();
                 return labels;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //log here...
-                return null;
+                _logger.LogInformation($"Controller: Label. Method: GetLabelByProjectId. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
 
@@ -73,10 +77,10 @@ namespace MarvicSolution.Services.Label_Request.Services
                 await _context.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //log here...
-                return false;
+                _logger.LogInformation($"Controller: Label. Method: UpdateLabel. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
             }
         }
     }

@@ -1,8 +1,11 @@
+@import "../../index.scss";
+
 .column {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   width: 268px;
+  height: 100%;
   border-radius: 6px;
   padding: 0 7px 7px 7px;
   overflow: hidden;
@@ -14,15 +17,46 @@
     font-size: 14px;
     font-weight: 550;
     color: #5e6e88;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .stage-name {
+      cursor: pointer;
+      transition: all ease-in-out 0.1s;
+      &:hover {
+        color: #333;
+      }
+    }
+    .input-stage-name {
+      outline: none;
+      border: 2px solid $main-color;
+      border-radius: 4px;
+      padding: 5px;
+    }
+    .remove-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      padding: 4px;
+      border-radius: 50%;
+      transform: translateX(40px);
+      cursor: pointer;
+      background-color: #fff;
+      transition: all ease-in 0.1s;
+    }
+    &:hover {
+      .remove-icon {
+        transform: translateX(0);
+      }
+    }
   }
   .header-selector {
     cursor: move;
   }
 }
 .container-issue {
-  // flex-grow: 1;
-  // flex-shrink: 0;
-  height: 350px;
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;

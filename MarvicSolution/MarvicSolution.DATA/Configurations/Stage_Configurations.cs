@@ -3,6 +3,7 @@ using MarvicSolution.DATA.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
+using static MarvicSolution.DATA.Common.Constant;
 
 namespace MarvicSolution.DATA.Configurations
 {
@@ -27,7 +28,7 @@ namespace MarvicSolution.DATA.Configurations
                 {
                     Id = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
-                    Stage_Name = "To do",
+                    Stage_Name = StageName.TODO,
                     Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     DateCreated = DateTime.Parse("2022-4-22"),
                     UpdateDate = new DateTime(),
@@ -35,11 +36,12 @@ namespace MarvicSolution.DATA.Configurations
                     Order = 0,
                     isDone = EnumStatus.False,
                     isDeleted = EnumStatus.False,
+                    isDefault = EnumStatus.True
                 }, new Stage()
                 {
                     Id = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
-                    Stage_Name = "In Progress",
+                    Stage_Name = StageName.INPROGRESS,
                     Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     DateCreated = DateTime.Parse("2022-4-22"),
                     UpdateDate = new DateTime(),
@@ -47,11 +49,12 @@ namespace MarvicSolution.DATA.Configurations
                     Order = 1,
                     isDone = EnumStatus.False,
                     isDeleted = EnumStatus.False,
+                    isDefault = EnumStatus.False
                 }, new Stage()
                 {
                     Id = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
-                    Stage_Name = "Done",
+                    Stage_Name = StageName.DONE,
                     Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     DateCreated = DateTime.Parse("2022-4-22"),
                     UpdateDate = new DateTime(),
@@ -59,6 +62,7 @@ namespace MarvicSolution.DATA.Configurations
                     Order = 2,
                     isDone = EnumStatus.True,
                     isDeleted = EnumStatus.False,
+                    isDefault = EnumStatus.False
                 }
                 #endregion
             );

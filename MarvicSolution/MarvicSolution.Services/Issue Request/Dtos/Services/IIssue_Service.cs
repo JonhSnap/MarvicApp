@@ -1,10 +1,11 @@
-﻿
-using MarvicSolution.DATA.Entities;
+﻿using MarvicSolution.DATA.Entities;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests;
 using MarvicSolution.Services.Issue_Request.Dtos.Requests.Board;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Archive;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.AssignedToMe;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.Board;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.GroupBy;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.WorkedOn;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos;
 using MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels;
@@ -20,9 +21,9 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
     public interface IIssue_Service
     {
         // INPUT
-        Task<Guid> Create(Issue_CreateRequest rq);
-        Task<Guid> Update(Issue_UpdateRequest request);
-        Task<Guid> Delete(Guid Id);
+        Task<Guid> Create(Guid idUser, Issue_CreateRequest rq);
+        Task<Guid> Update(Guid idUser, Issue_UpdateRequest request);
+        Task<Guid> Delete(Guid Id, Guid idUserLogin);
 
         // OUTPUT
         Issue Get_Issues_By_Id(Guid idIssue);
@@ -39,10 +40,17 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         List<GroupByEpic_ViewModel> Group_By_Epic(Guid IdProject, RequestVM rq);
         List<BoardViewModel> GetInforBoardByIdSprint(GetBoardIssue_Request rq, RequestVM rqVM);
         List<Issue> GetListIssueOrderByIdStage(Guid idStage, Guid idSprint);
-        void UploadedFile(Guid idIssue, IFormFile file);
+        void UploadedFile(Guid idIssue, IFormFile file, Guid idUserLogin);
         bool DeleteFileIssue(DeleteFile_Request rq);
         ListGroupByAssignee GroupIssueForBoardByAssignee(GetBoardIssue_Request rq, RequestVM rqVM);
         List<GroupWorkedOn_ViewModel> GetIssueForWorkedOn(Guid IdUserLogin, RequestVM rqVM);
         List<GroupAssignedTM_ViewModel> GetIssueAssignedToMe(Guid IdUserLogin, RequestVM rqVM);
+        List<IssueArchive_ViewModel> GetIssuesArchive(Guid idProject, RequestVM rqVM);
+        Task<bool> ChangeStage(ChangeStage_Request rq);
+        Task<bool> AddLabel(IssueLabel_Request rq);
+        Task<bool> RemoveLabel(Guid idIssue);
+        List<IssueStatistic_ViewModel> StatisticIssue(Guid idProject, DateTime DateStarted, DateTime DateEnd);
+        List<StatisticIssueArchived_ViewModel> StatisticIssueArchived(Guid idProject, DateTime DateStarted, DateTime DateEnd);
+
     }
 }

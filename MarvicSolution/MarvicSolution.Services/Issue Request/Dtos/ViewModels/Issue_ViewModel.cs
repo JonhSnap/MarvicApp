@@ -1,4 +1,6 @@
-﻿using MarvicSolution.DATA.Enums;
+﻿using MarvicSolution.DATA.Entities;
+using MarvicSolution.DATA.Enums;
+using MarvicSolution.Services.Issue_Request.Dtos.ViewModels.WorkedOn;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,11 +37,13 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request.Dtos.ViewModels
         public Guid? Id_Updator { get; set; }
         public DateTime? UpdateDate { get; set; }
         public int Order { get; set; }
+        public IList<User_ViewModel> Users { get; set; }
 
         public Issue_ViewModel()
         {
             Id = Guid.Empty;
             Id_Project = Guid.Empty;
+            Id_Label = Guid.Empty;
             Id_IssueType = EnumIssueType.Task;
             Id_Stage = Guid.Empty;
             Id_Sprint = Guid.Empty;

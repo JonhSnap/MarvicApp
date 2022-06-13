@@ -1,10 +1,8 @@
-﻿using MarvicSolution.DATA.Common;
-using MarvicSolution.Services.Issue_Request.Dtos.Requests;
+﻿using MarvicSolution.BackendApi.Constants;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.System.Helpers;
 using MarvicSolution.Services.System.Users.Requests;
 using MarvicSolution.Services.System.Users.Services;
-using MarvicSolution.Services.System.Users.Validators;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +10,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace MarvicSolution.BackendApi.Controllers
 {
@@ -71,7 +68,7 @@ namespace MarvicSolution.BackendApi.Controllers
                 // Thiet lap thong tin cho user da login
                 UserLogin.SetInfo(user);
                 // Tao token theo JWT
-                var jwt = _userService.Authenticate(rq, user);
+                var jwt = _userService.GetJwt(rq, user);
                 // Tao cookie
                 Response.Cookies.Append("jwt", jwt, new CookieOptions
                 {
@@ -110,7 +107,7 @@ namespace MarvicSolution.BackendApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            Guid id_User = ValidateUser();
+            //Guid id_User = ValidateUser();
             var user = _userService.GetUserbyIdVM(UserLogin.Id, rqVM);
             if (user == null)
                 return BadRequest($"Cannot find user with id = {UserLogin.Id}");
@@ -149,19 +146,22 @@ namespace MarvicSolution.BackendApi.Controllers
         [Route("UploadAvatar")]
         public IActionResult UploadAvatar([FromForm] UploadAvatar_Request rq)
         {
+            string pathFolder = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\Avatar");
+            if (!Directory.Exists(pathFolder))
+                Directory.CreateDirectory(pathFolder);
             // replace file exist
             // delete file in wwwroot/upload files
-            string path = Path.Combine(_webHostEnvironment.WebRootPath, $"upload files\\Avatar\\{_userService.GetUserbyId(UserLogin.Id).Avatar}");
-            if (System.IO.File.Exists(path))
-                System.IO.File.Delete(path);
+            string pathFile = Path.Combine($"{pathFolder}\\{_userService.GetUserbyId(UserLogin.Id).Avatar}");
+            if (System.IO.File.Exists(pathFile))
+                System.IO.File.Delete(pathFile);
             if (rq.File != null)
             {
-                _userService.DeleteUserAvatar(rq.File.FileName);
+                _userService.DeleteUserAvatar(UserLogin.Id, rq.File.FileName);
                 // update avatar
-                _userService.UploadAvatar(rq.File);
+                _userService.UploadAvatar(UserLogin.Id, rq.File);
+                return Redirect(rq.Url);
             }
-
-            return Ok($"Upload file success for user = {UserLogin.Id}");
+            return BadRequest();
         }
         [HttpPut]
         [Route("DeleteAvatar")]
@@ -172,7 +172,7 @@ namespace MarvicSolution.BackendApi.Controllers
             if (System.IO.File.Exists(path))
                 System.IO.File.Delete(path);
             // update attachment_path of issue
-            var result = _userService.DeleteUserAvatar(fileName);
+            var result = _userService.DeleteUserAvatar(UserLogin.Id, fileName);
             if (result)
                 return Ok("Delete file success");
             else return BadRequest($"Cannot delete avatar in user {UserLogin.Id}");
@@ -217,7 +217,6 @@ namespace MarvicSolution.BackendApi.Controllers
                 throw new MarvicException($"Error: {e}");
             }
         }
-
         private Guid ValidateUser()
         {
             try

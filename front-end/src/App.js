@@ -2,8 +2,11 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Main from "./components/layouts/Main";
 import { ToastContainer } from "react-toastify";
+import BoardPageEpic from "./pages/BoardPageEpic";
 
 const YourWorkPage = lazy(() => import("./pages/YourWorkPage"));
+const ArchivePage = lazy(() => import("./pages/ArchivePage"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));
@@ -13,6 +16,8 @@ const BoardPage = lazy(() => import("./pages/BoardPage"));
 const BacklogPage = lazy(() => import("./pages/BacklogPage"));
 const RoadmapPage = lazy(() => import("./pages/RoadmapPage"));
 const Comments = lazy(() => import("./components/comments/Comments"));
+const Chart = lazy(() => import("./components/chart/Chart"));
+const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 
 function App() {
   return (
@@ -35,6 +40,11 @@ function App() {
             path="/projects"
             element={<ProjectsPage></ProjectsPage>}
           ></Route>
+          <Route path="/profile" element={<ProfilePage></ProfilePage>}></Route>
+          <Route
+            path="/projects/dashboard/:key"
+            element={<DashboardPage />}
+          ></Route>
           <Route
             path="/projects/roadmap/:key"
             element={<RoadmapPage></RoadmapPage>}
@@ -47,11 +57,20 @@ function App() {
             path="/projects/board/:key"
             element={<BoardPage></BoardPage>}
           ></Route>
+          <Route
+            path="/projects/board/epic/:key"
+            element={<BoardPageEpic></BoardPageEpic>}
+          ></Route>
+          <Route
+            path="/projects/archive/:key"
+            element={<ArchivePage></ArchivePage>}
+          ></Route>
         </Route>
         <Route path="/login" element={<LoginPage></LoginPage>}></Route>
         <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
         <Route path="/tutorial" element={<TutorialPage></TutorialPage>}></Route>
         <Route path="/test" element={<TestPage></TestPage>}></Route>
+        <Route path="/chart" element={<Chart></Chart>}></Route>
         <Route
           path="/comment"
           element={

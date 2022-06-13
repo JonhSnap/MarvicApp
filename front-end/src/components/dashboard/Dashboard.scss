@@ -1,0 +1,20 @@
+@import "../../index.scss";
+.container-dashboard {
+  padding: 40px;
+  .title {
+    font-size: 25px;
+    font-weight: 600;
+    color: $main-color;
+  }
+  canvas {
+    margin-bottom: 20px;
+  }
+  .chart-container {
+    .chart-options {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+  }
+}

@@ -5,6 +5,6 @@ namespace MarvicSolution.BackendApi.Hubs
     public interface IActionHub
     {
         Task Comment();
-        Task Issue();
+        Task Notif();
     }
 }

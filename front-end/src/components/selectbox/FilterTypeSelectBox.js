@@ -15,11 +15,17 @@ function FilterTypeSelectBox({ issueTypes, handleChooseType, type, onClose, body
                         <div
                             key={item.id}
                             onClick={() => handleChooseType(item.value)}
-                            className={`flex items-center gap-x-2 p-1 cursor-pointer rounded hover:bg-gray-300 mb-2 ${type.includes(item.value) ? 'bg-[#e2e2e2]' : 'bg-white'}`}>
+                            className='flex items-center gap-x-2'>
+                            <input
+                                id={item.id}
+                                checked={type.includes(item.value)}
+                                type="checkbox"
+                                onChange={() => { }}
+                            />
                             <div className="w-5 h-5">
                                 <img className='block w-full h-full object-cover rounded-md' src={item.thumbnail} alt="" />
                             </div>
-                            <span className='inline-block'>{item.title}</span>
+                            <label className='capitalize' htmlFor={item.id}>{item.title}</label>
                         </div>
                     ))
                 }

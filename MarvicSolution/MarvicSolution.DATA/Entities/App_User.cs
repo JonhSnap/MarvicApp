@@ -22,7 +22,7 @@ namespace MarvicSolution.DATA.Entities
         public string Department { get; set; }
         public string Organization { get; set; }
         public string PhoneNumber { get; set; }
-        public EnumStatus IsDeleted { get; set; } = EnumStatus.False;
+        public EnumStatus IsDeleted { get; set; }
 
         public App_User()
         {

@@ -42,7 +42,7 @@ function Sprint({ sprint, members, project }) {
 
     // handle complete sprint
     const handleCompleteSprint = async () => {
-        const stageDone = stages.find(item => item.stage_Name === 'Done');
+        const stageDone = stages.find(item => item.isDone === 1);
         const issuesNotDone = issueWithSprint.filter(item => item.id_Stage !== stageDone.id);
         if (issuesNotDone && issuesNotDone.length > 0) {
             const bounding = completeSprintRef.current.getBoundingClientRect();
@@ -126,7 +126,7 @@ function Sprint({ sprint, members, project }) {
                 <div className='main w-[98%] h-fit min-h-[5rem]'>
                     {
                         showWrapperTask &&
-                        <WrapperTask members={members} project={project} issues={issueWithSprint}></WrapperTask>
+                        <WrapperTask members={members} project={project} sprint={sprint}></WrapperTask>
                     }
                     <CreateIssuesComponent idSprint={sprint.id} project={project} createWhat={"issues"} />
                 </div>
