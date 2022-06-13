@@ -12,6 +12,9 @@
     margin-bottom: 20px;
   }
   .chart-container {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
     .chart-options {
       display: flex;
       align-items: center;
