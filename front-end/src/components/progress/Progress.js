@@ -6,7 +6,7 @@ const Progress = ({ done }) => {
   setTimeout(() => {
     const newStyle = {
       opacity: 1,
-      width: `${done}%`,
+      width: `${done || 0}%`,
     };
 
     setStyle(newStyle);
