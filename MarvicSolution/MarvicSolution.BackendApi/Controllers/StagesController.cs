@@ -6,6 +6,7 @@ using MarvicSolution.Services.Stage_Request.Requests;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
 using System.Linq;
+using MarvicSolution.BackendApi.Constants;
 
 namespace MarvicSolution.BackendApi.Controllers
 {
@@ -92,7 +93,7 @@ namespace MarvicSolution.BackendApi.Controllers
                 if (stage != null)
                 {
                     stage.isDeleted = EnumStatus.True;
-                    if (await _stage_Service.DeleteStage(stage, modelRequest))
+                    if (await _stage_Service.DeleteStage(stage, modelRequest, UserLogin.Id))
                     {
                         return Ok();
                     }
