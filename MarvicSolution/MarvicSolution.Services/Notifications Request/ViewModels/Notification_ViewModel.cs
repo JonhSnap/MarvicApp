@@ -9,6 +9,7 @@ namespace MarvicSolution.Services.Notifications_Request.ViewModels
 {
     public class Notification_ViewModel
     {
+        public Guid IdNotif { get; set; }
         public Guid IdItemRef { get; set; }
         public string Message { get; set; }
         public DateTime Date { get; set; }
@@ -17,6 +18,7 @@ namespace MarvicSolution.Services.Notifications_Request.ViewModels
         public EnumStatus IsView { get; set; }
         public Notification_ViewModel()
         {
+            IdNotif = Guid.Empty;
             IdItemRef = Guid.Empty;
             Message = string.Empty;
             Date = DateTime.Now;
