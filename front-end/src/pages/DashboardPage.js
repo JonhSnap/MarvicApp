@@ -8,11 +8,10 @@ function DashboardPage() {
     const [currentProject, setCurrentProject] = useState();
     const { projects } = useSelector(state => state.projects);
     const keyProject = useParams('key').key;
-    console.log("keyProject", keyProject);
     useEffect(() => {
         document.title = 'Marvic-Dashboard'
         const currPro = projects.find(item => item.key === keyProject);
-       
+
         if (currPro) {
             setCurrentProject(currPro);
         }

@@ -1,8 +1,9 @@
+import axios from 'axios'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { v4 } from 'uuid'
 import { useModalContext } from '../../contexts/modalContext'
-import { KEY_CURRENT_PROJECT } from '../../util/constants'
+import { BASE_URL, KEY_CURRENT_PROJECT } from '../../util/constants'
 import OptionsEditIssue from '../option/OptionsEditIssue'
 import './NotificationBoard.scss'
 import SelectBoxBase from './SelectBoxBase'
@@ -23,6 +24,7 @@ function NotificationBoard({ onClose, bodyStyle, notifyData }) {
             setIssue({ id: data.idItemRef });
             setShow(true);
         }
+        axios.patch(`${BASE_URL}/api/Notifications/Viewed?idNotif=${data.idItemRef}`);
     }
 
     return (

@@ -16,7 +16,7 @@ import Stages from "./Stages";
 import { useLabelContext } from "../../contexts/labelContext";
 
 
-function TaskItemComponent({ members, issue, project, issueEpics }) {
+function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
   const [{ stages }] = useStageContext();
   const {
     modal: [, setShow],
@@ -161,7 +161,11 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
           {showFlag && (
             <FontAwesomeIcon color="#EF0000" className="mx-2" icon={faFlag} />
           )}
-          <Stages project={project} issue={issue} stage={stage} />
+          {
+            sprint.is_Started ?
+              <Stages project={project} issue={issue} stage={stage} /> :
+              null
+          }
           <MemberComponent
             project={project}
             issue={issue}

@@ -3,29 +3,29 @@ import { CanvasJSChart } from "canvasjs-react-charts";
 import axios from "axios";
 import { BASE_URL } from "../../util/constants";
 
-const BarChartDoughnut = ({project}) => {
-    const [datapoint, setDatapoint] = useState([]);
-    let ref =useRef(null)
+const BarChartDoughnut = ({ project, dateStarted, dateEnd }) => {
+  const [datapoint, setDatapoint] = useState([]);
+  let ref = useRef(null);
+
+  useEffect(() => {
     const dataP = async () => {
       await axios
         .get(
-          `${BASE_URL}/api/Issue/StatisticIssue?idProject=${project?.id}&dateStarted=${project?.dateStarted}&dateEnd=${project?.dateEnd}`
+          `${BASE_URL}/api/Issue/StatisticIssue?idProject=${project?.id}&dateStarted=${dateStarted}&dateEnd=${dateEnd}`
         )
         .then((res) => {
           setDatapoint(res.data);
         });
     };
-    useEffect(() => {
-      dataP();
-    }, [project]);
+    dataP();
+  }, [project, dateStarted, dateEnd]);
   const options = {
     animationEnabled: true,
     title: {
-      text: "Customer Satisfaction",
+      text: "Issue Satisfaction",
     },
     subtitles: [
       {
-        text: "71% Positive",
         verticalAlign: "center",
         fontSize: 24,
         dockInsidePlotArea: true,
@@ -34,22 +34,23 @@ const BarChartDoughnut = ({project}) => {
     data: [
       {
         type: "doughnut",
-        showInLegend: true,
-        indexLabel: "{name}: {y}",
-        yValueFormatString: "#,###'%'",
         dataPoints: datapoint,
       },
     ],
   };
 
-  const handleExportChart =()=>{
-    ref.current.chart.exportChart({format: "png"})
-
+  const handleExportChart = () => {
+    ref.current.chart.exportChart({ format: "png" })
+  }
+  if (datapoint.length === 0) {
+    return (
+      <h3 className="text-center font-bold text-[20px]">No issue for the period</h3>
+    )
   }
   return (
     <div className="mt-[30px]">
       <CanvasJSChart ref={ref} options={options} />
-      <button  onClick={handleExportChart}  className="p-2 mt-3 text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
+      <button onClick={handleExportChart} className="p-2 mt-3 text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
     </div>
   );
 };
