@@ -91,7 +91,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                         $"You are an member of it." +
                         $" Link: <a href=\"http://localhost:3000/projects/board/{proj.Key} \">Click here</a>";
                     List<ProjectMailRequest> list_PMRequest = _mailService.ConvertTo_PMRequest(listRemoveDuplicate);
-                    _mailService.SendEmail(proj, list_PMRequest, message);
+                    //_mailService.SendEmail(proj, list_PMRequest, message);
 
                     // sent notif 
                     _notifService.PSS_SendNotif(proj.Id, proj.Id_Creator, $"{_userService.GetUserbyId(proj.Id_Creator).UserName} has been created {proj.Name}");
