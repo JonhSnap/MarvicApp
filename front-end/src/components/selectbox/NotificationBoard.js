@@ -24,7 +24,7 @@ function NotificationBoard({ onClose, bodyStyle, notifyData }) {
             setIssue({ id: data.idItemRef });
             setShow(true);
         }
-        axios.patch(`${BASE_URL}/api/Notifications/Viewed?idNotif=${data.idItemRef}`);
+        axios.patch(`${BASE_URL}/api/Notifications/Viewed?idNotif=${data.idNotif}`);
     }
 
     return (

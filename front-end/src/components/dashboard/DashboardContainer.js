@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
+import Tippy from '@tippyjs/react'
+import 'tippy.js/dist/tippy.css';
 import "./Dashboard.scss";
 import BarChartArea from "../chart/BarChartArea";
 import BarChartColumn from "../chart/BarChartColumn";
@@ -111,7 +113,7 @@ function DashboardContainer({ project }) {
         {chart === "area" && <BarChartArea project={project} dateStarted={dateStarted} dateEnd={dateEnd} />}
         {chart === "column" && <BarChartColumn project={project} dateStarted={dateStarted} dateEnd={dateEnd} />}
         {chart === "doughnut" && <BarChartDoughnut project={project} dateStarted={dateStarted} dateEnd={dateEnd} />}
-        <div className="flex items-center gap-x-2 pb-5">
+        <div className="justify-self-end flex items-center gap-x-2 pb-5">
           <select
             onChange={(e) => setChart(e.target.value)}
             value={chart}
@@ -132,28 +134,32 @@ function DashboardContainer({ project }) {
             }
           </select>
           <div className="flex p-1 ml-5 transition-all border-l-2 shadow-2xl animate__animated animate__backInLeft gap-x-2 ">
-            <div className="flex flex-col gap-y-1">
-              <label>Date start:</label>
-              <input
-                disabled={timeLine !== 'custom'}
-                value={dateStarted}
-                onChange={handleChangePeriod}
-                name='dateStart'
-                type="date"
-                className={`px-2 py-1 border-2 rounded outline-none cursor-pointer border-primary ${timeLine !== 'custom' ? 'opacity-50' : ''}`}
-              />
-            </div>
-            <div className="flex flex-col gap-y-1">
-              <label>Date end:</label>
-              <input
-                disabled={timeLine !== 'custom'}
-                value={dateEnd}
-                onChange={handleChangePeriod}
-                name='dateEnd'
-                type="date"
-                className={`px-2 py-1 border-2 rounded outline-none cursor-pointer border-primary ${timeLine !== 'custom' ? 'opacity-50' : ''}`}
-              />
-            </div>
+            <Tippy disabled={timeLine === 'custom'} content='Select custom to edit date'>
+              <div className="flex flex-col gap-y-1">
+                <label>Date start:</label>
+                <input
+                  disabled={timeLine !== 'custom'}
+                  value={dateStarted}
+                  onChange={handleChangePeriod}
+                  name='dateStart'
+                  type="date"
+                  className={`px-2 py-1 border-2 rounded outline-none cursor-pointer border-primary ${timeLine !== 'custom' ? 'opacity-50' : ''}`}
+                />
+              </div>
+            </Tippy>
+            <Tippy disabled={timeLine === 'custom'} content='Select custom to edit date'>
+              <div className="flex flex-col gap-y-1">
+                <label>Date end:</label>
+                <input
+                  disabled={timeLine !== 'custom'}
+                  value={dateEnd}
+                  onChange={handleChangePeriod}
+                  name='dateEnd'
+                  type="date"
+                  className={`px-2 py-1 border-2 rounded outline-none cursor-pointer border-primary ${timeLine !== 'custom' ? 'opacity-50' : ''}`}
+                />
+              </div>
+            </Tippy>
           </div>
         </div>
       </div>

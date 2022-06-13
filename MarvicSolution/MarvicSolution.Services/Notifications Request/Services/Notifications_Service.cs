@@ -50,6 +50,7 @@ namespace MarvicSolution.Services.Notifications_Request.Services
                                     where nu.IdUser.Equals(idUserLogin)
                                     select new Notification_ViewModel()
                                     {
+                                        IdNotif = n.Id,
                                         IdItemRef = n.IdItemRef,
                                         Date = n.Date,
                                         Message = n.Message,

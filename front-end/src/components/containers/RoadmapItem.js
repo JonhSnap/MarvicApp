@@ -5,11 +5,9 @@ import { faAngleRight, faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import WrapperTask from "../roadmap/WrapperTask";
 import {
-  ListIssueContext,
   useListIssueContext,
 } from "../../contexts/listIssueContext";
 import useModal from "../../hooks/useModal";
-import EditEpicPopup from "../popup/EditEpicPopup.js";
 import Progress from "../progress/Progress";
 import { useStageContext } from "../../contexts/stageContext";
 import EditIssuePopup from "../popup/EditIssuePopup";
@@ -17,26 +15,22 @@ import { useMembersContext } from "../../contexts/membersContext";
 import { useOpenIssueContext } from "../../contexts/openChildIssueContext";
 
 const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
-  const [showSymbol, setShowSymbol] = useState(false);
   const [{ stages }] = useStageContext();
-  const [showCreateComponent,setShowCreateComponent] = useState(false)
-  const {open:[show,setShow], epicShow:[items, setItems]} = useOpenIssueContext()
-  const [showIssue, setShowIssue ] = useState(show)
+  const [items, setItems] = useOpenIssueContext()
+  const [showIssue, setShowIssue] = useState(items.includes(epic.id))
+  console.log('show ~ ', showIssue);
+  console.log('items ~ ', items);
   const handleshowIssue = () => {
-      if(showIssue){
-        if(items.includes(epic.id)){
-          setShow(false)
-          setShowIssue(false)
-          setItems(prev => {
-            const resolve = prev.filter(item =>item !== epic.id)
-            return resolve
-          })
-        }
-      }else {
-        setItems(prev => [...prev, epic.id])
-        setShow(true);
-        setShowIssue(true)
-      }
+    if (showIssue) {
+      setShowIssue(false)
+      setItems(prev => {
+        const resolve = prev.filter(item => item !== epic.id)
+        return resolve
+      })
+    } else {
+      setItems(prev => [...prev, epic.id])
+      setShowIssue(true)
+    }
   };
   // const handleShowCreate = () => {
   //   if(showIssue){
@@ -119,16 +113,15 @@ const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
                 size="1x"
                 className="inline-block px-2 text-sm transition-all"
                 icon={showIssue ? faAngleDown : faAngleRight}
-                
+
               />
             </div>
             <div className="flex items-center justify-between flex-1">
               <div className="flex items-center justify-center">
                 <div
                   onClick={() => handleSelectedEpic(epic)}
-                  className={`inline-block ${
-                    symbolRoadmap ? "bg-blue-400" : "bg-slate-300"
-                  } w-5 h-5 mx-2 rounded-md  `}
+                  className={`inline-block ${symbolRoadmap ? "bg-blue-400" : "bg-slate-300"
+                    } w-5 h-5 mx-2 rounded-md  `}
                 ></div>
                 <span
                   onClick={() => {
@@ -164,14 +157,14 @@ const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
           </div>
           <Progress done={Math.floor(donePercent)} />
         </div>
-        {showIssue && items.includes(epic.id)  ? (
+        {showIssue && items.includes(epic.id) ? (
           <div>
             <WrapperTask
               members={members}
               project={project}
               issueCollect={issueCollect}
             ></WrapperTask>
-               <CreateComponent
+            <CreateComponent
               project={project}
               createWhat={"issues"}
               idParent={epic.id}
