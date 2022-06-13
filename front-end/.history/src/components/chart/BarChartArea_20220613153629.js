@@ -2,10 +2,10 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { CanvasJSChart } from "canvasjs-react-charts";
 import { BASE_URL } from "../../util/constants";
 import axios from "axios";
-const BarChartArea = ({ project, timeLine, period }) => {
+const BarChartArea = ({ project, timeLine, period, ref }) => {
   const [datapoint, setDatapoint] = useState([]);
   var dataPoints = [];
-  let ref = useRef(null);
+  // let ref = useRef(null);
 
   const dateStarted = useMemo(() => {
     let today, day, month, year;
@@ -115,28 +115,24 @@ const BarChartArea = ({ project, timeLine, period }) => {
     ],
   };
 
-  const handleExportChart = () => {
-    ref.current.chart.exportChart({ format: "png" })
+  // const handleExportChart = () => {
+  //   ref.current.chart.exportChart({ format: "png" })
 
-  }
-  const handleNoExport =() =>{
-    alert("no issue to export")
-  }
+  // }
   if (datapoint.length === 0) {
     return (
-      <>
       <h3 className="text-center font-bold text-[20px]">No issue for the period</h3>
-      <button onClick={handleNoExport}  className="p-2 mt-[381px] text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
-      </>
-      
     )
   }
 
   return (
-    <div >
+    <div>
       {/* <h2 className="flex justify-center text-[40px] font-semibold archive-area ">Archive</h2> */}
+      <div>
+
       <CanvasJSChart ref={ref} options={options} />
-      <button onClick={handleExportChart} className="p-2 mt-3 text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
+      </div>
+      {/* <button onClick={handleExportChart} className="p-2 mt-3 text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button> */}
     </div>
   );
 };

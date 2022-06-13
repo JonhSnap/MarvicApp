@@ -90,7 +90,7 @@ const BarChartArea = ({ project, timeLine, period }) => {
     for (var i = 0; i < datapoint.length; i++) {
       dataPoints.push({
         x: new Date(datapoint[i].x),
-        y: datapoint[i].y,
+        Is: datapoint[i].y,
       });
     }
   }
@@ -119,22 +119,15 @@ const BarChartArea = ({ project, timeLine, period }) => {
     ref.current.chart.exportChart({ format: "png" })
 
   }
-  const handleNoExport =() =>{
-    alert("no issue to export")
-  }
   if (datapoint.length === 0) {
     return (
-      <>
       <h3 className="text-center font-bold text-[20px]">No issue for the period</h3>
-      <button onClick={handleNoExport}  className="p-2 mt-[381px] text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
-      </>
-      
     )
   }
 
   return (
     <div >
-      {/* <h2 className="flex justify-center text-[40px] font-semibold archive-area ">Archive</h2> */}
+      <h2 className="flex justify-center text-[40px] font-semibold archive-area ">Archive</h2>
       <CanvasJSChart ref={ref} options={options} />
       <button onClick={handleExportChart} className="p-2 mt-3 text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
     </div>

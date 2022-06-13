@@ -47,13 +47,13 @@ const BarChartColumn = ({ project, timeLine, period }) => {
       <div className="h-[450px]">
 
       <h3 className="text-center font-bold text-[20px]">No issue for the period</h3>
-      <button onClick={handleNoExport}  className="p-2 mt-[381px] text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
+      <button onClick={handleNoExport}  className="p-2 mt-[390px] text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
       </div>
       </>
     )
   }
   return (
-    <div className="">
+    <div className="mt-[30px]">
       <CanvasJSChart ref={ref} options={options} />
       <button onClick={handleExportChart} className="p-2 mt-3 text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
     </div>

@@ -119,14 +119,11 @@ const BarChartArea = ({ project, timeLine, period }) => {
     ref.current.chart.exportChart({ format: "png" })
 
   }
-  const handleNoExport =() =>{
-    alert("no issue to export")
-  }
   if (datapoint.length === 0) {
     return (
       <>
       <h3 className="text-center font-bold text-[20px]">No issue for the period</h3>
-      <button onClick={handleNoExport}  className="p-2 mt-[381px] text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
+      <button  className="p-2 mt-[380px] text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
       </>
       
     )

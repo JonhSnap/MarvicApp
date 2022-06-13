@@ -29,13 +29,10 @@ function DashboardContainer({ project }) {
     <div className="container-dashboard">
       <h2 className="title">Dashboard</h2>
       <div className="chart-container">
-      <div className="h-[450px]">
         {chart === "area" && <BarChartArea period={period} timeLine={timeLine} project={project} />}
         {chart === "column" && <BarChartColumn period={period} timeLine={timeLine} project={project} />}
         {chart === "doughnut" && <BarChartDoughnut period={period} timeLine={timeLine} project={project} />}
-
-      </div>
-        <div className="flex items-center gap-x-2 h-[70px]">
+        <div className="flex items-center gap-x-2">
           <select
             onChange={(e) => setChart(e.target.value)}
             value={chart}

@@ -35,7 +35,7 @@ function DashboardContainer({ project }) {
         {chart === "doughnut" && <BarChartDoughnut period={period} timeLine={timeLine} project={project} />}
 
       </div>
-        <div className="flex items-center gap-x-2 h-[70px]">
+        <div className="flex items-center gap-x-2">
           <select
             onChange={(e) => setChart(e.target.value)}
             value={chart}

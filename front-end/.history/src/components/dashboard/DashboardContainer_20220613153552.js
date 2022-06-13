@@ -6,6 +6,7 @@ import BarChartDoughnut from "../chart/BarChartDoughnut";
 import { timeLines } from "../../util/constants";
 
 function DashboardContainer({ project }) {
+  let ref = useRef(null);
   const dateStartedProject = new Date(project?.dateStarted);
   const dateEndProject = new Date(project?.dateEnd);
   const [timeLine, setTimeLine] = useState('project');
@@ -24,18 +25,19 @@ function DashboardContainer({ project }) {
     })
   }
 
+  const handleExportChart = () => {
+    ref.current.chart.exportChart({ format: "png" })
 
+  }
   return (
     <div className="container-dashboard">
       <h2 className="title">Dashboard</h2>
-      <div className="chart-container">
-      <div className="h-[450px]">
-        {chart === "area" && <BarChartArea period={period} timeLine={timeLine} project={project} />}
+      <div className="mt-1 chart-container">
+        {chart === "area" && <BarChartArea ref={ref} period={period} timeLine={timeLine} project={project} />}
         {chart === "column" && <BarChartColumn period={period} timeLine={timeLine} project={project} />}
         {chart === "doughnut" && <BarChartDoughnut period={period} timeLine={timeLine} project={project} />}
-
-      </div>
-        <div className="flex items-center gap-x-2 h-[70px]">
+        <button onClick={handleExportChart} className="p-2 mt-3 text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
+        <div className="flex items-center gap-x-2">
           <select
             onChange={(e) => setChart(e.target.value)}
             value={chart}
