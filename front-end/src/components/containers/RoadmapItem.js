@@ -63,7 +63,8 @@ const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
   const donePercent = useMemo(() => {
     if (issueCollect.length > 0 && stages.length > 0) {
       const doneStage = stages.find((item) => {
-        return item?.stage_Name === "DONE";
+        // return item?.stage_Name === "DONE";
+        return item.isDone;
       });
 
       return (
