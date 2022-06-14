@@ -41,14 +41,14 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   const [childIssues, setChildIssues] = useState([]);
 
   const [selectedDateStart, setSelectedDateStart] = useState(() => {
-    const date = new Date(issue?.dateStarted);
+    const date = new Date();
     const dd = String(date.getDate()).padStart(2, "0");
     const mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
     const yyyy = date.getFullYear();
     return yyyy + "-" + mm + "-" + dd;
   });
   const [selectedDateEnd, setSelectedDateEnd] = useState(() => {
-    const date = new Date(issue?.dateEnd);
+    const date = new Date();
     const dd = String(date.getDate()).padStart(2, "0");
     const mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
     const yyyy = date.getFullYear();
@@ -84,7 +84,6 @@ function EditIssuePopup({ members, project, issue, setShow }) {
       setShow(false);
       return;
     }
-    console.log('issue update', issueUpdate);
     await updateIssues(issueUpdate, dispatch);
     if (window.location.href.includes('projects/board') >= 0) {
       if (currentSprint) {
@@ -114,7 +113,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
       }
       console.log('issue update', issueUpdate);
       await updateIssues(issueUpdate, dispatch);
-      if (window.location.href.includes('projects/board') >= 0) {
+      if (window.location.href.includes('projects/board')) {
         if (currentSprint) {
           fetchBoard({
             idSprint: currentSprint.id,
