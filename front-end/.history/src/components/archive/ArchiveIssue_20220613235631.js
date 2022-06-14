@@ -1,27 +1,23 @@
 import React from "react";
-import { useMembersContext } from "../../contexts/membersContext";
 import useModal from "../../hooks/useModal";
-import EditArchiveIssuePopup from "../popup/EditArchiveIssuePopup";
+import EditIssuePopup from "../popup/EditIssuePopup";
 
-const ArchiveIssue = ({ ArchiveIssue, project }) => {
+const ArchiveIssue = ({ ArchiveIssue }) => {
   const isType2 = ArchiveIssue.id_IssueType === 2;
   const isType3 = ArchiveIssue.id_IssueType === 3;
   const isType4 = ArchiveIssue.id_IssueType === 4;
   const isType1 = ArchiveIssue.id_IssueType === 1;
   const [showEditEpic, setShowEditEpic, handleCloseEpic] = useModal();
-  const {
-    state: { members },
-  } = useMembersContext();
-  console.log("ArchiveIssue", ArchiveIssue);
+
   return (
     <>
       {showEditEpic && (
-        <EditArchiveIssuePopup
+        <EditIssuePopup
           members={members}
           project={project}
-          issue={ArchiveIssue}
+          issue={epic}
           setShow={setShowEditEpic}
-        ></EditArchiveIssuePopup>
+        ></EditIssuePopup>
       )}
 
     <div
@@ -33,9 +29,6 @@ const ArchiveIssue = ({ ArchiveIssue, project }) => {
     >
       <div
         className="flex items-center"
-        onClick={() => {
-                    setShowEditEpic(true);
-                  }}
       >
         <div className="">
           {isType2 && (
