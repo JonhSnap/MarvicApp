@@ -47,8 +47,8 @@ function InputComponent({
           id_Reporter: currentUser.id,
           isDeleted: 0,
           dateCreated: new Date(),
-          dateStarted: new Date(project.dateStarted),
-          dateEnd: new Date(project.dateEnd),
+          dateStarted: new Date(),
+          dateEnd: new Date(),
         };
         createIssue(issuesPost, dispatch);
         setShow(false);

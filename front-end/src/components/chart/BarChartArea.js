@@ -52,7 +52,12 @@ const BarChartArea = ({ project, dateStarted, dateEnd }) => {
   }
   if (datapoint.length === 0) {
     return (
-      <h3 className="text-center font-bold text-[20px]">No issue for the period</h3>
+      <>
+        <h3 className="text-center font-bold text-[20px]">No issue for the period</h3>
+        <div className="justify-self-center w-full h-[full]">
+          <img className="block w-full h-full object-cover" src="https://www.shareicon.net/data/512x512/2017/07/13/888375_chart_512x512.png" alt="" />
+        </div>
+      </>
     )
   }
 
