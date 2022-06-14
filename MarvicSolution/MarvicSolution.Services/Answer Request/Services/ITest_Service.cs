@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using MarvicSolution.DATA.Entities;
 using MarvicSolution.Services.Answer_Request.Requests;
 using MarvicSolution.Services.Answer_Request.ViewModels;
-using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 
 namespace MarvicSolution.Services.Answer_Request.Services
 {
@@ -13,5 +11,7 @@ namespace MarvicSolution.Services.Answer_Request.Services
     {
         Task<double> GetTestScore(Guid idUser, SubmitTest_Request rq);
         List<TestResult_ViewModel> GetTestResult(Guid idUser);
+        List<Test> GetTests();
+        GetTestToDo_ViewModel GetTestById(Guid idTest);
     }
 }

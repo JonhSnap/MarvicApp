@@ -221,6 +221,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         }
         public List<Project_ViewModel> GetProjectByIdUser(Guid IdUser)
         {
+            // Get projects of user who are member of it
             try
             {
                 var projects = (from u in _context.App_Users
