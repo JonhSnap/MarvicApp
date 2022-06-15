@@ -70,7 +70,7 @@ namespace MarvicSolution.Services.Stage_Request.Services
             }
         }
 
-        public async Task<bool> DeleteStage(Stage stage, Remove_Stage_Request modelRequest)
+        public async Task<bool> DeleteStage(Stage stage, Remove_Stage_Request modelRequest, Guid idUserLogin)
         {
             using var tran = _context.Database.BeginTransaction();
             try
@@ -104,9 +104,9 @@ namespace MarvicSolution.Services.Stage_Request.Services
                     _context.Issues.UpdateRange(listIssueInCurrentStage);
 
                 }
-                await _context.SaveChangesAsync();
                 // sent notif 
-                _notifService.PSS_SendNotif(stage.Id_Project, stage.Id_Updator, $"{_userService.GetUserbyId(stage.Id_Updator).UserName} has been deleted Stage {stage.Stage_Name} in Project {GetProjectById(stage.Id_Project).Name}");
+                _notifService.PSS_SendNotif(stage.Id_Project, stage.Id_Updator, $"{_userService.GetUserbyId(idUserLogin).UserName} has been deleted Stage {stage.Stage_Name} in Project {GetProjectById(stage.Id_Project).Name}");
+                await _context.SaveChangesAsync();
                 await tran.CommitAsync();
                 return true;
             }
