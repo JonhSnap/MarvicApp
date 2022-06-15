@@ -4,6 +4,7 @@ import axios from "axios";
 import TestItem from "../components/test-list/TestItem";
 import { v4 } from "uuid";
 import "../components/test-list/TestItem.scss";
+import { Link } from "react-router-dom";
 
 const TestListPage = () => {
   const [getTest, setGetTest] = useState();
@@ -23,9 +24,12 @@ const TestListPage = () => {
   }, []);
   return (
     <div className="w-[1320px] mx-auto p-4">
-      <h2 className="heading-test font-semibold">
-        List of tests ({getTest?.length})
-      </h2>
+      <div className="wrapper">
+        <h2 className="heading-test font-semibold">
+          List of tests ({getTest?.length})
+        </h2>
+        <Link to='/test-results' className="view-link">View done</Link>
+      </div>
       <div className="">
         {getTest && getTest.length > 0 ? (
           <div className="border-2 shadow-md flex flex-wrap gap-10 mt-8 bg-slate-300 ">

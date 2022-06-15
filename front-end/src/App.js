@@ -18,6 +18,7 @@ const RoadmapPage = lazy(() => import("./pages/RoadmapPage"));
 const Comments = lazy(() => import("./components/comments/Comments"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const TestListPage = lazy(() => import("./pages/TestListPage"));
+const TestResultPage = lazy(() => import("./pages/TestResultPage"));
 
 function App() {
   return (
@@ -65,6 +66,7 @@ function App() {
             path="/projects/archive/:key"
             element={<ArchivePage></ArchivePage>}
           ></Route>
+          <Route path="/test-results" element={<TestResultPage />}></Route>
           <Route
             path="/testlist"
             element={<TestListPage></TestListPage>}
@@ -73,7 +75,7 @@ function App() {
         <Route path="/login" element={<LoginPage></LoginPage>}></Route>
         <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
         <Route path="/tutorial" element={<TutorialPage></TutorialPage>}></Route>
-        <Route path="/test" element={<TestPage></TestPage>}></Route>
+        <Route path="/test/:id/:name" element={<TestPage></TestPage>}></Route>
         <Route
           path="/comment"
           element={
