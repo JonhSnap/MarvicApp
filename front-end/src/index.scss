@@ -31,6 +31,11 @@ html {
 @layer base {
   font-family: "Poppins", sans-serif;
 }
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+}
 
 // css sign up sign in
 
@@ -269,7 +274,6 @@ html {
     color-stop(0.6, #5be2ec)
   );
 }
-
 
 .archive-area {
   font-size: 40px;
