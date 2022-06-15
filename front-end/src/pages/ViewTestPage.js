@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import '../scss/TestResults.scss'
+import '../scss/ViewTest.scss'
 import axios from 'axios'
 import { BASE_URL } from '../util/constants'
 import { Link } from 'react-router-dom'
