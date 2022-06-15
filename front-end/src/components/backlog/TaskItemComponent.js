@@ -110,7 +110,7 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
         </div>
         <div className="flex items-center h-full right-item w-fit">
           {issue.isFlagged === 1 && (
-            <span className="inline-block w-5 h-5 text-[#ff2d1a]">
+            <span style={{ color: '#ff2d1a' }} className="inline-block w-5 h-5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
