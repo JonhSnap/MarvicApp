@@ -18,7 +18,7 @@ const RoadmapPage = lazy(() => import("./pages/RoadmapPage"));
 const Comments = lazy(() => import("./components/comments/Comments"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const TestListPage = lazy(() => import("./pages/TestListPage"));
-const TestResultPage = lazy(() => import("./pages/TestResultPage"));
+const ViewTestPage = lazy(() => import("./pages/ViewTestPage"));
 
 function App() {
   return (
@@ -66,7 +66,7 @@ function App() {
             path="/projects/archive/:key"
             element={<ArchivePage></ArchivePage>}
           ></Route>
-          <Route path="/test-results" element={<TestResultPage />}></Route>
+          <Route path="/test-results" element={<ViewTestPage />}></Route>
           <Route
             path="/testlist"
             element={<TestListPage></TestListPage>}
