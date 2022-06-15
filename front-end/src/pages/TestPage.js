@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { useMemo } from 'react'
 import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import ConfirmComponent from '../components/confirm/ConfirmComponent'
 import ScoreComponent from '../components/score/ScoreComponent'
 import '../scss/TestPage.scss'
@@ -56,7 +56,10 @@ export default function TestPage() {
                             <Question key={item.id} question={item} index={index} listId={listId} setListId={setListId} />
                         ))
                     }
-                    <button className="submit-btn" onClick={() => setShowConfirm(true)}>Submit</button>
+                    <div className="wrapper-btn">
+                        <Link to='/testlist' className='list-link'>Back to list</Link>
+                        <button className="submit-btn" onClick={() => setShowConfirm(true)}>Submit</button>
+                    </div>
                 </div>
             </div>
             {showScore && <ScoreComponent setShowScore={setShowScore} totalScore={totalScore} score={score} />}

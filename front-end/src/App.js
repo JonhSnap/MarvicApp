@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import Main from "./components/layouts/Main";
 import { ToastContainer } from "react-toastify";
 import BoardPageEpic from "./pages/BoardPageEpic";
-import TestResultPage from "./pages/TestResultPage";
 
 const YourWorkPage = lazy(() => import("./pages/YourWorkPage"));
 const ArchivePage = lazy(() => import("./pages/ArchivePage"));
@@ -18,6 +17,8 @@ const BacklogPage = lazy(() => import("./pages/BacklogPage"));
 const RoadmapPage = lazy(() => import("./pages/RoadmapPage"));
 const Comments = lazy(() => import("./components/comments/Comments"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+const TestListPage = lazy(() => import("./pages/TestListPage"));
+const TestResultPage = lazy(() => import("./pages/TestResultPage"));
 
 function App() {
   return (
@@ -66,6 +67,10 @@ function App() {
             element={<ArchivePage></ArchivePage>}
           ></Route>
           <Route path="/test-results" element={<TestResultPage />}></Route>
+          <Route
+            path="/testlist"
+            element={<TestListPage></TestListPage>}
+          ></Route>
         </Route>
         <Route path="/login" element={<LoginPage></LoginPage>}></Route>
         <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
