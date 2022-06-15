@@ -2,14 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import useTooltip from "../../hooks/useTooltip";
 import Tooltip from "../tooltip/Tooltip";
+import { useParams } from "react-router-dom";
 
 function Setting() {
   const { isHover, coord, nodeRef } = useTooltip();
+  const { key } = useParams();
 
   return (
     <>
       {isHover && <Tooltip coord={coord}>Test</Tooltip>}
-      <Link to="/testlist">
+      <Link to={`/testlist/${key}`}>
         <div ref={nodeRef} className="setting header-right-option ">
           <svg
             xmlns="http://www.w3.org/2000/svg"

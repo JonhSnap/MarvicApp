@@ -10,10 +10,13 @@ function Setting() {
     <>
       {isHover && <Tooltip coord={coord}>Test</Tooltip>}
       <Link to="/testlist">
-        <div ref={nodeRef} className="setting header-right-option ">
+        <div
+          ref={nodeRef}
+          className="setting header-right-option w-[1320px] mx-auto"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            class="h-6 w-6"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

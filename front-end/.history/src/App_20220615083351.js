@@ -66,7 +66,7 @@ function App() {
             element={<ArchivePage></ArchivePage>}
           ></Route>
           <Route
-            path="/testlist"
+            path="/testlist/:key"
             element={<TestListPage></TestListPage>}
           ></Route>
         </Route>
