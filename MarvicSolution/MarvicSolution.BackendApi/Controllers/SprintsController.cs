@@ -26,10 +26,6 @@ namespace MarvicSolution.BackendApi.Controllers
             try
             {
                 var sprints = await _sprint_Service.GetSprintsById_Project(id);
-                if (sprints.Count == 0)
-                {
-                    return NotFound();
-                }
                 return Ok(sprints);
             }
             catch (Exception)

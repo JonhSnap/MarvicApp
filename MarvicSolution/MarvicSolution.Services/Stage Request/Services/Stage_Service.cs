@@ -81,7 +81,6 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 {
                     newStage.isDone = stage.isDone;
                     stage.isDone = EnumStatus.False;
-
                 }
                 if (stage.isDefault == EnumStatus.True)
                 {
@@ -89,12 +88,14 @@ namespace MarvicSolution.Services.Stage_Request.Services
                     stage.isDefault = EnumStatus.False;
                 }
                 _context.Update(newStage);
-                //remvoe stage
+                // update order for stages after
+                UpdateStageOrderBehind(stage, stage.Id_Project);
+                //remove stage
+                stage.Order = -99;
                 _context.Update(stage);
                 //asign list issue in current stage into new stage
                 var listIssueInCurrentStage = await _context.Issues
-                    .Where(isu => isu.Id_Stage == stage.Id && isu.IsDeleted == EnumStatus.False)
-                    .ToListAsync();
+                                                    .Where(isu => isu.Id_Stage == stage.Id && isu.IsDeleted == EnumStatus.False).ToListAsync();
                 if (listIssueInCurrentStage.Count != 0)
                 {
                     foreach (var id_issue in listIssueInCurrentStage)
@@ -102,7 +103,6 @@ namespace MarvicSolution.Services.Stage_Request.Services
                         id_issue.Id_Stage = modelRequest.Dorward_Id_Stage;
                     }
                     _context.Issues.UpdateRange(listIssueInCurrentStage);
-
                 }
                 // sent notif 
                 _notifService.PSS_SendNotif(stage.Id_Project, stage.Id_Updator, $"{_userService.GetUserbyId(idUserLogin).UserName} has been deleted Stage {stage.Stage_Name} in Project {GetProjectById(stage.Id_Project).Name}");
@@ -117,9 +117,30 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 throw new MarvicException($"Error: {e}");
             }
         }
+        private void UpdateStageOrderBehind(Stage currStage, Guid idProject)
+        {
+            try
+            {
+                var stages = _context.Stages
+                   .Where(stage => stage.Id_Project == idProject && stage.isDeleted == EnumStatus.False)
+                   .OrderBy(stage => stage.Order).Select(s => s).ToList();
+                var stageBehind = stages.Where(s => s.Order > currStage.Order).Select(s => s).ToList();
+                foreach (var i_stage in stageBehind)
+                    i_stage.Order--;
+
+                _context.UpdateRange(stageBehind);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Stages. Method: DeleteStage. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
+        }
 
         public async Task<bool> DragAndDrop(int curentPos, int newPos, Guid id_Project)
         {
+            using var tran = _context.Database.BeginTransaction();
             try
             {
                 int skip = 0;
@@ -136,10 +157,13 @@ namespace MarvicSolution.Services.Stage_Request.Services
                         skip = newPos;
                         break;
                 }
-                return await UpdateListOrder(skip, take, curentPos, newPos, id_Project, range > 0);
+                var result = await UpdateListOrder(skip, take, curentPos, newPos, id_Project, range > 0);
+                await tran.CommitAsync();
+                return result;
             }
             catch (Exception e)
             {
+                await tran.RollbackAsync();
                 _logger.LogInformation($"Controller: Stages. Method: DragAndDrop. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
@@ -153,7 +177,7 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 currentStage.Order = newPos;
                 var newStage = await _context.Stages.FirstOrDefaultAsync(stage => stage.Id_Project == id_Project && stage.Order == newPos);
                 newStage.Order = curentPos;
-                _context.Stages.UpdateRange(new[] { currentStage, newStage });
+                _context.Stages.UpdateRange(new List<Stage> { currentStage, newStage });
                 await _context.SaveChangesAsync();
                 return true;
             }

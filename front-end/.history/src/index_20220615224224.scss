@@ -36,14 +36,7 @@ html {
   max-width: 1320px;
   margin: 0 auto;
 }
-// one line
-.one-line {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+
 // css sign up sign in
 
 .sign-up {
@@ -53,7 +46,7 @@ html {
 }
 
 .signform {
-  background-size: cover !important;
+  background-size: cover;
 }
 
 .name-logo {
