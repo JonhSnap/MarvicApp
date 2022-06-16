@@ -1,10 +1,14 @@
 ﻿using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
+using MarvicSolution.Services.Notifications_Request.Services;
+using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewModels;
 using MarvicSolution.Services.Stage_Request.Requests;
 using MarvicSolution.Services.Stage_Request.ViewModels;
+using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,24 +21,35 @@ namespace MarvicSolution.Services.Stage_Request.Services
     {
         private readonly MarvicDbContext _context;
         private readonly ILogger<Stage_Service> _logger;
-        public Stage_Service(MarvicDbContext context, ILogger<Stage_Service> logger)
+        private readonly INotifications_Service _notifService;
+        private readonly IUser_Service _userService;
+        public Stage_Service(MarvicDbContext context, ILogger<Stage_Service> logger, INotifications_Service notifService, IUser_Service userService)
         {
             _context = context;
             _logger = logger;
+            _notifService = notifService;
+            _userService = userService;
         }
         public async Task<bool> AddStage(Stage stage)
         {
-            try
+            using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
-                stage.Stage_Name = stage.Stage_Name.ToUpper();
-                _context.Stages.Add(stage);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception e)
-            {
-                _logger.LogInformation($"Controller: Stages. Method: AddStage. Marvic Error: {e}");
-                throw new MarvicException($"Error: {e}");
+                try
+                {
+                    stage.Stage_Name = stage.Stage_Name.ToUpper();
+                    _context.Stages.Add(stage);
+                    await _context.SaveChangesAsync();
+                    // sent notif 
+                    _notifService.PSS_SendNotif(stage.Id_Project, stage.Id_Creator, $"{_userService.GetUserbyId(stage.Id_Creator).UserName} has been created Stage {stage.Stage_Name} in Project {GetProjectById(stage.Id_Project).Name}");
+                    await tran.CommitAsync();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    await tran.RollbackAsync();
+                    _logger.LogInformation($"Controller: Stages. Method: AddStage. Marvic Error: {e}");
+                    throw new MarvicException($"Error: {e}");
+                }
             }
         }
 
@@ -46,7 +61,7 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 {
                     return await _context.Stages.AnyAsync(stage => stage.Id != id && stage.Stage_Name == stageName);
                 }
-                return await _context.Stages.AnyAsync(stage => stage.Stage_Name == stageName);
+                return await _context.Stages.AnyAsync(stage => stage.Stage_Name == stageName && stage.isDeleted == EnumStatus.False);
             }
             catch (Exception e)
             {
@@ -55,9 +70,9 @@ namespace MarvicSolution.Services.Stage_Request.Services
             }
         }
 
-        public async Task<bool> DeleteStage(Stage stage, Remove_Stage_Request modelRequest)
+        public async Task<bool> DeleteStage(Stage stage, Remove_Stage_Request modelRequest, Guid idUserLogin)
         {
-            using var transaction = _context.Database.BeginTransaction();
+            using var tran = _context.Database.BeginTransaction();
             try
             {
                 var newStage = await GetStageById(modelRequest.Dorward_Id_Stage);
@@ -66,7 +81,6 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 {
                     newStage.isDone = stage.isDone;
                     stage.isDone = EnumStatus.False;
-
                 }
                 if (stage.isDefault == EnumStatus.True)
                 {
@@ -74,12 +88,14 @@ namespace MarvicSolution.Services.Stage_Request.Services
                     stage.isDefault = EnumStatus.False;
                 }
                 _context.Update(newStage);
-                //remvoe stage
+                // update order for stages after
+                UpdateStageOrderBehind(stage, stage.Id_Project);
+                //remove stage
+                stage.Order = -99;
                 _context.Update(stage);
                 //asign list issue in current stage into new stage
                 var listIssueInCurrentStage = await _context.Issues
-                    .Where(isu => isu.Id_Stage == stage.Id && isu.IsDeleted == EnumStatus.False)
-                    .ToListAsync();
+                                                    .Where(isu => isu.Id_Stage == stage.Id && isu.IsDeleted == EnumStatus.False).ToListAsync();
                 if (listIssueInCurrentStage.Count != 0)
                 {
                     foreach (var id_issue in listIssueInCurrentStage)
@@ -87,21 +103,45 @@ namespace MarvicSolution.Services.Stage_Request.Services
                         id_issue.Id_Stage = modelRequest.Dorward_Id_Stage;
                     }
                     _context.Issues.UpdateRange(listIssueInCurrentStage);
-
                 }
+                // sent notif 
+                _notifService.PSS_SendNotif(stage.Id_Project, stage.Id_Updator, $"{_userService.GetUserbyId(idUserLogin).UserName} has been deleted Stage {stage.Stage_Name} in Project {GetProjectById(stage.Id_Project).Name}");
                 await _context.SaveChangesAsync();
-                await transaction.CommitAsync();
+                await tran.CommitAsync();
                 return true;
+            }
+            catch (Exception e)
+            {
+                await tran.RollbackAsync();
+                _logger.LogInformation($"Controller: Stages. Method: DeleteStage. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+        private void UpdateStageOrderBehind(Stage currStage, Guid idProject)
+        {
+            try
+            {
+                var stages = _context.Stages
+                   .Where(stage => stage.Id_Project == idProject && stage.isDeleted == EnumStatus.False)
+                   .OrderBy(stage => stage.Order).Select(s => s).ToList();
+                var stageBehind = stages.Where(s => s.Order > currStage.Order).Select(s => s).ToList();
+                foreach (var i_stage in stageBehind)
+                    i_stage.Order--;
+
+                _context.UpdateRange(stageBehind);
+                _context.SaveChanges();
             }
             catch (Exception e)
             {
                 _logger.LogInformation($"Controller: Stages. Method: DeleteStage. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
+
         }
 
         public async Task<bool> DragAndDrop(int curentPos, int newPos, Guid id_Project)
         {
+            using var tran = _context.Database.BeginTransaction();
             try
             {
                 int skip = 0;
@@ -118,10 +158,13 @@ namespace MarvicSolution.Services.Stage_Request.Services
                         skip = newPos;
                         break;
                 }
-                return await UpdateListOrder(skip, take, curentPos, newPos, id_Project, range > 0);
+                var result = await UpdateListOrder(skip, take, curentPos, newPos, id_Project, range > 0);
+                await tran.CommitAsync();
+                return result;
             }
             catch (Exception e)
             {
+                await tran.RollbackAsync();
                 _logger.LogInformation($"Controller: Stages. Method: DragAndDrop. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
@@ -135,7 +178,7 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 currentStage.Order = newPos;
                 var newStage = await _context.Stages.FirstOrDefaultAsync(stage => stage.Id_Project == id_Project && stage.Order == newPos);
                 newStage.Order = curentPos;
-                _context.Stages.UpdateRange(new[] { currentStage, newStage });
+                _context.Stages.UpdateRange(new List<Stage> { currentStage, newStage });
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -220,17 +263,60 @@ namespace MarvicSolution.Services.Stage_Request.Services
 
         public async Task<bool> UpdateStage(Stage stage)
         {
+            using (IDbContextTransaction tran = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _context.Stages.Update(stage);
+                    await _context.SaveChangesAsync();
+                    // sent notif 
+                    _notifService.PSS_SendNotif(stage.Id_Project, stage.Id_Updator, $"{_userService.GetUserbyId(stage.Id_Updator).UserName} has been updated Stage {stage.Stage_Name} in Project {GetProjectById(stage.Id_Project).Name}");
+                    await tran.CommitAsync();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    await tran.RollbackAsync();
+                    _logger.LogInformation($"Controller: Stages. Method: UpdateStage. Marvic Error: {e}");
+                    throw new MarvicException($"Error: {e}");
+                }
+            }
+        }
+        private Project_ViewModel GetProjectById(Guid Id)
+        {
             try
             {
-                _context.Stages.Update(stage);
-                await _context.SaveChangesAsync();
-                return true;
+                var proj = (from p in _context.Projects
+                            join u in _context.App_Users on p.Id_Lead equals u.Id
+                            where p.Id.Equals(Id)
+                            select new Project_ViewModel()
+                            {
+                                Id = p.Id,
+                                Name = p.Name,
+                                Key = p.Key,
+                                Access = p.Access,
+                                Lead = u.UserName,
+                                Id_Creator = p.Id_Creator,
+                                DateCreated = p.DateCreated,
+                                DateStarted = p.DateStarted,
+                                DateEnd = p.DateEnd,
+                                Id_Updator = p.Id_Updator,
+                                UpdateDate = p.UpdateDate,
+                                IsStared = p.IsStared
+                            }).FirstOrDefault();
+
+                if (proj == null)
+                    throw new MarvicException($"Cannot find the project with id: {Id}");
+
+                return proj;
             }
             catch (Exception e)
             {
-                _logger.LogInformation($"Controller: Stages. Method: UpdateStage. Marvic Error: {e}");
+
+                _logger.LogInformation($"Controller: Project. Method: GetProjectById. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
         }
+
     }
 }

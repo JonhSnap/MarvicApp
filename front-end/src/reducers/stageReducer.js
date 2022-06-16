@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "../util/constants";
-import { GET_STAGE, UPDATE_STAGE } from "./actions";
+import { CREATE_STAGE, GET_STAGE, UPDATE_STAGE, DELETE_STAGE } from "./actions";
 
 // fetchStage
 const fetchStage = async (idProject, dispatch) => {
@@ -16,6 +16,20 @@ const fetchStage = async (idProject, dispatch) => {
         console.log(error);
     }
 }
+// create stage
+const createStage = async (dataPost, dispatch) => {
+    try {
+        const resp = await axios.post(`${BASE_URL}/api/Stages`, dataPost);
+        if (resp.status === 200) {
+            dispatch({
+                type: CREATE_STAGE,
+                payload: resp.data
+            })
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 // update stage
 const updateStage = async (idStage, dataPut, dispatch) => {
     try {
@@ -24,6 +38,20 @@ const updateStage = async (idStage, dataPut, dispatch) => {
             dispatch({
                 type: UPDATE_STAGE,
                 payload: dataPut
+            })
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+// delete stage
+const deleteStage = async (idStage, dataDelete, dispatch) => {
+    try {
+        const resp = await axios.delete(`${BASE_URL}/api/Stages/${idStage}`, { data: dataDelete });
+        if (resp.status === 200) {
+            dispatch({
+                type: DELETE_STAGE,
+                payload: idStage
             })
         }
     } catch (error) {
@@ -48,7 +76,14 @@ const stageReducer = (state, action) => {
             stateCopy.stages.splice(index, 1, action.payload);
             state = { ...stateCopy };
             break;
-
+        case CREATE_STAGE:
+            stateCopy.stages.push(action.payload);
+            state = { ...stateCopy };
+            break;
+        case DELETE_STAGE:
+            stateCopy.stages = stateCopy.stages.filter(item => item.id !== action.payload);
+            state = { ...stateCopy };
+            break;
         default:
             throw new Error('Invalid action!')
     }
@@ -58,5 +93,7 @@ export {
     initialValues,
     stageReducer,
     fetchStage,
-    updateStage
+    updateStage,
+    createStage,
+    deleteStage
 }

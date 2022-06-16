@@ -1,10 +1,8 @@
-﻿using MarvicSolution.DATA.Common;
-using MarvicSolution.DATA.EF;
+﻿using MarvicSolution.DATA.EF;
 using MarvicSolution.DATA.Entities;
 using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Answer_Request.Requests;
 using MarvicSolution.Services.Answer_Request.ViewModels;
-using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -12,7 +10,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MarvicSolution.Services.Answer_Request.Services
@@ -26,14 +23,14 @@ namespace MarvicSolution.Services.Answer_Request.Services
             _context = context;
             _logger = logger;
         }
-        public async Task<double> GetTestScore(SubmitTest_Request rq)
+        public async Task<double> GetTestScore(Guid idUser, SubmitTest_Request rq)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
                 try
                 {
                     string A = EnumPriority.High.ToString();
-                 
+
                     // lọc ra những answer đúng từ ds input
                     var answerCorrect = await (from ans in _context.Answers
                                                join qus in _context.Questions on ans.Id_Question equals qus.Id
@@ -46,7 +43,7 @@ namespace MarvicSolution.Services.Answer_Request.Services
                                  join ansed in rq.listId on ans.id_ans equals ansed
                                  group ans.Scores by ans.Scores into g
                                  select g).Sum(a => (long)a.Key);
-                    var testResult = new TestResut(Guid.NewGuid(), UserLogin.Id, rq.IdTest, DateTime.Now, score);
+                    var testResult = new TestResut(Guid.NewGuid(), idUser, rq.IdTest, DateTime.Now, score);
                     await _context.TestResuts.AddAsync(testResult);
                     await _context.SaveChangesAsync();
                     tran.Commit();
@@ -81,6 +78,33 @@ namespace MarvicSolution.Services.Answer_Request.Services
                            }).ToList();
 
             return results;
+        }
+
+        public List<Test> GetTests()
+        {
+            return _context.Tests.Select(t => t).ToList();
+        }
+
+        public GetTestToDo_ViewModel GetTestById(Guid idTest)
+        {
+            // get all question of Test A
+            var question = _context.Questions.Where(q => q.Id_Test.Equals(idTest))
+                                             .Select(q => new Question_ViewModel()
+                                             {
+                                                 Id = q.Id,
+                                                 Name = q.Name,
+                                                 Scores = q.Scores,
+                                                 ListAnswer = _context.Answers.Where(a => a.Id_Question.Equals(q.Id))
+                                                                              .Select(a => new Answer_ViewModel()
+                                                                              {
+                                                                                  Id = a.Id,
+                                                                                  strAnswer = a.Name
+                                                                              }).ToList()
+                                             }).ToList();
+            GetTestToDo_ViewModel getTestToDoVM = new GetTestToDo_ViewModel();
+            getTestToDoVM.ListQuestion.AddRange(question);
+
+            return getTestToDoVM;
         }
     }
 }

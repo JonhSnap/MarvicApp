@@ -23,10 +23,6 @@ function InputComponent({
   const [valueInput, setValueInput] = useState("");
   const { currentUser } = useSelector((state) => state.auth.login);
 
-  const stageTodo = useMemo(() => {
-    return stages.find((item) => item.stage_Name === "To do");
-  }, [stages]);
-
   const handleChange = (e) => {
     setSelectedValue(e.value);
   };
@@ -42,12 +38,13 @@ function InputComponent({
           attachment_Path: [],
           id_Parent_Issue: idParent,
           priority: 3,
-          id_Stage: stageTodo.id,
+          id_Stage: NIL,
           id_Assignee: null,
           summary: valueInput,
           isFlagged: 0,
           isWatched: 0,
           id_Creator: currentUser.id,
+          id_Reporter: currentUser.id,
           isDeleted: 0,
           dateCreated: new Date(),
           dateStarted: new Date(project.dateStarted),
@@ -109,7 +106,6 @@ function InputComponent({
 export default function CreateIssuesComponent({
   createWhat,
   idParent = null,
-
   listIssue,
   setListIssue,
   project,

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -21,15 +21,21 @@ const schema = yup.object({
 
 function StartSprintPopup({ onClose, setshow, sprint, project }) {
     const { dispatch } = useSprintContext();
-    const startDate = moment(sprint?.start_Date).format('YYYY-DD-MM');
-    const endDate = moment(sprint?.end_Date).format('YYYY-DD-MM');
+    const today = useMemo(() => {
+        const date = new Date();
+        const dd = String(date.getDate()).padStart(2, '0');
+        const mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+        const yyyy = date.getFullYear();
+
+        return yyyy + '-' + mm + '-' + dd;
+    }, [])
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
         mode: 'onChange',
         resolver: yupResolver(schema),
         defaultValues: {
             name: sprint?.sprintName,
-            startDate: new Date(),
-            endDate: new Date()
+            startDate: today,
+            endDate: today
         },
     });
 

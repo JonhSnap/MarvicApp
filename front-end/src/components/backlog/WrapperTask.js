@@ -1,14 +1,18 @@
-import React, { memo, useRef } from "react";
+import React, { memo, useMemo, useRef } from "react";
 import { Container, Draggable } from "react-smooth-dnd";
 import { v4 } from "uuid";
 import { useListIssueContext } from "../../contexts/listIssueContext";
 import { fetchIssue, updateIssues } from "../../reducers/listIssueReducer";
 import TaskItemComponent from "./TaskItemComponent";
 
-function WrapperTask({ members, project, issues }) {
+function WrapperTask({ members, project, sprint, issues = [] }) {
   const [, dispatch] = useListIssueContext();
-  const [{ issueEpics }] = useListIssueContext();
+  const [{ issueEpics, issueNormals }] = useListIssueContext();
   const nodeRef = useRef();
+
+  if (issues.length === 0) {
+    issues = issueNormals.filter(item => item.id_Sprint === sprint?.id);
+  }
 
   // handle card drop
   const onCardDrop = (dropResult) => {
@@ -55,6 +59,7 @@ function WrapperTask({ members, project, issues }) {
                 project={project}
                 issueEpics={issueEpics}
                 issue={item}
+                sprint={sprint}
               />
             </Draggable>
           ))}

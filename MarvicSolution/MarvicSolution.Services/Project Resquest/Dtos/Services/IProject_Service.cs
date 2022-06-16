@@ -2,6 +2,7 @@
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewModels;
+using MarvicSolution.Services.Project_Resquest.Dtos.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,9 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
 {
     public interface IProject_Service
     {
-        Task<Guid> Create(Project_CreateRequest request);
-        Task<Guid> Update(Project_UpdateRequest request);
-        Task<Guid> Delete(Guid Id);
+        Task<Guid> Create(Guid idUser, Project_CreateRequest request);
+        Task<Guid> Update(Guid idUser, Project_UpdateRequest request);
+        Task<Guid> Delete(Guid Id, Guid idUserLogin);
 
         Guid GetIdUserByUserName(string userName);
         List<Guid> Get_All_IdMembers();
@@ -26,8 +27,10 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         List<Member_ViewModel> Get_AllMembers_By_IdProject(Guid IdProject, RequestVM rqVM);
         List<Project_ViewModel> GetProjectByIdUser(Guid IdUser);
         Task<List<Project_ViewModel>> GetAlls();
-        Guid AddMembers(Guid IdProject, List<string> userNames);
-        Guid Remove_Member_From_Project(Guid IdProject, Guid IdUser);
+        Guid AddMembers(Guid IdProject, List<string> userNames, Guid idUserLogin);
+        Guid Remove_Member_From_Project(Guid IdProject, Guid IdUser, Guid IdUserLogin);
         List<Project> GetStarredProject(Guid idUserLogin);
+        bool DisableMember(DisableMember_ViewModel rq);
+        Task<bool> UpdateStarredProject(UpdateStarredProject_Request rq);
     }
 }

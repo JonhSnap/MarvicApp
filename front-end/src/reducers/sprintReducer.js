@@ -34,13 +34,13 @@ const createSprint = async (dataPost, dispatch) => {
     }
 }
 // delete sprint
-const deleteSprint = async (idSprint, dispatch) => {
+const deleteSprint = async (dataDelete, dispatch) => {
     try {
-        const resp = await axios.delete(`${BASE_URL}/api/Sprints/${idSprint}`);
+        const resp = await axios.delete(`${BASE_URL}/api/Sprints/Delete`, { data: dataDelete });
         if (resp.status === 200) {
             dispatch({
                 type: DELETE_SPRINT,
-                payload: idSprint
+                payload: dataDelete
             })
 
         }

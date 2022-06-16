@@ -36,12 +36,12 @@ function EditEpicPopup({ project, issue, setShow, donePercent }) {
   const [selectedDateStart, setSelectedDateStart] = useState(
     new Date(issue.dateStarted)
   );
-  const {
-    state: { members },
-  } = useMembersContext();
   const [selectedDateEnd, setSelectedDateEnd] = useState(
     new Date(issue.dateEnd)
   );
+  const {
+    state: { members },
+  } = useMembersContext();
   const [values, setValues] = useState({
     summary: issue?.summary,
     description: issue?.description || "",
@@ -146,6 +146,8 @@ function EditEpicPopup({ project, issue, setShow, donePercent }) {
     }, 500);
   };
 
+  console.log("issueUpdate.dateStarted", issueUpdate);
+  console.log("selectedDateStart", selectedDateStart);
   return (
     <ModalBase
       containerclassName="fixed inset-0 z-10 flex items-center justify-center"
@@ -200,14 +202,13 @@ function EditEpicPopup({ project, issue, setShow, donePercent }) {
                             onClick={() => handleChooseEpic(item)}
                             className="w-[150px] mb-2 p-3 bg-white rounded shadow-md font-semibold
                                             hover:bg-[#8777D9] hover:text-white"
-
                           >
                             {item.summary}
                           </div>
                         ))}
                     {issue.id_Parent_Issue &&
                       issue.id_Parent_Issue !==
-                      "00000000-0000-0000-0000-000000000000" && (
+                        "00000000-0000-0000-0000-000000000000" && (
                         <div
                           onClick={handleRemoveEpic}
                           className="flex items-center gap-x-2 w-[150px] mb-2 p-3 bg-red-500 text-white rounded shadow-md font-semibold"
@@ -420,36 +421,7 @@ function EditEpicPopup({ project, issue, setShow, donePercent }) {
             </div>
           </div>
         </div>
-        <div className="flex justify-between my-4 text-[#a1a1a1]">
-          <span>Created 16 hours ago</span>
-          <span>Updated 7 hours ago</span>
-        </div>
 
-        <div className="flex flex-col">
-          <div className="font-bold">Activity</div>
-          <div className="flex justify-between">
-            <div>
-              <span>Show: </span>
-              <div className="w-fit h-5  p-2 bg-[#ccc] inline-flex justify-center items-center mx-2">
-                All
-              </div>
-              <div className="w-fit h-5  p-2 bg-[#ccc] inline-flex justify-center items-center mx-2">
-                Comments
-              </div>
-              <div className="w-fit h-5  p-2 bg-[#ccc] inline-flex justify-center items-center mx-2">
-                History
-              </div>
-            </div>
-            <div className="inline-flex items-center justify-center h-5 p-2 mx-2 w-fit">
-              Newest first
-              <FontAwesomeIcon
-                size="1x"
-                className="inline-block px-2"
-                icon={faArrowDownWideShort}
-              />
-            </div>
-          </div>
-        </div>
         <div className="flex items-center my-5">
           <Comments
             commentURL="https://localhost:5001/hubs/marvic"

@@ -5,27 +5,45 @@ import { faAngleRight, faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import WrapperTask from "../roadmap/WrapperTask";
 import {
-  ListIssueContext,
   useListIssueContext,
 } from "../../contexts/listIssueContext";
 import useModal from "../../hooks/useModal";
-import EditEpicPopup from "../popup/EditEpicPopup.js";
 import Progress from "../progress/Progress";
 import { useStageContext } from "../../contexts/stageContext";
+import EditIssuePopup from "../popup/EditIssuePopup";
+import { useMembersContext } from "../../contexts/membersContext";
+import { useOpenIssueContext } from "../../contexts/openChildIssueContext";
 
-const RoadmapItem = ({ item, project, epic }) => {
-  const [showIssue, setShowIssue] = useState(false);
-  const [showCreateComponent, setShowCreateComponent] = useState(false);
-  const [members, setMembers] = useState([]);
+const RoadmapItem = ({ project, epic, epicSelected, setEpicSelected }) => {
   const [{ stages }] = useStageContext();
+  const [items, setItems] = useOpenIssueContext()
+  const [showIssue, setShowIssue] = useState(items.includes(epic.id))
+  console.log('show ~ ', showIssue);
+  console.log('items ~ ', items);
   const handleshowIssue = () => {
-    setShowIssue(!showIssue);
-    setShowCreateComponent(false);
+    if (showIssue) {
+      setShowIssue(false)
+      setItems(prev => {
+        const resolve = prev.filter(item => item !== epic.id)
+        return resolve
+      })
+    } else {
+      setItems(prev => [...prev, epic.id])
+      setShowIssue(true)
+    }
   };
-  const handleShowCreate = () => {
-    setShowCreateComponent(!showCreateComponent);
-    setShowIssue(false);
-  };
+  // const handleShowCreate = () => {
+  //   if(showIssue){
+  //     setShow(false);
+  //     setShowIssue(false);
+  //       setShowCreateComponent(false)
+  //   }else {
+  //     setItems(prev => [...prev, epic.id])
+  //     setShow(true);
+  //     setShowIssue(true);
+  //     setShowCreateComponent(true)
+  //   }
+  // };
   const [{ issueNormals }] = useListIssueContext();
 
   const issueCollect = useMemo(() => {
@@ -39,10 +57,14 @@ const RoadmapItem = ({ item, project, epic }) => {
     return result;
   }, [stages]);
 
+  const {
+    state: { members },
+  } = useMembersContext();
   const donePercent = useMemo(() => {
     if (issueCollect.length > 0 && stages.length > 0) {
       const doneStage = stages.find((item) => {
-        return item?.stage_Name === "Done";
+        // return item?.stage_Name === "DONE";
+        return item.isDone;
       });
 
       return (
@@ -52,17 +74,31 @@ const RoadmapItem = ({ item, project, epic }) => {
       );
     }
   }, [issueCollect, stages]);
-
+  // const [{ issueEpics }] = useListIssueContext();
+  const handleSelectedEpic = (epicChoose) => {
+    setEpicSelected((prev) => {
+      if (prev.filter.includes(epicChoose.id)) {
+        return {
+          ...prev,
+          filter: prev.filter.filter((item) => item !== epicChoose.id),
+        };
+        // return prev.filter.filter((item) => item.id !== epicChoose.id);
+      } else {
+        return { ...prev, filter: [...prev.filter, epicChoose.id] };
+      }
+    });
+    console.log(epicSelected.filter.includes(epicChoose.id));
+  };
+  const symbolRoadmap = epicSelected.filter.includes(epic.id);
   return (
     <>
       {showEditEpic && (
-        <EditEpicPopup
-          donePercent={donePercent}
+        <EditIssuePopup
+          members={members}
           project={project}
-          setShow={setShowEditEpic}
-          handleClose={handleCloseEpic}
           issue={epic}
-        ></EditEpicPopup>
+          setShow={setShowEditEpic}
+        ></EditIssuePopup>
       )}
       <div
         key={v4()}
@@ -73,28 +109,32 @@ const RoadmapItem = ({ item, project, epic }) => {
           className={`w-full px-3 py-1 relative flex flex-col font-semibold  rounded-[5px]  cursor-pointer hover:bg-slate-200`}
         >
           <div className="flex items-center">
-            <div>
+            <div onClick={handleshowIssue}>
               <FontAwesomeIcon
                 size="1x"
                 className="inline-block px-2 text-sm transition-all"
                 icon={showIssue ? faAngleDown : faAngleRight}
-                onClick={handleshowIssue}
+
               />
             </div>
             <div className="flex items-center justify-between flex-1">
-              <div
-                className="flex items-center justify-center"
-                onClick={() => {
-                  setShowEditEpic(true);
-                }}
-              >
-                <div className="inline-block w-5 h-5 mx-2 rounded-md bg-slate-300 "></div>
-                <span className="text-base font-semibold text-slate-600 ">
-                  {item.summary}
+              <div className="flex items-center justify-center">
+                <div
+                  onClick={() => handleSelectedEpic(epic)}
+                  className={`inline-block ${symbolRoadmap ? "bg-blue-400" : "bg-slate-300"
+                    } w-5 h-5 mx-2 rounded-md  `}
+                ></div>
+                <span
+                  onClick={() => {
+                    setShowEditEpic(true);
+                  }}
+                  className="text-base font-semibold text-slate-600 "
+                >
+                  {epic.summary}
                 </span>
               </div>
             </div>
-            <div
+            {/* <div
               className="flex items-center justify-center rounded-lg bg-slate-200 hover:bg-slate-300"
               onClick={handleShowCreate}
             >
@@ -114,26 +154,11 @@ const RoadmapItem = ({ item, project, epic }) => {
                   />
                 </svg>
               </span>
-            </div>
+            </div> */}
           </div>
           <Progress done={Math.floor(donePercent)} />
-          {/* <div className="h-2 w-full z-0 bg-[#ddd] rounded-[5px] my-2 relative">
-            <div
-              className="absolute z-0 top-0 left-0  bottom-0 bg-blue-600 rounded-[10px]"
-              style={{ width: "40%" }}
-            ></div>
-          </div> */}
         </div>
-        {showIssue ? (
-          <div>
-            <WrapperTask
-              members={members}
-              project={project}
-              issueCollect={issueCollect}
-            ></WrapperTask>
-          </div>
-        ) : null}
-        {showCreateComponent ? (
+        {showIssue && items.includes(epic.id) ? (
           <div>
             <WrapperTask
               members={members}
@@ -147,6 +172,15 @@ const RoadmapItem = ({ item, project, epic }) => {
             />
           </div>
         ) : null}
+        {/* {showCreateComponent ? (
+          <div>
+            <CreateComponent
+              project={project}
+              createWhat={"issues"}
+              idParent={epic.id}
+            />
+          </div>
+        ) : null} */}
       </div>
     </>
   );

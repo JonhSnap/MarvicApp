@@ -4,40 +4,29 @@ import { issueTypes } from "../../util/constants";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faAngleDown,
-  faSquareCheck,
-  faTimes,
-  faAngleRight,
   faFlag,
-  faBolt,
-  faCheck,
-  faLock,
-  faEye,
-  faThumbsUp,
-  faTimeline,
-  faPaperclip,
-  faLink,
-  faPlus,
-  faArrowDownShortWide,
-  faArrowDownWideShort,
 } from "@fortawesome/free-solid-svg-icons";
 import MemberComponent from "../board/MemberComponent";
 import OptionComponent from "../option/OptionComponent";
-import useModal from "../../hooks/useModal";
-import EditIssuePopup from "../popup/EditIssuePopup";
 import { useListIssueContext } from "../../contexts/listIssueContext";
+import { useModalContext } from "../../contexts/modalContext";
 import { useStageContext } from "../../contexts/stageContext";
 import createToast from "../../util/createToast";
 import Stages from "./Stages";
+import { useLabelContext } from "../../contexts/labelContext";
 
-function TaskItemComponent({ members, issue, project, issueEpics }) {
+
+function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
   const [{ stages }] = useStageContext();
-  const [showEdit, setShow, handleClose] = useModal();
+  const {
+    modal: [, setShow],
+    item: [, setIssue]
+  } = useModalContext();
+  const [{ labels }] = useLabelContext();
   const [, dispatch] = useListIssueContext();
   const [showFlag, setShowFlag] = useState(false);
   const [showInputPoint, setShowInputPoint] = useState(false);
   const [valuePointStore, setValuePointStore] = useState("");
-  const [showEditEpic, setShowEditEpic, handleCloseEpic] = useModal();
   const [valuePoint, setValuePoint] = useState(
     issue?.story_Point_Estimate || 0
   );
@@ -53,6 +42,7 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
   const handleClickItem = (e) => {
     if (e.target.matches(".item")) {
       setShow(true);
+      setIssue(issue);
     }
   };
   // handle blur input poit
@@ -70,42 +60,22 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
     setShowInputPoint(false);
     createToast("success", "Update point estimate successfully!");
   };
-  // handle click parent
+  // find current epic
   const currentEpic = issueEpics.find(
     (item) => item.id === issue.id_Parent_Issue
   );
-  const handleClickParent = (e) => {
-    if (e.target.matches(".parent")) {
-      setShowEditEpic(true);
-    }
-  };
+  // find current label
+  const currentLabel = labels.find(item => item.id === issue.id_Label);
 
   return (
     <>
-      {showEdit && (
-        <EditIssuePopup
-          members={members}
-          project={project}
-          setShow={setShow}
-          issue={issue}
-        ></EditIssuePopup>
-      )}
-      {showEditEpic && (
-        <EditIssuePopup
-          project={project}
-          setShow={setShowEditEpic}
-          handleClose={handleCloseEpic}
-          issue={currentEpic}
-        ></EditIssuePopup>
-      )}
       <div
         onClick={handleClickItem}
         ref={ref}
         className={`item hover:bg-[#eee] cursor-pointer rounded-md w-full h-[30px] p-1
             px-4 mt-[-1px] border-solid border-[1px] border-[#ccc]
-            flex justify-between items-center ${
-              issue.isFlagged ? "bg-[#ffe8e6] hover:bg-[#ffb9b3]" : "bg-white"
-            }`}
+            flex justify-between items-center ${issue.isFlagged ? "bg-[#ffe8e6] hover:bg-[#ffb9b3]" : "bg-white"
+          }`}
       >
         <div className="flex items-center h-full left-item">
           <div className="w-5 h-5">
@@ -121,18 +91,22 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
           <div className="inline-block mx-1">
             <span>{issue?.summary}</span>
           </div>
-          {issue?.id_Parent_Issue &&
-            issue?.id_Parent_Issue !==
-              "00000000-0000-0000-0000-000000000000" && (
-              <div
-                onClick={handleClickParent}
-                className="parent ml-5 bg-[#8777D9] bg-opacity-60 hover:bg-[#8777D9] flex items-center justify-center p-1 rounded-[2px]"
-              >
-                <span className="text-[10px] pointer-events-none text-white font-semibold">
-                  {currentEpic?.summary}
-                </span>
-              </div>
-            )}
+          {currentEpic && (
+            <div
+              title="epic"
+              className="parent ml-5 bg-[#8777D9] flex items-center justify-center p-1 rounded-[2px]"
+            >
+              <span className="text-[10px] pointer-events-none text-white font-semibold">
+                {currentEpic?.summary}
+              </span>
+            </div>
+          )}
+          {
+            currentLabel &&
+            <div
+              title='label'
+              className="ml-5 bg-task-color text-white text-[10px] rounded-[2px] py-1 px-3">{currentLabel.name}</div>
+          }
         </div>
         <div className="flex items-center h-full right-item w-fit">
           {issue.isFlagged === 1 && (
@@ -187,7 +161,11 @@ function TaskItemComponent({ members, issue, project, issueEpics }) {
           {showFlag && (
             <FontAwesomeIcon color="#EF0000" className="mx-2" icon={faFlag} />
           )}
-          <Stages project={project} issue={issue} stage={stage} />
+          {
+            sprint?.is_Started ?
+              <Stages project={project} issue={issue} stage={stage} /> :
+              null
+          }
           <MemberComponent
             project={project}
             issue={issue}

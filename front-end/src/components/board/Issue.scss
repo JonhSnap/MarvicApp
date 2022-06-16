@@ -1,3 +1,5 @@
+@import "../../index.scss";
+
 .issue {
   padding: 10px;
   display: flex;
@@ -7,7 +9,7 @@
   border-radius: 6px;
   overflow: hidden;
   margin-bottom: 7px;
-  cursor: pointer;
+  cursor: grab;
   @apply shadow-md;
   .wrapper-summary {
     display: flex;
@@ -22,14 +24,32 @@
         object-fit: cover;
       }
     }
+    .summary {
+      &:hover {
+        text-decoration: underline;
+        color: $main-color;
+        cursor: pointer;
+      }
+    }
   }
-  .epic {
-    width: fit-content;
-    padding: 4px;
-    @apply bg-epic-color;
-    border-radius: 4px;
-    color: white;
-    font-weight: 550;
-    opacity: 0.8;
+  .bottom {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    .epic,
+    .label {
+      width: fit-content;
+      padding: 4px;
+      @apply bg-epic-color;
+      border-radius: 4px;
+      color: white;
+      font-size: 12px;
+      font-weight: 300;
+      opacity: 0.8;
+    }
+    .label {
+      @apply bg-task-color;
+      padding: 4px 12px;
+    }
   }
 }
