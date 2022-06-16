@@ -136,7 +136,6 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 _logger.LogInformation($"Controller: Stages. Method: DeleteStage. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
-
         }
 
         public async Task<bool> DragAndDrop(int curentPos, int newPos, Guid id_Project)
