@@ -113,7 +113,7 @@ function DashboardContainer({ project }) {
         {chart === "area" && <BarChartArea project={project} dateStarted={dateStarted} dateEnd={dateEnd} />}
         {chart === "column" && <BarChartColumn project={project} dateStarted={dateStarted} dateEnd={dateEnd} />}
         {chart === "doughnut" && <BarChartDoughnut project={project} dateStarted={dateStarted} dateEnd={dateEnd} />}
-        <div className="justify-self-end flex items-center gap-x-2 pb-5">
+        <div className="mt-auto flex items-center gap-x-2 pb-5">
           <select
             onChange={(e) => setChart(e.target.value)}
             value={chart}
@@ -133,7 +133,9 @@ function DashboardContainer({ project }) {
               ))
             }
           </select>
-          <div className="flex p-1 ml-5 transition-all border-l-2 shadow-2xl animate__animated animate__backInLeft gap-x-2 ">
+          <div
+            style={timeLine !== 'custom' ? { backgroundColor: '#ccc', opacity: 0.5 } : null}
+            className="flex p-1 ml-5 transition-all border-l-2 rounded-md animate__animated animate__backInLeft gap-x-2 ">
             <Tippy disabled={timeLine === 'custom'} content='Select custom to edit date'>
               <div className="flex flex-col gap-y-1">
                 <label>Date start:</label>

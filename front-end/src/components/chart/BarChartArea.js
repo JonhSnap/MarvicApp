@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { CanvasJSChart } from "canvasjs-react-charts";
+import ImageChart from '../../images/Chart.png'
 import { BASE_URL } from "../../util/constants";
 import axios from "axios";
 const BarChartArea = ({ project, dateStarted, dateEnd }) => {
@@ -35,9 +36,6 @@ const BarChartArea = ({ project, dateStarted, dateEnd }) => {
     title: {
       text: `Issue Satisfaction Archive - ${project?.dateEnd.slice(0, 4)}`,
     },
-    // toolTip: {
-    //   shared: true,
-    // },
     data: [
       {
         type: "area",
@@ -55,7 +53,12 @@ const BarChartArea = ({ project, dateStarted, dateEnd }) => {
   }
   if (datapoint.length === 0) {
     return (
-      <h3 className="text-center font-bold text-[20px]">No issue for the period</h3>
+      <>
+        <h3 className="font-bold text-[20px]">No issue for the period</h3>
+        <div className="justify-self-center w-full h-[full]">
+          <img className="block w-full h-full object-cover" src={ImageChart} alt="" />
+        </div>
+      </>
     )
   }
 
