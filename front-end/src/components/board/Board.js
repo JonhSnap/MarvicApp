@@ -1,61 +1,75 @@
 import React, { useEffect } from 'react'
 import { v4 } from 'uuid';
+import axios from 'axios';
 import sorter from '../../util/sorter';
 import './Board.scss'
 import Column from './Column'
-import { useStageContext } from '../../contexts/stageContext'
+// import { useStageContext } from '../../contexts/stageContext'
 import { Container, Draggable } from 'react-smooth-dnd'
-import { fetchStage, updateStage } from '../../reducers/stageReducer';
-import { useSelector } from 'react-redux'
+// import { fetchStage, updateStage } from '../../reducers/stageReducer';
+// import { useSelector } from 'react-redux'
 import { fetchBoard } from '../../reducers/boardReducer';
 import { useBoardContext } from '../../contexts/boardContext';
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
+import { BASE_URL } from '../../util/constants'
 
 function Board({ board, project, currentSprint }) {
-    const { currentUser } = useSelector(state => state.auth.login)
-    const [, dispatch] = useStageContext();
+    // const { currentUser } = useSelector(state => state.auth.login)
+    // const [, dispatch] = useStageContext();
     const [, dispatchBoard] = useBoardContext();
     const { listStageOrder, listStage } = board;
     sorter(listStage, listStageOrder);
 
-    // create connection
-    const connection = new HubConnectionBuilder()
-        .withUrl('https://localhost:5001/hubs/marvic')
-        .configureLogging(LogLevel.Information)
-        .build();
+
     // handle column drop
     const handleColumnDrop = async (dropResult) => {
         const { addedIndex, removedIndex } = dropResult;
-        const StageAdded = { ...listStage[removedIndex] };
-        const StageRemove = { ...listStage[addedIndex] };
-        let stageUpdateAdded = {};
-        let stageUpdateRemoved = {};
-        if (StageAdded) {
-            stageUpdateAdded.stage_Name = StageAdded?.stage_Name;
-            stageUpdateAdded.id_Updator = currentUser?.id;
-            stageUpdateAdded.order = StageRemove?.order;
+        if (addedIndex !== null && removedIndex !== null) {
+            try {
+                axios.post(`${BASE_URL}/api/Stages/draganddrop`, {
+                    currentPos: removedIndex,
+                    newPos: addedIndex,
+                    id_Project: project.id
+                });
+            } catch (error) {
+                console.log(error);
+            }
         }
-        if (StageRemove) {
-            stageUpdateRemoved.stage_Name = StageRemove?.stage_Name;
-            stageUpdateRemoved.id_Updator = currentUser?.id;
-            stageUpdateRemoved.order = StageAdded?.order;
-        }
-        await updateStage(StageAdded.id, stageUpdateAdded, dispatch);
-        await updateStage(StageRemove.id, stageUpdateRemoved, dispatch);
-        await fetchStage(project.id, dispatch);
-        fetchBoard({
-            idSprint: currentSprint.id,
-            idEpic: null,
-            type: 0
-        }, dispatchBoard);
+        // const StageAdded = { ...listStage[removedIndex] };
+        // const StageRemove = { ...listStage[addedIndex] };
+        // let stageUpdateAdded = {};
+        // let stageUpdateRemoved = {};
+        // if (StageAdded) {
+        //     stageUpdateAdded.stage_Name = StageAdded?.stage_Name;
+        //     stageUpdateAdded.id_Updator = currentUser?.id;
+        //     stageUpdateAdded.order = StageRemove?.order;
+        // }
+        // if (StageRemove) {
+        //     stageUpdateRemoved.stage_Name = StageRemove?.stage_Name;
+        //     stageUpdateRemoved.id_Updator = currentUser?.id;
+        //     stageUpdateRemoved.order = StageAdded?.order;
+
+        // }
+        // await updateStage(StageAdded.id, stageUpdateAdded, dispatch);
+        // await updateStage(StageRemove.id, stageUpdateRemoved, dispatch);
+        // await fetchStage(project.id, dispatch);
+        // fetchBoard({
+        //     idSprint: currentSprint.id,
+        //     idEpic: null,
+        //     type: 0
+        // }, dispatchBoard);
     }
     useEffect(() => {
-
+        const connection = new HubConnectionBuilder()
+            .withUrl('https://localhost:5001/hubs/marvic')
+            .configureLogging(LogLevel.Information)
+            .build();
+        console.log("create connection....")
         connection
             .start()
             .then((res) => {
                 console.log("connection....")
-                connection.on("Stage", () => {
+                connection.on("Stagsse", () => {
                     fetchBoard({
                         idSprint: currentSprint.id,
                         idEpic: null,
@@ -90,8 +104,9 @@ function Board({ board, project, currentSprint }) {
                     listStage.length > 0 &&
                     listStage.map(item => (
                         <Draggable
+                            key={v4()}
                             style={{ height: 'auto' }}
-                            key={v4()}>
+                        >
                             <Column currentSprint={currentSprint} stage={item} />
                         </Draggable>
                     ))

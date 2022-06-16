@@ -13,6 +13,7 @@ const Comments = ({ commentURL, IdIssueComment }) => {
   const user = useSelector((state) => state.auth.login.currentUser);
   const id_User = user?.id;
   const id_Issue = IdIssueComment;
+
   const loadComment = async () => {
     await axios
       .get(`${BASE_URL}/api/Comments/issue/${id_Issue}`)
@@ -23,12 +24,13 @@ const Comments = ({ commentURL, IdIssueComment }) => {
       .catch((err) => console.log(err));
   };
 
-  const connection = new HubConnectionBuilder()
-    .withUrl(commentURL)
-    .configureLogging(LogLevel.Information)
-    .build();
   useEffect(() => {
     loadComment();
+    console.log("create connection....")
+    const connection = new HubConnectionBuilder()
+      .withUrl(commentURL)
+      .configureLogging(LogLevel.Information)
+      .build();
     connection
       .start()
       .then((res) => {
@@ -71,8 +73,8 @@ const Comments = ({ commentURL, IdIssueComment }) => {
         content: text,
       })
       .then(() => {
-        console.log("success");
-        loadComment();
+        // console.log("success");
+        // loadComment();
         setActiveComment(null);
       });
   };
