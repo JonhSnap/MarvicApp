@@ -167,19 +167,21 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   }, [issue]);
   // get child issue
   useEffect(() => {
-    axios
-      .get(
-        `https://localhost:5001/api/Issue/GetIssueByIdParent?IdProject=${project.id}&IdParent=${issue.id}`
-      )
-      .then((resp) => {
-        if (resp.status === 200) {
-          return resp.data;
-        }
-      })
-      .then((data) => {
-        setChildIssues(data);
-      })
-      .catch((err) => console.log(err));
+    if (issue && project) {
+      axios
+        .get(
+          `https://localhost:5001/api/Issue/GetIssueByIdParent?IdProject=${project.id}&IdParent=${issue.id}`
+        )
+        .then((resp) => {
+          if (resp.status === 200) {
+            return resp.data;
+          }
+        })
+        .then((data) => {
+          setChildIssues(data);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [project, issue]);
   // handle toggle epic
   const handleToggleEpic = (e) => {

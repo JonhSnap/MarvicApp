@@ -16,7 +16,7 @@ import Stages from "./Stages";
 import { useLabelContext } from "../../contexts/labelContext";
 
 
-function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
+function TaskItemComponent({ members, issue, project, issueEpics, sprint, isRoadmap = false }) {
   const [{ stages }] = useStageContext();
   const {
     modal: [, setShow],
@@ -89,9 +89,9 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
             />
           </div>
           <div className="inline-block mx-1">
-            <span>{issue?.summary}</span>
+            <span className="one-line">{issue?.summary}</span>
           </div>
-          {currentEpic && (
+          {currentEpic && !isRoadmap && (
             <div
               title="epic"
               className="parent ml-5 bg-[#8777D9] flex items-center justify-center p-1 rounded-[2px]"
@@ -102,7 +102,7 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
             </div>
           )}
           {
-            currentLabel &&
+            currentLabel && !isRoadmap &&
             <div
               title='label'
               className="ml-5 bg-task-color text-white text-[10px] rounded-[2px] py-1 px-3">{currentLabel.name}</div>
@@ -124,7 +124,7 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
               </svg>
             </span>
           )}
-          {!showInputPoint &&
+          {!showInputPoint && !isRoadmap &&
             (issue?.story_Point_Estimate ? (
               <div
                 onClick={() => setShowInputPoint(true)}
@@ -140,7 +140,7 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
                 <span>-</span>
               </div>
             ))}
-          {showInputPoint && (
+          {showInputPoint && !isRoadmap && (
             <input
               onChange={(e) => {
                 const pointPrev = e.target.value;
@@ -166,11 +166,14 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
               <Stages project={project} issue={issue} stage={stage} /> :
               null
           }
-          <MemberComponent
-            project={project}
-            issue={issue}
-            members={members}
-          ></MemberComponent>
+          {
+            !isRoadmap &&
+            <MemberComponent
+              project={project}
+              issue={issue}
+              members={members}
+            ></MemberComponent>
+          }
           <OptionComponent project={project} issue={issue} />
         </div>
       </div>
