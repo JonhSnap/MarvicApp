@@ -1,55 +1,69 @@
-import React, { useMemo, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import useModal from "../../hooks/useModal";
-import StageSelectbox from "../selectbox/StageSelectbox";
-import { documentHeight } from "../../util/constants";
+import React, { useState } from "react";
+import { Button, Menu, MenuItem } from "@mui/material";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useStageContext } from "../../contexts/stageContext";
+import { useListIssueContext } from "../../contexts/listIssueContext";
+import { fetchIssue, updateIssues } from "../../reducers/listIssueReducer";
+import createToast from "../../util/createToast";
+import { v4 } from "uuid";
 
-const secondThirdScreen = (documentHeight * 2) / 3;
 
 function Stages({ stage, issue, project }) {
-  const [coord, setCoord] = useState({});
-  const [show, setShow, handleClose] = useModal();
-  const nodeRef = useRef();
-
-  const handleClick = () => {
-    const bounding = nodeRef.current.getBoundingClientRect();
-    if (bounding) {
-      setCoord(bounding);
-      setShow(true);
-    }
+  const [{ stages }] = useStageContext();
+  const [, dispatch] = useListIssueContext();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  // handle chooose stage
+  const handleChooseStage = async (idStage) => {
+    const dataPut = { ...issue };
+    dataPut.id_Stage = idStage;
+    await updateIssues(dataPut, dispatch);
+    await fetchIssue(project.id, dispatch);
+    createToast('success', 'Update stage successfully!');
+  }
 
   return (
     <>
-      {show && (
-        <StageSelectbox
-          bodyStyle={{
-            top: coord.bottom <= secondThirdScreen ? coord.bottom : null,
-            left: coord.left - 10,
-            bottom:
-              coord.bottom > secondThirdScreen
-                ? documentHeight - coord.top
-                : null,
-          }}
-          project={project}
-          issue={issue}
-          onClose={handleClose}
-          stage={stage}
-        />
-      )}
-      <div
-        ref={nodeRef}
+      <Button
         onClick={handleClick}
-        className="whitespace-nowrap rounded-md h-4 w-auto uppercase text-xs font-bold  mx-2 border-solid border-[0.5px] border-[#ccc] flex justify-center items-center py-3 px-2 bg-[#ccc]"
+        variant='contained'
+        endIcon={<KeyboardArrowDownIcon style={{ fontSize: 14 }} />}
+        style={
+          {
+            backgroundColor: '#ccc',
+            fontSize: 10,
+            padding: '2px 6px',
+            color: '#000',
+            fontWeight: 550,
+            marginLeft: 5
+          }
+        }
       >
         {stage?.stage_Name}
-        <FontAwesomeIcon
-          size="1x"
-          className="px-2 inline-block"
-          icon={faAngleDown}
-        />
-      </div>
+      </Button>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      >
+        {
+          stages.map(item => {
+            return (
+              item?.id !== stage?.id ?
+                <MenuItem key={v4()}>
+                  <div onClick={() => handleChooseStage(item.id)} className='uppercase cursor-pointer text-[12px]'>{item.stage_Name}</div>
+                </MenuItem> :
+                null
+            )
+          })
+        }
+      </Menu>
     </>
   );
 }

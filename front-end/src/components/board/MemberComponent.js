@@ -1,15 +1,13 @@
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import "../../../src/index.scss";
 import { NIL } from "uuid";
 import { useListIssueContext } from "../../contexts/listIssueContext";
 import { fetchIssue, updateIssues } from "../../reducers/listIssueReducer";
 import createToast from "../../util/createToast";
-import useModal from "../../hooks/useModal";
-import AssineeSelectBox from "../selectbox/AssineeSelectBox";
-import { documentHeight } from "../../util/constants";
 import Avatar from '@mui/material/Avatar';
 import PersonIcon from '@mui/icons-material/Person';
 import Tippy from '@tippyjs/react'
+import { Menu, MenuItem } from "@mui/material";
 
 function stringToColor(string) {
   let hash = 0;
@@ -39,24 +37,19 @@ function stringAvatar(name) {
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
   };
 }
-const secondThirdScreen = (documentHeight * 2) / 3;
 
 function MemberComponent({ project, members, issue }) {
   const [assignee, setAssignee] = useState();
-  const [showAssignee, setShowAssignee, handleCloseAssignee] = useModal();
   const [, dispatch] = useListIssueContext();
-  const nodeRef = useRef();
-  const [coord, setCoord] = useState({});
-
-  // handle toggle assignee
-  const handleToggleAssignee = () => {
-    if (showAssignee) return;
-    const bounding = nodeRef.current.getBoundingClientRect();
-    if (bounding) {
-      setShowAssignee(true);
-      setCoord(bounding);
-    }
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   // handle Unassignee
   const handleChooseAssignee = async (idMember) => {
     const issueUpdate = { ...issue };
@@ -86,9 +79,8 @@ function MemberComponent({ project, members, issue }) {
   return (
     <>
       <div
-        ref={nodeRef}
-        onClick={handleToggleAssignee}
-        className="wrap-assignee relative z-10 wrap-member mr-2"
+        onClick={handleClick}
+        className="wrap-assignee relative z-10 wrap-member mr-2 ml-[5px]"
       >
         {assignee ? (
           <>
@@ -108,22 +100,39 @@ function MemberComponent({ project, members, issue }) {
             <Avatar sx={{ width: 24, height: 24 }}><PersonIcon fontSize='small' /></Avatar>
           </Tippy>
         )}
-        {showAssignee && (
-          <AssineeSelectBox
-            bodyStyle={{
-              top: coord.bottom <= secondThirdScreen ? coord.bottom : null,
-              left: coord.left - 30,
-              bottom: !(coord.bottom <= secondThirdScreen)
-                ? documentHeight - coord.top
-                : null,
-            }}
-            issue={issue}
-            members={members}
-            handleChooseAssignee={handleChooseAssignee}
-            onClose={handleCloseAssignee}
-          />
-        )}
       </div>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      >
+        <div className="max-h-[170px] overflow-auto have-y-scroll">
+          {
+            issue.id_Assignee && issue.id_Assignee !== NIL &&
+            <MenuItem>
+              <div onClick={() => handleChooseAssignee(null)} className='w-full cursor-pointer'>Unassigneed</div>
+            </MenuItem>
+          }
+          {
+            members?.length > 0 &&
+            members.map(item => (
+              <MenuItem
+                style={
+                  item.id === issue.id_Assignee ?
+                    { backgroundColor: '#f4f5f7', cursor: 'default' } :
+                    null
+                }
+                key={item.id}
+              >
+                <div
+                  onClick={() => handleChooseAssignee(item.id)}
+                  className={`w-full cursor-pointer ${item.id === issue.id_Assignee ? 'font-semibold pointer-events-none cursor-default' : ''}`}
+                >{item.userName}</div>
+              </MenuItem>
+            ))
+          }
+        </div>
+      </Menu>
     </>
   );
 }

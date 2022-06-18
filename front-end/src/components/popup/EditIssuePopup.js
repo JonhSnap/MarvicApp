@@ -26,7 +26,6 @@ import { useLabelContext } from "../../contexts/labelContext";
 
 
 function EditIssuePopup({ members, project, issue, setShow }) {
-  console.log(issue);
   const [{ issueEpics }, dispatch] = useListIssueContext();
   const [, dispatchBoard] = useBoardContext();
   const {
