@@ -64,7 +64,7 @@ function Sprint({ sprint, members, project }) {
 
     return (
         <>
-            {showSprintSelectBox &&
+            {/* {showSprintSelectBox &&
                 <SprintSelectbox
                     onClose={handleCloseSprintSelectBox}
                     bodyStyle={{
@@ -76,7 +76,8 @@ function Sprint({ sprint, members, project }) {
                     sprint={sprint}
                     listSprint={otherSprint}
                 />
-            }
+            } */}
+            <SprintSelectbox project={project} sprint={sprint} listSprint={otherSprint} open={showSprintSelectBox} handleClose={() => setShowSprintSelectBox(false)} />
             {showStartSprint && <StartSprintPopup project={project} onClose={handleCloseStartSprint} setshow={setShowStartSprint} sprint={sprint}></StartSprintPopup>}
             {showEditSprint && <EditSprintPopup project={project} onClose={handleCloseEditSprint} setshow={setShowEditSprint} sprint={sprint} />}
             <div data-id={sprint?.id} className='backlog-item'>
