@@ -23,7 +23,6 @@ export default function OptionItemBacklogComponent({ issue, project, bodyStyle, 
         }, 500);
     }
     // handleDeleteIssue
-
     const handleDeleteIssue = async () => {
         if (window.confirm(`Are you sure to delete issue ${issue.summary}?`)) {
             await deleteIssue(issue.id, dispatch);
@@ -49,29 +48,8 @@ export default function OptionItemBacklogComponent({ issue, project, bodyStyle, 
                     <div onClick={handleChangeFlag} role="button" className='p-2 hover:bg-[#f4f5f7]'>
                         {issue?.isFlagged ? 'Remove flag' : 'Add flag'}
                     </div>
-                    <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                        Change parent
-                    </div>
-                    <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                        Copy issue link
-                    </div>
                     <div onClick={handleDeleteIssue} role="button" className='p-2 hover:bg-[#f4f5f7]'>
                         Delete
-                    </div>
-                    <div className='p-2 uppercase text-[#ccc]'>
-                        move to
-                    </div>
-                    <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                        MPM Sprint 2
-                    </div>
-                    <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                        MPM Sprint 3
-                    </div>
-                    <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                        Top of backlog
-                    </div>
-                    <div role="button" className='p-2 hover:bg-[#f4f5f7]'>
-                        Bottom of backlog
                     </div>
                 </div>
             </Portal>

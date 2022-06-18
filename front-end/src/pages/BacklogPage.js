@@ -4,12 +4,6 @@ import { useSelector } from 'react-redux'
 
 import Sidebar from '../components/sidebar/Sidebar'
 import ContainerBacklog from '../components/containers/ContainerBacklog'
-import { ListIssueProvider } from '../contexts/listIssueContext'
-import { MembersProvider } from '../contexts/membersContext'
-import { SprintProvider } from '../contexts/sprintContext'
-import { StageProvider } from '../contexts/stageContext'
-import { BoardProvider } from '../contexts/boardContext'
-import { LabelProvider } from '../contexts/labelContext'
 
 
 function BacklogPage() {

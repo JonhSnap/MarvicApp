@@ -24,6 +24,7 @@ function ProjectsPage() {
       getProjects(dispatch, currentUser.id);
     }, 1000);
     return () => clearTimeout(timerRef.current)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search])
   useEffect(() => {
     document.title = 'Marvic-Projects'

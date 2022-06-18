@@ -5,13 +5,15 @@ import { v4 } from "uuid";
 import YourWorkProject from "../components/your-work/YourWorkProject";
 import "../components/your-work/YourWork.scss";
 import YourWorkRecent from "../components/your-work/YourWorkRecent";
-import projectStart from "../components/your-work/projectStart";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
 import YourWorkAssign from "../components/your-work/YourWorkAssign";
 import YourWorkStarred from "../components/your-work/YourWorkStarred";
+import useLoading from "../hooks/useLoading";
+import { Skeleton } from "@mui/material";
 
 function YourWorkPage() {
+  const [isLoading] = useLoading();
   const [dataYourWork, setDataYourWork] = useState([]);
   const [projects, setProjects] = useState([]);
   const [assignToMe, setAssignToMe] = useState([]);
@@ -93,29 +95,73 @@ function YourWorkPage() {
           <h3 className="text-xl font-normal text-slate-600">
             Recent projects
           </h3>
-          <div className="w-full yw-percent">
-            <Swiper
-              grabCursor={"true"}
-              spaceBetween={40}
-              slidesPerView={"auto"}
-            >
-              {projects &&
-                projects.length > 0 &&
-                projects.map((project) => (
-                  <SwiperSlide key={v4()}>
-                    <YourWorkRecent project={project}></YourWorkRecent>
-                  </SwiperSlide>
-                ))}
-            </Swiper>
-          </div>
+          {
+            isLoading ?
+              (
+                <>
+                  <div className="w-full flex gap-x-6">
+                    {
+                      projects.length > 0 &&
+                      projects.map(item => (
+                        <div key={item.id} className="w-[240px] h-[200px] flex flex-col p-2 rounded bg-white">
+                          <div className="w-full flex gap-x-3 items-center mb-5">
+                            <div className="w-[40px] h-[40px]">
+                              <Skeleton style={{ backgroundColor: '#f4f5f7' }} variant="circular" animation='wave' width='100%' height='100%' />
+                            </div>
+                            <div className="grow flex flex-col gap-y-2">
+                              <div className="w-[30%] h-[15px]">
+                                <Skeleton style={{ backgroundColor: '#f4f5f7', borderRadius: 4 }} variant="rectangular" animation='wave' width='100%' height='100%' />
+                              </div>
+                              <div className="w-full h-[15px]">
+                                <Skeleton style={{ backgroundColor: '#f4f5f7', borderRadius: 4 }} variant="rectangular" animation='wave' width='100%' height='100%' />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="grow w-full flex items-center gap-x-[20px]">
+                            <div className="grow h-full flex flex-col justify-between">
+                              {
+                                Array(3).fill(0).map(() => (
+                                  <div key={v4()} className="w-full h-[30px]">
+                                    <Skeleton style={{ backgroundColor: '#f4f5f7', borderRadius: 4 }} variant="rectangular" animation='wave' width='100%' height='100%' />
+                                  </div>
+                                ))
+                              }
+                            </div>
+                            <div className="w-[30px] h-[30px]">
+                              <Skeleton style={{ backgroundColor: '#f4f5f7', borderRadius: 4 }} variant="rectangular" animation='wave' width='100%' height='100%' />
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    }
+                  </div>
+                </>
+              ) :
+              (
+                <div className="w-full yw-percent">
+                  <Swiper
+                    grabCursor={"true"}
+                    spaceBetween={40}
+                    slidesPerView={"auto"}
+                  >
+                    {projects &&
+                      projects.length > 0 &&
+                      projects.map((project) => (
+                        <SwiperSlide key={v4()}>
+                          <YourWorkRecent project={project}></YourWorkRecent>
+                        </SwiperSlide>
+                      ))}
+                  </Swiper>
+                </div>
+              )
+          }
         </div>
         <div className="p-2 mt-6 border-2 border-blue-200 rounded-xl">
           <div className="flex items-center p-2 mt-5 text-white workon-header rounded-2xl ">
             <div
               onClick={handleIsWorkOn}
-              className={`${
-                isWorkOn ? "border-b-2 border-white  " : ""
-              } inline-block cursor-pointer mr-5 p-2 rounded-lg hover:bg-blue-600`}
+              className={`${isWorkOn ? "border-b-2 border-white  " : ""
+                } inline-block cursor-pointer mr-5 p-2 rounded-lg hover:bg-blue-600`}
             >
               <h3 className="text-xl font-semibold">Worked on</h3>
             </div>
@@ -129,9 +175,8 @@ function YourWorkPage() {
             </div> */}
             <div
               onClick={handleIsAssigned}
-              className={`${
-                isAssign ? "border-b-2 border-white  " : ""
-              } inline-block cursor-pointer mr-5 p-2 rounded-lg hover:bg-blue-600`}
+              className={`${isAssign ? "border-b-2 border-white  " : ""
+                } inline-block cursor-pointer mr-5 p-2 rounded-lg hover:bg-blue-600`}
             >
               <h3 className="flex items-center text-xl font-semibold">
                 Assigned to me{" "}
@@ -142,9 +187,8 @@ function YourWorkPage() {
             </div>
             <div
               onClick={handleIsStart}
-              className={`${
-                isStart ? "border-b-2 border-white  " : ""
-              } inline-block cursor-pointer mr-5 p-2 rounded-lg hover:bg-blue-600`}
+              className={`${isStart ? "border-b-2 border-white  " : ""
+                } inline-block cursor-pointer mr-5 p-2 rounded-lg hover:bg-blue-600`}
             >
               <h3 className="flex items-center text-xl font-semibold">
                 Starred
@@ -162,14 +206,49 @@ function YourWorkPage() {
               <h2 className="my-5 text-xl font-semibold text-slate-400">
                 IN THE LAST MONTH
               </h2>
-              {dataYourWork &&
-                dataYourWork.length > 0 &&
-                dataYourWork.map((item) => (
-                  <YourWorkProject
-                    key={v4()}
-                    dataYourWork={item}
-                  ></YourWorkProject>
-                ))}
+              <>
+                {
+                  isLoading ?
+                    (
+                      <div className="flex flex-col gap-y-3">
+                        {
+                          Array(5).fill(0).map(() => (
+                            <div key={v4()} className="w-full h-[50px] p-4 bg-white flex justify-between">
+                              <div className="w-[100px] h-full">
+                                <Skeleton style={{ backgroundColor: '#f4f5f7', borderRadius: 4 }} variant='rectangular' animation='wave' width='100%' height='100%' />
+                              </div>
+                              <div className="w-[40px] h-full">
+                                <Skeleton style={{ backgroundColor: '#f4f5f7', borderRadius: 4 }} variant='rectangular' animation='wave' width='100%' height='100%' />
+                              </div>
+                              <div className="w-[80px] h-full flex justify-between">
+                                <div className="w-[35px] h-[35px]">
+                                  <Skeleton style={{ backgroundColor: '#f4f5f7' }} variant='circular' animation='wave' width='100%' height='100%' />
+                                </div>
+                                <div className="w-[35px] h-[35px]">
+                                  <Skeleton style={{ backgroundColor: '#f4f5f7' }} variant='circular' animation='wave' width='100%' height='100%' />
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                        }
+                      </div>
+                    ) :
+                    (
+                      <>
+                        {
+                          dataYourWork &&
+                          dataYourWork.length > 0 &&
+                          dataYourWork.map((item) => (
+                            <YourWorkProject
+                              key={v4()}
+                              dataYourWork={item}
+                            ></YourWorkProject>
+                          ))
+                        }
+                      </>
+                    )
+                }
+              </>
             </div>
           )}
 
