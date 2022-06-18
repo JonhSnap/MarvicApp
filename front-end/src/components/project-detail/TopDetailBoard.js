@@ -25,6 +25,13 @@ import "./TopDetail.scss";
 import FilterTypeBoardSelectBox from "../selectbox/FilterTypeBoardSelectBox";
 import FilterLabelBoardSelectBox from "../selectbox/FilterLabelBoardSelectBox";
 import ButtonRefresh from "./ButtonRefresh";
+import BreadcrumbsComp from "./Breadcrumbs";
+import AllMember from "./AllMember";
+import { Button, IconButton } from "@mui/material";
+import ClearIcon from '@mui/icons-material/Clear';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import Tippy from '@tippyjs/react'
 
 const secondThirdScreen = (documentHeight * 2) / 3;
 function TopDetailBoard({ project, currentSprint }) {
@@ -276,40 +283,44 @@ function TopDetailBoard({ project, currentSprint }) {
         ></AddMemberPopup>
       )}
       <div className="navigate">
-        <span>Projects</span>
-        <span>/</span>
-        <span>{project?.name}</span>
+        <BreadcrumbsComp />
       </div>
       <div className="wrap-key">
         <h3 className="key">{project?.key} board</h3>
         {project?.isStared ? (
-          <span className="w-8 h-8 cursor-pointer text-yellow-300">
-            <svg
-              onClick={handleClickStar}
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-            </svg>
-          </span>
+          <Tippy content='UnStarred'>
+            <span className="w-8 h-8 cursor-pointer text-yellow-300">
+              <svg
+                onClick={handleClickStar}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                strokeWidth={1}
+                stroke="#000"
+              >
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            </span>
+          </Tippy>
         ) : (
-          <span className="w-8 h-8 cursor-pointer">
-            <svg
-              onClick={handleClickStar}
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="#ccc"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-              />
-            </svg>
-          </span>
+          <Tippy content='Star'>
+            <span className="w-8 h-8 cursor-pointer">
+              <svg
+                onClick={handleClickStar}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="#ccc"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                />
+              </svg>
+            </span>
+          </Tippy>
         )}
       </div>
       <div className="actions">
@@ -336,158 +347,140 @@ function TopDetailBoard({ project, currentSprint }) {
             </svg>
           </div>
           <div className="members">
-            <div className="avatar">
-              <img
-                src="https://images.unsplash.com/photo-1644982647708-0b2cc3d910b7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60"
-                alt=""
-              />
-            </div>
-            <div
-              onClick={handleChangeShowMembers}
-              className="js-changeshow avatar relative flex items-center justify-center p-2 bg-[#ccc] cursor-pointer"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5 pointer-events-none"
-                viewBox="0 0 20 20"
-                fill="#999"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M15.707 4.293a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414L10 8.586l4.293-4.293a1 1 0 011.414 0zm0 6a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 14.586l4.293-4.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              {showMembers && (
-                <div className="current-members">
-                  {members.length > 0 ? (
-                    members.map((item) => (
-                      <div
-                        key={v4()}
-                        className="w-full flex justify-between items-center px-[10px]"
-                      >
-                        <span className="text-primary">{item.userName}</span>
-                        <div
-                          onClick={() => handleDeleteMember(item.id)}
-                          className="text-[#ccc]  hover:text-red-500 "
-                        >
-                          remove
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-sm text-center text-[#999]">
-                      Project has no members
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
-            <div onClick={handleClickAdd} className="add-member">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="#999"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
-                />
-              </svg>
-            </div>
+            <AllMember members={members} handleDeleteMember={handleDeleteMember} />
+            <Tippy content='Add members'>
+              <IconButton onClick={handleClickAdd} id='add-member-btn' style={{ width: 40, height: 40 }}>
+                <PersonAddAltIcon />
+              </IconButton>
+            </Tippy>
           </div>
         </div>
         <div className="filters">
-          <div
-            ref={filterEpicRef}
-            onClick={handleShowFilterEpic}
-            style={
-              showEpic ? { backgroundColor: "#8777D9", color: "white" } : {}
-            }
-            className="epic"
-          >
-            <span className="pointer-events-none title">Epic</span>
-            <span className={`epic-number ${showEpic ? "active" : ""}`}>
-              ({epics.length})
-            </span>
-            <span className="pointer-events-none icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </span>
-          </div>
-          <div
-            ref={filterTypeRef}
-            style={
-              showType ? { backgroundColor: "#4BADE8", color: "white" } : {}
-            }
-            onClick={handleShowFilterType}
-            className="type"
-          >
-            <span className="pointer-events-none title">Type</span>
-            <span className={`type-number ${showType ? "active" : ""}`}>
-              ({types.length})
-            </span>
-            <span className="pointer-events-none icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </span>
-          </div>
-          <div
-            ref={filterLabelRef}
-            style={showLabel ? { backgroundColor: "#555", color: "white" } : {}}
-            onClick={handleShowFilterLabel}
-            className="label"
-          >
-            <span className="pointer-events-none title">Label</span>
-            <span className={`label-number ${showLabel ? "active" : ""}`}>
-              ({labels.length})
-            </span>
-            <span className="pointer-events-none icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </span>
-          </div>
+          {
+            showEpic ?
+              <Button
+                ref={filterEpicRef}
+                onClick={handleShowFilterEpic}
+                style={{ backgroundColor: '#8777D9', fontWeight: 550, color: 'white' }}
+                size="medium"
+                variant="contained"
+                endIcon={
+                  <>
+                    {
+                      epics.length > 0 ?
+                        <div style={{ fontSize: 10 }} className="w-5 h-5 rounded-full bg-white text-epic-color flex
+                        items-center justify-center">{epics.length}</div> :
+                        null
+                    }
+                    <KeyboardArrowDownIcon fontSize="small" />
+                  </>
+                }
+              >Epic</Button> :
+              <Button
+                ref={filterEpicRef}
+                onClick={handleShowFilterEpic}
+                style={{ backgroundColor: 'rgba(25, 118, 210, 0.04)', color: '#8777D9', fontWeight: 550 }}
+                size="medium"
+                variant="contained"
+                endIcon={
+                  <>
+                    {
+                      epics.length > 0 ?
+                        <div style={{ fontSize: 10 }} className="w-5 h-5 rounded-full bg-epic-color text-white flex
+                        items-center justify-center">{epics.length}</div> :
+                        null
+                    }
+                    <KeyboardArrowDownIcon fontSize="small" />
+                  </>
+                }
+              >Epic</Button>
+          }
+          {
+            showType ?
+              <Button
+                ref={filterTypeRef}
+                onClick={handleShowFilterType}
+                style={{ backgroundColor: '#4BADE8', fontWeight: 550, color: 'white' }}
+                size="medium"
+                variant="contained"
+                endIcon={
+                  <>
+                    {
+                      types.length > 0 ?
+                        <div style={{ fontSize: 10 }} className="w-5 h-5 rounded-full bg-white text-task-color flex: ;
+                        items-center justify-center">{types.length}</div> :
+                        null
+                    }
+                    <KeyboardArrowDownIcon fontSize="small" />
+                  </>
+                }
+              >Type</Button> :
+              <Button
+                ref={filterTypeRef}
+                onClick={handleShowFilterType}
+                style={{ backgroundColor: 'rgba(25, 118, 210, 0.04)', color: '#4BADE8', fontWeight: 550 }}
+                size="medium"
+                variant="contained"
+                endIcon={
+                  <>
+                    {
+                      types.length > 0 ?
+                        <div style={{ fontSize: 10 }} className="w-5 h-5 rounded-full bg-task-color text-white flex: ;
+                        items-center justify-center">{types.length}</div> :
+                        null
+                    }
+                    <KeyboardArrowDownIcon fontSize="small" />
+                  </>
+                }
+              >Type</Button>
+          }
+          {
+            showLabel ?
+              <Button
+                ref={filterLabelRef}
+                onClick={handleShowFilterLabel}
+                style={{ backgroundColor: '#0052cc', fontWeight: 550, color: 'white' }}
+                size="medium"
+                variant="contained"
+                endIcon={
+                  <>
+                    {
+                      labels.length > 0 ?
+                        <div style={{ fontSize: 10 }} className="w-5 h-5 rounded-full bg-white text-primary flex: ;
+                        items-center justify-center">{labels.length}</div> :
+                        null
+                    }
+                    <KeyboardArrowDownIcon fontSize="small" />
+                  </>
+                }
+              >Label</Button> :
+              <Button
+                ref={filterLabelRef}
+                onClick={handleShowFilterLabel}
+                style={{ backgroundColor: 'rgba(25, 118, 210, 0.04)', color: '#0052cc', fontWeight: 550 }}
+                size="medium"
+                variant="contained"
+                endIcon={
+                  <>
+                    {
+                      labels.length > 0 ?
+                        <div style={{ fontSize: 10 }} className="w-5 h-5 rounded-full bg-primary text-white flex: ;
+                        items-center justify-center">{labels.length}</div> :
+                        null
+                    }
+                    <KeyboardArrowDownIcon fontSize="small" />
+                  </>
+                }
+              >Label</Button>
+          }
           {(epics.length > 0 || types.length > 0 || labels.length > 0) && (
-            <div onClick={handleClearFilter} className="clear-filter">
-              Clear filter
-            </div>
+            <Button
+              style={{ color: '#000' }}
+              onClick={handleClearFilter}
+              size='small'
+              variant='text'
+              endIcon={<ClearIcon style={{ fontSize: 10 }} />}
+            >Clear filter</Button>
           )}
         </div>
         <ButtonRefresh currentSprint={currentSprint} />
