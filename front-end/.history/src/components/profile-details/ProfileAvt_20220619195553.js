@@ -31,18 +31,13 @@ const ProfileAvt = ({ user, avt, setAvt }) => {
           <div className="items-center w-[105px] mt-5">
             <img src={avt} alt="avt-user" className="img-avt" />
           </div>
-          <div className="flex items-center mt-8 justify-between w-full">
-            <div className="mt-8 ml-10 ">
-              <h3 className="text-2xl font-semibold text-blue-500">
-                {user.fullName}
-              </h3>
-              <span className="text-base text-slate-600">{user.email}</span>
-            </div>
-            <div className=" flex text-base  flex-col items-center w-[50px] h-[50px] rounded-full bg-white text-black font-semibold justify-center shadow-md">
-              {user.scores}
-              <span className="text-xs font-bold mt-[-5px]">scores</span>
-            </div>
+          <div className="mt-8 ml-10 ">
+            <h3 className="text-2xl font-semibold text-blue-500">
+              {user.fullName}
+            </h3>
+            <span className="text-base text-slate-600">{user.email}</span>
           </div>
+          <div>{user.scores}</div>
         </div>
 
         <div className="mt-10 ml-5">

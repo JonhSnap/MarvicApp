@@ -38,9 +38,9 @@ const ProfileAvt = ({ user, avt, setAvt }) => {
               </h3>
               <span className="text-base text-slate-600">{user.email}</span>
             </div>
-            <div className=" flex text-base  flex-col items-center w-[50px] h-[50px] rounded-full bg-white text-black font-semibold justify-center shadow-md">
+            <div className=" flex flex-col items-center w-[50px] h-[50px] rounded-full bg-white text-black font-semibold justify-center">
               {user.scores}
-              <span className="text-xs font-bold mt-[-5px]">scores</span>
+              <span>scores</span>
             </div>
           </div>
         </div>
