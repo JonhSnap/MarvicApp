@@ -1,16 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "./ContainerRoadmap.scss";
 import { fetchIssue } from "../../reducers/listIssueReducer";
-import { CHANGE_FILTERS_NAME } from "../../reducers/actions";
 import CreateComponent from "../CreateComponent";
 
-import useModal from "../../hooks/useModal";
 import { useListIssueContext } from "../../contexts/listIssueContext";
 import { v4 } from "uuid";
-import { BASE_URL } from "../../util/constants";
-import axios from "axios";
-import useHover from "../../hooks/useHover";
 import RoadmapItem from "./RoadmapItem";
 import Roadmap from "../roadmap/Roadmap";
 import { useMembersContext } from "../../contexts/membersContext";
@@ -20,20 +15,20 @@ import { useStageContext } from "../../contexts/stageContext";
 import TopDetail from "../project-detail/TopDetail";
 import { fetchLabel } from "../../reducers/labelReducer";
 import { useLabelContext } from "../../contexts/labelContext";
+import useLoading from "../../hooks/useLoading";
+import { Skeleton } from "@mui/material";
 
 const ContainerRoadmap = ({ project }) => {
+  const [isLoading] = useLoading();
   const [
     {
       issueEpics,
-      issueNormals,
-      filters: { epics, type },
     },
     dispatchIssue,
   ] = useListIssueContext();
-  const { currentUser } = useSelector((state) => state.auth.login);
 
   const { dispatch: dispatchMember } = useMembersContext();
-  const [{ stages }, dispatchStage] = useStageContext();
+  const [, dispatchStage] = useStageContext();
   const [, dispatchLabel] = useLabelContext();
 
   useEffect(() => {
@@ -73,21 +68,42 @@ const ContainerRoadmap = ({ project }) => {
             <div className="flex justify-between w-full px-4 py-2 border-b-2 border-slate-200">
               <span className="text-lg font-bold text-slate-600">Epic</span>
             </div>
-            {issueEpics.length > 0 &&
-              issueEpics.map((item) => (
-                <RoadmapItem
-                  epicSelected={epicSelected}
-                  setEpicSelected={setEpicSelected}
-                  key={v4()}
-                  project={project}
-                  epic={item}
-                />
-              ))}
-            <CreateComponent
-              idIssueType={1}
-              project={project}
-              createWhat={"epic"}
-            />
+            {
+              isLoading ?
+                (
+                  <div className="w-full flex flex-col pr-4">
+                    {
+                      Array(3).fill(0).map(() => (
+                        <div key={v4()} className="w-full h-[60px] mt-2">
+                          <Skeleton style={{ backgroundColor: '#f4f5f7', borderRadius: 4 }} variant='rectangular' animation='wave' width='100%' height='100%' />
+                        </div>
+                      ))
+                    }
+                    <div className="w-[60%] h-[20px] mt-2">
+                      <Skeleton style={{ backgroundColor: '#f4f5f7', borderRadius: 4 }} variant='rectangular' animation='wave' width='100%' height='100%' />
+                    </div>
+                  </div>
+                ) :
+                (
+                  <>
+                    {issueEpics.length > 0 &&
+                      issueEpics.map((item) => (
+                        <RoadmapItem
+                          epicSelected={epicSelected}
+                          setEpicSelected={setEpicSelected}
+                          key={v4()}
+                          project={project}
+                          epic={item}
+                        />
+                      ))}
+                    <CreateComponent
+                      idIssueType={1}
+                      project={project}
+                      createWhat={"epic"}
+                    />
+                  </>
+                )
+            }
           </div>
         </div>
         <div className="basis-[70%] relative">

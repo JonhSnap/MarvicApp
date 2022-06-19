@@ -68,7 +68,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
     return issueCopy;
   }, [values]);
   // stage
-  const stage = stages.find((item) => item.id === issue.id_Stage);
+  const stage = stages.find((item) => item.id === issue?.id_Stage);
   // current sprint
   const currentSprint = useMemo(() => {
     return sprints.find((item) => item.is_Started);
@@ -130,7 +130,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   };
   // current epic
   const currentEpic = issueEpics.find(
-    (item) => item.id === issue.id_Parent_Issue
+    (item) => item.id === issue?.id_Parent_Issue
   );
   // handle values change
   const handleValuesChange = (e) => {
@@ -167,19 +167,21 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   }, [issue]);
   // get child issue
   useEffect(() => {
-    axios
-      .get(
-        `https://localhost:5001/api/Issue/GetIssueByIdParent?IdProject=${project.id}&IdParent=${issue.id}`
-      )
-      .then((resp) => {
-        if (resp.status === 200) {
-          return resp.data;
-        }
-      })
-      .then((data) => {
-        setChildIssues(data);
-      })
-      .catch((err) => console.log(err));
+    if (issue && project) {
+      axios
+        .get(
+          `https://localhost:5001/api/Issue/GetIssueByIdParent?IdProject=${project.id}&IdParent=${issue?.id}`
+        )
+        .then((resp) => {
+          if (resp.status === 200) {
+            return resp.data;
+          }
+        })
+        .then((data) => {
+          setChildIssues(data);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [project, issue]);
   // handle toggle epic
   const handleToggleEpic = (e) => {
@@ -228,7 +230,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
       bodyClassname="relative content-modal"
       onClose={handleCloseEditByClickOutside}
     >
-      <label htmlFor={`close-option-${issue.id}`}>
+      <label htmlFor={`close-option-${issue?.id}`}>
         <div
           className="have-y-scroll h-[80vh] overflow-auto bg-white  mb-10 overflow-x-hidden
         flex flex-col flex-[2]  mx-4 relative p-5 rounded-md"
@@ -252,7 +254,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             setShowLinkIssue={setShowLinkIssue}
           />
           <div className="flex items-start justify-between">
-            {issue.id_IssueType !== 1 && (
+            {issue?.id_IssueType !== 1 && (
               <div className="flex items-center">
                 <div
                   onClick={handleToggleEpic}
@@ -283,48 +285,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
                     </svg>
                   </span>
                   {showEpic && (
-                    <div className="have-y-scroll absolute w-fit max-h-[150px] overflow-auto p-2 rounded bg-white shadow-md shadow-[#8777D9] left-0 top-[calc(100%+10px)]">
-                      {issueEpics.length > 0 &&
-                        issueEpics
-                          .filter(
-                            (epicItem) => epicItem.id !== issue.id_Parent_Issue
-                          )
-                          .map((item) => (
-                            <div
-                              onClick={() => handleChooseEpic(item)}
-                              className="w-[150px] mb-2 p-3 bg-white rounded shadow-md font-semibold
-                                            hover:bg-[#8777D9] hover:text-white"
-                              key={item.id}
-                            >
-                              {item.summary}
-                            </div>
-                          ))}
-                      {issue.id_Parent_Issue &&
-                        issue.id_Parent_Issue !==
-                        "00000000-0000-0000-0000-000000000000" && (
-                          <div
-                            onClick={handleRemoveEpic}
-                            className="flex items-center gap-x-2 w-[150px] mb-2 p-3 bg-red-500 text-white rounded shadow-md font-semibold"
-                          >
-                            <span className="inline-block w-5 h-5">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                />
-                              </svg>
-                            </span>
-                            <span>Remove epic</span>
-                          </div>
-                        )}
-                    </div>
+                    <EpicSelectBox setShowEpic={setShowEpic} issueEpics={issueEpics} issue={issue} handleChooseEpic={handleChooseEpic} handleRemoveEpic={handleRemoveEpic} />
                   )}
                 </div>
               </div>
@@ -458,7 +419,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
           <div className="flex items-center my-5">
             <Comments
               commentURL="https://localhost:5001/hubs/marvic"
-              IdIssueComment={issue.id}
+              IdIssueComment={issue?.id}
             />
           </div>
         </div>
@@ -497,17 +458,17 @@ function ChildIssue({ issues, project }) {
         {issues.length === 0 && <p>No child issue</p>}
         {issues.length > 0 &&
           issues.map((issue) => (
-            <div onClick={() => handleShowEdit(issue)} key={issue.id} className="issue-item">
+            <div onClick={() => handleShowEdit(issue)} key={issue?.id} className="issue-item">
               <div className="img">
                 <img
                   src={
-                    issueTypes.find((item) => item.value === issue.id_IssueType)
+                    issueTypes.find((item) => item.value === issue?.id_IssueType)
                       .thumbnail
                   }
                   alt=""
                 />
               </div>
-              <span className="summary">{issue.summary}</span>
+              <span className="summary">{issue?.summary}</span>
               <span
                 onClick={() => handleRemoveChild(issue)}
                 title="Remove"
@@ -541,7 +502,7 @@ function LinkIssue({ project, issue }) {
   } = useModalContext();
   const [{ issueNormals }, dispatchIssue] = useListIssueContext();
   const issueLinked = useMemo(() => {
-    return issueNormals.filter(item => item.id_Linked_Issue === issue.id);
+    return issueNormals.filter(item => item.id_Linked_Issue === issue?.id);
   }, [issueNormals, issue])
   // handle remove link
   const handleRemoveChild = async (issueRemove) => {
@@ -602,8 +563,8 @@ function Attachment({ issue }) {
   const downloadRef = useRef();
   // handle download
   const handleDownload = () => {
-    const lastBacklashIndex = issue.attachment_Path.lastIndexOf("/");
-    const fileName = issue.attachment_Path.slice(lastBacklashIndex + 1);
+    const lastBacklashIndex = issue?.attachment_Path.lastIndexOf("/");
+    const fileName = issue?.attachment_Path.slice(lastBacklashIndex + 1);
     const path = `${BASE_URL}/api/Issue/download?fileName=${fileName}`;
     if (fileName) {
       downloadRef.current.href = path;
@@ -619,7 +580,7 @@ function Attachment({ issue }) {
       ) : (
         <div className="download">
           <div className="image">
-            <img src={issue.attachment_Path} alt="" />
+            <img src={issue?.attachment_Path} alt="" />
           </div>
           <a ref={downloadRef} hidden href="/">
             download
@@ -948,6 +909,67 @@ function Label({ project, issue, currentSprint }) {
           }
         </div>
       }
+    </div>
+  )
+}
+function EpicSelectBox({ setShowEpic, issueEpics, issue, handleChooseEpic, handleRemoveEpic }) {
+  const nodeRef = useRef();
+  const renderRef = useRef(1);
+  useEffect(() => {
+    const handleClickOutSide = (e) => {
+      if (nodeRef.current) {
+        if (!nodeRef.current.contains(e.target) && renderRef.current !== 1) {
+          setShowEpic(false);
+        }
+      }
+      ++renderRef.current;
+    }
+    document.addEventListener('click', handleClickOutSide);
+    return () => document.removeEventListener('click', handleClickOutSide);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  return (
+    <div ref={nodeRef} className="have-y-scroll absolute w-fit max-h-[150px] overflow-auto p-2 rounded bg-white shadow-md shadow-[#8777D9] left-0 top-[calc(100%+10px)]">
+      {issueEpics.length > 0 &&
+        issueEpics
+          .filter(
+            (epicItem) => epicItem.id !== issue.id_Parent_Issue
+          )
+          .map((item) => (
+            <div
+              onClick={() => handleChooseEpic(item)}
+              className="w-[150px] mb-2 p-3 bg-white rounded shadow-md font-semibold
+                                            hover:bg-[#8777D9] hover:text-white"
+              key={item.id}
+            >
+              {item.summary}
+            </div>
+          ))}
+      {issue.id_Parent_Issue &&
+        issue.id_Parent_Issue !==
+        "00000000-0000-0000-0000-000000000000" && (
+          <div
+            onClick={handleRemoveEpic}
+            className="flex items-center gap-x-2 w-[150px] mb-2 p-3 bg-red-500 text-white rounded shadow-md font-semibold"
+          >
+            <span className="inline-block w-5 h-5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
+              </svg>
+            </span>
+            <span>Remove epic</span>
+          </div>
+        )}
     </div>
   )
 }

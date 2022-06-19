@@ -1,51 +1,63 @@
 import React, { useRef, useState } from 'react'
-import useModal from '../../hooks/useModal'
-import OptionItemBacklogComponent from './OptionItemBacklogComponent';
-import { documentHeight } from '../../util/constants'
-
-const secondThirdScreen = documentHeight * 2 / 3;
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { IconButton, Menu, MenuItem } from '@mui/material';
+import { fetchIssue, updateIssues } from '../../reducers/listIssueReducer';
+import createToast from '../../util/createToast';
+import { useListIssueContext } from '../../contexts/listIssueContext';
+import ModalDeleteIssue from './ModalDeleteIssue';
 
 export default function OptionComponent({ project, issue, child = null }) {
-    const [show, setShow, handleClose] = useModal();
-    const [coord, setCoord] = useState();
-    const nodeRef = useRef();
-
-    // handle click
-    const handleClick = () => {
-        if (show) return;
-        const bounding = nodeRef.current.getBoundingClientRect();
-        if (bounding) {
-            setShow(true);
-            setCoord(bounding);
+    const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+    const [, dispatch] = useListIssueContext();
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    // handle change flagg
+    const handleChangeFlag = () => {
+        const issueUpdate = { ...issue };
+        if (issue.isFlagged) {
+            issueUpdate.isFlagged = 0
+        } else {
+            issueUpdate.isFlagged = 1
         }
+        updateIssues(issueUpdate, dispatch);
+        createToast('success', issueUpdate.isFlagged ? 'Add flag successfully!' : 'Remove flag successfully!')
+        setTimeout(() => {
+            fetchIssue(project.id, dispatch);
+        }, 500);
+    }
+    // handleDeleteIssue
+    const handleDeleteIssue = async () => {
+        setShowConfirmDelete(true)
     }
 
     return (
         <>
-            <div onClick={handleClick} ref={nodeRef} className='flex flex-col h-full'>
-                <div className='flex items-center justify-center cursor-pointer'>
-                    <span className='inline-flex items-center justify-center text-gray-500 w-6 h-6 hover:text-gray-800'>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                        </svg>
-                    </span>
-                </div>
-                {
-                    show &&
-                    (
-                        <OptionItemBacklogComponent
-                            bodyStyle={{
-                                top: coord.bottom <= secondThirdScreen ? coord.bottom : null,
-                                left: coord.left - 60,
-                                bottom: !(coord.bottom <= secondThirdScreen) ? (documentHeight - coord.top) : null
-                            }}
-                            project={project}
-                            issue={issue}
-                            onClose={handleClose}
-                        />
-                    )
-                }
-            </div>
+            <IconButton onClick={handleClick} style={{ padding: 0 }}>
+                <MoreHorizIcon fontSize='medium' />
+            </IconButton>
+            <Menu
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+            >
+                <MenuItem>
+                    <div onClick={handleChangeFlag} role="button">
+                        {issue?.isFlagged ? 'Remove flag' : 'Add flag'}
+                    </div>
+                </MenuItem>
+                <MenuItem>
+                    <div onClick={handleDeleteIssue} role="button">
+                        Delete
+                    </div>
+                </MenuItem>
+            </Menu>
+            <ModalDeleteIssue project={project} issue={issue} dispatch={dispatch} open={showConfirmDelete} handleClose={() => setShowConfirmDelete(false)} />
         </>
     )
 }
