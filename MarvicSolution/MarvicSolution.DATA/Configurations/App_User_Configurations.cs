@@ -40,7 +40,8 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Khoang 1 HN",
                     Organization = "Company TechNo1",
                     PhoneNumber = "0989878767",
-                    IsDeleted = Enums.EnumStatus.False
+                    IsDeleted = Enums.EnumStatus.False,
+                    Scores = 3
                 },
                 new App_User
                 {
@@ -55,7 +56,8 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Khoang 2 HCM",
                     Organization = "Company PizzaHub",
                     PhoneNumber = "0336355563",
-                    IsDeleted = Enums.EnumStatus.False
+                    IsDeleted = Enums.EnumStatus.False,
+                    Scores = 3
                 },
                 new App_User
                 {
@@ -70,7 +72,8 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Khoang 10 DN",
                     Organization = "Company Marketing Hanzu",
                     PhoneNumber = "0345677456",
-                    IsDeleted = Enums.EnumStatus.False
+                    IsDeleted = Enums.EnumStatus.False,
+                    Scores = 3
                 }
                 // New 5 user
                 //=======================================
@@ -87,7 +90,8 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Toa G Block A",
                     Organization = "Company International Z",
                     PhoneNumber = "0213515845",
-                    IsDeleted = Enums.EnumStatus.False
+                    IsDeleted = Enums.EnumStatus.False,
+                    Scores = 85
                 },
                 new App_User
                 {
@@ -101,7 +105,8 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Toa G Block B",
                     Organization = "Company International B",
                     PhoneNumber = "0321235648",
-                    IsDeleted = Enums.EnumStatus.False
+                    IsDeleted = Enums.EnumStatus.False,
+                    Scores = 39
                 },
                 new App_User
                 {
@@ -115,7 +120,8 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Toa G Block C",
                     Organization = "Company International C",
                     PhoneNumber = "5687956148",
-                    IsDeleted = Enums.EnumStatus.False
+                    IsDeleted = Enums.EnumStatus.False,
+                    Scores = 46
                 },
                 new App_User
                 {
@@ -129,7 +135,8 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Toa G Block D",
                     Organization = "Company International D",
                     PhoneNumber = "1266587859",
-                    IsDeleted = Enums.EnumStatus.False
+                    IsDeleted = Enums.EnumStatus.False,
+                    Scores = 17
                 },
                 new App_User
                 {
@@ -143,7 +150,8 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Toa G Block E",
                     Organization = "Company International E",
                     PhoneNumber = "0326598452",
-                    IsDeleted = Enums.EnumStatus.False
+                    IsDeleted = Enums.EnumStatus.False,
+                    Scores = 85
                 }
 
                 );

@@ -30,7 +30,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         Guid AddMembers(Guid IdProject, List<string> userNames, Guid idUserLogin);
         Guid Remove_Member_From_Project(Guid IdProject, Guid IdUser, Guid IdUserLogin);
         List<Project> GetStarredProject(Guid idUserLogin);
-        bool DisableMember(DisableMember_ViewModel rq);
+        bool DisableMember(DisableMember_Request rq);
         Task<bool> UpdateStarredProject(UpdateStarredProject_Request rq);
     }
 }

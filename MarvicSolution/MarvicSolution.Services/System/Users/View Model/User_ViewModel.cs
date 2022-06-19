@@ -14,6 +14,7 @@ namespace MarvicSolution.Services.System.Users.View_Model
         public string Department { get; set; }
         public string Organization { get; set; }
         public string PhoneNumber { get; set; }
+        public int Scores { get; set; }
 
         public User_ViewModel()
         {
@@ -27,6 +28,7 @@ namespace MarvicSolution.Services.System.Users.View_Model
             Department = string.Empty;
             Organization = string.Empty;
             PhoneNumber = string.Empty;
+            Scores = 0;
         }
 
     }

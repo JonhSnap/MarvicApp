@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace MarvicSolution.Services.Project_Resquest.Dtos.Requests
 {
-    public class DisableMember_ViewModel
+    public class DisableMember_Request
     {
-        public List<Guid> ListIdUser { get; set; }
+        public Guid IdUser { get; set; }
         public Guid IdProject { get; set; }
 
-        public DisableMember_ViewModel()
+        public DisableMember_Request()
         {
-            ListIdUser = new List<Guid>();
+            IdUser = Guid.Empty;
             IdProject = Guid.Empty;
         }
     }

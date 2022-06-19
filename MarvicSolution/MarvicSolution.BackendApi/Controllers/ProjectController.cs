@@ -3,8 +3,6 @@ using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Resquest.Dtos.Requests;
-using MarvicSolution.Services.SendMail_Request.Dtos.Services;
-using MarvicSolution.Services.System.Users.Services;
 using MarvicSolution.Utilities.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -167,16 +165,16 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest();
             return Ok(result);
         }
-        [HttpPut]
+        [HttpPatch]
         [Route("/api/Project/DisableMember")]// remember to check this route
-        public IActionResult DisableMember([FromBody] DisableMember_ViewModel rq)
+        public IActionResult DisableMember([FromBody] DisableMember_Request rq)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var result = _projectService.DisableMember(rq);
             if (!result)
                 return BadRequest();
-            return Ok("Disable member success");
+            return Ok(result);
         }
 
         [HttpDelete("{proj_Id}")]

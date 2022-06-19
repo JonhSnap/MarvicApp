@@ -150,7 +150,7 @@ function DashboardContainer({ project }) {
             dateEnd={dateEnd}
           />
         )}
-        <div className="mt-auto flex items-center gap-x-2 pb-5">
+        <div className="mt-5 flex items-center gap-x-2 pb-5">
           <select
             onChange={(e) => setChart(e.target.value)}
             value={chart}

@@ -72,7 +72,6 @@ namespace MarvicSolution.Services.Stage_Request.Services
 
         public async Task<bool> DeleteStage(Stage stage, Remove_Stage_Request modelRequest, Guid idUserLogin)
         {
-            using var tran = _context.Database.BeginTransaction();
             try
             {
                 var newStage = await GetStageById(modelRequest.Dorward_Id_Stage);
@@ -107,12 +106,10 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 // sent notif 
                 _notifService.PSS_SendNotif(stage.Id_Project, stage.Id_Updator, $"{_userService.GetUserbyId(idUserLogin).UserName} has been deleted Stage {stage.Stage_Name} in Project {GetProjectById(stage.Id_Project).Name}");
                 await _context.SaveChangesAsync();
-                await tran.CommitAsync();
                 return true;
             }
             catch (Exception e)
             {
-                await tran.RollbackAsync();
                 _logger.LogInformation($"Controller: Stages. Method: DeleteStage. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
@@ -140,7 +137,6 @@ namespace MarvicSolution.Services.Stage_Request.Services
 
         public async Task<bool> DragAndDrop(int curentPos, int newPos, Guid id_Project)
         {
-            using var tran = _context.Database.BeginTransaction();
             try
             {
                 int skip = 0;
@@ -158,12 +154,10 @@ namespace MarvicSolution.Services.Stage_Request.Services
                         break;
                 }
                 var result = await UpdateListOrder(skip, take, curentPos, newPos, id_Project, range > 0);
-                await tran.CommitAsync();
                 return result;
             }
             catch (Exception e)
             {
-                await tran.RollbackAsync();
                 _logger.LogInformation($"Controller: Stages. Method: DragAndDrop. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }

@@ -437,6 +437,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                             PhoneNumber = u.PhoneNumber,
                             Avatar = u.Avatar,
                             Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar),
+                            Scores = u.Scores
                         }).ToList();
             }
             catch (Exception e)
@@ -517,16 +518,17 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
         }
 
-        public bool DisableMember(DisableMember_ViewModel rq)
+        public bool DisableMember(DisableMember_Request rq)
         {
             try
             {
-                foreach (var i_user in rq.ListIdUser)
-                {
-                    var member = _context.Members.SingleOrDefault(mem => mem.Id_Project.Equals(rq.IdProject)
-                                                                        && mem.Id_User.Equals(i_user));
+                var member = _context.Members.SingleOrDefault(mem => mem.Id_Project.Equals(rq.IdProject)
+                                                                    && mem.Id_User.Equals(rq.IdUser));
+                if (member.IsActive.Equals(EnumStatus.True))
                     member.IsActive = EnumStatus.False;
-                }
+                else
+                    member.IsActive = EnumStatus.True;
+                _context.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -543,7 +545,10 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 try
                 {
                     var project = await _context.Projects.FindAsync(rq.IdProject);
-                    project.IsStared = rq.IsStared;
+                    if (project.IsStared.Equals(EnumStatus.True))
+                        project.IsStared = EnumStatus.False;
+                    else
+                        project.IsStared = EnumStatus.True;
 
                     await _context.SaveChangesAsync();
                     await tran.CommitAsync();

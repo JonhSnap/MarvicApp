@@ -9,7 +9,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
 {
     public interface ISprint_Service
     {
-        Task<bool> AddSprint(Sprint sprint);
+        Task<bool> AddSprint(Sprint sprint, Guid idUserLogin);
         Task<bool> UpdateSprint(Sprint sprint, Guid idUserLogin);
         Task<bool> Delete(Delete_ViewModel rq, Guid idUserLogin);
         Task<IList<SprintVM>> GetSprintsById_Project(Guid id_Project);
