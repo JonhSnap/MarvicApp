@@ -39,7 +39,7 @@ namespace MarvicSolution.BackendApi.Controllers
         public async Task<IActionResult> Create([FromBody] Create_Sprint_Request model)
         {
             var sprint = new Sprint(model.Id_Project, model.Sprint_Name, model.Id_Creator);
-            if (await _sprint_Service.AddSprint(sprint))
+            if (await _sprint_Service.AddSprint(sprint, UserLogin.Id))
             {
                 return Ok();
             }

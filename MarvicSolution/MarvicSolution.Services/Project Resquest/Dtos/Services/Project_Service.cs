@@ -545,7 +545,10 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 try
                 {
                     var project = await _context.Projects.FindAsync(rq.IdProject);
-                    project.IsStared = rq.IsStared;
+                    if (project.IsStared.Equals(EnumStatus.True))
+                        project.IsStared = EnumStatus.False;
+                    else
+                        project.IsStared = EnumStatus.True;
 
                     await _context.SaveChangesAsync();
                     await tran.CommitAsync();

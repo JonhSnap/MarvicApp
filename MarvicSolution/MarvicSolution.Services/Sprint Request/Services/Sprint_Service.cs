@@ -53,7 +53,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             }
         }
 
-        public async Task<bool> AddSprint(Sprint currentSprint)
+        public async Task<bool> AddSprint(Sprint currentSprint, Guid idUserLogin)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
@@ -62,7 +62,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                     _context.Sprints.Add(currentSprint);
                     await _context.SaveChangesAsync();
                     // sent notif 
-                    _notifService.PSS_SendNotif(currentSprint.Id_Project, currentSprint.Id_Creator, $"{_userService.GetUserbyId(currentSprint.Id_Creator).UserName} has been created Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project).Name}");
+                    _notifService.PSS_SendNotif(currentSprint.Id_Project, currentSprint.Id_Creator, $"{_userService.GetUserbyId(currentSprint.Id_Creator).UserName} has been created Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project,idUserLogin).Name}");
                     await tran.CommitAsync();
 
                     return true;
@@ -116,7 +116,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
 
                 await _context.SaveChangesAsync();
                 // sent notif 
-                _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin, $"{_userService.GetUserbyId(idUserLogin).UserName} has been complete Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project).Name}");
+                _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin, $"{_userService.GetUserbyId(idUserLogin).UserName} has been complete Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project, idUserLogin).Name}");
                 await transaction.CommitAsync();
                 return true;
             }
@@ -150,7 +150,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
 
                     var result = await _context.SaveChangesAsync() > 0;
                     // sent notif 
-                    _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin, $"{_userService.GetUserbyId(idUserLogin).UserName} has been deleted Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project).Name}");
+                    _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin, $"{_userService.GetUserbyId(idUserLogin).UserName} has been deleted Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project, idUserLogin).Name}");
                     await tran.CommitAsync();
                     return result;
                 }
@@ -228,12 +228,12 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                     if (currentSprint.Is_Started.Equals(EnumStatus.False))
                     {
                         _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin,
-                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been updated Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project).Name}");
+                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been updated Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project,idUserLogin).Name}");
                     }
                     else
                     {
                         _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin,
-                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been started Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project).Name}");
+                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been started Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project,idUserLogin).Name}");
                     }
                     await tran.CommitAsync();
 
@@ -247,20 +247,23 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 }
             }
         }
-        private Project_ViewModel GetProjectById(Guid Id)
+        private Project_ViewModel GetProjectById(Guid idProject, Guid idUserLogin)
         {
+            // This function is only used for Notif for now
             try
             {
                 var proj = (from p in _context.Projects
-                            join u in _context.App_Users on p.Id_Lead equals u.Id
-                            where p.Id.Equals(Id)
+                            join mem in _context.Members on p.Id equals mem.Id_Project
+                            where p.Id.Equals(idProject)
+                                    && mem.Id_User.Equals(idUserLogin)
+                                    && (mem.Role.Equals(EnumRole.ProductOwner) || mem.Role.Equals(EnumRole.ProjectManager))
                             select new Project_ViewModel()
                             {
                                 Id = p.Id,
                                 Name = p.Name,
                                 Key = p.Key,
                                 Access = p.Access,
-                                Lead = u.UserName,
+                                Lead = _userService.GetUserbyId(mem.Id_User).UserName,
                                 Id_Creator = p.Id_Creator,
                                 DateCreated = p.DateCreated,
                                 DateStarted = p.DateStarted,
@@ -271,7 +274,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                             }).FirstOrDefault();
 
                 if (proj == null)
-                    throw new MarvicException($"Cannot find the project with id: {Id}");
+                    throw new MarvicException($"Cannot find the project with id: {idProject}");
 
                 return proj;
             }
