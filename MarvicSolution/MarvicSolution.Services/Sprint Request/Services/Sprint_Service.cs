@@ -83,25 +83,30 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             {
                 //get id stage done in project have a complete_Sprint_Request.OldSprintId
                 var stageDoneId = await _context.Stages
-                    .Where(stg => stg.Id_Project == model.CurrentProjectId &&
-                    stg.isDone == EnumStatus.True &&
-                    stg.isDeleted == EnumStatus.False)
-                    .Select(stage => stage.Id)
-                    .FirstOrDefaultAsync();
+                                        .Where(stg => stg.Id_Project == model.CurrentProjectId &&
+                                                        stg.isDone == EnumStatus.True &&
+                                                        stg.isDeleted == EnumStatus.False)
+                                        .Select(stage => stage.Id).FirstOrDefaultAsync();
 
                 //get list issue undone
                 var listIssueUnDone = await _context.Issues
-                    .Where(a => a.Id_Sprint == model.CurrentSprintId &&
-                    a.IsDeleted == EnumStatus.False &&
-                    a.Id_Stage != stageDoneId)
-                    .ToListAsync();
-
+                                            .Where(a => a.Id_Sprint == model.CurrentSprintId &&
+                                                        a.IsDeleted == EnumStatus.False &&
+                                                        a.Id_Stage != stageDoneId).ToListAsync();
+                //get list issue has done
+                var listIssueHasDone = await _context.Issues
+                                            .Where(a => a.Id_Sprint == model.CurrentSprintId &&
+                                                        a.IsDeleted == EnumStatus.False &&
+                                                        a.Id_Stage == stageDoneId).ToListAsync();
                 foreach (var item in listIssueUnDone)
                 {
                     item.Id_Sprint = model.NewSprintId;
                 }
                 //change issue to new currentSprint
                 _context.Issues.UpdateRange(listIssueUnDone);
+
+                //Calculate issue Scores for assignee and reporter
+                CalculateScores(listIssueHasDone);
 
                 //remove current currentSprint
                 //var currentSprint = await _context.Sprints.FindAsync(model.CurrentSprintId);
@@ -278,6 +283,16 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             }
         }
 
-
+        private void CalculateScores(List<Issue> listIssue)
+        {
+            foreach (var i_issue in listIssue)
+            {
+                var assignee = _context.App_Users.SingleOrDefault(u => u.Id.Equals(i_issue.Id_Assignee));
+                var reporter = _context.App_Users.SingleOrDefault(u => u.Id.Equals(i_issue.Id_Reporter));
+                assignee.Scores += (int)i_issue.Story_Point_Estimate;
+                reporter.Scores += (int)i_issue.Story_Point_Estimate;
+                _context.SaveChanges();
+            }
+        }
     }
 }

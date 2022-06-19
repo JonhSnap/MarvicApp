@@ -20,5 +20,6 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewMode
         public string PhoneNumber { get; set; }
         public string Avatar { get; set; }
         public string Avatar_Path { get; set; }
+        public int Scores { get; set; }
     }
 }
