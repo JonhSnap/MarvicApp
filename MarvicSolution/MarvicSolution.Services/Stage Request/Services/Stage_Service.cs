@@ -52,7 +52,6 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 }
             }
         }
-
         public async Task<bool> CheckExistName(string stageName, Guid id = default, string action = "create")
         {
             try
@@ -69,7 +68,6 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 throw new MarvicException($"Error: {e}");
             }
         }
-
         public async Task<bool> DeleteStage(Stage stage, Remove_Stage_Request modelRequest, Guid idUserLogin)
         {
             try
@@ -134,7 +132,6 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 throw new MarvicException($"Error: {e}");
             }
         }
-
         public async Task<bool> DragAndDrop(int curentPos, int newPos, Guid id_Project)
         {
             try
@@ -162,7 +159,6 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 throw new MarvicException($"Error: {e}");
             }
         }
-
         private async Task<bool> Swap(int curentPos, int newPos, Guid id_Project)
         {
             try
@@ -181,34 +177,34 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 throw new MarvicException($"Error: {e}");
             }
         }
-
         private async Task<bool> UpdateListOrder(int skip, int take, int curentPos, int newPos, Guid id_Project, bool inCrease = true)
         {
             try
             {
+                // take stages after current stage
                 var stages = await _context.Stages
-                    .Where(stage => stage.Id_Project == id_Project)
+                    .Where(stage => stage.Id_Project == id_Project && stage.isDeleted.Equals(EnumStatus.False))
                     .OrderBy(s => s.Order)
                     .Skip(skip)
                     .Take(take)
                     .ToListAsync();
+                //2 case:
                 if (stages != null && inCrease)
-                {
+                    //make change from right to left
                     for (int i = 0; i < stages.Count; i++)
-                    {
                         stages[i].Order++;
-                    }
-                }
                 else
-                {
+                    //make change from left to right
                     for (int i = 0; i < stages.Count; i++)
-                    {
                         stages[i].Order--;
-                    }
-                }
+
+                // execute order update for current state
                 var currentStage = await _context.Stages.FirstOrDefaultAsync(stage => stage.Order == curentPos);
                 currentStage.Order = newPos;
+                //add current state vô states ở trên
+                // add current stage to list stage
                 stages.Add(currentStage);
+                //update db
                 _context.Stages.UpdateRange(stages);
                 await _context.SaveChangesAsync();
                 return true;
@@ -219,7 +215,6 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 throw new MarvicException($"Error: {e}");
             }
         }
-
         public async Task<Stage> GetStageById(Guid id)
         {
             try
@@ -234,7 +229,6 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 throw new MarvicException($"Error: {e}");
             }
         }
-
         public async Task<IList<StageVM>> GetStageByProjectId(Guid id_Project)
         {
             try
@@ -253,7 +247,6 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 throw new MarvicException($"Error: {e}");
             }
         }
-
         public async Task<bool> UpdateStage(Stage stage)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())

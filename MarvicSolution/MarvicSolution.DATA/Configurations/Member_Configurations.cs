@@ -56,7 +56,7 @@ namespace MarvicSolution.DATA.Configurations
                 {
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
                     Id_User = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV pass TungNV@123
-                    Role = EnumRole.Developer,
+                    Role = EnumRole.ProjectManager,
                     IsActive = EnumStatus.True
                 }
                 );

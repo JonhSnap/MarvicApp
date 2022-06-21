@@ -108,8 +108,8 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 //Calculate issue Scores for assignee and reporter
                 CalculateScores(listIssueHasDone);
 
-                //remove current currentSprint
-                //var currentSprint = await _context.Sprints.FindAsync(model.CurrentSprintId);
+                // update current sprint
+                currentSprint.Update_Date = DateTime.Now;
                 currentSprint.Is_Archieved = EnumStatus.True;
                 currentSprint.End_Date = DateTime.Now;
                 _context.Sprints.Update(currentSprint);

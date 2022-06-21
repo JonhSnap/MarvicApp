@@ -254,10 +254,15 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var id_Issue = await _issueService.Create(UserLogin.Id, rq);
-            if (id_Issue.Equals(Guid.Empty))
-                return BadRequest("Cannot create a Issue");
-            return Ok(id_Issue);
+            if (UserLogin.Role.Equals(EnumRole.ProductOwner) || UserLogin.Role.Equals(EnumRole.ProjectManager))
+            {
+                var id_Issue = await _issueService.Create(UserLogin.Id, rq);
+                if (id_Issue.Equals(Guid.Empty))
+                    return BadRequest("Cannot create a Issue");
+                return Ok(id_Issue);
+            }
+            else
+                return Content("You do not have permission to perform this function");
         }
         [HttpPost]
         [Route("DeleteFile")]
@@ -309,14 +314,12 @@ namespace MarvicSolution.BackendApi.Controllers
             }
         }
         // /api/Issue/ChangeStage
-        [HttpPost]
-        [Route("ChangeStage")]
-        public async Task<IActionResult> ChangeStage([FromBody] ChangeStage_Request rq)
+        [HttpPut]
+        [Route("/api/Issue/ChangeIssueStage")]
+        public async Task<IActionResult> ChangeIssueStage([FromBody] ChangeIssueStage_Request rq)
         {
-            if (await _issueService.ChangeStage(rq))
-            {
+            if (await _issueService.ChangeIssueStage(rq))
                 return Ok();
-            }
             return BadRequest();
         }
         #endregion
@@ -332,16 +335,38 @@ namespace MarvicSolution.BackendApi.Controllers
                 return BadRequest();
             return Ok(idIssue);
         }
+
+        [HttpPatch]
+        [Route("/api/Issue/ChangeIssueSprint")]
+        public async Task<IActionResult> ChangeIssueSprint([FromBody] ChangeIssueSprint_Request rq)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            if (UserLogin.Role.Equals(EnumRole.ProductOwner) || UserLogin.Role.Equals(EnumRole.ProjectManager))
+            {
+                var idIssue = await _issueService.ChangeIssueSprint(UserLogin.Id, rq);
+                if (idIssue.Equals(Guid.Empty))
+                    return BadRequest();
+                return Ok(idIssue);
+            }
+            else
+                return Content("You do not have permission to perform this function");
+        }
         [HttpPut]
         [Route("/api/Issue/AddLabel")]
         public async Task<IActionResult> AddLabel([FromBody] IssueLabel_Request rq)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var result = await _issueService.AddLabel(rq);
-            if (!result)
-                return BadRequest("Fail");
-            return Ok("Success");
+            if (UserLogin.Role.Equals(EnumRole.ProductOwner) || UserLogin.Role.Equals(1))
+            {
+                var result = await _issueService.AddLabel(rq);
+                if (!result)
+                    return BadRequest("Fail");
+                return Ok("Success");
+            }
+            else
+                return Content("You do not have permission to perform this function");
         }
         [HttpPut("RemoveLabel/{idIssue}")]
         public async Task<IActionResult> RemoveLabel(Guid idIssue)
@@ -368,7 +393,7 @@ namespace MarvicSolution.BackendApi.Controllers
         [HttpGet("StatisticIssue")]
         public IActionResult StatisticIssue(Guid idProject, DateTime dateStarted, DateTime dateEnd)
         {
-            var result =  _issueService.StatisticIssue(idProject, dateStarted, dateEnd);            
+            var result = _issueService.StatisticIssue(idProject, dateStarted, dateEnd);
             return Ok(result);
         }
 

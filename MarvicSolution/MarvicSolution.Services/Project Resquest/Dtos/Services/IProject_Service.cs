@@ -1,8 +1,10 @@
 ﻿using MarvicSolution.DATA.Entities;
+using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Resquest.Dtos.Requests;
+using MarvicSolution.Services.Project_Resquest.Dtos.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +32,8 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         Guid AddMembers(Guid IdProject, List<string> userNames, Guid idUserLogin);
         Guid Remove_Member_From_Project(Guid IdProject, Guid IdUser, Guid IdUserLogin);
         List<Project> GetStarredProject(Guid idUserLogin);
-        bool DisableMember(DisableMember_Request rq);
+        EnumStatus ChangeStatusMember(ChangeStatusMember_Request rq);
         Task<bool> UpdateStarredProject(UpdateStarredProject_Request rq);
+        SetUserRoleByIdProject_ViewModel SetUserRoleByIdProject(SetUserRoleByIdProject_Request rq);
     }
 }

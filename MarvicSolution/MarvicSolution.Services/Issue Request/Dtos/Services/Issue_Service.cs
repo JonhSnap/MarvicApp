@@ -1358,7 +1358,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
 
         }
-        public async Task<bool> ChangeStage(ChangeStage_Request rq)
+        public async Task<bool> ChangeIssueStage(ChangeIssueStage_Request rq)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
@@ -1370,6 +1370,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         issue.Id_Stage = rq.IdStage;
                         issue.UpdateDate = DateTime.Now;
                         issue.Id_Updator = rq.IdUpdator;
+                        issue.Order = rq.Order;
                         _context.Issues.Update(issue);
                         await _context.SaveChangesAsync();
                         // add list user who recevied notif
@@ -1476,5 +1477,30 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
 
             return group;
         }
+
+        public async Task<Guid> ChangeIssueSprint(Guid idUserLogin, ChangeIssueSprint_Request rq)
+        {
+            try
+            {
+                var issue = _context.Issues.SingleOrDefault(i => i.Id.Equals(rq.IdIssue));
+                if (issue != null)
+                {
+                    issue.Id_Sprint = rq.IdSprint;
+                    issue.UpdateDate = DateTime.Now;
+                    issue.Id_Updator = idUserLogin;
+                    await _context.SaveChangesAsync();
+
+                    return issue.Id;
+                }
+                return Guid.Empty;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: ChangeIssueSprint. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+        
     }
 }

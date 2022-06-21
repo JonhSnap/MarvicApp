@@ -98,10 +98,8 @@ namespace MarvicSolution.BackendApi.Controllers
                 var sprintCurrent = await _sprint_Service.GetSprintById(model.CurrentSprintId);
                 if (sprintCurrent != null && sprintCurrent.Is_Started == EnumStatus.True)
                 {
-                    if (await _sprint_Service.CompleteSprint(sprintCurrent, model, UserLogin.Id))
-                    {
-                        return Ok();
-                    }
+                    if (await _sprint_Service.CompleteSprint(sprintCurrent, model, UserLogin.Id))            
+                        return Ok();     
                     return BadRequest(new { message = "Complete sprint faild!" });
                 }
                 return NotFound(new { message = model.CurrentSprintId + " not found!" });

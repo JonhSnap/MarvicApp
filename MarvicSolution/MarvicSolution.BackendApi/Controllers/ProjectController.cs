@@ -1,4 +1,5 @@
 ﻿using MarvicSolution.BackendApi.Constants;
+using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Request.Project_Resquest;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
@@ -24,7 +25,7 @@ namespace MarvicSolution.BackendApi.Controllers
 
         // /api/Project/GetAlls
         [HttpGet]
-        [Route("/api/Project/GetAlls")] // remember to check this route
+        [Route("/api/Project/GetAlls")]
         public async Task<IActionResult> GetAlls()
         {
             if (!ModelState.IsValid)
@@ -96,7 +97,7 @@ namespace MarvicSolution.BackendApi.Controllers
         /// <param name="rq">Request from client</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("/api/Project/Create")]// remember to check this route
+        [Route("/api/Project/Create")]
         public async Task<IActionResult> Create([FromBody] Project_CreateRequest rq)
         {
             // Check model state
@@ -144,7 +145,7 @@ namespace MarvicSolution.BackendApi.Controllers
 
         }
         [HttpPut]
-        [Route("/api/Project/Update")]// remember to check this route
+        [Route("/api/Project/Update")]
         public async Task<IActionResult> Update([FromBody] Project_UpdateRequest rq)
         {
             if (!ModelState.IsValid)
@@ -155,7 +156,7 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok("Update project success");
         }
         [HttpPatch]
-        [Route("/api/Project/UpdateStarredProject")]// remember to check this route
+        [Route("/api/Project/UpdateStarredProject")]
         public async Task<IActionResult> UpdateStarredProject([FromBody] UpdateStarredProject_Request rq)
         {
             if (!ModelState.IsValid)
@@ -166,14 +167,12 @@ namespace MarvicSolution.BackendApi.Controllers
             return Ok(result);
         }
         [HttpPatch]
-        [Route("/api/Project/DisableMember")]// remember to check this route
-        public IActionResult DisableMember([FromBody] DisableMember_Request rq)
+        [Route("/api/Project/ChangeStatusMember")]
+        public IActionResult ChangeStatusMember([FromBody] ChangeStatusMember_Request rq)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var result = _projectService.DisableMember(rq);
-            if (!result)
-                return BadRequest();
+            var result = _projectService.ChangeStatusMember(rq);           
             return Ok(result);
         }
 
@@ -200,5 +199,25 @@ namespace MarvicSolution.BackendApi.Controllers
             //    return BadRequest($"Cannot get list username by IdProject = {UserLogin.Id}");
             return Ok(project);
         }
+
+        // api/Project/SetUserRoleByIdProject
+        [HttpGet]
+        [Route("/api/Project/SetUserRoleByIdProject")]
+        public IActionResult SetUserRoleByIdProject(Guid idProject)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var rq = new SetUserRoleByIdProject_Request(UserLogin.Id, idProject);
+            var resultVM = _projectService.SetUserRoleByIdProject(rq);
+
+            if (resultVM == null)
+                return BadRequest();
+            // assign role for user login
+            UserLogin.Role = resultVM.Value;
+
+            return Ok(resultVM);
+        }
+
     }
 }
