@@ -6,6 +6,7 @@ using MarvicSolution.Services.Notifications_Request.Services;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos;
 using MarvicSolution.Services.Project_Request.Project_Resquest.Dtos.ViewModels;
 using MarvicSolution.Services.Project_Resquest.Dtos.Requests;
+using MarvicSolution.Services.Project_Resquest.Dtos.ViewModels;
 using MarvicSolution.Services.SendMail_Request.Dtos.Requests;
 using MarvicSolution.Services.SendMail_Request.Dtos.Services;
 using MarvicSolution.Services.System.Users.Services;
@@ -437,7 +438,8 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                             PhoneNumber = u.PhoneNumber,
                             Avatar = u.Avatar,
                             Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar),
-                            Scores = u.Scores
+                            Scores = u.Scores,
+                            IsActive = mem.IsActive
                         }).ToList();
             }
             catch (Exception e)
@@ -518,7 +520,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
         }
 
-        public bool DisableMember(DisableMember_Request rq)
+        public EnumStatus ChangeStatusMember(ChangeStatusMember_Request rq)
         {
             try
             {
@@ -529,7 +531,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 else
                     member.IsActive = EnumStatus.True;
                 _context.SaveChanges();
-                return true;
+                return member.IsActive;
             }
             catch (Exception e)
             {
@@ -563,5 +565,40 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
             }
         }
 
+        public SetUserRoleByIdProject_ViewModel SetUserRoleByIdProject(SetUserRoleByIdProject_Request rq)
+        {
+            try
+            {
+                var memberRole = _context.Members.SingleOrDefault(mem => mem.Id_User.Equals(rq.IdUser)
+                                                                        && mem.Id_Project.Equals(rq.IdProject)
+                                                                        && mem.IsActive.Equals(EnumStatus.True)).Role;
+                var resultVM = new SetUserRoleByIdProject_ViewModel();
+                switch (memberRole)
+                {
+                    case EnumRole.ProjectManager:
+                        resultVM.Value = 1;
+                        resultVM.RoleName = "Project Manager";
+                        break;
+                    case EnumRole.ProductOwner:
+                        resultVM.Value = 2;
+                        resultVM.RoleName = "Product Owner";
+                        break;
+                    case EnumRole.Developer:
+                        resultVM.Value = 3;
+                        resultVM.RoleName = "Developer";
+                        break;
+                    default:
+                        break;
+                }
+
+                return resultVM;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Project. Method: GetRoleUserInProject. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
+            
+        }
     }
 }

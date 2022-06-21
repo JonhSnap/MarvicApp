@@ -6,15 +6,20 @@ using System.Threading.Tasks;
 
 namespace MarvicSolution.Services.Project_Resquest.Dtos.Requests
 {
-    public class DisableMember_Request
+    public class SetUserRoleByIdProject_Request
     {
         public Guid IdUser { get; set; }
         public Guid IdProject { get; set; }
-
-        public DisableMember_Request()
+        public SetUserRoleByIdProject_Request()
         {
             IdUser = Guid.Empty;
             IdProject = Guid.Empty;
+        }
+
+        public SetUserRoleByIdProject_Request(Guid idUser, Guid idProject)
+        {
+            IdUser = idUser;
+            IdProject = idProject;
         }
     }
 }
