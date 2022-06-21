@@ -1271,7 +1271,20 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                   Id_Updator = i.Id_Updator,
                                   Order = i.Order,
                                   ProjectName = p.Name,
-                                  Status = s.Stage_Name
+                                  Status = s.Stage_Name,
+                                  Users = _context.App_Users.Where(u => u.Id == i.Id_Updator || u.Id == i.Id_Creator || u.Id == i.Id_Assignee).Select(u => new User_ViewModel()
+                                  {
+                                      Department = u.Department,
+                                      Email = u.Email,
+                                      FullName = u.FullName,
+                                      Id = u.Id,
+                                      JobTitle = u.JobTitle,
+                                      Organization = u.Organization,
+                                      PhoneNumber = u.PhoneNumber,
+                                      UserName = u.UserName,
+                                      Avatar = u.Avatar,
+                                      Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar)
+                                  }).ToList()
                               }).ToList();
                 var group = issues.GroupBy(i => i.Status).Select(i => i).ToList();
                 foreach (var i_group in group)
@@ -1501,6 +1514,6 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
         }
 
-        
+
     }
 }

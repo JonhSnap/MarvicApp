@@ -36,14 +36,12 @@ namespace MarvicSolution.Services.Sprint_Request.Services
         {
             try
             {
-                foreach (var i_id in rq.ListIdIssue)
-                {
-                    var issue = _context.Issues.SingleOrDefault(i => i.Id.Equals(i_id));
-                    if (issue == null)
-                        throw new MarvicException($"Cannot find issue = {i_id}");
-                    issue.Id_Sprint = rq.IdSprint;
-                    _context.SaveChanges();
-                }
+                var issue = _context.Issues.SingleOrDefault(i => i.Id.Equals(rq.IdIssue));
+                if (issue == null)
+                    throw new MarvicException($"Cannot find issue = {rq.IdIssue}");
+                issue.Id_Sprint = rq.IdSprint;
+                _context.SaveChanges();
+
                 return rq.IdSprint;
             }
             catch (Exception e)
@@ -62,16 +60,16 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                     _context.Sprints.Add(currentSprint);
                     await _context.SaveChangesAsync();
                     // sent notif 
-                    _notifService.PSS_SendNotif(currentSprint.Id_Project, currentSprint.Id_Creator, $"{_userService.GetUserbyId(currentSprint.Id_Creator).UserName} has been created Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project,idUserLogin).Name}");
+                    _notifService.PSS_SendNotif(currentSprint.Id_Project, currentSprint.Id_Creator, $"{_userService.GetUserbyId(currentSprint.Id_Creator).UserName} has been created Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project, idUserLogin).Name}");
                     await tran.CommitAsync();
 
                     return true;
                 }
                 catch (Exception e)
                 {
+                    await tran.RollbackAsync();
                     _logger.LogInformation($"Controller: Sprints.Method: AddSprint. Marvic Error: {e}");
                     throw new MarvicException($"Error: {e}");
-                    await tran.RollbackAsync();
                 }
             }
         }
@@ -228,12 +226,12 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                     if (currentSprint.Is_Started.Equals(EnumStatus.False))
                     {
                         _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin,
-                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been updated Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project,idUserLogin).Name}");
+                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been updated Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project, idUserLogin).Name}");
                     }
                     else
                     {
                         _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin,
-                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been started Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project,idUserLogin).Name}");
+                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been started Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project, idUserLogin).Name}");
                     }
                     await tran.CommitAsync();
 

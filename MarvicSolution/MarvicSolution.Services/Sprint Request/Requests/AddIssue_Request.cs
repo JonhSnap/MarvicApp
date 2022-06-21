@@ -10,7 +10,7 @@ namespace MarvicSolution.Services.Sprint_Request.Requests
     public class AddIssue_Request
     {
         public Guid IdSprint { get; set; }
-        public List<Guid> ListIdIssue { get; set; }
+        public Guid IdIssue { get; set; }
         public AddIssue_Request() { }
     }
 }

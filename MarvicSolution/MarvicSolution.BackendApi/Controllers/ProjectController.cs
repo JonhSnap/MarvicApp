@@ -103,11 +103,16 @@ namespace MarvicSolution.BackendApi.Controllers
             // Check model state
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            // Create a project
-            var IdProj = await _projectService.Create(UserLogin.Id, rq);
-            if (IdProj.Equals(Guid.Empty))
-                return BadRequest();
-            return Ok("Create project success");
+            if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
+            {
+                // Create a project
+                var IdProj = await _projectService.Create(UserLogin.Id, rq);
+                if (IdProj.Equals(Guid.Empty))
+                    return BadRequest();
+                return Ok("Create project success");
+            }
+            else
+                return Content("You do not have permission to perform this function");
         }
 
         // api/Project/AddMember?IdProject=xxx-xxx-xx
@@ -115,12 +120,17 @@ namespace MarvicSolution.BackendApi.Controllers
         [Route("/api/Project/AddMember")]
         public IActionResult AddMember([FromBody] AddMember_Request rq)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            var idProject = _projectService.AddMembers(rq.IdProject, rq.UserNames, UserLogin.Id);
-            if (idProject.Equals(Guid.Empty))
-                return BadRequest($"Cannot get projects = {rq.IdProject}");
-            return Ok(idProject);
+            if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                var idProject = _projectService.AddMembers(rq.IdProject, rq.UserNames, UserLogin.Id);
+                if (idProject.Equals(Guid.Empty))
+                    return BadRequest($"Cannot get projects = {rq.IdProject}");
+                return Ok(idProject);
+            }
+            else
+                return Content("You do not have permission to perform this function");
         }
 
         // api/Project/RemoveMember
@@ -130,13 +140,18 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+                if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
+                {
+                    if (!ModelState.IsValid)
+                        return BadRequest(ModelState);
 
-                var result = _projectService.Remove_Member_From_Project(rq.IdProject, rq.IdUser, UserLogin.Id);
-                if (result.Equals(Guid.Empty))
-                    return BadRequest($"Cannot remove idUser = {rq.IdUser} from IdProject = {rq.IdProject}");
-                return Ok(result);
+                    var result = _projectService.Remove_Member_From_Project(rq.IdProject, rq.IdUser, UserLogin.Id);
+                    if (result.Equals(Guid.Empty))
+                        return BadRequest($"Cannot remove idUser = {rq.IdUser} from IdProject = {rq.IdProject}");
+                    return Ok(result);
+                }
+                else
+                    return Content("You do not have permission to perform this function");
             }
             catch (Exception e)
             {
@@ -150,10 +165,15 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var result = await _projectService.Update(UserLogin.Id, rq);
-            if (result.Equals(Guid.Empty))
-                return BadRequest();
-            return Ok("Update project success");
+            if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
+            {
+                var result = await _projectService.Update(UserLogin.Id, rq);
+                if (result.Equals(Guid.Empty))
+                    return BadRequest();
+                return Ok("Update project success");
+            }
+            else
+                return Content("You do not have permission to perform this function");
         }
         [HttpPatch]
         [Route("/api/Project/UpdateStarredProject")]
@@ -172,8 +192,13 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var result = _projectService.ChangeStatusMember(rq);           
-            return Ok(result);
+            if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
+            {
+                var result = _projectService.ChangeStatusMember(rq);
+                return Ok(result);
+            }
+            else
+                return Content("You do not have permission to perform this function");
         }
 
         [HttpDelete("{proj_Id}")]
@@ -181,10 +206,15 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var affectedResutl = await _projectService.Delete(proj_Id, UserLogin.Id);
-            if (affectedResutl.Equals(Guid.Empty))
-                return BadRequest();
-            return Ok("Delete project success");
+            if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
+            {
+                var affectedResutl = await _projectService.Delete(proj_Id, UserLogin.Id);
+                if (affectedResutl.Equals(Guid.Empty))
+                    return BadRequest();
+                return Ok("Delete project success");
+            }
+            else
+                return Content("You do not have permission to perform this function");
         }
 
         // api/Project/GetStarredProject

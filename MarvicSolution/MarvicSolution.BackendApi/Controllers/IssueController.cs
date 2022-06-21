@@ -179,6 +179,19 @@ namespace MarvicSolution.BackendApi.Controllers
             return File(bytes, "application/octet-stream", fileName);
         }
 
+        [HttpGet("StatisticIssue")]
+        public IActionResult StatisticIssue(Guid idProject, DateTime dateStarted, DateTime dateEnd)
+        {
+            var result = _issueService.StatisticIssue(idProject, dateStarted, dateEnd);
+            return Ok(result);
+        }
+
+        [HttpGet("StatisticIssueArchived")]
+        public IActionResult StatisticIssueArchived(Guid idProject, DateTime dateStarted, DateTime dateEnd)
+        {
+            var result = _issueService.StatisticIssueArchived(idProject, dateStarted, dateEnd);
+            return Ok(result);
+        }
         #endregion
         #region Group api
         // /api/Issue/GroupByAssignee
@@ -254,7 +267,7 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (UserLogin.Role.Equals(EnumRole.ProductOwner) || UserLogin.Role.Equals(EnumRole.ProjectManager))
+            if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
             {
                 var id_Issue = await _issueService.Create(UserLogin.Id, rq);
                 if (id_Issue.Equals(Guid.Empty))
@@ -330,10 +343,15 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var idIssue = await _issueService.Update(UserLogin.Id, rq);
-            if (idIssue.Equals(Guid.Empty))
-                return BadRequest();
-            return Ok(idIssue);
+            if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
+            {
+                var idIssue = await _issueService.Update(UserLogin.Id, rq);
+                if (idIssue.Equals(Guid.Empty))
+                    return BadRequest();
+                return Ok(idIssue);
+            }
+            else
+                return Content("You do not have permission to perform this function");
         }
 
         [HttpPatch]
@@ -342,7 +360,7 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (UserLogin.Role.Equals(EnumRole.ProductOwner) || UserLogin.Role.Equals(EnumRole.ProjectManager))
+            if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
             {
                 var idIssue = await _issueService.ChangeIssueSprint(UserLogin.Id, rq);
                 if (idIssue.Equals(Guid.Empty))
@@ -358,7 +376,7 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (UserLogin.Role.Equals(EnumRole.ProductOwner) || UserLogin.Role.Equals(1))
+            if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
             {
                 var result = await _issueService.AddLabel(rq);
                 if (!result)
@@ -373,10 +391,15 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var result = await _issueService.RemoveLabel(idIssue);
-            if (!result)
-                return BadRequest("Fail");
-            return Ok("Success");
+            if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
+            {
+                var result = await _issueService.RemoveLabel(idIssue);
+                if (!result)
+                    return BadRequest("Fail");
+                return Ok("Success");
+            }
+            else
+                return Content("You do not have permission to perform this function");
         }
 
         [HttpDelete("{IdIssue}")]
@@ -384,25 +407,18 @@ namespace MarvicSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var idIssue = await _issueService.Delete(IdIssue, UserLogin.Id);
-            if (idIssue.Equals(Guid.Empty))
-                return BadRequest();
-            return Ok(idIssue);
+            if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
+            {
+                var idIssue = await _issueService.Delete(IdIssue, UserLogin.Id);
+                if (idIssue.Equals(Guid.Empty))
+                    return BadRequest();
+                return Ok(idIssue);
+            }
+            else
+                return Content("You do not have permission to perform this function");
         }
 
-        [HttpGet("StatisticIssue")]
-        public IActionResult StatisticIssue(Guid idProject, DateTime dateStarted, DateTime dateEnd)
-        {
-            var result = _issueService.StatisticIssue(idProject, dateStarted, dateEnd);
-            return Ok(result);
-        }
-
-        [HttpGet("StatisticIssueArchived")]
-        public IActionResult StatisticIssueArchived(Guid idProject, DateTime dateStarted, DateTime dateEnd)
-        {
-            var result = _issueService.StatisticIssueArchived(idProject, dateStarted, dateEnd);
-            return Ok(result);
-        }
+        
 
 
     }
