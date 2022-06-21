@@ -32,6 +32,7 @@ const BarChartDoughnut = ({ project, dateStarted, dateEnd }) => {
         dockInsidePlotArea: true,
       },
     ],
+    height: 350,
     data: [
       {
         type: "doughnut",

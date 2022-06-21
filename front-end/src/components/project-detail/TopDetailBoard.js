@@ -18,7 +18,7 @@ import { fetchBoard } from "../../reducers/boardReducer";
 import { fetchIssue } from "../../reducers/listIssueReducer";
 import { deleteMembers, fetchMembers } from "../../reducers/membersReducer";
 import { getProjects, updateProjects } from "../../redux/apiRequest";
-import { documentHeight, issueTypes } from "../../util/constants";
+import { BASE_URL, documentHeight, issueTypes } from "../../util/constants";
 import AddMemberPopup from "../popup/AddMemberPopup";
 import FilterEpicBoardSelectBox from "../selectbox/FilterEpicBoardSelectBox";
 import "./TopDetail.scss";
@@ -32,6 +32,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import Tippy from '@tippyjs/react'
+import axios from "axios";
 
 const secondThirdScreen = (documentHeight * 2) / 3;
 function TopDetailBoard({ project, currentSprint }) {
@@ -74,20 +75,17 @@ function TopDetailBoard({ project, currentSprint }) {
 
   // handle click star
   const handleClickStar = () => {
-    const putData = () => {
-      const dataPut = {
-        ...project,
-        id_Updator: currentUser.id,
-        updateDate: new Date(),
-      };
-      if (project.isStared === 0) {
-        dataPut.isStared = 1;
-      } else {
-        dataPut.isStared = 0;
+    const putData = async () => {
+      const resp = await axios.patch(`${BASE_URL}/api/Project/UpdateStarredProject`,
+        {
+          "idProject": project.id
+        }
+      );
+      if (resp.status === 200) {
+        getProjects(dispatch, currentUser.id);
       }
-      updateProjects(dispatch, dataPut);
-      getProjects(dispatch, currentUser.id);
     };
+    putData();
     putData();
   };
   // handle change show members
@@ -109,7 +107,7 @@ function TopDetailBoard({ project, currentSprint }) {
     if (project && Object.entries(project).length > 0) {
       fetchIssue(project.id, dispatchIssue);
     }
-  }, [project]);
+  }, [project.id]);
   useEffect(() => {
     const inputEl = inputRef.current;
     inputEl.addEventListener("focus", handleFocus);

@@ -38,7 +38,8 @@ function ContainerBoard({ project }) {
             fetchSprint(project?.id, dispatch);
             fetchLabel(project.id, dispatchLabel);
         }
-    }, [project, dispatch, dispatchLabel])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [project.id, dispatch, dispatchLabel])
     useEffect(() => {
         if (currentSprint) {
             if (epicFilterStorage) {
@@ -60,7 +61,8 @@ function ContainerBoard({ project }) {
         if (project && project.id) {
             fetchStage(project.id, dispatchStage);
         }
-    }, [project, dispatchStage])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [project.id, dispatchStage])
 
     return (
         <div className='container-board'>

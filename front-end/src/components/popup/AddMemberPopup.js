@@ -85,7 +85,7 @@ function AddMemberPopup({ onClose, setShow, project }) {
             onClose={onClose}
         >
             <form className='w-[500px] bg-white p-5 rounded'>
-                <h3 className='text-[20px] text-black font-semibold'>Add people</h3>
+                <h3 className='text-[20px] text-black font-semibold'>Add members</h3>
                 <div className={`relative flex items-center ${members.length > 0 ? 'p-3' : ''} pr-0 border-2 ${focus ? 'border-primary bg-white' : 'border-[#ccc] bg-gray-main'}
             rounded mt-5 transition-all mb-5`}>
                     <div className='grow flex flex-col gap-1 items-start'>

@@ -232,8 +232,8 @@ function EditIssuePopup({ members, project, issue, setShow }) {
     >
       <label htmlFor={`close-option-${issue?.id}`}>
         <div
-          className="have-y-scroll h-[80vh] overflow-auto bg-white  mb-10 overflow-x-hidden
-        flex flex-col flex-[2]  mx-4 relative p-5 rounded-md"
+          className="hide-scroll h-[80vh] overflow-auto bg-white overflow-x-hidden
+        flex flex-col flex-[2] relative p-5 rounded-md mx-6"
         >
           <IssueCanAddSelectbox
             project={project}
@@ -380,7 +380,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             </div>
             <div className="item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border-[1px] border-[#ccc] flex justify-between items-center flex-wrap">
               <div className="w-[40%] h-13 my-4">Assignee</div>
-              <div className="w-[60%]">
+              <div className="w-[60%] ">
                 <Assignee members={members} project={project} issue={issue} />
               </div>
               <div className="w-[40%] h-13 my-4">Labels</div>
@@ -388,12 +388,17 @@ function EditIssuePopup({ members, project, issue, setShow }) {
                 <Label project={project} issue={issue} currentSprint={currentSprint} />
               </div>
               <div className="w-[40%] h-13 my-4">Sprint</div>
-              <div className="w-[60%]">{currentSprint?.sprintName}</div>
+              <div className="w-[60%]">
+                <div className="w-fit px-4 py-1 border border-[#666] rounded">{currentSprint?.sprintName}</div>
+              </div>
               <div className="w-[40%] h-13 my-4">Story point estimate</div>
-              <div className="w-[60%]">{issue?.story_Point_Estimate}</div>
+              <div className="w-[60%]">
+                <div className="w-fit px-4 py-1 border border-[#666] rounded">{issue?.story_Point_Estimate}</div>
+              </div>
               <div className="w-[40%] h-13 my-4">Date started</div>
               <div className="w-[60%]">
                 <input
+                  className="p-2 rounded border border-[#666]"
                   name="dateStarted"
                   onChange={handleValuesChange}
                   value={values.dateStarted}
@@ -403,6 +408,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
               <div className="w-[40%] h-13 my-4">Date end</div>
               <div className="w-[60%]">
                 <input
+                  className="p-2 rounded border border-[#666]"
                   name="dateEnd"
                   onChange={handleValuesChange}
                   value={values.dateEnd}
@@ -722,7 +728,7 @@ function Assignee({ members, project, issue }) {
       className="relative z-10 w-6 h-6 bg-white rounded-full cursor-pointer toggle"
     >
       {currentAssignee ? (
-        <span className="inline-flex items-center justify-center w-full h-full text-white bg-orange-500 rounded-full pointer-events-none">
+        <span className="inline-flex items-center justify-center border border-[#666] w-full h-full text-white bg-orange-500 rounded-full pointer-events-none">
           {
             currentAssignee.avatar_Path ?
               (<img className="inline-block w-full h-full rounded-full" src={currentAssignee.avatar_Path} alt="" />) :
@@ -802,7 +808,7 @@ function Reporter({ members, project, issue }) {
       className="relative z-10 w-6 h-6 bg-white rounded-full cursor-pointer toggle"
     >
       {currentAssignee ? (
-        <span className="inline-flex items-center justify-center w-full h-full text-white bg-orange-500 rounded-full pointer-events-none">
+        <span className="inline-flex border border-[#666] items-center justify-center w-full h-full text-white bg-orange-500 rounded-full pointer-events-none">
           {
             currentAssignee.avatar_Path ?
               (<img className="inline-block w-full h-full rounded-full" src={currentAssignee.avatar_Path} alt="" />) :
@@ -810,7 +816,7 @@ function Reporter({ members, project, issue }) {
           }
         </span>
       ) : (
-        <span className="inline-block w-full h-full text-[#ccc] hover:text-gray-500 pointer-events-none">
+        <span className="inline-block rounded-full border border-[#666] w-full h-full text-[#ccc] hover:text-gray-500 pointer-events-none">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -888,7 +894,8 @@ function Label({ project, issue, currentSprint }) {
 
   return (
     <div onClick={handleShow} className="w-fit relative">
-      <p className="btn-label w-fit p-2 rounded hover:bg-gray-main cursor-pointer">{currentLablel ? currentLablel.name : 'None'}</p>
+      <p className="btn-label w-fit p-2 rounded hover:bg-gray-main cursor-pointer border border-[#666] px-4 py-1"
+      >{currentLablel ? currentLablel.name : 'None'}</p>
       {
         show &&
         <div className="bg-white shadow-md border border-gray-main absolute top-full left-0 rounded overflow-hidden min-w-[100px]">

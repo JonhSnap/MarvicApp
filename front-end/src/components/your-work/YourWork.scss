@@ -56,3 +56,25 @@
     color-stop(0.6, #2845a7)
   );
 }
+.time {
+  position: relative;
+  width: fit-content;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  background-image: linear-gradient(to right, #347be6, #0052cc);
+  padding: 0 5px;
+  border-radius: 4px 0 0 4px;
+  color: white;
+  font-weight: 600;
+  &::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: 0;
+    transform: translate(100%, 0);
+    border-width: 15px;
+    border-style: solid;
+    border-color: #0052cc transparent #0052cc #0052cc;
+  }
+}

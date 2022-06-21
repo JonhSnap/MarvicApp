@@ -36,6 +36,7 @@ const BarChartArea = ({ project, dateStarted, dateEnd }) => {
     title: {
       text: `Issue Satisfaction Archive - ${project?.dateEnd.slice(0, 4)}`,
     },
+    height: 350,
     data: [
       {
         type: "area",

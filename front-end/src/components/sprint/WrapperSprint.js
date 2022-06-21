@@ -10,7 +10,7 @@ function WrapperSprint({ project, members }) {
         if (project.id) {
             fetchSprint(project.id, dispatch);
         }
-    }, [project])
+    }, [project.id])
 
     return (
         <>

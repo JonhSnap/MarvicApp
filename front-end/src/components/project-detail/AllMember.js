@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, AvatarGroup, IconButton, Menu, MenuItem } from '@mui/material'
+import { Avatar, AvatarGroup, Badge, Box, IconButton, Menu, MenuItem, styled } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tippy from '@tippyjs/react'
 import { v4 } from 'uuid';
@@ -33,6 +33,18 @@ function stringAvatar(name) {
         children: `${name?.split(' ')[0][0]}${name?.split(' ')[1][0]}`,
     };
 }
+const SmallScore = styled(Box)(({ theme }) => ({
+    width: 20,
+    height: 20,
+    borderRadius: '50%',
+    color: 'white',
+    fontSize: '10px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'black',
+    border: `1px solid ${theme.palette.background.paper}`,
+}));
 function AllMember({ members, handleDeleteMember }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -78,8 +90,28 @@ function AllMember({ members, handleDeleteMember }) {
                                 <div className='flex items-center min-w-[230px]'>
                                     {
                                         item.avatar_Path ?
-                                            <Avatar style={{ width: 25, height: 25, fontSize: 12 }} alt="Remy Sharp" src={item.avatar_Path} /> :
-                                            <Avatar style={{ width: 25, height: 25, fontSize: 12 }} {...stringAvatar(item.fullName)} />
+                                            <Badge
+                                                overlap="circular"
+                                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                                badgeContent={
+                                                    <Tippy content='Score'>
+                                                        <SmallScore>{item.scores}</SmallScore>
+                                                    </Tippy>
+                                                }
+                                            >
+                                                <Avatar style={{ width: 40, height: 40, fontSize: 12 }} alt="Remy Sharp" src={item.avatar_Path} />
+                                            </Badge> :
+                                            <Badge
+                                                overlap="circular"
+                                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                                badgeContent={
+                                                    <Tippy content='Score'>
+                                                        <SmallScore>{item.scores}</SmallScore>
+                                                    </Tippy>
+                                                }
+                                            >
+                                                <Avatar style={{ width: 40, height: 40, fontSize: 12 }} {...stringAvatar(item.fullName)} />
+                                            </Badge>
                                     }
                                     <div className='ml-3 flex flex-col justify-between'>
                                         <span className='text-[12px] font-semibold'>{item.fullName}</span>
@@ -101,3 +133,5 @@ function AllMember({ members, handleDeleteMember }) {
 }
 
 export default AllMember
+
+// <Avatar style={{ width: 25, height: 25, fontSize: 12 }} {...stringAvatar(item.fullName)} />

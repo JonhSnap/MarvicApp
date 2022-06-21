@@ -27,6 +27,7 @@ const BarChartColumn = ({ project, dateStarted, dateEnd }) => {
     title: {
       text: "Issue Satisfaction",
     },
+    height: 350,
     data: [
       {
         // Change type to "doughnut", "line", "splineArea", etc.

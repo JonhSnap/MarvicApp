@@ -39,6 +39,12 @@ function ViewTestPage() {
                     listTest.map((item, index) => (
                         <div className='test-item'>
                             <Accordion
+                                sx={{
+                                    '&:hover': {
+                                        boxShadow: '1px 1px 5px 2px #ccc',
+                                        transition: 'all linear 0.1s'
+                                    }
+                                }}
                                 style={{ backgroundColor: 'rgba(0, 82, 204, 0.8)', marginBottom: 10, borderRadius: 6 }}
                                 key={v4()}
                             >

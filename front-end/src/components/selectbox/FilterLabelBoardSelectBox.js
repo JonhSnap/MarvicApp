@@ -66,7 +66,7 @@ function FilterLabelBoardSelectBox({ onClose, bodyStyle, project, currentSprint 
             onClose={onClose}
             bodyStyle={bodyStyle}
         >
-            <div className='bg-white w-[140px] shadow-xl p-3 rounded flex flex-col transition-all'>
+            <div className='bg-white w-[140px] shadow-lg shadow-epic-color p-3 rounded flex flex-col transition-all'>
                 {
                     labels.length > 0 &&
                     labels.map(item => (
