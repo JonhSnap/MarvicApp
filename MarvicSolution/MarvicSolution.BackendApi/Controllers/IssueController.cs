@@ -418,7 +418,7 @@ namespace MarvicSolution.BackendApi.Controllers
                 return Content("You do not have permission to perform this function");
         }
 
-        
+
 
 
     }
