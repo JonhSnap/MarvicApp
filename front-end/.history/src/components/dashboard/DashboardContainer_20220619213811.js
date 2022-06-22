@@ -7,7 +7,6 @@ import BarChartColumn from "../chart/BarChartColumn";
 import BarChartDoughnut from "../chart/BarChartDoughnut";
 import { timeLines } from "../../util/constants";
 import createPadStart from "../../util/createPadStart";
-import BreadcrumbsComp from "../project-detail/Breadcrumbs";
 
 function DashboardContainer({ project }) {
   const [timeLine, setTimeLine] = useState("project");
@@ -128,7 +127,6 @@ function DashboardContainer({ project }) {
 
   return (
     <div className="container-dashboard">
-      <BreadcrumbsComp />
       <h2 className="title">Dashboard</h2>
       <div className="chart-container">
         {chart === "area" && (
@@ -152,7 +150,7 @@ function DashboardContainer({ project }) {
             dateEnd={dateEnd}
           />
         )}
-        <div className="mt-auto flex items-center gap-x-2 pb-5">
+        <div className="flex items-center gap-x-2 pb-5">
           <select
             onChange={(e) => setChart(e.target.value)}
             value={chart}

@@ -53,7 +53,7 @@ const ProfilePrimary = ({
           </div>
         </div> */}
         <div className="w-[1320px] flex mx-auto">
-          <div className="basis-[30%] h-[1054px] header-avt-top mt-[40px] rounded-lg p-5 flex  flex-col  ">
+          <div className="basis-[30%] h-[100vh] header-avt-top mt-[40px] rounded-lg p-5 flex  flex-col  ">
             <div className="flex items-center justify-center ">
               <svg
                 height="50"
@@ -129,7 +129,7 @@ const ProfilePrimary = ({
             </div>
           </div>
           <div className="basis-[70%] ml-10 mx-auto mt-[40px] float-right">
-            <h1 className="flex justify-center w-full font-bold text-2xl mb-5 drop-shadow-xl ">
+            <h1 className="flex justify-center w-full font-bold text-2xl">
               HỒ SƠ VÀ CHẾ ĐỘ HIỂN THỊ
             </h1>
             <div className="flex flex-col justify-center">

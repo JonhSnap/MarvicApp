@@ -129,7 +129,7 @@ const ProfilePrimary = ({
             </div>
           </div>
           <div className="basis-[70%] ml-10 mx-auto mt-[40px] float-right">
-            <h1 className="flex justify-center w-full font-bold text-2xl mb-5 drop-shadow-xl ">
+            <h1 className="flex justify-center w-full font-bold text-2xl mb-5 ">
               HỒ SƠ VÀ CHẾ ĐỘ HIỂN THỊ
             </h1>
             <div className="flex flex-col justify-center">

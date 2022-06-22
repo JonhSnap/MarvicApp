@@ -45,11 +45,11 @@ function Profile() {
           )}
 
           <div
-            ref={nodeRef1}
+            ref={nodeRef}
             className="user header-right-option"
             onClick={() => setShow(!show)}
           >
-            <span ref={nodeRef}>
+            <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-6 h-6"

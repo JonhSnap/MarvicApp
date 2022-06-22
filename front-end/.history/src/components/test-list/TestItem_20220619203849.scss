@@ -8,16 +8,10 @@ $color1: white;
   justify-content: space-between;
   align-items: center;
   .heading-test {
-    margin: 0;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-weight: 400;
-    font-size: 3rem;
-    line-height: 1.167;
-    letter-spacing: 0em;
-    color: rgb(0, 82, 204);
-    // background: -webkit-linear-gradient(rgb(63, 148, 234), rgb(37, 34, 222));
-    // -webkit-background-clip: text;
-    // -webkit-text-fill-color: transparent;
+    font-size: 42px;
+    background: -webkit-linear-gradient(rgb(63, 148, 234), rgb(37, 34, 222));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   .view-link {
     display: inline-block;
