@@ -324,7 +324,7 @@ function TopDetail({ project }) {
             </svg>
           </div>
           <div className="members">
-            <AllMember members={members} handleDeleteMember={handleDeleteMember} />
+            <AllMember project={project} members={members} handleDeleteMember={handleDeleteMember} />
             <Tippy content='Add members'>
               <IconButton onClick={handleClickAdd} id='add-member-btn' style={{ width: 40, height: 40 }}>
                 <PersonAddAltIcon />
