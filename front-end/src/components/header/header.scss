@@ -80,7 +80,7 @@
       display: flex;
       gap: 10px;
       align-items: center;
-      transition: all ease-in 0.05s;
+      transition: all linear 0.1s;
       .search-wrapper {
         flex: 1;
         display: flex;

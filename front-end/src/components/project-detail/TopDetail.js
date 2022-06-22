@@ -14,7 +14,7 @@ import AddMemberPopup from "../popup/AddMemberPopup";
 import { useListIssueContext } from "../../contexts/listIssueContext";
 import { deleteMembers, fetchMembers } from "../../reducers/membersReducer";
 import { useMembersContext } from "../../contexts/membersContext";
-import { documentHeight, issueTypes } from "../../util/constants";
+import { BASE_URL, documentHeight, issueTypes } from "../../util/constants";
 import FilterEpicSelectBox from "../selectbox/FilterEpicSelectBox";
 import FilterTypeSelectBox from "../selectbox/FilterTypeSelectBox";
 import FilterLabelSelectBox from "../selectbox/FilterLabelSelectBox";
@@ -25,10 +25,13 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import AllMember from "./AllMember";
 import Tippy from '@tippyjs/react'
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const secondThirdScreen = (documentHeight * 2) / 3;
 
 function TopDetail({ project }) {
+  const location = useLocation();
   const [
     {
       issueEpics,
@@ -69,19 +72,15 @@ function TopDetail({ project }) {
 
   // handle click star
   const handleClickStar = () => {
-    const putData = () => {
-      const dataPut = {
-        ...project,
-        id_Updator: currentUser.id,
-        updateDate: new Date(),
-      };
-      if (project.isStared === 0) {
-        dataPut.isStared = 1;
-      } else {
-        dataPut.isStared = 0;
+    const putData = async () => {
+      const resp = await axios.patch(`${BASE_URL}/api/Project/UpdateStarredProject`,
+        {
+          "idProject": project.id
+        }
+      );
+      if (resp.status === 200) {
+        getProjects(dispatch, currentUser.id);
       }
-      updateProjects(dispatch, dataPut);
-      getProjects(dispatch, currentUser.id);
     };
     putData();
   };
@@ -97,7 +96,7 @@ function TopDetail({ project }) {
     if (project && Object.entries(project).length > 0) {
       fetchIssue(project.id, dispatchIssue);
     }
-  }, [project]);
+  }, [project.id]);
   useEffect(() => {
     const inputEl = inputRef.current;
     inputEl.addEventListener("focus", handleFocus);
@@ -261,7 +260,10 @@ function TopDetail({ project }) {
         <BreadcrumbsComp />
       </div>
       <div className="wrap-key">
-        <h3 className="key">{project?.key} board</h3>
+        <h3 className="key">
+          {project?.key + ' '}
+          {location.pathname.slice(location.pathname.indexOf('/', 1) + 1, location.pathname.lastIndexOf('/'))}
+        </h3>
         {project?.isStared ? (
           <Tippy content='UnStarred'>
             <span className="w-8 h-8 cursor-pointer text-yellow-300">
@@ -322,7 +324,7 @@ function TopDetail({ project }) {
             </svg>
           </div>
           <div className="members">
-            <AllMember members={members} handleDeleteMember={handleDeleteMember} />
+            <AllMember project={project} members={members} handleDeleteMember={handleDeleteMember} />
             <Tippy content='Add members'>
               <IconButton onClick={handleClickAdd} id='add-member-btn' style={{ width: 40, height: 40 }}>
                 <PersonAddAltIcon />

@@ -34,75 +34,89 @@ namespace MarvicSolution.BackendApi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateStage([FromBody] Create_Stage_Request model)
         {
-            if (!await _stage_Service.CheckExistName(model.Stage_Name))
+            if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
             {
-                var stageInProject = await _stage_Service.GetStageByProjectId(model.Id_Project);
-                if (stageInProject != null)
+                if (!await _stage_Service.CheckExistName(model.Stage_Name))
                 {
-                    var stage = new Stage(model.Id_Project, model.Stage_Name, model.Id_Creator, stageInProject.Max(stage => stage.Order) + 1);
-                    if (await _stage_Service.AddStage(stage))
+                    var stageInProject = await _stage_Service.GetStageByProjectId(model.Id_Project);
+                    if (stageInProject != null)
                     {
-                        return Ok();
-                    }
-                    return BadRequest(new { messgae = "Create faild!" });
-                }
+                        var stage = new Stage(model.Id_Project, model.Stage_Name, model.Id_Creator, stageInProject.Max(stage => stage.Order) + 1);
+                        if (await _stage_Service.AddStage(stage))
+                            return Ok();
 
-                return NotFound(new { messgae = $"{model.Id_Project} not found!" });
+                        return BadRequest(new { messgae = "Create faild!" });
+                    }
+
+                    return NotFound(new { messgae = $"{model.Id_Project} not found!" });
+                }
+                return BadRequest(new { messgae = $"{model.Stage_Name} is existed!" });
             }
-            return BadRequest(new { messgae = $"{model.Stage_Name} is existed!" });
+            else
+                return Content("You do not have permission to perform this function");
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStage(Guid id, [FromBody] Update_Stage_Request model)
         {
-            if (id != Guid.Empty)
+            if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
             {
-                var stage = await _stage_Service.GetStageById(id);
-                if (stage != null)
+                if (id != Guid.Empty)
                 {
-                    stage.Stage_Name = model.Stage_Name;
-                    stage.Id_Updator = model.Id_Updator;
-                    stage.UpdateDate = DateTime.Now;
-                    if (await _stage_Service.UpdateStage(stage))
+                    var stage = await _stage_Service.GetStageById(id);
+                    if (stage != null)
                     {
-                        return Ok();
+                        stage.Stage_Name = model.Stage_Name;
+                        stage.Id_Updator = model.Id_Updator;
+                        stage.UpdateDate = DateTime.Now;
+                        if (await _stage_Service.UpdateStage(stage))
+                        {
+                            return Ok();
+                        }
+                        return BadRequest(new { messgae = "Update fail!" });
                     }
-                    return BadRequest(new { messgae = "Update fail!" });
+                    return NotFound(new { message = $"{id} not exists!" });
                 }
-                return NotFound(new { message = $"{id} not exists!" });
+                return BadRequest("Id is empty!");
             }
-            return BadRequest("Id is empty!");
+            else
+                return Content("You do not have permission to perform this function");
         }
 
         [HttpPost("draganddrop")]
         public async Task<IActionResult> DragAndDrop([FromBody] Drop_Stage_Request model)
         {
-            if (!await _stage_Service.DragAndDrop(model.CurrentPos, model.NewPos, model.Id_Project))
+            if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
             {
-                return BadRequest(new { message = "Fail" });
+                if (!await _stage_Service.DragAndDrop(model.CurrentPos, model.NewPos, model.Id_Project))
+                    return BadRequest(new { message = "Fail" });
+                return Ok(new { message = "Success!" });
             }
-            return Ok(new { message = "Success!" });
+            else
+                return Content("You do not have permission to perform this function");
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStage(Guid id, [FromBody] Remove_Stage_Request modelRequest)
         {
-            if (id != Guid.Empty)
+            if (UserLogin.Role.Equals(2) || UserLogin.Role.Equals(1))
             {
-                var stage = await _stage_Service.GetStageById(id);
-                if (stage != null)
+                if (id != Guid.Empty)
                 {
-                    stage.isDeleted = EnumStatus.True;
-                    if (await _stage_Service.DeleteStage(stage, modelRequest, UserLogin.Id))
+                    var stage = await _stage_Service.GetStageById(id);
+                    if (stage != null)
                     {
-                        return Ok();
+                        stage.isDeleted = EnumStatus.True;
+                        if (await _stage_Service.DeleteStage(stage, modelRequest, UserLogin.Id))
+                            return Ok();
+                        return BadRequest(new { messgae = "Delete fail!" });
                     }
-                    return BadRequest(new { messgae = "Delete fail!" });
+                    return NotFound(new { message = $"{id} not exists!" });
                 }
-                return NotFound(new { message = $"{id} not exists!" });
+                return BadRequest("Id is empty!");
             }
-            return BadRequest("Id is empty!");
-
+            else
+                return Content("You do not have permission to perform this function");
         }
     }
 }

@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Button from '../components/button/Button'
-import CreateProjectPopup from '../components/popup/CreateProjectPopup';
 import ListProject from '../components/projects/ListProject';
-import useModal from '../hooks/useModal';
 import { getProjects } from '../redux/apiRequest';
 import { useSelector, useDispatch } from 'react-redux'
 import { changeFilters } from '../redux/projectsSlice';
@@ -13,7 +10,6 @@ function ProjectsPage() {
   const [search, setSearch] = useState('');
   const { projects, error } = useSelector(state => state.projects);
   const { currentUser } = useSelector(state => state.auth.login);
-  const [isShowProjectPopup, setIsShowProjectPopup, handleCloseProjectPopup] = useModal();
   const inputRef = useRef();
   const [isFocusInput, setIsFocusInput] = useState(false);
 
@@ -62,12 +58,6 @@ function ProjectsPage() {
                 <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
               </svg>
             </div>
-          </div>
-          <div className="projects-top-right">
-            <Button handleClick={() => setIsShowProjectPopup(true)}>Create project</Button>
-            {
-              isShowProjectPopup && <CreateProjectPopup setIsShowProjectPopup={setIsShowProjectPopup} onClose={handleCloseProjectPopup} visible={isShowProjectPopup}></CreateProjectPopup>
-            }
           </div>
         </div>
         <div className="projects-bottom">

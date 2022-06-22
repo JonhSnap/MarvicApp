@@ -157,7 +157,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
-                    Id_Creator = Guid.Empty,
+                    Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     DateCreated = new DateTime(2022, 4, 22),
                     DateStarted = new DateTime(2022, 4, 23),
                     DateEnd = new DateTime(2022, 6, 15),
@@ -186,7 +186,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
-                    Id_Creator = Guid.Empty,
+                    Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     DateCreated = new DateTime(2022, 4, 22),
                     DateStarted = new DateTime(2022, 4, 23),
                     DateEnd = new DateTime(2022, 6, 15),
@@ -215,7 +215,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
-                    Id_Creator = Guid.Empty,
+                    Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     DateCreated = new DateTime(2022, 4, 22),
                     DateStarted = new DateTime(2022, 4, 23),
                     DateEnd = new DateTime(2022, 6, 15),
@@ -244,7 +244,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
-                    Id_Creator = Guid.Empty,
+                    Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     DateCreated = new DateTime(2022, 4, 22),
                     DateStarted = new DateTime(2022, 4, 23),
                     DateEnd = new DateTime(2022, 6, 15),
@@ -393,7 +393,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
-                    Id_Creator = Guid.Empty,
+                    Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     DateCreated = new DateTime(2022, 4, 22),
                     DateStarted = new DateTime(2022, 4, 23),
                     DateEnd = new DateTime(2022, 6, 15),
@@ -422,7 +422,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
-                    Id_Creator = Guid.Empty,
+                    Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     DateCreated = new DateTime(2022, 4, 22),
                     DateStarted = new DateTime(2022, 4, 23),
                     DateEnd = new DateTime(2022, 6, 15),
@@ -451,7 +451,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
-                    Id_Creator = Guid.Empty,
+                    Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     DateCreated = new DateTime(2022, 4, 22),
                     DateStarted = new DateTime(2022, 4, 23),
                     DateEnd = new DateTime(2022, 6, 15),
@@ -480,7 +480,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Restrict = Guid.Empty,
                     IsFlagged = EnumStatus.False,
                     IsWatched = EnumStatus.False,
-                    Id_Creator = Guid.Empty,
+                    Id_Creator = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // KhietPT
                     DateCreated = new DateTime(2022, 4, 22),
                     DateStarted = new DateTime(2022, 4, 23),
                     DateEnd = new DateTime(2022, 6, 15),

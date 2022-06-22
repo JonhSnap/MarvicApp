@@ -11,11 +11,17 @@ namespace MarvicSolution.BackendApi.Constants
     {
         public static Guid Id;
         public static string Username;
+        public static int Role{ get; set; }
 
         public static void SetInfo(App_User user)
         {
             Id = user.Id;
             Username = user.UserName;            
+        }
+
+        public static void SetInfo(int role)
+        {
+            Role = role;
         }
     }
 }

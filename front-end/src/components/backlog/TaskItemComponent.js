@@ -40,7 +40,7 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint, isRoad
 
   // handle click item
   const handleClickItem = (e) => {
-    if (e.target.matches(".item")) {
+    if (e.target.matches(".item") || e.target.closest(".left-item")) {
       setShow(true);
       setIssue(issue);
     }
@@ -78,9 +78,9 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint, isRoad
           }`}
       >
         <div className="flex items-center h-full left-item">
-          <div className="w-5 h-5">
+          <div className="w-5 h-5 pointer-events-none">
             <img
-              className="object-cover w-full h-full rounded"
+              className="object-cover w-full h-full rounded pointer-events-none"
               src={
                 issueTypes.find((item) => item.value === issue.id_IssueType)
                   ?.thumbnail
@@ -128,7 +128,8 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint, isRoad
             (issue?.story_Point_Estimate ? (
               <div
                 onClick={() => setShowInputPoint(true)}
-                className="rounded-full cursor-pointer flex items-center justify-center w-[20px] h-[20px] p-1 text-xs bg-[#dfe1e6] mx-[0.2rem]"
+                className="rounded-full cursor-pointer flex items-center justify-center w-[20px] h-[20px] p-1
+                text-xs bg-[#dfe1e6] mx-[0.2rem] hover:bg-primary hover:text-white transition-all"
               >
                 <span>{issue?.story_Point_Estimate}</span>
               </div>
