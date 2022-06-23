@@ -264,17 +264,30 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
                 throw new MarvicException($"Error: {e}");
             }
         }
-        public Guid AddMembers(Guid IdProject, List<string> userNames, Guid idUserLogin)
+        public Guid AddMembers(Guid IdProject, List<string> userNames, Guid idUserLogin, int role)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
                 try
                 {
+                    EnumRole roleTemp = EnumRole.Developer;
+                    switch (role)
+                    {
+                        case 1:
+                            roleTemp = EnumRole.ProjectManager;
+                            break;
+                        case 2:
+                            roleTemp = EnumRole.ProductOwner;
+                            break;
+                        default:
+                            break;
+                    }
                     string messPart = "";
                     int count = 0;
                     foreach (var i_name in userNames)
                     {
-                        Member member = new Member { Id_Project = IdProject, Id_User = GetIdUserByUserName(i_name), Role = EnumRole.Developer, IsActive = EnumStatus.True };
+                       
+                        Member member = new Member { Id_Project = IdProject, Id_User = GetIdUserByUserName(i_name), Role = roleTemp, IsActive = EnumStatus.True };
                         messPart += count == 0 ? $"{i_name}" : $", {i_name}";
                         _context.Members.Add(member);
                         count++;

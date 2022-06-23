@@ -239,5 +239,16 @@ namespace MarvicSolution.BackendApi.Controllers
             //    return Ok(EnumPoint.Eight + " " + EnumRole.ProductOwner);
             return BadRequest();
         }
+
+        [HttpPost]
+        [Route("/api/User/SetInfoUserLogin")]
+        public IActionResult SetInfoUserLogin(Guid id, string userName, int role)
+        {
+            UserLogin.Id = id;
+            UserLogin.Role = role;
+            UserLogin.Username = userName;
+
+            return Ok();
+        }
     }
 }

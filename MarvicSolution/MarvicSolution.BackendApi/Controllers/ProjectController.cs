@@ -124,7 +124,7 @@ namespace MarvicSolution.BackendApi.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                var idProject = _projectService.AddMembers(rq.IdProject, rq.UserNames, UserLogin.Id);
+                var idProject = _projectService.AddMembers(rq.IdProject, rq.UserNames, UserLogin.Id, rq.Role);
                 if (idProject.Equals(Guid.Empty))
                     return BadRequest($"Cannot get projects = {rq.IdProject}");
                 return Ok(idProject);
