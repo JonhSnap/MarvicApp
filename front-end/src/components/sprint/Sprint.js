@@ -15,6 +15,7 @@ import { NIL } from 'uuid'
 import SprintSelectbox from '../selectbox/SprintSelectbox'
 import { documentHeight } from '../../util/constants'
 import { fetchIssue } from '../../reducers/listIssueReducer'
+import Tippy from '@tippyjs/react'
 
 const secondThirdScreen = documentHeight * 2 / 3;
 
@@ -64,19 +65,6 @@ function Sprint({ sprint, members, project }) {
 
     return (
         <>
-            {/* {showSprintSelectBox &&
-                <SprintSelectbox
-                    onClose={handleCloseSprintSelectBox}
-                    bodyStyle={{
-                        top: coord.bottom <= secondThirdScreen ? coord.bottom : null,
-                        left: coord.left,
-                        bottom: !(coord.bottom <= secondThirdScreen) ? (documentHeight - coord.top) : null
-                    }}
-                    project={project}
-                    sprint={sprint}
-                    listSprint={otherSprint}
-                />
-            } */}
             <SprintSelectbox project={project} sprint={sprint} listSprint={otherSprint} open={showSprintSelectBox} handleClose={() => setShowSprintSelectBox(false)} />
             {showStartSprint && <StartSprintPopup project={project} onClose={handleCloseStartSprint} setshow={setShowStartSprint} sprint={sprint}></StartSprintPopup>}
             {showEditSprint && <EditSprintPopup project={project} onClose={handleCloseEditSprint} setshow={setShowEditSprint} sprint={sprint} />}
@@ -95,15 +83,20 @@ function Sprint({ sprint, members, project }) {
                     </div>
                     <div className='header-left flex items-center h-9'>
                         <div className='state-sprint flex'>
-                            <div className='rounded-full  inline-flex w-5 h-5 text-xs bg-[#dfe1e6] mx-[0.2rem]'>
-                                <span className='m-auto'>4</span>
-                            </div>
-                            <div className='rounded-full  inline-flex w-5 h-5 text-xs bg-[#0052cc]  mx-[0.2rem] text-white'>
-                                <span className='m-auto'>4</span>
-                            </div>
-                            <div className='rounded-full  inline-flex w-5 h-5 text-xs bg-[#00875a]  mx-[0.2rem] text-white'>
-                                <span className='m-auto'>4</span>
-                            </div>
+                            {
+                                issueWithSprint && issueWithSprint.length > 0 &&
+                                <Tippy content='Total story point Estimate'>
+                                    <div className="flex state-sprint">
+                                        <div className="rounded-full p-1 flex items-center justify-center text-xs bg-[#07be59]  mx-[0.2rem] text-white">
+                                            <span className="m-auto cursor-default">
+                                                {issueWithSprint.reduce((initValue, item) => {
+                                                    return initValue += item.story_Point_Estimate;
+                                                }, 0)}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </Tippy>
+                            }
                         </div>
                         {
                             sprint.is_Started ?

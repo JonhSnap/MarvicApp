@@ -19,6 +19,7 @@ import { useLabelContext } from "../../contexts/labelContext";
 import { ModalProvider } from "../../contexts/modalContext";
 import useLoading from "../../hooks/useLoading";
 import { Skeleton } from "@mui/material";
+import Tippy from "@tippyjs/react";
 
 function ContainerBacklog({ project }) {
   // xu ly loading start
@@ -42,7 +43,7 @@ function ContainerBacklog({ project }) {
       fetchStage(project.id, dispatchStage);
       fetchLabel(project.id, dispatchLabel);
     }
-  }, [project]);
+  }, [project.id]);
 
   return (
     <ModalProvider project={project}>
@@ -88,20 +89,20 @@ function ContainerBacklog({ project }) {
                             </div>
                           </div>
                           <div className="flex items-center header-left h-9">
-                            <div className="flex state-sprint">
-                              <div className="rounded-full  inline-flex w-5 h-5 text-xs bg-[#dfe1e6] mx-[0.2rem]">
-                                <span className="m-auto">4</span>
-                              </div>
-                              <div className="rounded-full  inline-flex w-5 h-5 text-xs bg-[#0052cc]  mx-[0.2rem] text-white">
-                                <span className="m-auto">4</span>
-                              </div>
-                              <div className="rounded-full  inline-flex w-5 h-5 text-xs bg-[#00875a]  mx-[0.2rem] text-white">
-                                <span className="m-auto">4</span>
-                              </div>
-                            </div>
-                            {/* <div className='btn-main rounded-[5px] py-1 px-2  w-fit h-full mx-4 border-solid border-[#000] border-[1px]'>
-                                    <span>Complete sprint</span>
-                                </div> */}
+                            {
+                              issueNoSprint && issueNoSprint.length > 0 &&
+                              <Tippy content='Total story point Estimate'>
+                                <div className="flex state-sprint">
+                                  <div className="rounded-full p-1 flex items-center justify-center text-xs bg-[#07be59]  mx-[0.2rem] text-white">
+                                    <span className="m-auto cursor-default">
+                                      {issueNoSprint.reduce((initValue, item) => {
+                                        return initValue += item.story_Point_Estimate;
+                                      }, 0)}
+                                    </span>
+                                  </div>
+                                </div>
+                              </Tippy>
+                            }
                             <ButtonBacklogComponent
                               project={project}
                               text={"Create sprint"}

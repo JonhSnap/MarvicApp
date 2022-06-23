@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useMemo } from 'react'
 import { emphasize, styled } from '@mui/material/styles';
 import BreadcrumbsComponent from '@mui/material/Breadcrumbs';
 import Chip from '@mui/material/Chip';
@@ -29,6 +29,11 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
 function BreadcrumbsComp() {
     const navigate = useNavigate();
     const location = useLocation();
+    const currentLocation = useMemo(() => {
+        const curr = location.pathname.slice(location.pathname.indexOf('/', 1) + 1, location.pathname.lastIndexOf('/'));
+        const firstLetter = curr[0].toUpperCase();
+        return firstLetter + curr.slice(1);
+    }, [location])
     // handle navigate
     const handleNavigate = (to) => {
         navigate(to);
@@ -42,9 +47,9 @@ function BreadcrumbsComp() {
                 label="Home"
                 icon={<HomeIcon fontSize="small" />}
             />
-            <StyledBreadcrumb component="div" onClick={() => handleNavigate('/projects')} label="projects" />
+            <StyledBreadcrumb component="div" onClick={() => handleNavigate('/projects')} label="Projects" />
             <StyledBreadcrumb
-                label={location.pathname.slice(location.pathname.indexOf('/', 1) + 1, location.pathname.lastIndexOf('/'))}
+                label={currentLocation}
             />
         </BreadcrumbsComponent>
     )

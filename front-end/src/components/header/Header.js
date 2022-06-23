@@ -8,11 +8,14 @@ import Help from "./Help";
 import Setting from "./Setting";
 import Profile from "./Profile";
 import { useNavigate } from "react-router-dom";
+import useModal from "../../hooks/useModal";
+import CreateProjectPopup from "../popup/CreateProjectPopup";
 
 function Header() {
   const navigate = useNavigate();
+  const [isShowProjectPopup, setIsShowProjectPopup, handleCloseProjectPopup] = useModal();
   const [isSearchFocus, setIsSearchFocus] = useState(false);
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <div className="header-wrapper">
@@ -85,82 +88,16 @@ function Header() {
             <li className="option">
               <CustomLink to="/projects">Projects</CustomLink>
             </li>
-            <li className="option">
-              <span>Filters</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-3 h-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </li>
-            <li className="option">
-              <span>Dashboards</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-3 h-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </li>
-            <li className="option">
-              <span>People</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-3 h-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </li>
-            <li className="option">
-              <span>More</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-3 h-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </li>
           </ul>
-          <Button>Create</Button>
+          <Button handleClick={() => setIsShowProjectPopup(true)}>Create project</Button>
+          {
+            isShowProjectPopup && <CreateProjectPopup setIsShowProjectPopup={setIsShowProjectPopup} onClose={handleCloseProjectPopup} visible={isShowProjectPopup}></CreateProjectPopup>
+          }
         </div>
         <div className={`header-right ${isSearchFocus ? "grow" : ""}`}>
           <div
-            className={`search-wrapper border-2 ${
-              isSearchFocus ? "border-primary" : "border-[#ccc]"
-            }`}
+            className={`search-wrapper border-2 ${isSearchFocus ? "border-primary" : "border-[#ccc]"
+              }`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -1,8 +1,15 @@
 import React from 'react'
-import { Avatar, AvatarGroup, IconButton, Menu, MenuItem } from '@mui/material'
+import { Avatar, AvatarGroup, Badge, Box, IconButton, Menu, MenuItem, styled } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
+import Switch from '@mui/material/Switch';
 import Tippy from '@tippyjs/react'
 import { v4 } from 'uuid';
+import axios from 'axios';
+import { BASE_URL } from '../../util/constants';
+import { useSelector } from 'react-redux';
+import { fetchMembers } from '../../reducers/membersReducer';
+import { useMembersContext } from '../../contexts/membersContext';
+import createToast from '../../util/createToast';
 
 function stringToColor(string) {
     let hash = 0;
@@ -33,7 +40,21 @@ function stringAvatar(name) {
         children: `${name?.split(' ')[0][0]}${name?.split(' ')[1][0]}`,
     };
 }
-function AllMember({ members, handleDeleteMember }) {
+const SmallScore = styled(Box)(({ theme }) => ({
+    width: 20,
+    height: 20,
+    borderRadius: '50%',
+    color: 'white',
+    fontSize: '10px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'black',
+    border: `1px solid ${theme.palette.background.paper}`,
+}));
+
+function AllMember({ project, members, handleDeleteMember }) {
+    const { dispatch: dispatchMember } = useMembersContext();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -42,6 +63,27 @@ function AllMember({ members, handleDeleteMember }) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    // handle change active
+    const handleChangeActive = async (idMember) => {
+        try {
+            const resp = await axios.patch(`${BASE_URL}/api/Project/ChangeStatusMember`,
+                {
+                    "idUser": idMember,
+                    "idProject": project?.id
+                }
+            )
+            if (resp && resp.status === 200) {
+                if (resp.data !== 0 && resp.data !== 1) {
+                    createToast('warn', resp.data);
+                } else {
+                    createToast('success', 'Change active successfully!');
+                    fetchMembers(project.id, dispatchMember);
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <>
             <AvatarGroup style={{ cursor: "pointer" }} onClick={handleClick} max={3}>
@@ -75,21 +117,53 @@ function AllMember({ members, handleDeleteMember }) {
                                 key={v4()}
                                 style={{ backgroundColor: 'white' }}
                             >
-                                <div className='flex items-center min-w-[230px]'>
+                                <div className='flex items-center min-w-[250px]'>
                                     {
                                         item.avatar_Path ?
-                                            <Avatar style={{ width: 25, height: 25, fontSize: 12 }} alt="Remy Sharp" src={item.avatar_Path} /> :
-                                            <Avatar style={{ width: 25, height: 25, fontSize: 12 }} {...stringAvatar(item.fullName)} />
+                                            <Badge
+                                                overlap="circular"
+                                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                                badgeContent={
+                                                    <Tippy content='Score'>
+                                                        <SmallScore>{item.scores}</SmallScore>
+                                                    </Tippy>
+                                                }
+                                            >
+                                                <Avatar style={{ width: 40, height: 40, fontSize: 12 }} alt="Remy Sharp" src={item.avatar_Path} />
+                                            </Badge> :
+                                            <Badge
+                                                overlap="circular"
+                                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                                badgeContent={
+                                                    <Tippy content='Score'>
+                                                        <SmallScore>{item.scores}</SmallScore>
+                                                    </Tippy>
+                                                }
+                                            >
+                                                <Avatar style={{ width: 40, height: 40, fontSize: 12 }} {...stringAvatar(item.fullName)} />
+                                            </Badge>
                                     }
                                     <div className='ml-3 flex flex-col justify-between'>
                                         <span className='text-[12px] font-semibold'>{item.fullName}</span>
                                         <span className='text-[12px] opacity-80 text-gray-500'>{item.userName}</span>
                                     </div>
-                                    <Tippy content='Delete'>
-                                        <IconButton onClick={() => handleDeleteMember(item.id)} style={{ marginLeft: 'auto', padding: 0 }} aria-label="delete">
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </Tippy>
+                                    <div className='flex gap-x-1 ml-auto'>
+                                        {
+                                            item.isActive ?
+                                                <Tippy content='Active'>
+                                                    <Switch onChange={() => handleChangeActive(item.id)} checked={!!item.isActive} size='small' />
+                                                </Tippy> :
+                                                <Tippy content='No active'>
+                                                    <Switch onChange={() => handleChangeActive(item.id)} checked={!!item.isActive} size='small' />
+                                                </Tippy>
+
+                                        }
+                                        <Tippy content='Delete'>
+                                            <IconButton onClick={() => handleDeleteMember(item.id)} style={{ padding: 0 }} aria-label="delete">
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </Tippy>
+                                    </div>
                                 </div>
                             </MenuItem>
                         ))
@@ -101,3 +175,5 @@ function AllMember({ members, handleDeleteMember }) {
 }
 
 export default AllMember
+
+// <Avatar style={{ width: 25, height: 25, fontSize: 12 }} {...stringAvatar(item.fullName)} />

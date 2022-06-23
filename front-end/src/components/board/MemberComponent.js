@@ -110,7 +110,13 @@ function MemberComponent({ project, members, issue }) {
           {
             issue.id_Assignee && issue.id_Assignee !== NIL &&
             <MenuItem>
-              <div onClick={() => handleChooseAssignee(null)} className='w-full cursor-pointer'>Unassigneed</div>
+              <div onClick={() => handleChooseAssignee(null)}
+                className='w-full flex items-center gap-x-4 cursor-pointer'>
+                <Avatar style={{ width: 24, height: 24 }}>
+                  <PersonIcon fontSize='small' />
+                </Avatar>
+                Unassigneed
+              </div>
             </MenuItem>
           }
           {
@@ -126,8 +132,18 @@ function MemberComponent({ project, members, issue }) {
               >
                 <div
                   onClick={() => handleChooseAssignee(item.id)}
-                  className={`w-full cursor-pointer ${item.id === issue.id_Assignee ? 'font-semibold pointer-events-none cursor-default' : ''}`}
-                >{item.userName}</div>
+                  className={`w-full flex gap-x-4 items-center cursor-pointer ${item.id === issue.id_Assignee ? 'font-semibold pointer-events-none cursor-default' : ''}`}
+                >
+                  {
+                    item.avatar_Path ?
+                      <Avatar style={{ width: 24, height: 24, fontSize: 10 }} alt={item.userName} src={item.avatar_Path} /> :
+                      <Avatar style={{ width: 24, height: 24, fontSize: 10 }} {...stringAvatar(item.fullName)} />
+                  }
+                  <div className="flex flex-col">
+                    <span>{item.fullName}</span>
+                    <span className="opacity-60">{item.userName}</span>
+                  </div>
+                </div>
               </MenuItem>
             ))
           }
