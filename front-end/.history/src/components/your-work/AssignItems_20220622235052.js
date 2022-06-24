@@ -7,6 +7,10 @@ import { issueTypes } from "../../util/constants";
 
 const AssignItems = ({ assignItem }) => {
   const navigate = useNavigate();
+  const isType2 = assignItem.id_IssueType === 2;
+  const isType3 = assignItem.id_IssueType === 3;
+  const isType4 = assignItem.id_IssueType === 4;
+  const isType1 = assignItem.id_IssueType === 1;
 
   const projects = useSelector((state) => state.projects.projects);
   const keyProject = projects.find(
@@ -32,7 +36,7 @@ const AssignItems = ({ assignItem }) => {
       >
         <div>
           <img
-            className="object-cover w-6  rounded pointer-events-none"
+            className="object-cover w-full h-full rounded pointer-events-none"
             src={
               issueTypes.find((item) => item.value === assignItem.id_IssueType)
                 ?.thumbnail

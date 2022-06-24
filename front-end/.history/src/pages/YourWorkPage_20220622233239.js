@@ -86,20 +86,15 @@ function YourWorkPage() {
     setIsWorkOn(false);
     setIsStart(false);
   };
-  let totalAssign = 0;
-  for (let index = 0; index < assignToMe?.length; index++) {
-    const totalAssign1 = assignToMe[index];
-    totalAssign += totalAssign1?.items.length;
-  }
 
-  let totalWorkon = 0;
+  const totalAssignDone = assignToMe[0]?.items.length || 0;
+  const totalAssignInprogress = assignToMe[1]?.items.length || 0;
+  const totalAssignView = assignToMe[2]?.items.length || 0;
+  const totalAssign = totalAssignDone + totalAssignInprogress + totalAssignView;
 
-  for (let index = 0; index < dataYourWork?.length; index++) {
-    const totalAssign = dataYourWork[index];
-    totalWorkon += totalAssign?.items.length;
-  }
+  const totalWorkon = dataYourWork[0]?.items?.length;
 
-  console.log("dataYourWork", dataYourWork?.length);
+  console.log("dataYourWork", dataYourWork);
   return (
     <div className="w-[1320px] mx-auto flex flex-col mt-8 pb-24">
       <div className="flex flex-col">

@@ -86,17 +86,17 @@ function YourWorkPage() {
     setIsWorkOn(false);
     setIsStart(false);
   };
-  let totalAssign = 0;
-  for (let index = 0; index < assignToMe?.length; index++) {
-    const totalAssign1 = assignToMe[index];
-    totalAssign += totalAssign1?.items.length;
-  }
+
+  const totalAssignDone = assignToMe[0]?.items.length || 0;
+  const totalAssignInprogress = assignToMe[1]?.items.length || 0;
+  const totalAssignView = assignToMe[2]?.items.length || 0;
+  const totalAssign = totalAssignDone + totalAssignInprogress + totalAssignView;
 
   let totalWorkon = 0;
-
   for (let index = 0; index < dataYourWork?.length; index++) {
     const totalAssign = dataYourWork[index];
     totalWorkon += totalAssign?.items.length;
+    console.log("total", totalWorkon);
   }
 
   console.log("dataYourWork", dataYourWork?.length);
@@ -219,7 +219,7 @@ function YourWorkPage() {
               <h3 className="flex items-center text-xl font-semibold">
                 Worked on
                 <span className="flex items-center justify-center w-5 h-5 ml-3 text-black rounded-full bg-yellow-50">
-                  {totalWorkon}
+                  {total}
                 </span>
               </h3>
             </div>

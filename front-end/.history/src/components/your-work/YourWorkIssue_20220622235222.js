@@ -13,6 +13,13 @@ import ShowAllMemberIssue from "../project-detail/ShowAllMemberIssue";
 
 const YourWorkIssue = ({ dataIssue }) => {
   const navigate = useNavigate();
+  const isType2 = dataIssue.id_IssueType === 2;
+  const isType3 = dataIssue.id_IssueType === 3;
+  const isType4 = dataIssue.id_IssueType === 4;
+  const isType1 = dataIssue.id_IssueType === 1;
+  const [hoverRef, isHovered] = useHover();
+  const [hoverRef1, isHovered1] = useHover();
+  const { show, setShow, nodeRef } = useClickOutSide();
 
   const projects = useSelector((state) => state.projects.projects);
   const keyProject = projects.find(

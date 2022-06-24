@@ -86,20 +86,12 @@ function YourWorkPage() {
     setIsWorkOn(false);
     setIsStart(false);
   };
-  let totalAssign = 0;
-  for (let index = 0; index < assignToMe?.length; index++) {
-    const totalAssign1 = assignToMe[index];
-    totalAssign += totalAssign1?.items.length;
-  }
+  const totalAssignDone = assignToMe[0]?.items.length || 0;
+  const totalAssignInprogress = assignToMe[1]?.items.length || 0;
+  const totalAssignView = assignToMe[2]?.items.length || 0;
+  const totalAssign = totalAssignDone + totalAssignInprogress + totalAssignView;
 
-  let totalWorkon = 0;
-
-  for (let index = 0; index < dataYourWork?.length; index++) {
-    const totalAssign = dataYourWork[index];
-    totalWorkon += totalAssign?.items.length;
-  }
-
-  console.log("dataYourWork", dataYourWork?.length);
+  console.log("dataYourWork", dataYourWork);
   return (
     <div className="w-[1320px] mx-auto flex flex-col mt-8 pb-24">
       <div className="flex flex-col">
@@ -216,10 +208,10 @@ function YourWorkPage() {
                 isWorkOn ? "border-b-2 border-white  " : ""
               } inline-block cursor-pointer mr-5 p-2 rounded-lg hover:bg-blue-600`}
             >
-              <h3 className="flex items-center text-xl font-semibold">
+              <h3 className="text-xl font-semibold">
                 Worked on
                 <span className="flex items-center justify-center w-5 h-5 ml-3 text-black rounded-full bg-yellow-50">
-                  {totalWorkon}
+                  {totalAssign}
                 </span>
               </h3>
             </div>

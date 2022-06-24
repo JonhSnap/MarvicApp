@@ -3,7 +3,6 @@ import { v4 } from "uuid";
 import AssignItems from "./AssignItems";
 
 const YourWorkAssign = ({ dataAssign }) => {
-  console.log("dataAssign", dataAssign);
   return (
     <div className="flex flex-col mb-6">
       <h2>{dataAssign.title}</h2>

@@ -10,6 +10,7 @@ const YourWorkStarred = ({ dataStarred }) => {
     localStorage.setItem(KEY_CURRENT_PROJECT, key);
     navigate(`/projects/board/${key}`);
   };
+  console.log("dataStarred", dataStarred);
   return (
     <div
       onClick={() => handleClickName(dataStarred.key)}

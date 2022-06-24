@@ -3,10 +3,13 @@ import { KEY_CURRENT_PROJECT } from "../../util/constants";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ShowAllMemberIssue from "../project-detail/ShowAllMemberIssue";
-import { issueTypes } from "../../util/constants";
 
 const AssignItems = ({ assignItem }) => {
   const navigate = useNavigate();
+  const isType2 = assignItem.id_IssueType === 2;
+  const isType3 = assignItem.id_IssueType === 3;
+  const isType4 = assignItem.id_IssueType === 4;
+  const isType1 = assignItem.id_IssueType === 1;
 
   const projects = useSelector((state) => state.projects.projects);
   const keyProject = projects.find(
@@ -17,7 +20,7 @@ const AssignItems = ({ assignItem }) => {
     localStorage.setItem(KEY_CURRENT_PROJECT, key);
     navigate(`/projects/board/${key}`);
   };
-
+  console.log("assignItem", assignItem);
   return (
     <div
       className={`flex items-center ${
@@ -31,14 +34,28 @@ const AssignItems = ({ assignItem }) => {
         className="flex items-center"
       >
         <div>
-          <img
-            className="object-cover w-6  rounded pointer-events-none"
-            src={
-              issueTypes.find((item) => item.value === assignItem.id_IssueType)
-                ?.thumbnail
-            }
-            alt=""
-          />
+          {isType2 && (
+            <img
+              src="http://localhost:3000/static/media/story.29b1ddadbd9c9361c80f.jpg"
+              alt=""
+              className="w-6"
+            />
+          )}
+          {isType3 && (
+            <img
+              src="http://localhost:3000/static/media/task.b8da2cdd2f57bbd0748a.jpg"
+              alt=""
+              className="w-6"
+            />
+          )}
+          {isType4 ||
+            (isType1 && (
+              <img
+                src="http://localhost:3000/static/media/bug.28f77bb8e0d6412801e5.jpg"
+                alt=""
+                className="w-6"
+              />
+            ))}
         </div>
         <div className="flex flex-col ml-3">
           <h3 className="text-base font-semibold">{assignItem.summary}</h3>
