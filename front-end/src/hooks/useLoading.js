@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 
-function useLoading(timeout = 3000) {
+function useLoading(timeout = 2000) {
     const [isLoading, setIsloading] = useState(true);
     const timeoutRef = useRef();
     useEffect(() => {

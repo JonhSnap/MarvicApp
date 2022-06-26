@@ -18,7 +18,7 @@ import { fetchBoard } from "../../reducers/boardReducer";
 import { fetchIssue } from "../../reducers/listIssueReducer";
 import { deleteMembers, fetchMembers } from "../../reducers/membersReducer";
 import { getProjects, updateProjects } from "../../redux/apiRequest";
-import { BASE_URL, documentHeight, issueTypes } from "../../util/constants";
+import { BASE_URL, documentHeight, issueTypes, KEY_ROLE_USER } from "../../util/constants";
 import AddMemberPopup from "../popup/AddMemberPopup";
 import FilterEpicBoardSelectBox from "../selectbox/FilterEpicBoardSelectBox";
 import "./TopDetail.scss";
@@ -36,6 +36,7 @@ import axios from "axios";
 
 const secondThirdScreen = (documentHeight * 2) / 3;
 function TopDetailBoard({ project, currentSprint }) {
+  const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
   const [{ issueEpics }, dispatchIssue] = useListIssueContext();
   const {
     state: { members },
@@ -145,6 +146,7 @@ function TopDetailBoard({ project, currentSprint }) {
   }, [search]);
 
   const handleClickAdd = () => {
+    if (roleUser === 3) return;
     setShow(true);
   };
   // handle delete member
@@ -347,7 +349,11 @@ function TopDetailBoard({ project, currentSprint }) {
           <div className="members">
             <AllMember project={project} members={members} handleDeleteMember={handleDeleteMember} />
             <Tippy content='Add members'>
-              <IconButton onClick={handleClickAdd} id='add-member-btn' style={{ width: 40, height: 40 }}>
+              <IconButton
+                onClick={handleClickAdd}
+                id='add-member-btn'
+                style={roleUser === 3 ? { width: 40, height: 40, cursor: 'not-allowed' } : { width: 40, height: 40 }}
+              >
                 <PersonAddAltIcon />
               </IconButton>
             </Tippy>

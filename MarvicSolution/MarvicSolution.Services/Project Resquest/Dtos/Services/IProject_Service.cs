@@ -29,7 +29,7 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest
         List<Member_ViewModel> Get_AllMembers_By_IdProject(Guid IdProject, RequestVM rqVM);
         List<Project_ViewModel> GetProjectByIdUser(Guid IdUser);
         Task<List<Project_ViewModel>> GetAlls();
-        Guid AddMembers(Guid IdProject, List<string> userNames, Guid idUserLogin);
+        Guid AddMembers(Guid IdProject, List<string> userNames, Guid idUserLogin, int role);
         Guid Remove_Member_From_Project(Guid IdProject, Guid IdUser, Guid IdUserLogin);
         List<Project> GetStarredProject(Guid idUserLogin);
         EnumStatus ChangeStatusMember(ChangeStatusMember_Request rq);
