@@ -8,6 +8,7 @@ import Avatar from '@mui/material/Avatar';
 import PersonIcon from '@mui/icons-material/Person';
 import Tippy from '@tippyjs/react'
 import { Menu, MenuItem } from "@mui/material";
+import { KEY_ROLE_USER } from "../../util/constants";
 
 function stringToColor(string) {
   let hash = 0;
@@ -39,11 +40,13 @@ function stringAvatar(name) {
 }
 
 function MemberComponent({ project, members, issue }) {
+  const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
   const [assignee, setAssignee] = useState();
   const [, dispatch] = useListIssueContext();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
+    if (roleUser === 3) return;
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -79,6 +82,9 @@ function MemberComponent({ project, members, issue }) {
   return (
     <>
       <div
+        style={
+          roleUser === 3 ? { cursor: 'not-allowed' } : {}
+        }
         onClick={handleClick}
         className="wrap-assignee relative z-10 wrap-member mr-2 ml-[5px]"
       >

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useMemo, memo } from "react";
 import { fetchIssue, updateIssues } from "../../reducers/listIssueReducer";
-import { issueTypes } from "../../util/constants";
+import { issueTypes, KEY_ROLE_USER } from "../../util/constants";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,6 +17,7 @@ import { useLabelContext } from "../../contexts/labelContext";
 
 
 function TaskItemComponent({ members, issue, project, issueEpics, sprint, isRoadmap = false }) {
+  const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
   const [{ stages }] = useStageContext();
   const {
     modal: [, setShow],
@@ -127,16 +128,25 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint, isRoad
           {!showInputPoint && !isRoadmap &&
             (issue?.story_Point_Estimate ? (
               <div
-                onClick={() => setShowInputPoint(true)}
-                className="rounded-full cursor-pointer flex items-center justify-center w-[20px] h-[20px] p-1
-                text-xs bg-[#dfe1e6] mx-[0.2rem] hover:bg-primary hover:text-white transition-all"
+                onClick={() =>
+                  roleUser === 3 ? undefined : setShowInputPoint(true)
+                }
+                className={`rounded-full cursor-pointer flex items-center justify-center w-[20px] h-[20px] p-1
+                text-xs bg-[#dfe1e6] mx-[0.2rem] hover:bg-primary hover:text-white transition-all
+                ${roleUser === 3 ? 'cursor-not-allowed hover:bg-[#dfe1e6] hover:text-inherit' : ''}
+                `}
               >
                 <span>{issue?.story_Point_Estimate}</span>
               </div>
             ) : (
               <div
-                onClick={() => setShowInputPoint(true)}
-                className="rounded-full cursor-pointer flex items-center justify-center w-[20px] h-[20px] p-1 text-xs bg-[#dfe1e6] mx-[0.2rem]"
+                onClick={() =>
+                  roleUser === 3 ? undefined : setShowInputPoint(true)
+                }
+                className={`rounded-full cursor-pointer flex items-center justify-center w-[20px] h-[20px] p-1
+                text-xs bg-[#dfe1e6] mx-[0.2rem] hover:bg-primary hover:text-white transition-all
+                ${roleUser === 3 ? 'cursor-not-allowed hover:bg-[#dfe1e6] hover:text-inherit' : ''}
+                `}
               >
                 <span>-</span>
               </div>

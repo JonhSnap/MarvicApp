@@ -5,8 +5,7 @@ import Switch from '@mui/material/Switch';
 import Tippy from '@tippyjs/react'
 import { v4 } from 'uuid';
 import axios from 'axios';
-import { BASE_URL } from '../../util/constants';
-import { useSelector } from 'react-redux';
+import { BASE_URL, KEY_ROLE_USER } from '../../util/constants';
 import { fetchMembers } from '../../reducers/membersReducer';
 import { useMembersContext } from '../../contexts/membersContext';
 import createToast from '../../util/createToast';
@@ -54,6 +53,8 @@ const SmallScore = styled(Box)(({ theme }) => ({
 }));
 
 function AllMember({ project, members, handleDeleteMember }) {
+    // get role user
+    const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
     const { dispatch: dispatchMember } = useMembersContext();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -65,6 +66,7 @@ function AllMember({ project, members, handleDeleteMember }) {
     };
     // handle change active
     const handleChangeActive = async (idMember) => {
+        if (roleUser === 3) return;
         try {
             const resp = await axios.patch(`${BASE_URL}/api/Project/ChangeStatusMember`,
                 {
@@ -151,15 +153,18 @@ function AllMember({ project, members, handleDeleteMember }) {
                                         {
                                             item.isActive ?
                                                 <Tippy content='Active'>
-                                                    <Switch onChange={() => handleChangeActive(item.id)} checked={!!item.isActive} size='small' />
+                                                    <Switch style={roleUser === 3 ? { cursor: 'not-allowed' } : {}} onChange={() => handleChangeActive(item.id)} checked={!!item.isActive} size='small' />
                                                 </Tippy> :
                                                 <Tippy content='No active'>
-                                                    <Switch onChange={() => handleChangeActive(item.id)} checked={!!item.isActive} size='small' />
+                                                    <Switch style={roleUser === 3 ? { cursor: 'not-allowed' } : {}} onChange={() => handleChangeActive(item.id)} checked={!!item.isActive} size='small' />
                                                 </Tippy>
 
                                         }
                                         <Tippy content='Delete'>
-                                            <IconButton onClick={() => handleDeleteMember(item.id)} style={{ padding: 0 }} aria-label="delete">
+                                            <IconButton
+                                                onClick={() => handleDeleteMember(item.id)}
+                                                style={roleUser ? { padding: 0, cursor: 'not-allowed' } : { paddig: 0 }}
+                                                aria-label="delete">
                                                 <DeleteIcon />
                                             </IconButton>
                                         </Tippy>

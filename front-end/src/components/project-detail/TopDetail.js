@@ -14,7 +14,7 @@ import AddMemberPopup from "../popup/AddMemberPopup";
 import { useListIssueContext } from "../../contexts/listIssueContext";
 import { deleteMembers, fetchMembers } from "../../reducers/membersReducer";
 import { useMembersContext } from "../../contexts/membersContext";
-import { BASE_URL, documentHeight, issueTypes } from "../../util/constants";
+import { BASE_URL, documentHeight, issueTypes, KEY_ROLE_USER } from "../../util/constants";
 import FilterEpicSelectBox from "../selectbox/FilterEpicSelectBox";
 import FilterTypeSelectBox from "../selectbox/FilterTypeSelectBox";
 import FilterLabelSelectBox from "../selectbox/FilterLabelSelectBox";
@@ -31,6 +31,7 @@ import { useLocation } from "react-router-dom";
 const secondThirdScreen = (documentHeight * 2) / 3;
 
 function TopDetail({ project }) {
+  const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
   const location = useLocation();
   const [
     {
@@ -127,10 +128,12 @@ function TopDetail({ project }) {
   }, [search]);
 
   const handleClickAdd = () => {
+    if (roleUser === 3) return;
     setShow(true);
   };
   // handle delete member
   const handleDeleteMember = async (idUser) => {
+    if (roleUser === 3) return;
     const data = {
       idProject: project.id,
       idUser,
@@ -326,7 +329,11 @@ function TopDetail({ project }) {
           <div className="members">
             <AllMember project={project} members={members} handleDeleteMember={handleDeleteMember} />
             <Tippy content='Add members'>
-              <IconButton onClick={handleClickAdd} id='add-member-btn' style={{ width: 40, height: 40 }}>
+              <IconButton
+                onClick={handleClickAdd}
+                id='add-member-btn'
+                style={roleUser === 3 ? { width: 40, height: 40, cursor: 'not-allowed' } : { width: 40, height: 40 }}
+              >
                 <PersonAddAltIcon />
               </IconButton>
             </Tippy>

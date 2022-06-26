@@ -5,13 +5,16 @@ import { fetchIssue, updateIssues } from '../../reducers/listIssueReducer';
 import createToast from '../../util/createToast';
 import { useListIssueContext } from '../../contexts/listIssueContext';
 import ModalDeleteIssue from './ModalDeleteIssue';
+import { KEY_ROLE_USER } from '../../util/constants';
 
 export default function OptionComponent({ project, issue, child = null }) {
+    const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
     const [showConfirmDelete, setShowConfirmDelete] = useState(false);
     const [, dispatch] = useListIssueContext();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
+        if (roleUser === 3) return;
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
@@ -38,7 +41,9 @@ export default function OptionComponent({ project, issue, child = null }) {
 
     return (
         <>
-            <IconButton onClick={handleClick} style={{ padding: 0 }}>
+            <IconButton
+                onClick={handleClick}
+                style={roleUser === 3 ? { padding: 0, cursor: 'not-allowed' } : { padding: 0 }}>
                 <MoreHorizIcon fontSize='medium' />
             </IconButton>
             <Menu
