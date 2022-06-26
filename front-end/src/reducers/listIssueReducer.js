@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from "../util/constants";
+import { BASE_URL, KEY_ROLE_USER } from "../util/constants";
 import createToast from "../util/createToast";
 import {
   CHANGE_FILTERS_EPIC,

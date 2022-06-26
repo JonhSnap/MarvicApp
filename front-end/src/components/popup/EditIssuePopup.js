@@ -13,7 +13,7 @@ import { useListIssueContext } from "../../contexts/listIssueContext";
 import createToast from "../../util/createToast";
 import OptionsEditIssue from "../option/OptionsEditIssue";
 import IssueCanAddSelectbox from "../selectbox/IssueCanAddSelectbox";
-import { BASE_URL, issueTypes } from "../../util/constants";
+import { BASE_URL, issueTypes, KEY_ROLE_USER } from "../../util/constants";
 import AttachmentForm from "../form/AttachmentForm";
 import { useStageContext } from "../../contexts/stageContext";
 import { useSprintContext } from "../../contexts/sprintContext";
@@ -23,9 +23,14 @@ import { useBoardContext } from "../../contexts/boardContext";
 import { ModalProvider, useModalContext } from "../../contexts/modalContext";
 import LinkIssueSelectbox from "../selectbox/LinkIssueSelectbox";
 import { useLabelContext } from "../../contexts/labelContext";
+import { useSelector } from "react-redux";
+import taskImage from '../../images/type-issues/task.jpg'
+import storyImage from '../../images/type-issues/story.jpg'
+import bugImage from '../../images/type-issues/bug.jpg'
 
 
 function EditIssuePopup({ members, project, issue, setShow }) {
+  const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
   const [{ issueEpics }, dispatch] = useListIssueContext();
   const [, dispatchBoard] = useBoardContext();
   const {
@@ -61,7 +66,19 @@ function EditIssuePopup({ members, project, issue, setShow }) {
     dateStarted: selectedDateStart,
     dateEnd: selectedDateEnd,
   });
-
+  // icon issue
+  const iconIssue = useMemo(() => {
+    switch (issue.id_IssueType) {
+      case 2:
+        return storyImage;
+      case 3:
+        return taskImage;
+      case 4:
+        return bugImage;
+      default:
+        break;
+    }
+  }, [issue])
   // create issue update
   const issueUpdate = useMemo(() => {
     const issueCopy = { ...issue, ...values };
@@ -134,26 +151,32 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   );
   // handle values change
   const handleValuesChange = (e) => {
-    if (e.target.name === "summary") {
-      setValues({
-        ...values,
-        [e.target.name]: e.target.value,
-      });
-    } else if (e.target.name === "description") {
-      setValues({
-        ...values,
-        [e.target.name]: e.target.value,
-      });
-    } else if (e.target.name === "dateStarted") {
-      setValues({
-        ...values,
-        [e.target.name]: e.target.value,
-      });
-    } else if (e.target.name === "dateEnd") {
-      setValues({
-        ...values,
-        [e.target.name]: e.target.value,
-      });
+    if (roleUser === 3) {
+      createToast('warn', 'You are not permission!');
+      return;
+    } else {
+      console.log('chay vao day');
+      if (e.target.name === "summary") {
+        setValues({
+          ...values,
+          [e.target.name]: e.target.value,
+        });
+      } else if (e.target.name === "description") {
+        setValues({
+          ...values,
+          [e.target.name]: e.target.value,
+        });
+      } else if (e.target.name === "dateStarted") {
+        setValues({
+          ...values,
+          [e.target.name]: e.target.value,
+        });
+      } else if (e.target.name === "dateEnd") {
+        setValues({
+          ...values,
+          [e.target.name]: e.target.value,
+        });
+      }
     }
   };
   // useEffect
@@ -317,7 +340,22 @@ function EditIssuePopup({ members, project, issue, setShow }) {
               </div>
             </div>
           </div>
-          <div className="my-4 text-2xl font-bold">
+          <div className="my-4 text-2xl font-bold flex items-center gap-x-2">
+            <div className="w-5 h-5 rounded">
+              {
+                iconIssue ?
+                  <img
+                    className="w-full h-full"
+                    src={iconIssue}
+                    alt=""
+                  /> :
+                  <FontAwesomeIcon
+                    size="1x"
+                    className="pointer-events-none mx-1 p-[0.2rem] text-white text-[10px] inline-block bg-[#904ee2]"
+                    icon={faBolt}
+                  />
+              }
+            </div>
             <input
               spellCheck={false}
               value={values.summary}
@@ -613,11 +651,16 @@ function Attachment({ issue }) {
 }
 // text area
 function TextBox({ value, onChange, ...props }) {
+  const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
   const nodeRef = useRef();
   const [height, setHeight] = useState("auto");
   const [text, setText] = useState(value);
   // handle change
   const handleChange = (e) => {
+    if (roleUser === 3) {
+      createToast('warn', 'You are not permission!');
+      return;
+    }
     setText(e.target.value);
     setHeight("auto");
     onChange(e);
@@ -644,6 +687,7 @@ function Stage({ project, issue, stage, currentSprint }) {
   const [, dispatchBoard] = useBoardContext();
   const [show, setShow] = useState(false);
   const [, dispatchIssue] = useListIssueContext();
+  const { currentUser } = useSelector(state => state.auth.login);
   // toggle
   const toggle = (e) => {
     if (e.target.matches(".btn-toggle")) {
@@ -653,9 +697,16 @@ function Stage({ project, issue, stage, currentSprint }) {
   // handle change stage
   const handleChangeStage = async (stage) => {
     if (stage) {
-      issue.id_Stage = stage.id;
-      await updateIssues(issue, dispatchIssue);
-      if (window.location.href.includes('projects/board') >= 0) {
+      // issue.id_Stage = stage.id;
+      // await updateIssues(issue, dispatchIssue);
+      const dataPut = {
+        "idUpdator": currentUser.id,
+        "idIssue": issue.id,
+        "idStage": stage.id,
+        "order": issue.order
+      }
+      await axios.put(`${BASE_URL}/api/Issue/ChangeIssueStage`, dataPut);
+      if (window.location.href.includes('projects/board')) {
         fetchBoard({
           idSprint: currentSprint.id,
           idEpic: null,
@@ -697,6 +748,7 @@ function Stage({ project, issue, stage, currentSprint }) {
 }
 // Assign
 function Assignee({ members, project, issue }) {
+  const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
   const [, dispathIssue] = useListIssueContext();
   const [show, setShow] = useState(false);
 
@@ -706,6 +758,7 @@ function Assignee({ members, project, issue }) {
   }, [members, issue]);
   // toggle
   const toggle = (e) => {
+    if (roleUser === 3) return;
     if (e.target.matches(".toggle")) {
       setShow((prev) => !prev);
     }
@@ -725,6 +778,9 @@ function Assignee({ members, project, issue }) {
   return (
     <div
       onClick={toggle}
+      style={
+        roleUser === 3 ? { cursor: 'not-allowed' } : {}
+      }
       className="relative z-10 w-6 h-6 bg-white rounded-full cursor-pointer toggle"
     >
       {currentAssignee ? (
@@ -781,6 +837,7 @@ function Assignee({ members, project, issue }) {
 }
 // Reporter
 function Reporter({ members, project, issue }) {
+  const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
   const [, dispathIssue] = useListIssueContext();
   const [show, setShow] = useState(false);
 
@@ -790,6 +847,7 @@ function Reporter({ members, project, issue }) {
   }, [members, issue]);
   // toggle
   const toggle = (e) => {
+    if (roleUser === 3) return;
     if (e.target.matches(".toggle")) {
       setShow((prev) => !prev);
     }
@@ -804,6 +862,9 @@ function Reporter({ members, project, issue }) {
 
   return (
     <div
+      style={
+        roleUser === 3 ? { cursor: 'not-allowed' } : {}
+      }
       onClick={toggle}
       className="relative z-10 w-6 h-6 bg-white rounded-full cursor-pointer toggle"
     >
@@ -855,6 +916,7 @@ function Reporter({ members, project, issue }) {
 }
 // Label
 function Label({ project, issue, currentSprint }) {
+  const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
   const [{ labels }] = useLabelContext();
   const [, dispatchIssue] = useListIssueContext();
   const [, dispatchBoard] = useBoardContext();
@@ -864,6 +926,7 @@ function Label({ project, issue, currentSprint }) {
   }, [labels, issue])
   // handle show
   const handleShow = (e) => {
+    if (roleUser === 3) return;
     if (e.target.matches('.btn-label')) {
       setShow(prev => !prev);
     }
@@ -894,7 +957,11 @@ function Label({ project, issue, currentSprint }) {
 
   return (
     <div onClick={handleShow} className="w-fit relative">
-      <p className="btn-label w-fit p-2 rounded hover:bg-gray-main cursor-pointer border border-[#666] px-4 py-1"
+      <p
+        style={
+          roleUser === 3 ? { cursor: 'not-allowed' } : {}
+        }
+        className="btn-label w-fit p-2 rounded hover:bg-gray-main cursor-pointer border border-[#666] px-4 py-1"
       >{currentLablel ? currentLablel.name : 'None'}</p>
       {
         show &&

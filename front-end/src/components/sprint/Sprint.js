@@ -13,13 +13,13 @@ import { useStageContext } from '../../contexts/stageContext'
 import { completeSprint, fetchSprint } from '../../reducers/sprintReducer'
 import { NIL } from 'uuid'
 import SprintSelectbox from '../selectbox/SprintSelectbox'
-import { documentHeight } from '../../util/constants'
 import { fetchIssue } from '../../reducers/listIssueReducer'
 import Tippy from '@tippyjs/react'
+import { KEY_ROLE_USER } from '../../util/constants'
 
-const secondThirdScreen = documentHeight * 2 / 3;
 
 function Sprint({ sprint, members, project }) {
+    const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
     const [showWrapperTask, setShowWrapperTask] = useState(true);
     const [coord, setCoord] = useState({});
     const [showSprintSelectBox, setShowSprintSelectBox, handleCloseSprintSelectBox] = useModal();
@@ -43,6 +43,7 @@ function Sprint({ sprint, members, project }) {
 
     // handle complete sprint
     const handleCompleteSprint = async () => {
+        if (roleUser === 3) return;
         const stageDone = stages.find(item => item.isDone === 1);
         const issuesNotDone = issueWithSprint.filter(item => item.id_Stage !== stageDone.id);
         if (issuesNotDone && issuesNotDone.length > 0) {
@@ -102,6 +103,11 @@ function Sprint({ sprint, members, project }) {
                             sprint.is_Started ?
                                 (
                                     <div
+                                        style={
+                                            roleUser === 3 ?
+                                                { cursor: 'not-allowed', opacity: 0.8 } :
+                                                {}
+                                        }
                                         ref={completeSprintRef}
                                         onClick={handleCompleteSprint}
                                         className={`rounded-md py-1 px-2  w-fit h-full mx-4 border-solid cursor-pointer

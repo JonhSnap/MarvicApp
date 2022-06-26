@@ -8,6 +8,7 @@ import { fetchIssue } from '../../reducers/listIssueReducer';
 import { completeSprint, fetchSprint } from '../../reducers/sprintReducer';
 import SelectBoxBase from './SelectBoxBase'
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
+import createToast from '../../util/createToast';
 
 const style = {
     position: 'fixed',
@@ -30,6 +31,7 @@ function SprintSelectbox({ open, handleClose, listSprint, sprint, project, onClo
         await completeSprint(dataPost, dispatch);
         await fetchSprint(project.id, dispatch);
         fetchIssue(project.id, dispatchIssue);
+        createToast('success', 'Complete sprint successfully!');
     }
 
     return (

@@ -10,6 +10,8 @@ import { BoardProvider } from '../contexts/boardContext';
 import { StageProvider } from '../contexts/stageContext';
 import { LabelProvider } from '../contexts/labelContext';
 import { ModalProvider } from '../contexts/modalContext';
+import axios from 'axios';
+import { BASE_URL, KEY_ROLE_USER } from '../util/constants';
 
 
 function BoardPage() {
@@ -21,7 +23,18 @@ function BoardPage() {
     document.title = 'Marvic-Board';
     const currProject = projects.find(item => item.key === key);
     setCurrentProject(currProject);
-  }, [projects, key])
+  }, [projects, key]);
+  useEffect(() => {
+    const setRole = async () => {
+      if (currentProject?.id) {
+        const resp = await axios.get(`${BASE_URL}/api/Project/SetUserRoleByIdProject?idProject=${currentProject?.id}`);
+        if (resp && resp.status === 200) {
+          localStorage.setItem(KEY_ROLE_USER, JSON.stringify(resp.data.value));
+        }
+      }
+    }
+    setRole();
+  }, [currentProject?.id])
 
   return (
     <BoardProvider>
