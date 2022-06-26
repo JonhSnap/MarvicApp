@@ -110,6 +110,7 @@ const ContainerArchive = ({ project }) => {
                     {...a11yProps(index)}
                   />
                 ))}
+                <Tab key={v4()} label="haha" {...a11yProps(1)} />
               </Tabs>
               {archive.map((item, index) => (
                 <div className="p-[-20px]">
@@ -119,6 +120,11 @@ const ContainerArchive = ({ project }) => {
                     value={value}
                     index={index}
                     className="mt-[-50px]"
+                    sx={{
+                      width: 300,
+                      color: "success.main",
+                      background: "red",
+                    }}
                   >
                     <ArchiveSprint
                       project={project}
@@ -128,6 +134,19 @@ const ContainerArchive = ({ project }) => {
                   </TabPanel>
                 </div>
               ))}
+              <TabPanel
+                key={v4()}
+                value={value}
+                index={1}
+                className="mt-[-50px]"
+                sx={{
+                  width: 300,
+                  color: "success.main",
+                  background: "red",
+                }}
+              >
+                haha
+              </TabPanel>
             </div>
           ) : (
             <div className="flex flex-col justify-center w-full">

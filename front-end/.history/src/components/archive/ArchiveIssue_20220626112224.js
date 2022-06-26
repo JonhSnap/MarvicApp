@@ -30,7 +30,7 @@ const ArchiveIssue = ({ ArchiveIssue, project }) => {
         } items-center justify-between px-3 py-2 rounded-lg cursor-pointer hover:bg-slate-200 w-full`}
       >
         <div
-          className="flex items-center w-[300px]"
+          className="flex items-center w-[400px]"
           onClick={() => {
             setShowEditEpic(true);
           }}

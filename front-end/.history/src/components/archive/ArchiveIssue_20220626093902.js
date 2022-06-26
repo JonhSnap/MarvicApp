@@ -27,10 +27,10 @@ const ArchiveIssue = ({ ArchiveIssue, project }) => {
           ArchiveIssue.isFlagged
             ? "bg-red-50 hover:bg-red-100"
             : "hover:bg-slate-200"
-        } items-center justify-between px-3 py-2 rounded-lg cursor-pointer hover:bg-slate-200 w-full`}
+        } items-center justify-between px-3 py-2 rounded-lg cursor-pointer hover:bg-slate-200`}
       >
         <div
-          className="flex items-center w-[300px]"
+          className="flex items-center"
           onClick={() => {
             setShowEditEpic(true);
           }}
@@ -59,7 +59,7 @@ const ArchiveIssue = ({ ArchiveIssue, project }) => {
             </div>
           </div>
         </div>
-        <div className="flex items-center flex-1 w-[400px] justify-between">
+        <div className="flex items-center w-[500px] justify-around">
           <div className="flex items-center">
             {ArchiveIssue.isFlagged ? (
               <span className="inline-block w-5 h-5 text-[#ff2d1a]">
@@ -78,7 +78,7 @@ const ArchiveIssue = ({ ArchiveIssue, project }) => {
             ) : (
               <div className="w-5 h-5"></div>
             )}
-            <div className="flex items-center justify-center w-6 h-6 ml-7 rounded-full bg-yellow-50">
+            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-yellow-50">
               {ArchiveIssue.story_Point_Estimate}
             </div>
           </div>

@@ -110,6 +110,17 @@ const ContainerArchive = ({ project }) => {
                     {...a11yProps(index)}
                   />
                 ))}
+                <Tab label="Item Two" {...a11yProps(1)} />
+                <Tab label="Item Three" {...a11yProps(2)} />
+                <Tab label="Item Four" {...a11yProps(3)} />
+                <Tab label="Item Five" {...a11yProps(4)} />
+                <Tab label="Item Six" {...a11yProps(5)} />
+                <Tab label="Item Seven" {...a11yProps(6)} />
+                <Tab label="Item Three" {...a11yProps(7)} />
+                <Tab label="Item Four" {...a11yProps(8)} />
+                <Tab label="Item Five" {...a11yProps(9)} />
+                <Tab label="Item Six" {...a11yProps(10)} />
+                <Tab label="Item Seven" {...a11yProps(11)} />
               </Tabs>
               {archive.map((item, index) => (
                 <div className="p-[-20px]">
@@ -128,6 +139,39 @@ const ContainerArchive = ({ project }) => {
                   </TabPanel>
                 </div>
               ))}
+              <TabPanel value={value} index={1}>
+                Item Two
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                Item Three
+              </TabPanel>
+              <TabPanel value={value} index={3}>
+                Item Four
+              </TabPanel>
+              <TabPanel value={value} index={4}>
+                Item Five
+              </TabPanel>
+              <TabPanel value={value} index={5}>
+                Item Six
+              </TabPanel>
+              <TabPanel value={value} index={6}>
+                Item Seven
+              </TabPanel>
+              <TabPanel value={value} index={7}>
+                Item Three
+              </TabPanel>
+              <TabPanel value={value} index={8}>
+                Item Four
+              </TabPanel>
+              <TabPanel value={value} index={9}>
+                Item Five
+              </TabPanel>
+              <TabPanel value={value} index={10}>
+                Item Six
+              </TabPanel>
+              <TabPanel value={value} index={11}>
+                Item Seven
+              </TabPanel>
             </div>
           ) : (
             <div className="flex flex-col justify-center w-full">

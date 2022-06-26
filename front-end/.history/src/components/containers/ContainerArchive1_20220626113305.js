@@ -119,6 +119,11 @@ const ContainerArchive = ({ project }) => {
                     value={value}
                     index={index}
                     className="mt-[-50px]"
+                    sx={{
+                      width: 300,
+                      color: "success.main",
+                      background: "red",
+                    }}
                   >
                     <ArchiveSprint
                       project={project}

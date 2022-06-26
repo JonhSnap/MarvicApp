@@ -30,7 +30,7 @@ const ArchiveIssue = ({ ArchiveIssue, project }) => {
         } items-center justify-between px-3 py-2 rounded-lg cursor-pointer hover:bg-slate-200 w-full`}
       >
         <div
-          className="flex items-center w-[300px]"
+          className="flex items-center"
           onClick={() => {
             setShowEditEpic(true);
           }}
@@ -59,7 +59,7 @@ const ArchiveIssue = ({ ArchiveIssue, project }) => {
             </div>
           </div>
         </div>
-        <div className="flex items-center flex-1 w-[400px] justify-between">
+        <div className="flex items-center w-50% justify-between">
           <div className="flex items-center">
             {ArchiveIssue.isFlagged ? (
               <span className="inline-block w-5 h-5 text-[#ff2d1a]">

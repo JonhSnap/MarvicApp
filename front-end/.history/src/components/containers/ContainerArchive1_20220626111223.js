@@ -92,7 +92,7 @@ const ContainerArchive = ({ project }) => {
         <h2 className="flex justify-center text-4xl font-semibold text-blue-500">
           Archive
         </h2>
-        <div className="overflow-y-auto archive-main pt-4 have-y-scroll h-[430px] bg-slate-300 pl-4 pr-4 rounded-[16px]  mt-5 ">
+        <div className="overflow-y-auto archive-main have-y-scroll h-[600px] bg-slate-300 pl-4 pr-4 rounded-lg  mt-5 ">
           {archive && archive.length > 0 ? (
             <div className={classes.root}>
               <Tabs
@@ -119,6 +119,11 @@ const ContainerArchive = ({ project }) => {
                     value={value}
                     index={index}
                     className="mt-[-50px]"
+                    sx={{
+                      width: 300,
+                      color: "success.main",
+                      background: "red",
+                    }}
                   >
                     <ArchiveSprint
                       project={project}

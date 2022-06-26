@@ -11,7 +11,7 @@ const ArchiveSprint = ({ ArchiveSprint, project }) => {
         {showIssue && (
           <div
             id="style-16"
-            className="flex animate__animated animate__animated animate__fadeInDown flex-col  h-auto overflow-y-auto border-2 border-blue-400 rounded-lg pl-2 pb-2 pt-2    max-h-[280px]"
+            className="flex animate__animated animate__animated animate__fadeInDown flex-col pt-2 h-auto overflow-y-auto   pl-2 pb-2 "
           >
             {ArchiveSprint.issues.map((item) => (
               <ArchiveIssue

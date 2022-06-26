@@ -86,63 +86,70 @@ const ContainerArchive = ({ project }) => {
 
   console.log("archive", archive);
   return (
-    <div className="p-[40px] ">
+    <div className="p-[40px] bg-slate-300">
       <div className="flex flex-col w-full">
         <BreadcrumbsComp />
-        <h2 className="flex justify-center text-4xl font-semibold text-blue-500">
-          Archive
-        </h2>
-        <div className="overflow-y-auto archive-main pt-4 have-y-scroll h-[430px] bg-slate-300 pl-4 pr-4 rounded-[16px]  mt-5 ">
-          {archive && archive.length > 0 ? (
-            <div className={classes.root}>
-              <Tabs
-                orientation="vertical"
-                variant="scrollable"
-                value={value}
-                onChange={handleChange}
-                aria-label="Vertical tabs example"
-                className={classes.tabs}
-              >
-                {archive.map((item, index) => (
-                  <Tab
-                    key={v4()}
-                    label={`${item.sprintName} (${item.issues.length})`}
-                    {...a11yProps(index)}
-                  />
-                ))}
-              </Tabs>
-              {archive.map((item, index) => (
-                <div className="p-[-20px]">
-                  <h2 className="flex justify-center mt-4 text-xl font-semibold text-blue-700">{`${item.sprintName} (${item.issues.length})`}</h2>
-                  <TabPanel
-                    key={v4()}
-                    value={value}
-                    index={index}
-                    className="mt-[-50px]"
-                  >
-                    <ArchiveSprint
-                      project={project}
+        <div className="bg-slate-300">
+          <h2 className="flex justify-center text-4xl font-semibold text-blue-500">
+            Archive
+          </h2>
+          <div className="overflow-y-auto archive-main have-y-scroll h-[600px]  mt-5 ">
+            {archive && archive.length > 0 ? (
+              <div className={classes.root}>
+                <Tabs
+                  orientation="vertical"
+                  variant="scrollable"
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="Vertical tabs example"
+                  className={classes.tabs}
+                >
+                  {archive.map((item, index) => (
+                    <Tab
                       key={v4()}
-                      ArchiveSprint={item}
-                    ></ArchiveSprint>
-                  </TabPanel>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="flex flex-col justify-center w-full">
-              <h2 className="text-xl font-semibold">
-                No issues have been archived yet
-              </h2>
-              <div className="w-full flex  justify-center h-[100vh] ">
-                <img
-                  className="w-[200px] h-[200px] my-[40px] items-center"
-                  src={nullImg}
-                  alt=""
-                />
+                      label={`${item.sprintName} (${item.issues.length})`}
+                      {...a11yProps(index)}
+                    />
+                  ))}
+                </Tabs>
+                {archive.map((item, index) => (
+                  <div className="p-[-20px]">
+                    <h2 className="flex justify-center mt-4 text-xl font-semibold text-blue-700">{`${item.sprintName} (${item.issues.length})`}</h2>
+                    <TabPanel
+                      key={v4()}
+                      value={value}
+                      index={index}
+                      className="mt-[-50px]"
+                      sx={{
+                        width: 300,
+                        color: "success.main",
+                        background: "red",
+                      }}
+                    >
+                      <ArchiveSprint
+                        project={project}
+                        key={v4()}
+                        ArchiveSprint={item}
+                      ></ArchiveSprint>
+                    </TabPanel>
+                  </div>
+                ))}
               </div>
-            </div>
-          )}
+            ) : (
+              <div className="flex flex-col justify-center w-full">
+                <h2 className="text-xl font-semibold">
+                  No issues have been archived yet
+                </h2>
+                <div className="w-full flex  justify-center h-[100vh] ">
+                  <img
+                    className="w-[200px] h-[200px] my-[40px] items-center"
+                    src={nullImg}
+                    alt=""
+                  />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -27,7 +27,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={7}>
+        <Box p={3}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -53,9 +53,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: "flex",
-    border: "1px solid #ccc",
-    height: "400px",
-    borderRadius: "16px",
+    height: 224,
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
@@ -86,13 +84,13 @@ const ContainerArchive = ({ project }) => {
 
   console.log("archive", archive);
   return (
-    <div className="p-[40px] ">
+    <div className="p-[40px]">
       <div className="flex flex-col w-full">
         <BreadcrumbsComp />
         <h2 className="flex justify-center text-4xl font-semibold text-blue-500">
           Archive
         </h2>
-        <div className="overflow-y-auto archive-main pt-4 have-y-scroll h-[430px] bg-slate-300 pl-4 pr-4 rounded-[16px]  mt-5 ">
+        <div className="overflow-y-auto have-y-scroll h-[500px]">
           {archive && archive.length > 0 ? (
             <div className={classes.root}>
               <Tabs
@@ -103,31 +101,38 @@ const ContainerArchive = ({ project }) => {
                 aria-label="Vertical tabs example"
                 className={classes.tabs}
               >
-                {archive.map((item, index) => (
-                  <Tab
-                    key={v4()}
-                    label={`${item.sprintName} (${item.issues.length})`}
-                    {...a11yProps(index)}
-                  />
+                {archive.map((item) => (
+                  <Tab label={item.sprintName} {...a11yProps(item.sprintId)} />
                 ))}
+                <Tab label="Item One" {...a11yProps(0)} />
+                <Tab label="Item Two" {...a11yProps(1)} />
+                <Tab label="Item Three" {...a11yProps(2)} />
+                <Tab label="Item Four" {...a11yProps(3)} />
+                <Tab label="Item Five" {...a11yProps(4)} />
+                <Tab label="Item Six" {...a11yProps(5)} />
+                <Tab label="Item Seven" {...a11yProps(6)} />
               </Tabs>
-              {archive.map((item, index) => (
-                <div className="p-[-20px]">
-                  <h2 className="flex justify-center mt-4 text-xl font-semibold text-blue-700">{`${item.sprintName} (${item.issues.length})`}</h2>
-                  <TabPanel
-                    key={v4()}
-                    value={value}
-                    index={index}
-                    className="mt-[-50px]"
-                  >
-                    <ArchiveSprint
-                      project={project}
-                      key={v4()}
-                      ArchiveSprint={item}
-                    ></ArchiveSprint>
-                  </TabPanel>
-                </div>
-              ))}
+              <TabPanel value={value} index={0}>
+                Item One
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                Item Two
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                Item Three
+              </TabPanel>
+              <TabPanel value={value} index={3}>
+                Item Four
+              </TabPanel>
+              <TabPanel value={value} index={4}>
+                Item Five
+              </TabPanel>
+              <TabPanel value={value} index={5}>
+                Item Six
+              </TabPanel>
+              <TabPanel value={value} index={6}>
+                Item Seven
+              </TabPanel>
             </div>
           ) : (
             <div className="flex flex-col justify-center w-full">

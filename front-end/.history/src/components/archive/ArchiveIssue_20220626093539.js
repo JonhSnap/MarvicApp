@@ -3,9 +3,12 @@ import { useMembersContext } from "../../contexts/membersContext";
 import useModal from "../../hooks/useModal";
 import EditArchiveIssuePopup from "../popup/EditArchiveIssuePopup";
 import { issueTypes } from "../../util/constants";
-import ShowAllMemberIssue from "../project-detail/ShowAllMemberIssue";
 
 const ArchiveIssue = ({ ArchiveIssue, project }) => {
+  const isType2 = ArchiveIssue.id_IssueType === 2;
+  const isType3 = ArchiveIssue.id_IssueType === 3;
+  const isType4 = ArchiveIssue.id_IssueType === 4;
+  const isType1 = ArchiveIssue.id_IssueType === 1;
   const [showEditEpic, setShowEditEpic, handleCloseEpic] = useModal();
   const {
     state: { members },
@@ -27,10 +30,10 @@ const ArchiveIssue = ({ ArchiveIssue, project }) => {
           ArchiveIssue.isFlagged
             ? "bg-red-50 hover:bg-red-100"
             : "hover:bg-slate-200"
-        } items-center justify-between px-3 py-2 rounded-lg cursor-pointer hover:bg-slate-200 w-full`}
+        } items-center justify-between px-3 py-2 rounded-lg cursor-pointer hover:bg-slate-200`}
       >
         <div
-          className="flex items-center w-[300px]"
+          className="flex items-center"
           onClick={() => {
             setShowEditEpic(true);
           }}
@@ -59,31 +62,26 @@ const ArchiveIssue = ({ ArchiveIssue, project }) => {
             </div>
           </div>
         </div>
-        <div className="flex items-center flex-1 w-[400px] justify-between">
-          <div className="flex items-center">
-            {ArchiveIssue.isFlagged ? (
-              <span className="inline-block w-5 h-5 text-[#ff2d1a]">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-              </span>
-            ) : (
-              <div className="w-5 h-5"></div>
-            )}
-            <div className="flex items-center justify-center w-6 h-6 ml-7 rounded-full bg-yellow-50">
-              {ArchiveIssue.story_Point_Estimate}
-            </div>
-          </div>
-          <div className="flex justify-between ">
-            <ShowAllMemberIssue members={ArchiveIssue.users} />
+        <div className="flex items-center w-[300px] justify-around">
+          {ArchiveIssue.isFlagged ? (
+            <span className="inline-block w-5 h-5 text-[#ff2d1a]">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </span>
+          ) : (
+            <div className="w-5 h-5"></div>
+          )}
+          <div className="flex items-center justify-center w-6 h-6 rounded-full bg-yellow-50">
+            {ArchiveIssue.story_Point_Estimate}
           </div>
         </div>
       </div>

@@ -86,13 +86,13 @@ const ContainerArchive = ({ project }) => {
 
   console.log("archive", archive);
   return (
-    <div className="p-[40px] ">
+    <div className="p-[40px] bg-slate-300">
       <div className="flex flex-col w-full">
         <BreadcrumbsComp />
         <h2 className="flex justify-center text-4xl font-semibold text-blue-500">
           Archive
         </h2>
-        <div className="overflow-y-auto archive-main pt-4 have-y-scroll h-[430px] bg-slate-300 pl-4 pr-4 rounded-[16px]  mt-5 ">
+        <div className="overflow-y-auto archive-main have-y-scroll h-[600px]  mt-5 ">
           {archive && archive.length > 0 ? (
             <div className={classes.root}>
               <Tabs
@@ -113,12 +113,17 @@ const ContainerArchive = ({ project }) => {
               </Tabs>
               {archive.map((item, index) => (
                 <div className="p-[-20px]">
-                  <h2 className="flex justify-center mt-4 text-xl font-semibold text-blue-700">{`${item.sprintName} (${item.issues.length})`}</h2>
+                  <h2>{`${item.sprintName} (${item.issues.length})`}</h2>
                   <TabPanel
                     key={v4()}
                     value={value}
                     index={index}
-                    className="mt-[-50px]"
+                    className="mt-[-20px]"
+                    sx={{
+                      width: 300,
+                      color: "success.main",
+                      background: "red",
+                    }}
                   >
                     <ArchiveSprint
                       project={project}

@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "16px",
   },
   tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
+    borderRight: `1px solid blue`,
   },
 }));
 
