@@ -1,4 +1,5 @@
 ﻿using MarvicSolution.DATA.Entities;
+using MarvicSolution.DATA.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -40,8 +41,9 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Khoang 1 HN",
                     Organization = "Company TechNo1",
                     PhoneNumber = "0989878767",
-                    IsDeleted = Enums.EnumStatus.False,
-                    Scores = 3
+                    IsDeleted = EnumStatus.False,
+                    Scores = 3,
+                    IsFirstLogin = EnumStatus.True
                 },
                 new App_User
                 {
@@ -56,8 +58,9 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Khoang 2 HCM",
                     Organization = "Company PizzaHub",
                     PhoneNumber = "0336355563",
-                    IsDeleted = Enums.EnumStatus.False,
-                    Scores = 3
+                    IsDeleted = EnumStatus.False,
+                    Scores = 3,
+                    IsFirstLogin = EnumStatus.True
                 },
                 new App_User
                 {
@@ -72,8 +75,9 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Khoang 10 DN",
                     Organization = "Company Marketing Hanzu",
                     PhoneNumber = "0345677456",
-                    IsDeleted = Enums.EnumStatus.False,
-                    Scores = 3
+                    IsDeleted = EnumStatus.False,
+                    Scores = 3,
+                    IsFirstLogin = EnumStatus.True
                 }
                 // New 5 user
                 //=======================================
@@ -90,8 +94,9 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Toa G Block A",
                     Organization = "Company International Z",
                     PhoneNumber = "0213515845",
-                    IsDeleted = Enums.EnumStatus.False,
-                    Scores = 85
+                    IsDeleted = EnumStatus.False,
+                    Scores = 85,
+                    IsFirstLogin = EnumStatus.True
                 },
                 new App_User
                 {
@@ -105,8 +110,9 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Toa G Block B",
                     Organization = "Company International B",
                     PhoneNumber = "0321235648",
-                    IsDeleted = Enums.EnumStatus.False,
-                    Scores = 39
+                    IsDeleted = EnumStatus.False,
+                    Scores = 39,
+                    IsFirstLogin = EnumStatus.True
                 },
                 new App_User
                 {
@@ -120,8 +126,9 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Toa G Block C",
                     Organization = "Company International C",
                     PhoneNumber = "5687956148",
-                    IsDeleted = Enums.EnumStatus.False,
-                    Scores = 46
+                    IsDeleted = EnumStatus.False,
+                    Scores = 46,
+                    IsFirstLogin = EnumStatus.True
                 },
                 new App_User
                 {
@@ -135,8 +142,9 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Toa G Block D",
                     Organization = "Company International D",
                     PhoneNumber = "1266587859",
-                    IsDeleted = Enums.EnumStatus.False,
-                    Scores = 17
+                    IsDeleted = EnumStatus.False,
+                    Scores = 17,
+                    IsFirstLogin = EnumStatus.True
                 },
                 new App_User
                 {
@@ -150,8 +158,9 @@ namespace MarvicSolution.DATA.Configurations
                     Department = "Toa G Block E",
                     Organization = "Company International E",
                     PhoneNumber = "0326598452",
-                    IsDeleted = Enums.EnumStatus.False,
-                    Scores = 85
+                    IsDeleted = EnumStatus.False,
+                    Scores = 85,
+                    IsFirstLogin = EnumStatus.True
                 }
 
                 );

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MarvicSolution.DATA.Enums;
+using System;
 
 namespace MarvicSolution.Services.System.Users.View_Model
 {
@@ -15,6 +16,7 @@ namespace MarvicSolution.Services.System.Users.View_Model
         public string Organization { get; set; }
         public string PhoneNumber { get; set; }
         public int Scores { get; set; }
+        public EnumStatus IsFirstLogin { get; set; }
 
         public User_ViewModel()
         {
@@ -29,6 +31,7 @@ namespace MarvicSolution.Services.System.Users.View_Model
             Organization = string.Empty;
             PhoneNumber = string.Empty;
             Scores = 0;
+            IsFirstLogin = EnumStatus.True;
         }
 
     }
