@@ -15,6 +15,9 @@ export const KEY_FILTER_EPIC = "key_filter_epic";
 export const KEY_ROLE_USER = 'key_role_user';
 // type timeline chart
 export const timeLines = ['project', 'week', 'month', 'year', 'custom'];
+// tour
+export const KEY_USER_LOGIN = 'key_user_login';
+export const KEY_SHOW_TOUR = 'key_show_tour';
 // Levels
 export const levels = [
   {
@@ -58,3 +61,26 @@ export const issueTypes = [
     thumbnail: BugImage,
   },
 ];
+// role
+export const roles = [
+  {
+    id: 1,
+    name: 'Project Manager',
+    value: 1,
+  },
+  {
+    id: 2,
+    name: 'Project Owner',
+    value: 2,
+  },
+  {
+    id: 3,
+    name: 'Developer',
+    value: 3,
+  },
+]
+export const steps = [
+  {
+
+  }
+]

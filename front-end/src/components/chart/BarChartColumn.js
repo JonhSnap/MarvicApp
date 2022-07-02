@@ -53,7 +53,7 @@ const BarChartColumn = ({ project, dateStarted, dateEnd }) => {
   return (
     <div className="mt-[30px]">
       <CanvasJSChart ref={ref} options={options} />
-      <button onClick={handleExportChart} className="p-2 mt-3 text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
+      <button data-tut='tut-dashboard-export' onClick={handleExportChart} className="p-2 mt-3 text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
     </div>
   );
 };

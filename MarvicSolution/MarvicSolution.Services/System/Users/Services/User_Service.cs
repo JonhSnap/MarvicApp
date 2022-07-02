@@ -153,7 +153,7 @@ namespace MarvicSolution.Services.System.Users.Services
                 user.Department = rq.Department;
                 user.Organization = rq.Organization;
                 user.PhoneNumber = rq.PhoneNumber;
-
+                user.IsFirstLogin = (EnumStatus)rq.IsFirstLogin;
                 _context.SaveChanges();
                 return rq.Id;
             }
@@ -264,7 +264,8 @@ namespace MarvicSolution.Services.System.Users.Services
                     Organization = u.Organization,
                     PhoneNumber = u.PhoneNumber,
                     UserName = u.UserName,
-                    Scores = u.Scores
+                    Scores = u.Scores,
+                    IsFirstLogin = u.IsFirstLogin
                 }).SingleOrDefault();
             }
             catch (Exception e)

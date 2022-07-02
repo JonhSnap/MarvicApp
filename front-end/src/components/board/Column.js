@@ -124,7 +124,7 @@ function Column({ stage, currentSprint, project }) {
                 showChooseStage &&
                 <ChooseStagePopup project={project} currentSprint={currentSprint} currentStage={stage} onClose={handleCloseShooseStage} />
             }
-            <div ref={columnRef} data-id={stage?.id} className='column'>
+            <div data-tut='tut-column' ref={columnRef} data-id={stage?.id} className='column'>
                 <div className="header header-selector">
                     {
                         showInput ?

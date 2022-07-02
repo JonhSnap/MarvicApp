@@ -70,7 +70,7 @@ function ContainerBacklog({ project }) {
                     ))
                   ) :
                   (
-                    <>
+                    <div>
                       <WrapperSprint members={members} project={project} />
                       <div data-id={NIL} className="backlog-item">
                         <div className="header-backlog-item w-[98%] py-3 flex justify-between items-center">
@@ -118,7 +118,7 @@ function ContainerBacklog({ project }) {
                           <CreateComponent project={project} createWhat={"issues"} />
                         </div>
                       </div>
-                    </>
+                    </div>
                   )
               }
             </div>

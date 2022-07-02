@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MarvicSolution.DATA.Enums;
+using System;
 
 namespace MarvicSolution.Services.System.Users.Requests
 {
@@ -13,5 +14,6 @@ namespace MarvicSolution.Services.System.Users.Requests
         public string Department { get; set; }
         public string Organization { get; set; }
         public string PhoneNumber { get; set; }
+        public int IsFirstLogin { get; set; }
     }
 }

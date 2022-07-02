@@ -67,7 +67,7 @@ const BarChartArea = ({ project, dateStarted, dateEnd }) => {
     <div >
       <h2 className="flex justify-center text-[40px] font-semibold archive-area ">Archive</h2>
       <CanvasJSChart ref={ref} options={options} />
-      <button onClick={handleExportChart} className="p-2 mt-3 text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
+      <button data-tut='tut-dashboard-export' onClick={handleExportChart} className="p-2 mt-3 text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
     </div>
   );
 };

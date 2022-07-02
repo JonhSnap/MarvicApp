@@ -27,6 +27,10 @@ import { useSelector } from "react-redux";
 import taskImage from '../../images/type-issues/task.jpg'
 import storyImage from '../../images/type-issues/story.jpg'
 import bugImage from '../../images/type-issues/bug.jpg'
+import Stage from "./components/Stage";
+import Assignee from "./components/Assignee";
+import Reporter from "./components/Reporter";
+import Label from "./components/Label";
 
 
 function EditIssuePopup({ members, project, issue, setShow }) {
@@ -88,7 +92,8 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   const stage = stages.find((item) => item.id === issue?.id_Stage);
   // current sprint
   const currentSprint = useMemo(() => {
-    return sprints.find((item) => item.is_Started);
+    return sprints.find(item => item.id = issue.id_Sprint);
+    // return sprints.find((item) => item.is_Started);
   }, [sprints]);
   // handle close edit
   const handleCloseEditByButton = async () => {
@@ -436,7 +441,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
               <div className="w-[40%] h-13 my-4">Date started</div>
               <div className="w-[60%]">
                 <input
-                  className="p-2 rounded border border-[#666]"
+                  className="p-2 rounded border border-[#666] cursor-pointer transition-all hover:bg-gray-main"
                   name="dateStarted"
                   onChange={handleValuesChange}
                   value={values.dateStarted}
@@ -446,7 +451,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
               <div className="w-[40%] h-13 my-4">Date end</div>
               <div className="w-[60%]">
                 <input
-                  className="p-2 rounded border border-[#666]"
+                  className="p-2 rounded border border-[#666] cursor-pointer transition-all hover:bg-gray-main"
                   name="dateEnd"
                   onChange={handleValuesChange}
                   value={values.dateEnd}
@@ -681,311 +686,7 @@ function TextBox({ value, onChange, ...props }) {
     ></textarea>
   );
 }
-// Stage
-function Stage({ project, issue, stage, currentSprint }) {
-  const [{ stages }, dispatchStage] = useStageContext();
-  const [, dispatchBoard] = useBoardContext();
-  const [show, setShow] = useState(false);
-  const [, dispatchIssue] = useListIssueContext();
-  const { currentUser } = useSelector(state => state.auth.login);
-  // toggle
-  const toggle = (e) => {
-    if (e.target.matches(".btn-toggle")) {
-      setShow((prev) => !prev);
-    }
-  };
-  // handle change stage
-  const handleChangeStage = async (stage) => {
-    if (stage) {
-      // issue.id_Stage = stage.id;
-      // await updateIssues(issue, dispatchIssue);
-      const dataPut = {
-        "idUpdator": currentUser.id,
-        "idIssue": issue.id,
-        "idStage": stage.id,
-        "order": issue.order
-      }
-      await axios.put(`${BASE_URL}/api/Issue/ChangeIssueStage`, dataPut);
-      if (window.location.href.includes('projects/board')) {
-        fetchBoard({
-          idSprint: currentSprint.id,
-          idEpic: null,
-          type: 0
-        }, dispatchBoard);
-      } else {
-        fetchIssue(project.id, dispatchIssue);
-      }
-      createToast('success', 'Update stage successfully');
-    }
-  };
 
-  return (
-    <div onClick={toggle} className='btn-toggle relative flex gap-x-2 items-center justify-center px-4 py-2
-    rounded bg-gray-main cursor-pointer hover:bg-gray-200 transition-all'>
-      <span className='inline-block uppercase font-semibold pointer-events-none'>{stage.stage_Name}</span>
-      <span className='inline-block w-5 h-5 text-inherit pointer-events-none'>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-        </svg>
-      </span>
-      {show && (
-        <div className="absolute w-[110%] z-10 top-[105%] left-0 bg-gray-main rounded shadow-md">
-          {
-            stages.length > 0 &&
-            stages.map(item => {
-              return (
-                item.id !== stage.id
-                  ? <p key={item.id} onClick={() => handleChangeStage(item)} className='p-2 uppercase cursor-pointer hover:bg-gray-200'>{item.stage_Name}</p>
-                  : null
-              )
-
-            })
-          }
-        </div>
-      )}
-    </div>
-  );
-}
-// Assign
-function Assignee({ members, project, issue }) {
-  const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
-  const [, dispathIssue] = useListIssueContext();
-  const [show, setShow] = useState(false);
-
-  // current assignee
-  const currentAssignee = useMemo(() => {
-    return members.find((item) => item.id === issue.id_Assignee);
-  }, [members, issue]);
-  // toggle
-  const toggle = (e) => {
-    if (roleUser === 3) return;
-    if (e.target.matches(".toggle")) {
-      setShow((prev) => !prev);
-    }
-  };
-  // handle select member
-  const handleSelectMember = async (member) => {
-    if (member === null) {
-      issue.id_Assignee = NIL;
-    } else {
-      issue.id_Assignee = member.id;
-    }
-    await updateIssues(issue, dispathIssue);
-    fetchIssue(project.id, dispathIssue);
-    createToast('success', 'Change assignee sucessfully');
-  }
-
-  return (
-    <div
-      onClick={toggle}
-      style={
-        roleUser === 3 ? { cursor: 'not-allowed' } : {}
-      }
-      className="relative z-10 w-6 h-6 bg-white rounded-full cursor-pointer toggle"
-    >
-      {currentAssignee ? (
-        <span className="inline-flex items-center justify-center border border-[#666] w-full h-full text-white bg-orange-500 rounded-full pointer-events-none">
-          {
-            currentAssignee.avatar_Path ?
-              (<img className="inline-block w-full h-full rounded-full" src={currentAssignee.avatar_Path} alt="" />) :
-              (currentAssignee?.userName?.slice(0, 1))
-          }
-        </span>
-      ) : (
-        <span className="inline-block w-full h-full text-[#ccc] hover:text-gray-500 pointer-events-none">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </span>
-      )}
-      {show && (
-        <div
-          style={{ transform: "translateX(-25%)" }}
-          className="absolute top-[105%] left-0 shadow-md bg-white max-h-[150px] overflow-auto have-y-scroll"
-        >
-          <div
-            onClick={() => handleSelectMember(null)}
-            className="flex items-center p-2"
-          >
-            Unassignee
-          </div>
-          {members.length > 0 &&
-            members.map((item) => (
-              <div
-                onClick={() => handleSelectMember(item)}
-                key={item.id}
-                className={`p-2 flex items-center hover:bg-gray-main ${issue.id_Assignee === item.id
-                  ? "bg-orange-500 text-white pointer-events-none"
-                  : ""
-                  }`}
-              >
-                {item.userName}
-              </div>
-            ))}
-        </div>
-      )}
-    </div>
-  );
-}
-// Reporter
-function Reporter({ members, project, issue }) {
-  const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
-  const [, dispathIssue] = useListIssueContext();
-  const [show, setShow] = useState(false);
-
-  // current assignee
-  const currentAssignee = useMemo(() => {
-    return members.find((item) => item.id === issue.id_Reporter);
-  }, [members, issue]);
-  // toggle
-  const toggle = (e) => {
-    if (roleUser === 3) return;
-    if (e.target.matches(".toggle")) {
-      setShow((prev) => !prev);
-    }
-  };
-  // handle select member
-  const handleSelectMember = async (member) => {
-    issue.id_Reporter = member.id;
-    await updateIssues(issue, dispathIssue);
-    fetchIssue(project.id, dispathIssue);
-    createToast('success', 'Change reporter sucessfully');
-  }
-
-  return (
-    <div
-      style={
-        roleUser === 3 ? { cursor: 'not-allowed' } : {}
-      }
-      onClick={toggle}
-      className="relative z-10 w-6 h-6 bg-white rounded-full cursor-pointer toggle"
-    >
-      {currentAssignee ? (
-        <span className="inline-flex border border-[#666] items-center justify-center w-full h-full text-white bg-orange-500 rounded-full pointer-events-none">
-          {
-            currentAssignee.avatar_Path ?
-              (<img className="inline-block w-full h-full rounded-full" src={currentAssignee.avatar_Path} alt="" />) :
-              (currentAssignee?.userName?.slice(0, 1))
-          }
-        </span>
-      ) : (
-        <span className="inline-block rounded-full border border-[#666] w-full h-full text-[#ccc] hover:text-gray-500 pointer-events-none">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </span>
-      )}
-      {show && (
-        <div
-          style={{ transform: "translateX(-25%)" }}
-          className="absolute top-[105%] left-0 shadow-md bg-white max-h-[150px] overflow-auto have-y-scroll"
-        >
-          {members.length > 0 &&
-            members.map((item) => (
-              <div
-                onClick={() => handleSelectMember(item)}
-                key={item.id}
-                className={`p-2 flex items-center hover:bg-gray-main ${issue.id_Reporter === item.id
-                  ? "bg-orange-500 text-white pointer-events-none"
-                  : ""
-                  }`}
-              >
-                {item.userName}
-              </div>
-            ))}
-        </div>
-      )}
-    </div>
-  );
-}
-// Label
-function Label({ project, issue, currentSprint }) {
-  const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
-  const [{ labels }] = useLabelContext();
-  const [, dispatchIssue] = useListIssueContext();
-  const [, dispatchBoard] = useBoardContext();
-  const [show, setShow] = useState(false);
-  const currentLablel = useMemo(() => {
-    return labels.find(item => item.id === issue.id_Label)
-  }, [labels, issue])
-  // handle show
-  const handleShow = (e) => {
-    if (roleUser === 3) return;
-    if (e.target.matches('.btn-label')) {
-      setShow(prev => !prev);
-    }
-  }
-  // handle select label
-  const handleSelectLabel = async (labelSelected) => {
-    try {
-      const resp = await axios.put(`${BASE_URL}/api/Issue/AddLabel`, {
-        idIssue: issue.id,
-        idLabel: labelSelected.id
-      })
-      if (resp.status === 200) {
-        if (window.location.href.includes('/projects/board')) {
-          fetchIssue(project.id, dispatchIssue);
-          fetchBoard({
-            idSprint: currentSprint.id,
-            idEpic: null,
-            type: 0
-          }, dispatchBoard);
-        } else if (window.location.href.includes('/projects/backlog')) {
-          fetchIssue(project.id, dispatchIssue);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  return (
-    <div onClick={handleShow} className="w-fit relative">
-      <p
-        style={
-          roleUser === 3 ? { cursor: 'not-allowed' } : {}
-        }
-        className="btn-label w-fit p-2 rounded hover:bg-gray-main cursor-pointer border border-[#666] px-4 py-1"
-      >{currentLablel ? currentLablel.name : 'None'}</p>
-      {
-        show &&
-        <div className="bg-white shadow-md border border-gray-main absolute top-full left-0 rounded overflow-hidden min-w-[100px]">
-          <p
-            onClick={() => handleSelectLabel({ id: NIL })}
-            className={`p-2 cursor-pointer hover:bg-gray-main w-full
-          ${!currentLablel ? 'bg-orange-400 text-white pointer-events-none' : ''}`}
-          >None</p>
-          {
-            labels.length > 0 &&
-            labels.map(item => (
-              <p
-                key={item.id}
-                onClick={() => handleSelectLabel(item)}
-                className={`p-2 cursor-pointer hover:bg-gray-main w-full ${currentLablel?.id === item.id ? 'bg-orange-400 text-white pointer-events-none' : ''}`}>{item.name}</p>
-            )
-            )
-          }
-        </div>
-      }
-    </div>
-  )
-}
 function EpicSelectBox({ setShowEpic, issueEpics, issue, handleChooseEpic, handleRemoveEpic }) {
   const nodeRef = useRef();
   const renderRef = useRef(1);
