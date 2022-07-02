@@ -127,10 +127,10 @@ function DashboardContainer({ project }) {
   }, [project]);
 
   return (
-    <div className="container-dashboard">
+    <div data-tut='tut-dashboard-main' className="container-dashboard">
       <BreadcrumbsComp />
       <h2 className="title">Dashboard</h2>
-      <div className="chart-container">
+      <div data-tut='tut-dashboard-chart' className="chart-container">
         {chart === "area" && (
           <BarChartArea
             project={project}
@@ -154,15 +154,17 @@ function DashboardContainer({ project }) {
         )}
         <div className="mt-auto flex items-center gap-x-2 pb-5">
           <select
+            data-tut='tut-dashboard-type'
             onChange={(e) => setChart(e.target.value)}
             value={chart}
             className="p-2 mt-3 border-2 border-blue-400 rounded-md cursor-pointer outline-blue-600"
           >
-            <option value="area">Area Chart</option>
+            <option value="area">Archive Chart</option>
             <option value="column">Column Chart</option>
             <option value="doughnut">Doughnut Chart</option>
           </select>
           <select
+            data-tut='tut-dashboard-timeline'
             value={timeLine}
             onChange={(e) => setTimeLine(e.target.value)}
             className="p-2 mt-3 capitalize border-2 border-blue-400 rounded-md cursor-pointer outline-blue-600"
@@ -185,7 +187,7 @@ function DashboardContainer({ project }) {
               disabled={timeLine === "custom"}
               content="Select custom to edit date"
             >
-              <div className="flex flex-col gap-y-1">
+              <div data-tut='tut-dashboard-date' className="flex flex-col gap-y-1">
                 <label>Date start:</label>
                 <input
                   disabled={timeLine !== "custom"}
@@ -193,9 +195,8 @@ function DashboardContainer({ project }) {
                   onChange={handleChangePeriod}
                   name="dateStart"
                   type="date"
-                  className={`px-2 py-1 border-2 rounded outline-none cursor-pointer border-primary ${
-                    timeLine !== "custom" ? "opacity-50" : ""
-                  }`}
+                  className={`px-2 py-1 border-2 rounded outline-none cursor-pointer border-primary ${timeLine !== "custom" ? "opacity-50" : ""
+                    }`}
                 />
               </div>
             </Tippy>
@@ -211,9 +212,8 @@ function DashboardContainer({ project }) {
                   onChange={handleChangePeriod}
                   name="dateEnd"
                   type="date"
-                  className={`px-2 py-1 border-2 rounded outline-none cursor-pointer border-primary ${
-                    timeLine !== "custom" ? "opacity-50" : ""
-                  }`}
+                  className={`px-2 py-1 border-2 rounded outline-none cursor-pointer border-primary ${timeLine !== "custom" ? "opacity-50" : ""
+                    }`}
                 />
               </div>
             </Tippy>

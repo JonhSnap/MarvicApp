@@ -27,7 +27,7 @@ function Issue({ issue }) {
     }
 
     return (
-        <div className="issue">
+        <div data-tut='tut-issueboard' className="issue">
             <div className="wrapper-summary">
                 <div className="type">
                     <img className='type-img' src={issueTypes.find(item => item.value === issue.id_IssueType)?.thumbnail} alt="" />

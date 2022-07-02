@@ -39,7 +39,7 @@ function Profile() {
   return (
     <>
       {user ? (
-        <div className="relative">
+        <div data-tut='tut-info' className="relative">
           {isHover && (
             <Tooltip coord={coord}>Your profile and settings</Tooltip>
           )}

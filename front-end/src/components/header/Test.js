@@ -7,7 +7,7 @@ function Test() {
     <>
       <Tippy content="Test">
         <Link to="/testlist">
-          <div className="setting header-right-option ">
+          <div data-tut='tut-test' className="setting header-right-option ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"

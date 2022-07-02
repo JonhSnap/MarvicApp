@@ -327,6 +327,7 @@ function TopDetailBoard({ project, currentSprint }) {
         <div className="actions">
           <div className={`wrap-input ${focus ? "expand" : ""}`}>
             <input
+              data-tut='tut-board-searchissue'
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={focus ? "Search this board" : ""}
@@ -346,7 +347,7 @@ function TopDetailBoard({ project, currentSprint }) {
               />
             </svg>
           </div>
-          <div className="members">
+          <div data-tut='tut-members' className="members">
             <AllMember project={project} members={members} handleDeleteMember={handleDeleteMember} />
             <Tippy content='Add members'>
               <IconButton
@@ -359,7 +360,7 @@ function TopDetailBoard({ project, currentSprint }) {
             </Tippy>
           </div>
         </div>
-        <div className="filters">
+        <div data-tut='tut-filter-issue-board' className="filters">
           {
             showEpic ?
               <Button
