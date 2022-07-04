@@ -27,7 +27,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
                     Id_IssueType = EnumIssueType.Epic,
                     Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
+                    Id_Sprint = new Guid("00000000-0000-0000-0000-000000000000"), // Sprint xxx
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "Epic Legendary A",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
@@ -55,7 +55,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"), // Project ABC
                     Id_IssueType = EnumIssueType.Epic,
                     Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
+                    Id_Sprint = new Guid("00000000-0000-0000-0000-000000000000"), // Sprint xxx
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "Epic Legendary B",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
@@ -83,7 +83,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("7C2CC804-4AAE-4AF2-9191-4268FC02EDC0"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Story,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("da3d7685-bb11-4681-b7f3-ffbc9ed54353"), // Stage To do
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "The Story Legendary A1",
@@ -113,7 +113,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Story,
                     Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
+                    Id_Sprint = new Guid("5dab4090-30ea-4179-4978-08da5ccf5393"), // Sprint xxx
                     Id_Label = new Guid("EE7D776C-4C13-4CB9-A4FA-79B2D096A267"), // Label A
                     Summary = "The Story Legendary A2",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
@@ -142,8 +142,8 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("EDFF3F58-7640-4F5A-ADA0-DC017F602501"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
+                    Id_Stage = new Guid("da3d7685-bb11-4681-b7f3-ffbc9ed54353"), // Stage xxx
+                    Id_Sprint = new Guid("2fba8381-f39d-4061-8efa-71c45269a80a"), // Sprint A1
                     Id_Label = new Guid("1A578D31-1AA0-45E7-BC1A-F6683C5853A5"), // Label BE
                     Summary = "The Task Legendary A1.1",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
@@ -171,8 +171,8 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("DF2E4C8C-36D7-4448-96FC-5FE36363E1D6"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
+                    Id_Stage = new Guid("da3d7685-bb11-4681-b7f3-ffbc9ed54353"), // Stage xxx
+                    Id_Sprint = new Guid("c7577e61-ce8e-4e2c-4976-08da5ccf5393"), // Sprint A1
                     Id_Label = new Guid("1A578D31-1AA0-45E7-BC1A-F6683C5853A5"), // Label BE
                     Summary = "The Task Legendary A1.2",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
@@ -201,7 +201,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
                     Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
-                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
+                    Id_Sprint = new Guid("5dab4090-30ea-4179-4978-08da5ccf5393"), // Sprint xxx
                     Id_Label = new Guid("1A578D31-1AA0-45E7-BC1A-F6683C5853A5"), // Label BE
                     Summary = "The Task Legendary A1.3",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
@@ -229,7 +229,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("0997489F-597E-43F9-AECB-4F55ADBA143E"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("D72506EB-AD2A-48D5-8CAA-D322EE88811F"), // Stage To do
+                    Id_Stage = new Guid("da3d7685-bb11-4681-b7f3-ffbc9ed54353"), // Stage xxx
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("1A578D31-1AA0-45E7-BC1A-F6683C5853A5"), // Label BE
                     Summary = "The Task Legendary A1.4",
@@ -289,7 +289,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("0B27000F-27E9-4081-A208-29DFF8D3A7AF"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"), // Stage Inprogress
+                    Id_Stage = new Guid("da3d7685-bb11-4681-b7f3-ffbc9ed54353"), // Stage xxx
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("1A578D31-1AA0-45E7-BC1A-F6683C5853A5"), // Label BE
                     Summary = "The Task Legendary A1.6",
@@ -318,8 +318,8 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("6D6BB4BB-523A-4F79-85A9-6D0A5E85C658"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"), // Stage Inprogress
-                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
+                    Id_Stage = new Guid("da3d7685-bb11-4681-b7f3-ffbc9ed54353"), // Stage xx
+                    Id_Sprint = new Guid("6c6b8d2b-9d38-4d9a-4977-08da5ccf5393"), // Sprint xx
                     Id_Label = new Guid("1A578D31-1AA0-45E7-BC1A-F6683C5853A5"), // Label BE
                     Summary = "The Task Legendary A1.7",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
@@ -347,7 +347,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("4B9A6895-4467-453E-8915-5ED19312FB54"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"), // Stage Inprogress
+                    Id_Stage = new Guid("da3d7685-bb11-4681-b7f3-ffbc9ed54353"), // Stage xx
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("1A578D31-1AA0-45E7-BC1A-F6683C5853A5"), // Label BE
                     Summary = "The Task Legendary A1.8",
@@ -378,7 +378,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("B11F2822-BC9A-4C50-9642-2E18B63F298D"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"), // // Stage Inprogress
+                    Id_Stage = new Guid("da3d7685-bb11-4681-b7f3-ffbc9ed54353"), // // Stage xxx
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
                     Summary = "The Task Legendary A1.9",
@@ -408,7 +408,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
                     Id_Stage = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"), // Stage Inprogress
-                    Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
+                    Id_Sprint = new Guid("5dab4090-30ea-4179-4978-08da5ccf5393"), // Sprint xxx
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
                     Summary = "The Task Legendary A1.10",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
@@ -436,7 +436,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("1645F209-E53F-4D09-840E-2D290D527A01"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"), // Stage Inprogress
+                    Id_Stage = new Guid("da3d7685-bb11-4681-b7f3-ffbc9ed54353"), // Stage xxx
                     Id_Sprint = new Guid("D2DA18BC-3F2D-4558-ACC8-480DF6D770F4"), // Sprint A1
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
                     Summary = "The Task Legendary A1.11",
@@ -465,7 +465,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id = new Guid("17EA08D6-9C12-4ED9-B83A-3CCDDD7C5911"),
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
-                    Id_Stage = new Guid("0CAA0071-7E46-48F8-B436-382001C1CA3A"), // Stage Inprogress
+                    Id_Stage = new Guid("da3d7685-bb11-4681-b7f3-ffbc9ed54353"), // Stage Inprogress
                     Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
                     Summary = "The Task Legendary A1.12",
@@ -497,7 +497,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
                     Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
-                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
+                    Id_Sprint = new Guid("00000000-0000-0000-0000-000000000000"), // Sprint xxx
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
                     Summary = "The Task Legendary A2.1",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
@@ -526,7 +526,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
                     Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
-                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
+                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint xxx
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
                     Summary = "The Task Legendary A2.2",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
@@ -584,7 +584,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
                     Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
-                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
+                    Id_Sprint = new Guid("c7577e61-ce8e-4e2c-4976-08da5ccf5393"), // Sprint A2
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
                     Summary = "The Task Legendary A2.4",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
@@ -615,7 +615,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
                     Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
-                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
+                    Id_Sprint = new Guid("6c6b8d2b-9d38-4d9a-4977-08da5ccf5393"), // Sprint A2
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
                     Summary = "The Task Legendary A2.5",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
@@ -644,7 +644,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
                     Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
-                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
+                    Id_Sprint = new Guid("6c6b8d2b-9d38-4d9a-4977-08da5ccf5393"), // Sprint A2
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
                     Summary = "The Task Legendary A2.6",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
@@ -673,7 +673,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
                     Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
-                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
+                    Id_Sprint = new Guid("c7577e61-ce8e-4e2c-4976-08da5ccf5393"), // Sprint xxx
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
                     Summary = "The Task Legendary A2.7",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
@@ -702,7 +702,7 @@ namespace MarvicSolution.DATA.Configurations
                     Id_Project = new Guid("A42B223B-FAEC-48E3-8E28-51FE1B22FA7C"),
                     Id_IssueType = EnumIssueType.Task,
                     Id_Stage = new Guid("DA3D7685-BB11-4681-B7F3-FFBC9ED54353"), // Stage Done
-                    Id_Sprint = new Guid("2FBA8381-F39D-4061-8EFA-71C45269A80A"), // Sprint A2
+                    Id_Sprint = new Guid("c7577e61-ce8e-4e2c-4976-08da5ccf5393"), // Sprint A2
                     Id_Label = new Guid("F8B58FDB-15BB-4336-B9D4-7D2CF9D4BC07"), // Label FE
                     Summary = "The Task Legendary A2.8",
                     Description = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",

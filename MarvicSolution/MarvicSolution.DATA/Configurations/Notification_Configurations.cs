@@ -1,12 +1,7 @@
 ﻿using MarvicSolution.DATA.Entities;
-using MarvicSolution.DATA.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarvicSolution.DATA.Configurations
 {
@@ -38,6 +33,32 @@ namespace MarvicSolution.DATA.Configurations
                     IdItemRef = new Guid("DF2E4C8C-36D7-4448-96FC-5FE36363E1D6"),
                     Date = DateTime.Parse("2022-6-2"),
                     Message = "Mr.B has update Task A1.2",
+                    IsIssue = 1,
+                    IsProject = 0
+                },
+                //////////////////////// thay đổi message lại sau nên từ từ làm tiếp
+                new Notifications()
+                {
+                    Id = new Guid("5e8a29d7-d221-46cf-8c75-1e87935647d5"),
+                    IdItemRef = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
+                    Date = DateTime.Parse("2022-07-03"),
+                    Message = "KhietPT has been started Sprint Sprint A1 in Project Project ABC",
+                    IsIssue = 0,
+                    IsProject =  1
+                }, new Notifications()
+                {
+                    Id = new Guid("b5398d9d-f910-4e6e-af3e-1ed6ca8f0ccf"),
+                    IdItemRef = new Guid("a42b223b-faec-48e3-8e28-51fe1b22fa7c"),
+                    Date = DateTime.Parse("2022-07-03"),
+                    Message = "KhietPT has been complete Sprint Sprint 1 in Project Project ABC",
+                    IsIssue = 0,
+                    IsProject = 1
+                }, new Notifications()
+                {
+                    Id = new Guid("45a5903e-08b9-4495-9e78-2266f6b48ac0"),
+                    IdItemRef = new Guid("4b9a6895-4467-453e-8915-5ed19312fb54"),
+                    Date = DateTime.Parse("2022-07-03"),
+                    Message = "KhietPT has been changed issue The Task Legendary A1.8 to DONE",
                     IsIssue = 1,
                     IsProject = 0
                 }
