@@ -163,7 +163,7 @@ function AllMember({ project, members, handleDeleteMember }) {
                                         <Tippy content='Delete'>
                                             <IconButton
                                                 onClick={() => handleDeleteMember(item.id)}
-                                                style={roleUser ? { padding: 0, cursor: 'not-allowed' } : { paddig: 0 }}
+                                                style={roleUser === 3 ? { padding: 0, cursor: 'not-allowed' } : { paddig: 0 }}
                                                 aria-label="delete">
                                                 <DeleteIcon />
                                             </IconButton>

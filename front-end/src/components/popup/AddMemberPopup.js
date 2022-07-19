@@ -1,9 +1,10 @@
+import { Chip } from '@material-ui/core';
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 import { v4 } from 'uuid';
 import { useMembersContext } from '../../contexts/membersContext';
 import { addMembers, fetchMembers } from '../../reducers/membersReducer';
-import { BASE_URL } from '../../util/constants';
+import { BASE_URL, roles } from '../../util/constants';
 import Button from '../button/Button';
 import ModalBase from '../modal/ModalBase'
 
@@ -15,6 +16,7 @@ function AddMemberPopup({ onClose, setShow, project }) {
     const [membersSearched, setMembersSearched] = useState([]);
     const [search, setSearch] = useState('');
     const [focus, setFocus] = useState(false);
+    const [role, setRole] = useState(3);
 
     // handle change search
     const handleChangeSearch = (e) => {
@@ -37,9 +39,11 @@ function AddMemberPopup({ onClose, setShow, project }) {
     // handle submit
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (members.length === 0) return;
         const data = {
             idProject: project.id,
-            userNames: [...members]
+            userNames: [...members],
+            role
         }
         await addMembers(data, dispatchMembers);
         await fetchMembers(project.id, dispatchMembers);
@@ -72,7 +76,7 @@ function AddMemberPopup({ onClose, setShow, project }) {
         const fetchData = async () => {
             const resp = await axios.get(`${BASE_URL}/api/Project/UserCanAdded?IdProject=${project.id}`)
             const data = resp.data;
-            setMembersSearched(data.filter(item => item.toLowerCase().includes(search.toLowerCase())))
+            setMembersSearched(data.filter(item => !members.includes(item) && item.toLowerCase().includes(search.toLowerCase())))
         }
         fetchData();
 
@@ -93,10 +97,8 @@ function AddMemberPopup({ onClose, setShow, project }) {
                             {
                                 members.length > 0 &&
                                 members.map((member, index) => (
-                                    <div key={v4()} className='flex items-center rounded text-[12px] bg-[#ccc] overflow-hidden'>
-                                        <span className='grow inline-block px-3'>{member}</span>
-                                        <span onClick={() => handleDeleteChoose(index)} className='inline-block p-2 font-bold text-black cursor-pointer hover:bg-black hover:text-white'>x</span>
-                                    </div>
+                                    <Chip key={index} size='small' label={member} onDelete={() => handleDeleteChoose(index)} />
+
                                 ))
                             }
                         </div>
@@ -125,6 +127,22 @@ function AddMemberPopup({ onClose, setShow, project }) {
                     }
                 </div>
                 <div className='flex gap-4 justify-end'>
+                    {
+                        members.length > 0 &&
+                        <div className='w-full max-w-[150px]'>
+                            <select
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                                className='w-full p-3 rounded border-2 border-gray-300 outline-none focus:border-primary'
+                            >
+                                {
+                                    roles.map(item => (
+                                        <option key={item.id} value={item.value}>{item.name}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                    }
                     <Button handleClick={() => setShow(false)} primary={false}>Cancel</Button>
                     <Button handleClick={handleSubmit}>Add</Button>
                 </div>

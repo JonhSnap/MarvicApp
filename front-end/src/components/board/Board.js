@@ -42,7 +42,7 @@ function Board({ board, project, currentSprint }) {
         }
     }
     return (
-        <div className='board'>
+        <div data-tut='tut-container-board' className='board'>
             <Container
                 orientation="horizontal"
                 dragHandleSelector=".header-selector"

@@ -71,6 +71,7 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint, isRoad
   return (
     <>
       <div
+        data-tut='tut-backlog-issue'
         onClick={handleClickItem}
         ref={ref}
         className={`item hover:bg-[#eee] cursor-pointer rounded-md w-full h-[30px] p-1
@@ -78,7 +79,7 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint, isRoad
             flex justify-between items-center ${issue.isFlagged ? "bg-[#ffe8e6] hover:bg-[#ffb9b3]" : "bg-white"
           }`}
       >
-        <div className="flex items-center h-full left-item">
+        <div data-tut='tut-backlog-issue-info' className="flex items-center h-full left-item">
           <div className="w-5 h-5 pointer-events-none">
             <img
               className="object-cover w-full h-full rounded pointer-events-none"
@@ -109,7 +110,7 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint, isRoad
               className="ml-5 bg-task-color text-white text-[10px] rounded-[2px] py-1 px-3">{currentLabel.name}</div>
           }
         </div>
-        <div className="flex items-center h-full right-item w-fit">
+        <div data-tut='tut-backlog-issue-action' className="flex items-center h-full right-item w-fit">
           {issue.isFlagged === 1 && (
             <span style={{ color: '#ff2d1a' }} className="inline-block w-5 h-5">
               <svg

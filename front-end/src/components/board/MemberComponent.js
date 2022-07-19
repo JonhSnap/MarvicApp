@@ -11,6 +11,7 @@ import { Menu, MenuItem } from "@mui/material";
 import { KEY_ROLE_USER } from "../../util/constants";
 
 function stringToColor(string) {
+  if (!string) return;
   let hash = 0;
   let i;
 
@@ -31,6 +32,7 @@ function stringToColor(string) {
 }
 
 function stringAvatar(name) {
+  if (!name) return;
   return {
     sx: {
       bgcolor: stringToColor(name),

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./sidebar.scss";
 import { NavLink } from "react-router-dom";
 import { KEY_CURRENT_PROJECT } from "../../util/constants";
+import { Typography } from "@mui/material";
 
 function Sidebar({ nameProject = "Name of project" }) {
   const [show, setShow] = useState(true);
@@ -14,7 +15,7 @@ function Sidebar({ nameProject = "Name of project" }) {
           src="https://media.istockphoto.com/photos/abstract-cloud-computing-technology-concept-picture-id1316144933?b=1&k=20&m=1316144933&s=170667a&w=0&h=jQa0mn3U1ePZMYdTY7zisheCQqUItm2_itt_Jq5UZmU="
           alt=""
         />
-        <p>{nameProject}</p>
+        <Typography variant='h6' color='primary.main'>{nameProject}</Typography>
       </div>
       <p className="text-sm font-semibold pl-[10px] flex gap-x-2 items-center cursor-default select-none group">
         {show ? (

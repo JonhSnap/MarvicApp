@@ -105,7 +105,7 @@ const Roadmap = ({ issueEpics, epicSelected, setEpicSelected }) => {
     }
   }, [epicSelected]);
   return (
-    <div className="items-center w-full p-8">
+    <div data-tut='tut-roadmap-timeline' className="items-center w-full p-8">
       <Calendar
         tooltipAccessor={null}
         components={{ event: Event }}

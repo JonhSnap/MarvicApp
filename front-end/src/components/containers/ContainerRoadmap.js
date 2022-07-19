@@ -62,7 +62,7 @@ const ContainerRoadmap = ({ project }) => {
   return (
     <div className="container">
       <TopDetail project={project} />
-      <div className="flex overflow-x-auto have-y-scroll w-full  h-[470px]">
+      <div data-tut='tut-roadmap-main' className="flex overflow-x-auto have-y-scroll w-full  h-[470px]">
         <div className="border-2 overflow-y-auto have-y-scroll  border-slate-200  outline-none out basis-[30%]">
           <div className=" w-full epic-dropdown have-y-scroll p-2  have-y-scroll  overflow-y-auto mx-4 bg-white rounded-[5px] flex items-center flex-col">
             <div className="flex justify-between w-full px-4 py-2 border-b-2 border-slate-200">
