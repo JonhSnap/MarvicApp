@@ -34,6 +34,7 @@ function Stage({ project, issue, stage, currentSprint }) {
             }
             await axios.put(`${BASE_URL}/api/Issue/ChangeIssueStage`, dataPut);
             if (window.location.href.includes('projects/board')) {
+                await fetchIssue(project.id, dispatchIssue);
                 fetchBoard({
                     idSprint: currentSprint.id,
                     idEpic: null,

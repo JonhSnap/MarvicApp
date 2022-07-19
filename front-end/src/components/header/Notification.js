@@ -68,10 +68,11 @@ function Notification() {
         <div
           data-tut="tut-notification"
           onClick={handleClick}
-          ref={nodeRef}
+          // ref={nodeRef}
           className="notifications header-right-option"
         >
           <svg
+            ref={nodeRef}
             xmlns="http://www.w3.org/2000/svg"
             className="w-6 h-6"
             viewBox="0 0 20 20"
