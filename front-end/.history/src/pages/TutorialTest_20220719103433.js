@@ -97,9 +97,9 @@ const TutorialTest = () => {
               label="Study the current status of apps in the same segment. "
               {...a11yProps(1)}
             />
-            <Tab label="Function" {...a11yProps(2)} />
-            <Tab label=" Comparative Review" {...a11yProps(3)} />
-            <Tab label=" 	Conclusion" {...a11yProps(4)} />
+            <Tab label=" Chức năng" {...a11yProps(2)} />
+            <Tab label=" 	Đánh giá so sánh" {...a11yProps(3)} />
+            <Tab label=" 	Kết luận" {...a11yProps(4)} />
           </Tabs>
           <TabPanel value={value} index={0} className="w-[1000px] h-[500px] ">
             <>
