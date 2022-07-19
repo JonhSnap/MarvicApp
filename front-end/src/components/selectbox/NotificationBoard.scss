@@ -30,6 +30,7 @@
     .notification-item {
       padding: 8px;
       display: flex;
+      column-gap: 5px;
       justify-content: space-between;
       align-items: center;
       border-radius: 4px;
@@ -52,6 +53,7 @@
       }
       .dot-new {
         display: none;
+        flex-shrink: 0;
       }
       &:not(:last-child) {
         margin-bottom: 10px;
