@@ -90,8 +90,8 @@ const TutorialWorkflow = () => {
               <img src={imgloginlandau} className="img-tutorial" alt="" />
               <span className="mt-4">
                 <strong> Note:</strong>
-                If you log in for the 2nd time or later, the user will be
-                redirected to Your Work interface.
+                If you log in for the 2nd time or later, the user will be redirected to
+                 Your Work interface.
               </span>
             </li>
             <li className="mt-4">
@@ -106,31 +106,30 @@ const TutorialWorkflow = () => {
               </h3>
               <img src={imgyourworkflow} className="img-tutorial" alt="" />
               <span className="mt-4">
-                There will be display options about{" "}
+              There will be display options about{" "}
                 <strong>Worked on, Assigned to me, Starred.</strong>
               </span>
 
               <ul className="ml-4">
                 <li>
                   <h3>
-                    <strong className="text-blue-800"> • Worked on:</strong> The
-                    jobs in which the user is engaged can be assignee, reporter.
+                    <strong className="text-blue-800"> • Worked on:</strong>{" "}
+                    The jobs in which the user is engaged can be
+                     assignee, reporter.
                   </h3>
                   <img src={imgyourwork} alt="" />
                 </li>
                 <li className="mt-2">
                   <h3>
-                    <strong className="text-blue-800"> • Assignee:</strong>
-                    Paralysis List the tasks that the user is responsible for
-                    solving.
+                    <strong className="text-blue-800"> • Assignee:</strong>Paralysis
+                     List the tasks that the user is responsible for solving.
                   </h3>
                   <img src={imgassign} alt="" />
                 </li>
                 <li className="mt-2">
                   <h3>
-                    <strong className="text-blue-800"> • Starred: </strong>{" "}
-                    Paralysis list important projects and are marked with an
-                    asterisk.
+                    <strong className="text-blue-800"> • Starred: </strong> Paralysis
+                     list important projects and are marked with an asterisk.
                   </h3>
                   <img src={imgstarred} alt="" />
                 </li>
@@ -138,7 +137,7 @@ const TutorialWorkflow = () => {
               <span className="mt-4">
                 <strong> Note:</strong>
                 If the user has not joined any Project, the default is 4 screens
-                This will be blank.
+                 This will be blank.
               </span>
             </li>
           </ul>
@@ -151,17 +150,17 @@ const TutorialWorkflow = () => {
             <img src={imgcreateproject} className="img-tutorial-mini" alt="" />
             <div className="mt-8">
               <h2 className="text-base text-blue-800">
-                Users create Project by
+              Users create Project by
               </h2>
               <ul className="mt-4">
                 <li>o To name</li>
-                <li className="mt-3">o Specify the start and end time</li>
+                <li className="mt-3">
+                  o Specify the start and end time
+                </li>
                 <li className="mt-3">
                   o Project access (Public, Private, Limited)
                 </li>
-                <li className="mt-3">
-                  o Project's keyword (abbreviated name).
-                </li>
+                <li className="mt-3">o Project's keyword (abbreviated name).</li>
               </ul>
             </div>
           </div>
@@ -170,8 +169,8 @@ const TutorialWorkflow = () => {
             <img src={imgviducreate} className="img-tutorial-mini" alt="" />
             <ul>
               <li>
-                • After fully determining the information of Project. Click
-                Create to create Project or Cancle to cancel.
+                • After fully determining the information of Project. Click Create to
+                 create Project or Cancle to cancel.
               </li>
               <li>
                 •After clicking Create
@@ -180,28 +179,28 @@ const TutorialWorkflow = () => {
                 </div>
               </li>
               <li>
-                •Here users can attach or remove the Project star for
-                convenience follow.
+                •Here users can attach or remove the Project star for convenience
+                 follow.
               </li>
               <li>
-                •Or click on Project so that the system leads the user to the
-                Board of the Project just clicked.
+                •Or click on Project so that the system leads the user to the Board
+                 of the Project just clicked.
               </li>
               <li>
                 <strong> Note</strong>
                 <ul>
                   <li>
-                    • If no Project Sprint has been created and started yet
-                    Board will be empty.
+                    • Nếu chưa có Sprint nào của Project được tạo và bắt đầu thì
+                    Board sẽ trống.
                   </li>
                   <li>
-                    • By default, when the Project is created, there will be 3
-                    stages available (Todo, Inprogress, Done).
+                    • Mặc định khi Project được tạo ra sẽ có sẵn 3 stage (Todo,
+                    Inprogress, Done).
                   </li>
                   <li>
-                    • The creator of the Project, will initially be the person
-                    holding the position Leader and system will mark this as
-                    creator to help activity history tracking.
+                    • Người tạo ra Project, ban đầu sẽ là người giữ chức vụ
+                    Leader và hệ thống sẽ đánh dấu đây là người tạo để giúp
+                    tracking lịch sử hoạt động.
                   </li>
                 </ul>
               </li>
@@ -210,74 +209,72 @@ const TutorialWorkflow = () => {
         </div>
       </div>
       <div className="mt-4">
-        <h2 className="text-xl font-semibold">
-          4. Create Epic for the project
-        </h2>
+        <h2 className="text-xl font-semibold">4. Tạo Epic cho project</h2>
         <div>
           <p>
-            <span className="text-base text-blue-900">Step 1:</span> Click on
-            “Epic” and select “Create Epic”
+            <span className="text-base text-blue-900">Bước 1:</span> Click vào
+            “Epic” và chọn “Create Epic”
           </p>
           <img src={imgcreateepic} className="" alt="" />
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 2:</span> Name for
+            <span className="text-base text-blue-900">Bước 2:</span> Đặt tên cho
             Epic
           </p>
           <img src={imgtaoepic} className="" alt="" />
-          <p>• Can be named arbitrarily (Example: Epic Create Project)</p>
+          <p>• Có thể đặt tên tùy ý (Ví dụ: Epic Create Project)</p>
         </div>
       </div>
       <div className="mt-4">
         <h2 className="text-xl font-semibold">
-          5. Create Issue for Project in Backlog section.
+          5. Tạo Issue cho Project trong phần Backlog.
         </h2>
         <div>
           <p>
-            <span className="text-base text-blue-900">Step 1:</span> Click on
+            <span className="text-base text-blue-900">Bước 1:</span> Click vào
             “Create Issue”
           </p>
           <img src={imgcreateissue} className="" alt="" />
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 2:</span> Select
-            belong properties of the Issue (Story, Task, Bug) and naming.
+            <span className="text-base text-blue-900">Bước 2:</span> Chọn thuộc
+            tính của Issue (Story, Task, Bug) và đặt tên.
           </p>
           <img src={imgchonthuoctinh} className="" alt="" />
           <img src={imgdattenissue} className="" alt="" />
-          <p>• Can be named arbitrarily (Example: Epic Create Project)</p>
+          <p>• Có thể đặt tên tùy ý (Ví dụ: Epic Create Project)</p>
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 3:</span> After
-            select properties and name them, press Enter to let the system
-            proceed to create Issue
+            <span className="text-base text-blue-900">Bước 3:</span> Sau khi
+            chọn thuộc tính và đặt tên, nhấn Enter để hệ thống tiến hành tạo
+            Issue
           </p>
           <img src={imgenterissue} className="" alt="" />
           <ul className="ml-4">
             <li>
-              • After the Issue is created successfully, the system will be
-              automatically generated Move to the container named “Backlog”.
+              • Sau khi Issue được tạo thành công thì sẽ tự động được hệ thống
+              chuyển đến khung chứa mang tên “Backlog”.
             </li>
             <li>
-              • Once an Issue is created, the user can click on it and execute
-              it Now fill in the details for the Issue such as:
+              • Khi một Issue được tạo ra, người dùng có thể click vào và thực
+              hiện điền đầy đủ thông tin chi tiết cho Issue như:
               <ul className="ml-8">
-                <li>o Issue belongs to which Epic.</li>
-                <li>o Description of Issue.</li>
-                <li>o Attach any File to Issue.</li>
-                <li>o Attach Label to Issue.</li>
-                <li>o Attach sub issue.</li>
-                <li>o Attach related issue.</li>
-                <li>o Attach Assignee (doer).</li>
-                <li>o Attach Reporter (who is reported by Assignee).</li>
-                <li>o Assign points to Issue.</li>
-                <li>o Issue's expected start and end date.</li>
+                <li>o Issue thuộc về Epic nào.</li>
+                <li>o Thông tin mô tả của Issue.</li>
+                <li>o Gắn File bất kỳ cho Issue.</li>
+                <li>o Gắn Label cho Issue.</li>
+                <li>o Gắn issue con.</li>
+                <li>o Gắn issue liên quan.</li>
+                <li>o Gắn Assignee (người thực hiện).</li>
+                <li>o Gắn Reporter (người được Assignee báo cáo).</li>
+                <li>o Gắn điểm cho Issue.</li>
+                <li>o Ngày bắt đầu và kết thúc mong đợi của Issue.</li>
                 <li>
-                  o Comment on Issue to help exchange information between
-                  members pellets.
+                  o Comment vào Issue giúp trao đổi thông tin giữa các thành
+                  viên.
                 </li>
               </ul>
             </li>
@@ -286,53 +283,52 @@ const TutorialWorkflow = () => {
       </div>
       <div className="mt-4">
         <h2 className="text-xl font-semibold">
-          6. Create Label for Project (optional)
+          6. Tạo Label cho Project (tùy chọn)
         </h2>
         <div>
           <p>
-            <span className="text-base text-blue-900">Step 1:</span> Click on
-            “Label” and select “Add Label”
+            <span className="text-base text-blue-900">Bước 1:</span> Click vào
+            “Label” và chọn “Add Label”
           </p>
           <img src={imgaddlabel} className="" alt="" />
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 2:</span> Name for
-            Labels and press Enter.
+            <span className="text-base text-blue-900">Bước 2:</span> Đặt tên cho
+            Label và nhấn Enter.
           </p>
           <img src={imgdattenlabel} className="" alt="" />
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 3:</span>Creation
-            results Label
+            <span className="text-base text-blue-900">Bước 3:</span> Kết quả tạo
+            Label
           </p>
           <img src={imgtaolabel} className="" alt="" />
           <ul className="ml-4">
             <li>
-              •After the user creates a Label, it is possible to assign a Label
-              to one or Multiple Issues and can filter Issues by Label for easy
-              checking control when the number of Issues increases. Filter by
-              clicking on the square before Label
+              • Sau khi người dùng tạo Label, thì có thể gắn Label cho một hoặc
+              nhiều Issue và có thể lọc các Issue theo Label để dễ dàng kiểm
+              soát khi số lượng Issue tăng lên. Lọc bằng cách click vào ô vuông
+              trước Label
               <img src={imgtaoralabel} className="" alt="" />
             </li>
             <li>
-              • Here there are 2 Issues and 1 of 2 is labeled "Back Office"
+              • Ở đây có 2 Issue và 1 trong 2 được gắn Label “Back Office”
               <img src={imgtaoralabel1} className="" alt="" />
             </li>
             <li>
-              • After filtering Issues by Label "Back Office", 2 Issues ban At
-              first, the user will see 1 Issue remaining on the screen.
+              • Sau khi lọc các Issue theo Label “Back Office” thì 2 Issue ban
+              đầu, người dùng sẽ thấy 1 Issue còn lại trên màn hình.
             </li>
             <li>
-              • This will display the number of Labels selected. Quantity
-              displayed displayed on the right of the Label (on the picture is
-              the number “1”)
+              • Lúc này sẽ hiển thị số lượng Label được chọn. Số lượng được hiển
+              thị bên phải Label (trên hình là số “1”)
             </li>
             <li>
-              •After using 1 or more filters, the “Clear filter” button will
-              appear, makes it easier for people to get rid of multiple filters
-              use.
+              • Sau khi dùng 1 bộ lọc trở lên thì nút “Clear filter” sẽ hiện ra,
+              giúp cho việc bỏ đi nhiều bộ lọc trở nên dễ dàng hơn cho người
+              dùng.
             </li>
           </ul>
         </div>
@@ -340,304 +336,303 @@ const TutorialWorkflow = () => {
 
       <div className="mt-4">
         <h2 className="text-xl font-semibold">
-          7. Add members to the project.
+          7. Thêm các member vào project.
         </h2>
         <div>
           <p>
-            <span className="text-base text-blue-900">Step 1:</span>Click on
-            icon as shown below.
+            <span className="text-base text-blue-900">Bước 1:</span> Click vào
+            biểu tượng như hình bên dưới.
           </p>
           <img src={imgaddmember} className="" alt="" />
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 2:</span> A window
-            will appear
+            <span className="text-base text-blue-900">Bước 2:</span> Một cửa sổ
+            sẽ hiện ra
           </p>
           <img src={imgcuasomember} className="" alt="" />
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 3:</span> : Enter
-            name of the member you want to add to the Project.
+            <span className="text-base text-blue-900">Bước 3:</span> : Nhập tên
+            của thành viên mong muốn thêm vào Project.
           </p>
           <p>
-            <strong>Note:</strong>
-            Because the manager has all the information of the members in
-            advance, so you will know the exact account names of the people you
-            want to add Project.
+            <strong>Lưu ý:</strong>
+            Vì người quản lý có đầy đủ thông tin của các thành viên từ trước,
+            nên sẽ biết chính xác tên account của những người mong muốn thêm vào
+            Project.
           </p>
           <p>
-            <strong>Note:</strong>
-            Add a person with the name "Nguyen Duy Khanh", account "KhanhND"
+            <strong>Ví dụ:</strong>
+            Thêm người họ tên “Nguyễn Duy Khánh”, account “KhanhND”
           </p>
           <img src={imgviduaddmember} className="" alt="" />
           <ul className="ml-4">
             <li>
-              • During the import process, the system will assist in searching
-              for your account members are needed to add to the Project.
+              • Trong quá trình nhập, hệ thống sẽ hỗ trợ tìm kiếm account của
+              thành viên đang cần thêm vào Project.
             </li>
             <li>
-              • Can add multiple members at the same time.
+              • Có thể thêm nhiều thành viên cùng 1 thời điểm.
               <img src={imgthemnhieumember} className="" alt="" />
             </li>
-            <li>• Enter the account name of the next member (optional).</li>
+            <li>• Nhập tên account của thành viên tiếp theo (tùy ý).</li>
+            <li>• Click nút “Add” hoàn tất quá trình thêm thành viên.</li>
             <li>
-              • Click the “Add” button to complete the process of adding
-              members.
-            </li>
-            <li>
-              • After using 1 or more filters, the “Clear filter” button will
-              appear, makes it easier for people to get rid of multiple filters
-              use.
+              • Sau khi dùng 1 bộ lọc trở lên thì nút “Clear filter” sẽ hiện ra,
+              giúp cho việc bỏ đi nhiều bộ lọc trở nên dễ dàng hơn cho người
+              dùng.
             </li>
           </ul>
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 4:</span> Click on
-            icon as shown below to view members in Project.
+            <span className="text-base text-blue-900">Bước 4:</span> : Click vào
+            biểu tượng như hình bên dưới để xem các thành viên trong Project.
           </p>
           <img src={imgketquamember} className="" alt="" />
         </div>
       </div>
 
       <div className="mt-4">
-        <h2 className="text-xl font-semibold">8.Create Sprint for Project.</h2>
+        <h2 className="text-xl font-semibold">8.Tạo Sprint cho Project.</h2>
         <div>
           <p>
-            <span className="text-base text-blue-900">Step 1:</span> At tab
-            “Backlog”, click “Create sprint” button
+            <span className="text-base text-blue-900">Bước 1:</span> Tại tab
+            “Backlog”, click vào nút “Create sprint”
           </p>
           <img src={imgcreatesprint} className="" alt="" />
           <ul className="ml-4">
             <li>
-              • A Sprint with a system-generated default name
+              • Một Sprint với tên mặc định do hệ thống tạo ra
               <img src={imgcreatesprint1} className="" alt="" />
             </li>
           </ul>
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 2:</span> Change the
-            name of the newly created Sprint (optional)
+            <span className="text-base text-blue-900">Bước 2:</span> Thay đổi
+            tên của Sprint vừa được tạo (tùy chọn)
           </p>
           <img src={imgreplacesprint} className="" alt="" />
           <ul className="ml-4">
             <li>
-              • Click on the 3-dot icon, the options will appear.
+              • Click vào biểu tượng dấu 3 chấm, các lựa chọn sẽ hiện ra.
               <img src={imgcreatesprint1} className="" alt="" />
             </li>
           </ul>
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 3:</span> Select
-            “Edit” sprint”
+            <span className="text-base text-blue-900">Bước 3:</span> Chọn “Edit
+            sprint”
           </p>
 
           <ul className="ml-4">
-            <li>• A window will appear.</li>
+            <li>• Một cửa sổ sẽ hiện ra.</li>
             <li>
-              • Here users can:
+              • Tại đây người dùng có thể:
               <ul className="ml-4">
-                <li>o Change name for Sprint</li>
-                <li>o Set desired start and end dates.</li>
+                <li>o Sửa lại tên cho Sprint</li>
+                <li>o Đặt ngày bắt đầu và kết thúc mong muốn.</li>
                 <img src={imgeditsprint} className="" alt="" />
               </ul>
             </li>
             <li>
-              • Click “Update” to finish editing or “Cancle” to cancel cancel.
+              • Click “Update” để hoàn tất việc chỉnh sửa hoặc “Cancle” để hủy
+              bỏ.
             </li>
           </ul>
         </div>
       </div>
       <div className="mt-4">
         <h2 className="text-xl font-semibold">
-          9. Add Issues to be resolved during Sprint.
+          9. Thêm các Issue cần giải quyết trong thời gian thực hiện Sprint.
         </h2>
         <div className="ml-5">
-          <p>Drag and drop Issue to be done in Sprint</p>
+          <p>Kéo và thả Issue cần thực hiện trong Sprint</p>
           <img src={imgkeotha} className="" alt="" />
         </div>
       </div>
 
       <div className="mt-4">
         <h2 className="text-xl font-semibold">
-          10. Assign the Issue to the implementer.
+          10. Giao Issue cho người thực hiện.
         </h2>
         <div>
           <p>
-            <span className="text-base text-blue-900">Step 1:</span> Select
-            Issue need to operate, a window will appear
+            <span className="text-base text-blue-900">Bước 1:</span> Chọn Issue
+            cần thao tác, sẽ có 1 cửa sổ hiện lên
           </p>
           <img src={imgchonis} className="" alt="" />
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 2:</span> At the
-            group “Detail”, do select Assignee by clicking on the icon like
-            picture below
+            <span className="text-base text-blue-900">Bước 2:</span> Tại nhóm
+            “Detail”, thực hiện chọn Assignee bằng cách click vào biểu tượng như
+            hình bên dưới
           </p>
           <img src={imgnhomdt} className="" alt="" />
           <p className="ml-4">
-            The list and members of the Project will appear, choose a person
-            with responsible for implementing this Issue.
+            Danh sách và thành viên của Project sẽ hiện ra, chọn 1 người có
+            trách nhiệm thực hiện Issue này.
           </p>
         </div>
       </div>
 
       <div className="mt-4">
         <h2 className="text-xl font-semibold">
-          11.Assign Issue already with Assignee to the person to be reported.
+          11. Giao Issue đã có Assignee cho người được báo cáo.
         </h2>
         <div>
           <p>
-            <span className="text-base text-blue-900">Step 1:</span> Select
-            Issue need to operate, a window will appear
+            <span className="text-base text-blue-900">Bước 1:</span> Chọn Issue
+            cần thao tác, sẽ có 1 cửa sổ hiện lên
           </p>
           <img src={imgisthaotac} className="" alt="" />
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 2:</span>At the group
-            “Detail”, do select Reporter by clicking on the icon like picture
-            below
+            <span className="text-base text-blue-900">Bước 2:</span>Tại nhóm
+            “Detail”, thực hiện chọn Reporter bằng cách click vào biểu tượng như
+            hình bên dưới
           </p>
           <img src={imgnhomdetail} className="" alt="" />
         </div>
       </div>
 
       <div className="mt-4">
-        <h2 className="text-xl font-semibold">12. Start Sprint </h2>
+        <h2 className="text-xl font-semibold">12. Bắt đầu Sprint </h2>
         <div>
           <p>
-            <span className="text-base text-blue-900">Step 1:</span> Click on
-            button “Start Sprint” and a window will appear.
+            <span className="text-base text-blue-900">Bước 1:</span> Click vào
+            nút “Start Sprint” và sẽ có một cửa sổ hiện ra.
           </p>
           <img src={imgstartsprint} className="" alt="" />
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 2:</span> Enter the
-            information for Sprint
+            <span className="text-base text-blue-900">Bước 2:</span> Nhập các
+            thông tin cho Sprint
           </p>
           <ul className="ml-4">
-            <li>• Enter a new name for the Sprint (optional).</li>
+            <li>• Nhập tên mới cho Sprint (tùy chọn).</li>
             <li>
-              • Set the start and end dates for the Sprint. Note: End time
-              Sprint end must be after the start time and both must be within
-              the length of time the Project is still active.
+              • Đặt ngày bắt đầu và kết thúc cho Sprint. Lưu ý: Thời điểm kết
+              thúc Sprint phải sau thời điểm bắt đầu và cả 2 đều phải nằm trong
+              khoảng thời gian Project vẫn có hiệu lực hoạt động.
               <img src={img122} className="" alt="" />
             </li>
           </ul>
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 3:</span> Click the
-            button “Start” to start Sprint or “Cancle” to cancel
+            <span className="text-base text-blue-900">Bước 3:</span> Click nút
+            “Start” để bắt đầu Sprint hoặc “Cancle” để hủy bỏ
           </p>
           <p className="ml-4">
-            • Now users can manipulate the Project's Board.
+            • Lúc này người dùng có thể thao tác với Board của Project.
           </p>
         </div>
       </div>
 
       <div className="mt-4">
         <h2 className="text-xl font-semibold">
-          13. Members update the progress of Issue in Sprint.{" "}
+          13. Các thành viên cập nhật tiến độ của Issue trong Sprint.{" "}
         </h2>
         <div>
           <p>
-            <span className="text-base text-blue-900">Step 1:</span> Go to Board
-            of Project.
+            <span className="text-base text-blue-900">Bước 1:</span> Đến Board
+            của Project.
           </p>
           <img src={img131} className="" alt="" />
           <p className="ml-4">
             {" "}
-            <strong>• Note: </strong>Only if in Project there is 1 Sprint is
-            captured At first, the new Board works and displays information.
+            <strong>• Lưu ý: </strong>Chỉ khi trong Project có 1 Sprint được bắt
+            đầu thì Board mới hoạt động và hiển thị thông tin.
           </p>
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 2:</span> Perform
-            Update progress by dragging and dropping to the status columns.
+            <span className="text-base text-blue-900">Bước 2:</span> Thực hiện
+            cập nhật tiến độ bằng cách kéo thả đến các cột trạng thái.
           </p>
           <img src={img132} className="" alt="" />
           <ul className="ml-4">
             <li>
-              • Manager can add, edit or delete Stages (TO DO, IN PROGRESS,
-              DONE) to match the way Project currently works in.
+              • Người quản lý có thể thêm, sửa hoặc xóa các Stage (TO DO, IN
+              PROGRESS, DONE) để phù hợp với cách hoạt động của Project hiện
+              tại.
             </li>
             <li>
-              • Doing:
+              • Cách thực hiện:
               <ul className="ml-6">
                 <li>
-                  o Add Stage:
+                  o Thêm Stage:
                   <ul className="ml-6">
                     <li>
                       <p>
-                        <span className="text-base text-blue-900">Step 1:</span>{" "}
-                        Click on the title “ADD STAGE”
+                        <span className="text-base text-blue-900">Bước 1:</span>{" "}
+                        Click vào tiêu đề “ADD STAGE”
                       </p>
                       <img src={img1321} className="" alt="" />
                     </li>
                     <li>
                       <p>
-                        <span className="text-base text-blue-900">Step 2:</span>{" "}
-                        Name the Stage and press Enter to finish
+                        <span className="text-base text-blue-900">Bước 2:</span>{" "}
+                        Đặt tên cho Stage và nhấn Enter để hoàn tất
                       </p>
                       <img src={img1322} className="" alt="" />
                     </li>
                     <li>
-                       The order of the Stages can be arranged by dragging and
-                      drop.
+                       Có thể sắp xếp thứ tự của các Stage bằng cách kéo và
+                      thả.
                     </li>
                   </ul>
                 </li>
 
                 <li>
-                  o Edit Name for Stage:
+                  o Sửa tên cho Stage:
                   <ul className="ml-6">
                     <li>
                       <p>
-                        <span className="text-base text-blue-900">Step 1:</span>{" "}
-                        Click on the name of the Stage you want to edit
+                        <span className="text-base text-blue-900">Bước 1:</span>{" "}
+                        Click vào tên của Stage cần sửa
                       </p>
                       <img src={img1331} className="" alt="" />
                     </li>
                     <li>
                       <p>
-                        <span className="text-base text-blue-900">Step 2:</span>{" "}
-                        Type a new name for the Stage and press Enter to finish.
+                        <span className="text-base text-blue-900">Bước 2:</span>{" "}
+                        Nhập tên mới cho Stage và nhấn Enter để hoàn tất.
                       </p>
                       <img src={img1332} className="" alt="" />
                     </li>
                   </ul>
                 </li>
                 <li>
-                  o Delete Stage:
+                  o Xóa Stage:
                   <ul className="ml-6">
                     <li>
                       <p>
-                        <span className="text-base text-blue-900">Step 1:</span>{" "}
-                        Specify the Stage to delete.
+                        <span className="text-base text-blue-900">Bước 1:</span>{" "}
+                        Xác định Stage cần xóa.
                       </p>
                     </li>
                     <li>
                       <p>
-                        <span className="text-base text-blue-900">Step 2:</span>{" "}
-                        Click the "x" next to the left of the Stage's name to
-                        open a window showing up
+                        <span className="text-base text-blue-900">Bước 2:</span>{" "}
+                        Click dấu “x” cạnh bên trái tên của Stage sẽ có cửa sổ
+                        hiện lên
                       </p>
                       <img src={img13331} className="" alt="" />
                     </li>
                     <li>
                       <p>
-                        <span className="text-base text-blue-900">Step 3:</span>{" "}
-                        Select New Stage for Deleted and Completed Stage Issues
-                        socks
+                        <span className="text-base text-blue-900">Bước 3:</span>{" "}
+                        Chọn Stage mới cho các Issue của Stage bị xóa và hoàn
+                        tất
                       </p>
                       <img src={img13332} className="" alt="" />
                     </li>
@@ -649,48 +644,47 @@ const TutorialWorkflow = () => {
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 3:</span> Click the
-            button “Start” to start Sprint or “Cancle” to cancel
+            <span className="text-base text-blue-900">Bước 3:</span> Click nút
+            “Start” để bắt đầu Sprint hoặc “Cancle” để hủy bỏ
           </p>
           <p className="ml-4">
-            • Now the user can manipulate the Board of the Project.
+            • Lúc này người dùng có thể thao tác với Board của Project.
           </p>
         </div>
       </div>
 
       <div className="mt-4">
-        <h2 className="text-xl font-semibold">14 End of Sprint </h2>
+        <h2 className="text-xl font-semibold">14 Kết thúc Sprint </h2>
         <div className="mt-3 ml-4">
           <p>
-            <strong>Note:</strong>If all Issues in Sprint are completed faster
-            than expected (the end of the Sprint):
+            <strong>Lưu ý:</strong>Nếu tất cả Issue trong Sprint được hoàn thành
+            nhanh hơn dự kiến (thời điểm kết thúc của Sprint):
           </p>
         </div>
         <div>
           <p>
-            <span className="text-base text-blue-900">Step 1:</span> Move in
-            Backlog of the current Project.
+            <span className="text-base text-blue-900">Bước 1:</span> Chuyển đến
+            Backlog của Project hiện tại.
           </p>
           <img src={img90} className="" alt="" />
         </div>
         <div className="mt-4">
           <p>
-            <span className="text-base text-blue-900">Step 2:</span> Determined
-            Sprint needs to end and click “Complete Sprint” and done.
+            <span className="text-base text-blue-900">Bước 2:</span> Xác định
+            Sprint cần kết thúc và click “Complete Sprint” và hoàn tất.
           </p>
           <img src={img91} className="" alt="" />
           <ul className="mt-3 ml-4">
-            <span>Note</span>
+            <span>Lưu ý</span>
             <li>
-              o In both cases, if there is a Sprint, there is still an issue
-              that has not been completed If successful, the system will allow
-              the user to choose another Sprint or location of the “Backlog”
-              (Issue does not belong to any Sprint) to contain the This
-              unfinished issue.
+              o Ở cả 2 trường hợp nếu có Sprint vẫn còn Issue chưa được hoàn
+              thành thì hệ thống sẽ cho phép người dùng chọn 1 Sprint khác hoặc
+              vị trí của “Backlog” (Issue chưa thuộc về Sprint nào) để chứa các
+              Issue chưa hoàn thành này.
             </li>
             <li>
-              o If the Sprint period ends, the Sprint will automatically Move to
-              Project's repository.
+              o Nếu thời gian diễn ra của Sprint kết thúc thì Sprint sẽ tự động
+              chuyển đến kho lưu trữ của Project.
             </li>
           </ul>
         </div>

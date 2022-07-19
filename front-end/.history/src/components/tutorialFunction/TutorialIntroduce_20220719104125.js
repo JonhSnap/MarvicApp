@@ -159,22 +159,23 @@ const TutorialIntroduce = () => {
                     </p>
                   </li>
                   <li className="mt-3">
-                    iii.Conflict Management
+                    iii. Quản trị xung đột
                     <p className="ml-5">
-                      Problems are bound to happen. Minimize incidents by Each
-                      Issue has an Assignee to complete the task and 1 the
-                      person responsible for checking the progress and
-                      effectiveness of the that work to be able to voice and
-                      raise concerns, congestion or anything that can cause
-                      weakness in Chain.
+                      Các vấn đề chắc chắn sẽ xảy ra. Giảm thiểu sự cố bằng cách
+                      mỗi Issue có người Assignee để hoàn thành nhiệm vụ và 1
+                      người có trách nhiệm kiểm tra tiến độ và độ hiệu quả của
+                      công việc đó để có thể lên tiếng và nêu lên những lo ngại,
+                      tắc nghẽn hoặc bất cứ điều gì có thể gây ra điểm yếu trong
+                      chuỗi.
                     </p>
                   </li>
                   <li className="mt-3">
-                    iv.Progress reports
+                    iv. Báo cáo tiến độ
                     <p className="ml-5">
-                      Regular updates are shared in a Stand-up Meeting, with
-                      statistical graphs of resolved Issues within a certain
-                      period of time (usually weeks) or month).
+                      Cập nhật thường xuyên được chia sẻ trong một Stand-up
+                      Meeting, với các đồ thị thống kê các Issue đã giải quyết
+                      trong 1 khoảng thời gian nhất định (thường là theo tuần
+                      hay tháng).
                     </p>
                   </li>
                 </ul>
@@ -182,77 +183,79 @@ const TutorialIntroduce = () => {
             </ul>
           </div>
           <div className="mt-3 ml-10">
-            <p className="text-blue-600">D.Test phase</p>
+            <p className="text-blue-600">D. Giai đoạn kiểm tra</p>
             <ul>
               <li>
-                • If the project workload cannot be measured, cannot be managed
-                in the best way. This stage requires Check to make sure
-                everything is in agreement most before. What are the key related
-                metrics? Need to do what to meet deadlines and related
-                parameters there?
+                • Nếu không thể đo lường được khối lượng công việc của dự án,
+                thì không thể quản lý theo cách tốt nhất. Giai đoạn này yêu cầu
+                kiểm tra để đảm bảo mọi thứ đều phù hợp với những gì đã thống
+                nhất trước đó. Các chỉ số liên quản chính là gì? Cần thực hiện
+                những gì để đáp ứng thời hạn và các thông số liên quản đó?
               </li>
               <li>
-                • Hold online meetings with responsible people key for
-                performance test scores, evaluations and reports Regular.{" "}
+                • Tổ chức các cuộc họp trực tuyến với những người có trách nhiệm
+                chính để biết các điểm kiểm tra, đánh giá và báo cáo hiệu suất
+                thường kỳ.{" "}
               </li>
             </ul>
           </div>
           <div className="mt-3 ml-10">
-            <p className="text-blue-600">E. Project Closure</p>
+            <p className="text-blue-600">
+              E. Giai đoạn kết thúc (Project Closure)
+            </p>
             <ul>
               <li>
-                • Finishing a project is just as important as starting it. Also
-                called the “monitoring” phase, this is the time when the project
-                is completed The city is ready to be released to the public. The
-                main focus here is product release and distribution.
+                • Kết thúc dự án cũng quan trọng như bắt đầu. Còn được gọi là
+                giai đoạn “theo dõi”, đây là khoảng thời gian khi dự án hoàn
+                thành đã sẵn sàng để ra mắt công chúng. Trọng tâm chính ở đây là
+                phát hành và phân phối sản phẩm.
               </li>
               <li>
-                • It is important for the project manager to evaluate the round
-                project life from start to finish by:
+                • Điều quan trọng đối với người quản lý dự án là đánh giá vòng
+                đời của dự án từ đầu đến cuối bằng cách:
                 <ul className="ml-5 ">
                   <li>
-                    i. Investigate project performance
+                    i. Điều tra hiệu suất dự án
                     <p className="ml-5">
-                      Are all members achieving their stated goals? Was the
-                      project completed within budget and on time? are not? Did
-                      the project solve any problems? Prize Addressing these
-                      questions will help assess whether the project is
-                      successful or not.
+                      Mọi thành viên có đạt được mục tiêu đã đề ra của họ không?
+                      Dự án có được hoàn thành trong ngân sách và thời gian
+                      không? Dự án có giải quyết được vấn đề gì không? Giải
+                      quyết những câu hỏi này sẽ giúp việc đánh giá xem dự án có
+                      thành công hay không.
                     </p>
                   </li>
                   <li className="mt-3">
-                    ii. Review team performance
+                    ii. Xem xét hiệu suất của nhóm
                     <p className="ml-5">
-                      Performance of team members can be drilled down more on
-                      the individual to measure success in the group. Quality
-                      checks, KPIs and effective online meetings The app
-                      provides clearer insights into performance.
+                      Hiệu suất của các thành viên trong nhóm có thể được đi sâu
+                      hơn vào từng cá nhân để đánh giá sự thành công trong nhóm.
+                      Kiểm tra chất lượng, KPI và cuộc họp trực tuyến có tác
+                      dụng cung cấp thông tin chi tiết rõ ràng hơn về hiệu suất.
                     </p>
                   </li>
                   <li className="mt-3">
-                    iii. Evaluation and finalization of the project
+                    iii. Đánh giá và lập hồ sơ kết thúc dự án
                     <p className="ml-5">
-                      A thorough presentation that includes supporting documents
-                      show the development of the project from its inception to
-                      properly completed guaranteed delivery to the customer and
-                      related parties.
+                      Một bản trình bày kỹ lưỡng bao gồm các tài liệu hỗ trợ thể
+                      hiện sự phát triển của dự án từ khi hình thành đến khi
+                      giao hàng đảm bảo hoàn thành đúng cách cho khách hàng và
+                      các bên liên quan.
                     </p>
                   </li>
                   <li className="mt-3">
-                    iv. Request a review
+                    iv. Yêu cầu đánh giá
                     <p className="ml-5">
-                      The final evaluation of the project provides a more
-                      in-depth look on strengths and weaknesses, from start to
-                      finish. Find out information information and learn lessons
-                      for the next time.
+                      Đánh giá cuối cùng của dự án cung cấp một cái nhìn sâu hơn
+                      về điểm mạnh và điểm yếu, từ đầu đến cuối. Tìm hiểu thông
+                      tin chi tiết và rút ra bài học cho lần sau.
                     </p>
                   </li>
                   <li className="mt-3">
-                    v. Over budget
+                    v. Vượt quá ngân sách
                     <p className="ml-5">
-                      Can accurately determine the state of budget loss as well
-                      as underutilized resources for better understanding on
-                      success (or failure) and help manage waste.
+                      Có thể xác định chính xác tình trạng thất thoát ngân sách
+                      cũng như các nguồn lực chưa được sử dụng giúp hiểu rõ hơn
+                      về thành công (hoặc thất bại) và giúp quản lý lãng phí.
                     </p>
                   </li>
                 </ul>

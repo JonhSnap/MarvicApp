@@ -136,25 +136,25 @@ const TutorialStudy = () => {
       <TabPanel value={value} index="two">
         <div className="overflow-y-auto have-y-scroll h-[400px] animate__animated animate__lightSpeedInLeft">
           <div>
-            <h2 className="text-xl font-semibold">1. Strength</h2>
+            <h2 className="text-xl font-semibold">1. Điểm mạnh</h2>
             <ul className="mt-1 ml-5">
               <li>
-                • There is a discussion feature on each job, a conference is
-                possible internally but can also discuss back and forth with
-                customers.{" "}
+                • Có tính năng thảo luận trên từng công việc, có thể hội thảo
+                nội bộ mà cũng có thể thảo luận qua lại với khách hàng.{" "}
               </li>
-              <li>• Modern interface.</li>
-              <li>• Can integrate with 3rd service providers.</li>
+              <li>• Giao diện hiện đại.</li>
+              <li>• Có thể tích hợp với các nhà cung cấp dịch vụ thứ 3.</li>
             </ul>
           </div>
           <div>
-            <h2 className="mt-4 text-xl font-semibold">2. Weakness</h2>
+            <h2 className="mt-4 text-xl font-semibold">2. Điểm yếu</h2>
             <ul className="mt-1 ml-5">
-              <li>• The interface is not simple or sophisticated.</li>
+              <li>• Giao diện không đơn giản hay tinh.</li>
               <li>
-                • Lack of Quick Helps to help users get used to it quickly than.
+                • Thiếu các Quick Helps để giúp người dùng có thể làm quen nhanh
+                hơn.
               </li>
-              <li>• High fees</li>
+              <li>• Mức phí cao</li>
             </ul>
           </div>
         </div>
@@ -162,71 +162,72 @@ const TutorialStudy = () => {
       <TabPanel value={value} index="three">
         <div className="overflow-y-auto have-y-scroll h-[400px] animate__animated animate__lightSpeedInLeft">
           <div>
-            <h2 className="text-xl font-semibold">1. Strength</h2>
+            <h2 className="text-xl font-semibold">1. Điểm mạnh</h2>
             <ul className="mt-1 ml-5">
               <li>
-                <h3 className="text-base text-blue-800">A. Easy to use</h3>
-                Trello has an extremely friendly working interface, the
-                operations are not too much complex. You just create a list, add
-                a cool to-do card Adding members is as simple as adding an email
-                or sending access link. In addition, there are many board
-                templates available on Trello with different themes quite
-                diverse and beautiful.
+                <h3 className="text-base text-blue-800">A. Dễ sử dụng</h3>Trello
+                có giao diện làm việc cực kỳ thân thiện, các thao tác không quá
+                phức tạp. Bạn chỉ cần tạo danh sách, thêm thẻ việc cần làm hay
+                việc thêm thành viên cũng đơn giản chỉ cần thêm email hoặc gửi
+                link truy cập. Ngoài ra trên Trello còn cung cấp nhiều mẫu bảng
+                với các chủ đề khác nhau khá đa dạng và đẹp mắt.
               </li>
               <li>
-                <h3 className="text-base text-blue-800">B. Free</h3>Trello
-                currently offering the product as Freemium, ie users can use the
-                basic features for free. With the Advanced features, you have to
-                pay extra from 5$ a month /People. However, the basic tasks
-                should be enough to help you manage your work.
+                <h3 className="text-base text-blue-800">B. Miễn phí</h3>Trello
+                hiện đang cung cấp sản phẩm dưới hình thức Freemium, tức là
+                người dùng có thể sử dụng miễn phí các tính năng cơ bản. Với các
+                tính năng nâng cao thì bạn phải trả thêm phí từ 5$ một tháng
+                /người. Tuy nhiên các tác vụ cơ bản chắc hẳn cũng đủ giúp bạn
+                quản lý công việc của mình rồi.
               </li>
               <li>
-                <h3 className="text-base text-blue-800">C. Visual tracking</h3>
-                Trello is designed based on the Kanban project management
-                methodology, so the work stages will be divided into categories
-                books as to-do lists. And just look at the interface, are you
-                Immediately grasp the project progress in the most intuitive
-                way.
+                <h3 className="text-base text-blue-800">
+                  C. Theo dõi trực quan
+                </h3>
+                Trello được thiết kế dựa trên phương pháp quản lý dự án Kanban,
+                nên các giai đoạn công việc sẽ được phân chia thành các danh
+                sách như các to-do list. Và chỉ cần nhìn vào giao diện, là bạn
+                đã nắm bắt ngay được tiến độ dự án một cách trực quan nhất.
               </li>
             </ul>
           </div>
           <div>
-            <h2 className="text-xl font-semibold">2. Weakness</h2>
+            <h2 className="text-xl font-semibold">2. Điểm yếu</h2>
             <ul className="mt-1 ml-5">
               <li>
                 <h3 className="text-base text-blue-800">
-                  A. Poor interaction between members
+                  A. Tương tác kém giữa các thành viên
                 </h3>
-                Taking revenge in the cards, members can exchange with each
-                other but missing 1 mailbox or interface for exchange members
-                about the whole project. Commenting in the card is also not
-                friendly good, you can't comment quickly with enter key, you
-                have to press It's quite inconvenient to save.
+                Mặc thù trong các thẻ, thành viên có thể trao đổi với nhau nhưng
+                lại thiếu 1 hộp thư hoặc giao diện cho các thành viên trao đổi
+                chung về toàn bộ dự án. Việc bình luận trong thẻ cũng chưa thân
+                thiện, bạn không thể bình luận nhanh bằng phím enter mà phải bấm
+                lưu khá bất tiện.
               </li>
               <li>
                 <h3 className="text-base text-blue-800">
-                  B. Not suitable for time management{" "}
+                  B. Không phù hợp cho quản lý thời gian{" "}
                 </h3>
-                With only one interface spread horizontally, Trello makes it
-                difficult difficult for users in the correct time management of
-                jobs. The cards are designed independently, hindering the
-                management manage the relationship between tasks (e.g. you
-                hardly know the job What to do first, what to do later, what has
-                to be done then can do something else). To optimize these
-                factors, you will need the extensions - integration with the
-                Gantt . app chart (in the paid version of Trello).
+                Với duy nhất một giao diện trải theo chiều ngang, Trello gây khó
+                khăn cho người dùng trong việc quản lý thời gian chính xác của
+                các công việc. Các card được thiết kế độc lập, cản trở việc quản
+                lý mối quan hệ giữa các đầu việc (ví dụ: bạn khó biết được việc
+                nào làm trước, việc nào làm sau, việc nào phải làm xong thì mới
+                có thể làm được việc khác). Muốn tối ưu lại những yếu tố này,
+                bạn sẽ cần những phần mở rộng - tích hợp với ứng dụng Gantt
+                chart (trong phiên bản trả phí của Trello).
               </li>
               <li>
                 <h3 className="text-base text-blue-800">
-                  C. Missing work report
+                  C. Thiếu báo cáo công việc
                 </h3>
-                Trello can be a pretty cool tool for teamwork, but but lacks
-                many essential features for the role of a the Manager
-                (Project/Team manager); including the fact that newspaper. This
-                application does not have an interface that allows
-                administrators Immediately track how much work has been
-                completed than expected, which individuals are ensuring the
-                progress of the work? assignment,...)
+                Trello có thể là một công cụ khá hay ho cho làm việc nhóm, nhưng
+                lại thiếu đi nhiều tính năng thiết yếu đối với vai trò của một
+                người Quản lý (Project/Team manager); trong đó phải kể đến việc
+                báo báo. Ứng dụng này không có một giao diện cho phép người quản
+                lý theo dõi ngay được công việc đã hoàn thành được bao nhiêu %
+                so với dự kiến, những cá nhân nào đang đảm bảo được tiến độ công
+                việc được giao,...)
               </li>
             </ul>
           </div>

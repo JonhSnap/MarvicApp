@@ -221,38 +221,37 @@ const TutorialIntroduce = () => {
                     </p>
                   </li>
                   <li className="mt-3">
-                    ii. Review team performance
+                    ii. Xem xét hiệu suất của nhóm
                     <p className="ml-5">
-                      Performance of team members can be drilled down more on
-                      the individual to measure success in the group. Quality
-                      checks, KPIs and effective online meetings The app
-                      provides clearer insights into performance.
+                      Hiệu suất của các thành viên trong nhóm có thể được đi sâu
+                      hơn vào từng cá nhân để đánh giá sự thành công trong nhóm.
+                      Kiểm tra chất lượng, KPI và cuộc họp trực tuyến có tác
+                      dụng cung cấp thông tin chi tiết rõ ràng hơn về hiệu suất.
                     </p>
                   </li>
                   <li className="mt-3">
-                    iii. Evaluation and finalization of the project
+                    iii. Đánh giá và lập hồ sơ kết thúc dự án
                     <p className="ml-5">
-                      A thorough presentation that includes supporting documents
-                      show the development of the project from its inception to
-                      properly completed guaranteed delivery to the customer and
-                      related parties.
+                      Một bản trình bày kỹ lưỡng bao gồm các tài liệu hỗ trợ thể
+                      hiện sự phát triển của dự án từ khi hình thành đến khi
+                      giao hàng đảm bảo hoàn thành đúng cách cho khách hàng và
+                      các bên liên quan.
                     </p>
                   </li>
                   <li className="mt-3">
-                    iv. Request a review
+                    iv. Yêu cầu đánh giá
                     <p className="ml-5">
-                      The final evaluation of the project provides a more
-                      in-depth look on strengths and weaknesses, from start to
-                      finish. Find out information information and learn lessons
-                      for the next time.
+                      Đánh giá cuối cùng của dự án cung cấp một cái nhìn sâu hơn
+                      về điểm mạnh và điểm yếu, từ đầu đến cuối. Tìm hiểu thông
+                      tin chi tiết và rút ra bài học cho lần sau.
                     </p>
                   </li>
                   <li className="mt-3">
-                    v. Over budget
+                    v. Vượt quá ngân sách
                     <p className="ml-5">
-                      Can accurately determine the state of budget loss as well
-                      as underutilized resources for better understanding on
-                      success (or failure) and help manage waste.
+                      Có thể xác định chính xác tình trạng thất thoát ngân sách
+                      cũng như các nguồn lực chưa được sử dụng giúp hiểu rõ hơn
+                      về thành công (hoặc thất bại) và giúp quản lý lãng phí.
                     </p>
                   </li>
                 </ul>
