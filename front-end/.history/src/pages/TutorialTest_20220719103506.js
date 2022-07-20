@@ -99,7 +99,7 @@ const TutorialTest = () => {
             />
             <Tab label="Function" {...a11yProps(2)} />
             <Tab label=" Comparative Review" {...a11yProps(3)} />
-            <Tab label=" 	Conclusion" {...a11yProps(4)} />
+            <Tab label=" 	Kết luận" {...a11yProps(4)} />
           </Tabs>
           <TabPanel value={value} index={0} className="w-[1000px] h-[500px] ">
             <>
