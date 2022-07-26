@@ -1,4 +1,5 @@
 ﻿using MarvicSolution.BackendApi.Constants;
+using MarvicSolution.DATA.Enums;
 using MarvicSolution.Services.Issue_Request.Dtos.ViewModels;
 using MarvicSolution.Services.System.Helpers;
 using MarvicSolution.Services.System.Users.Requests;
@@ -230,5 +231,25 @@ namespace MarvicSolution.BackendApi.Controllers
                 throw new MarvicException($"Error: {e}");
             }
         }
+        [HttpGet]
+        [Route("/api/User/TestOutput")]
+        public IActionResult TestOutput()
+        {
+            //if (EnumPoint.Eight == 8)
+            //    return Ok(EnumPoint.Eight + " " + EnumRole.ProductOwner);
+            return BadRequest();
+        }
+
+        //[HttpPost]
+        //[Route("/api/User/SetInfoUserLogin")]
+        //public IActionResult SetInfoUserLogin(Guid id, string userName, int role)
+        //{
+        //    UserLogin.Id = id;
+        //    UserLogin.Role = role;
+        //    UserLogin.Username = userName;
+
+        //    return Ok();
+        //}
+
     }
 }

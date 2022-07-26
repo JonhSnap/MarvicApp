@@ -15,9 +15,9 @@ ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
-      <ReplyCommentProvider>
-        <App />
-      </ReplyCommentProvider>
+        <ReplyCommentProvider>
+          <App />
+        </ReplyCommentProvider>
       </BrowserRouter>
     </PersistGate>
   </Provider>,

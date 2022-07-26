@@ -1271,7 +1271,20 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                                   Id_Updator = i.Id_Updator,
                                   Order = i.Order,
                                   ProjectName = p.Name,
-                                  Status = s.Stage_Name
+                                  Status = s.Stage_Name,
+                                  Users = _context.App_Users.Where(u => u.Id == i.Id_Updator || u.Id == i.Id_Creator || u.Id == i.Id_Assignee).Select(u => new User_ViewModel()
+                                  {
+                                      Department = u.Department,
+                                      Email = u.Email,
+                                      FullName = u.FullName,
+                                      Id = u.Id,
+                                      JobTitle = u.JobTitle,
+                                      Organization = u.Organization,
+                                      PhoneNumber = u.PhoneNumber,
+                                      UserName = u.UserName,
+                                      Avatar = u.Avatar,
+                                      Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar)
+                                  }).ToList()
                               }).ToList();
                 var group = issues.GroupBy(i => i.Status).Select(i => i).ToList();
                 foreach (var i_group in group)
@@ -1358,7 +1371,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
             }
 
         }
-        public async Task<bool> ChangeStage(ChangeStage_Request rq)
+        public async Task<bool> ChangeIssueStage(ChangeIssueStage_Request rq)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
@@ -1370,6 +1383,7 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
                         issue.Id_Stage = rq.IdStage;
                         issue.UpdateDate = DateTime.Now;
                         issue.Id_Updator = rq.IdUpdator;
+                        issue.Order = rq.Order;
                         _context.Issues.Update(issue);
                         await _context.SaveChangesAsync();
                         // add list user who recevied notif
@@ -1476,5 +1490,30 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
 
             return group;
         }
+
+        public async Task<Guid> ChangeIssueSprint(Guid idUserLogin, ChangeIssueSprint_Request rq)
+        {
+            try
+            {
+                var issue = _context.Issues.SingleOrDefault(i => i.Id.Equals(rq.IdIssue));
+                if (issue != null)
+                {
+                    issue.Id_Sprint = rq.IdSprint;
+                    issue.UpdateDate = DateTime.Now;
+                    issue.Id_Updator = idUserLogin;
+                    await _context.SaveChangesAsync();
+
+                    return issue.Id;
+                }
+                return Guid.Empty;
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation($"Controller: Issue. Method: ChangeIssueSprint. Marvic Error: {e}");
+                throw new MarvicException($"Error: {e}");
+            }
+        }
+
+
     }
 }

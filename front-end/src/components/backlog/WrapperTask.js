@@ -1,8 +1,10 @@
+import axios from "axios";
 import React, { memo, useMemo, useRef } from "react";
 import { Container, Draggable } from "react-smooth-dnd";
 import { v4 } from "uuid";
 import { useListIssueContext } from "../../contexts/listIssueContext";
 import { fetchIssue, updateIssues } from "../../reducers/listIssueReducer";
+import { BASE_URL } from "../../util/constants";
 import TaskItemComponent from "./TaskItemComponent";
 
 function WrapperTask({ members, project, sprint, issues = [] }) {
@@ -25,10 +27,17 @@ function WrapperTask({ members, project, sprint, issues = [] }) {
           handleDrop(node);
         } else {
           const idSprint = parent.dataset.id;
-          const { payload: issueUpdate } = dropResult;
-          issueUpdate.id_Sprint = idSprint;
-          await updateIssues(issueUpdate, dispatch);
-          fetchIssue(project.id, dispatch);
+          const { payload } = dropResult;
+          const resp = await axios.patch(`${BASE_URL}/api/Issue/ChangeIssueSprint`, {
+            "idIssue": payload.id,
+            "idSprint": idSprint
+          });
+          if (resp && resp.status === 200) {
+            fetchIssue(project.id, dispatch);
+          }
+          // const { payload: issueUpdate } = dropResult;
+          // issueUpdate.id_Sprint = idSprint;
+          // await updateIssues(issueUpdate, dispatch);
         }
       };
       handleDrop(nodeRef.current);

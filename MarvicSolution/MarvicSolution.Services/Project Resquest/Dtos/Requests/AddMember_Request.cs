@@ -10,5 +10,12 @@ namespace MarvicSolution.Services.Project_Request.Project_Resquest.Dtos
     {
         public Guid IdProject { get; set; }
         public List<string> UserNames { get; set; }
+        public int Role { get; set; }
+        public AddMember_Request()
+        {
+            IdProject = Guid.Empty;
+            UserNames = new List<string>();
+            Role = 0;
+        }
     }
 }

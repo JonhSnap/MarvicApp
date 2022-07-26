@@ -13,7 +13,7 @@ import { useListIssueContext } from "../../contexts/listIssueContext";
 import createToast from "../../util/createToast";
 import OptionsEditIssue from "../option/OptionsEditIssue";
 import IssueCanAddSelectbox from "../selectbox/IssueCanAddSelectbox";
-import { BASE_URL, issueTypes } from "../../util/constants";
+import { BASE_URL, issueTypes, KEY_ROLE_USER } from "../../util/constants";
 import AttachmentForm from "../form/AttachmentForm";
 import { useStageContext } from "../../contexts/stageContext";
 import { useSprintContext } from "../../contexts/sprintContext";
@@ -23,9 +23,18 @@ import { useBoardContext } from "../../contexts/boardContext";
 import { ModalProvider, useModalContext } from "../../contexts/modalContext";
 import LinkIssueSelectbox from "../selectbox/LinkIssueSelectbox";
 import { useLabelContext } from "../../contexts/labelContext";
+import { useSelector } from "react-redux";
+import taskImage from '../../images/type-issues/task.jpg'
+import storyImage from '../../images/type-issues/story.jpg'
+import bugImage from '../../images/type-issues/bug.jpg'
+import Stage from "./components/Stage";
+import Assignee from "./components/Assignee";
+import Reporter from "./components/Reporter";
+import Label from "./components/Label";
 
 
 function EditIssuePopup({ members, project, issue, setShow }) {
+  const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
   const [{ issueEpics }, dispatch] = useListIssueContext();
   const [, dispatchBoard] = useBoardContext();
   const {
@@ -61,17 +70,30 @@ function EditIssuePopup({ members, project, issue, setShow }) {
     dateStarted: selectedDateStart,
     dateEnd: selectedDateEnd,
   });
-
+  // icon issue
+  const iconIssue = useMemo(() => {
+    switch (issue.id_IssueType) {
+      case 2:
+        return storyImage;
+      case 3:
+        return taskImage;
+      case 4:
+        return bugImage;
+      default:
+        break;
+    }
+  }, [issue])
   // create issue update
   const issueUpdate = useMemo(() => {
     const issueCopy = { ...issue, ...values };
     return issueCopy;
   }, [values]);
   // stage
-  const stage = stages.find((item) => item.id === issue.id_Stage);
+  const stage = stages.find((item) => item.id === issue?.id_Stage);
   // current sprint
   const currentSprint = useMemo(() => {
-    return sprints.find((item) => item.is_Started);
+    return sprints.find(item => item.id = issue.id_Sprint);
+    // return sprints.find((item) => item.is_Started);
   }, [sprints]);
   // handle close edit
   const handleCloseEditByButton = async () => {
@@ -130,30 +152,36 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   };
   // current epic
   const currentEpic = issueEpics.find(
-    (item) => item.id === issue.id_Parent_Issue
+    (item) => item.id === issue?.id_Parent_Issue
   );
   // handle values change
   const handleValuesChange = (e) => {
-    if (e.target.name === "summary") {
-      setValues({
-        ...values,
-        [e.target.name]: e.target.value,
-      });
-    } else if (e.target.name === "description") {
-      setValues({
-        ...values,
-        [e.target.name]: e.target.value,
-      });
-    } else if (e.target.name === "dateStarted") {
-      setValues({
-        ...values,
-        [e.target.name]: e.target.value,
-      });
-    } else if (e.target.name === "dateEnd") {
-      setValues({
-        ...values,
-        [e.target.name]: e.target.value,
-      });
+    if (roleUser === 3) {
+      createToast('warn', 'You are not permission!');
+      return;
+    } else {
+      console.log('chay vao day');
+      if (e.target.name === "summary") {
+        setValues({
+          ...values,
+          [e.target.name]: e.target.value,
+        });
+      } else if (e.target.name === "description") {
+        setValues({
+          ...values,
+          [e.target.name]: e.target.value,
+        });
+      } else if (e.target.name === "dateStarted") {
+        setValues({
+          ...values,
+          [e.target.name]: e.target.value,
+        });
+      } else if (e.target.name === "dateEnd") {
+        setValues({
+          ...values,
+          [e.target.name]: e.target.value,
+        });
+      }
     }
   };
   // useEffect
@@ -167,19 +195,21 @@ function EditIssuePopup({ members, project, issue, setShow }) {
   }, [issue]);
   // get child issue
   useEffect(() => {
-    axios
-      .get(
-        `https://localhost:5001/api/Issue/GetIssueByIdParent?IdProject=${project.id}&IdParent=${issue.id}`
-      )
-      .then((resp) => {
-        if (resp.status === 200) {
-          return resp.data;
-        }
-      })
-      .then((data) => {
-        setChildIssues(data);
-      })
-      .catch((err) => console.log(err));
+    if (issue && project) {
+      axios
+        .get(
+          `https://localhost:5001/api/Issue/GetIssueByIdParent?IdProject=${project.id}&IdParent=${issue?.id}`
+        )
+        .then((resp) => {
+          if (resp.status === 200) {
+            return resp.data;
+          }
+        })
+        .then((data) => {
+          setChildIssues(data);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [project, issue]);
   // handle toggle epic
   const handleToggleEpic = (e) => {
@@ -228,10 +258,10 @@ function EditIssuePopup({ members, project, issue, setShow }) {
       bodyClassname="relative content-modal"
       onClose={handleCloseEditByClickOutside}
     >
-      <label htmlFor={`close-option-${issue.id}`}>
+      <label htmlFor={`close-option-${issue?.id}`}>
         <div
-          className="have-y-scroll h-[80vh] overflow-auto bg-white  mb-10 overflow-x-hidden
-        flex flex-col flex-[2]  mx-4 relative p-5 rounded-md"
+          className="hide-scroll h-[80vh] overflow-auto bg-white overflow-x-hidden
+        flex flex-col flex-[2] relative p-5 rounded-md mx-6"
         >
           <IssueCanAddSelectbox
             project={project}
@@ -252,7 +282,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             setShowLinkIssue={setShowLinkIssue}
           />
           <div className="flex items-start justify-between">
-            {issue.id_IssueType !== 1 && (
+            {issue?.id_IssueType !== 1 && (
               <div className="flex items-center">
                 <div
                   onClick={handleToggleEpic}
@@ -283,48 +313,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
                     </svg>
                   </span>
                   {showEpic && (
-                    <div className="have-y-scroll absolute w-fit max-h-[150px] overflow-auto p-2 rounded bg-white shadow-md shadow-[#8777D9] left-0 top-[calc(100%+10px)]">
-                      {issueEpics.length > 0 &&
-                        issueEpics
-                          .filter(
-                            (epicItem) => epicItem.id !== issue.id_Parent_Issue
-                          )
-                          .map((item) => (
-                            <div
-                              onClick={() => handleChooseEpic(item)}
-                              className="w-[150px] mb-2 p-3 bg-white rounded shadow-md font-semibold
-                                            hover:bg-[#8777D9] hover:text-white"
-                              key={item.id}
-                            >
-                              {item.summary}
-                            </div>
-                          ))}
-                      {issue.id_Parent_Issue &&
-                        issue.id_Parent_Issue !==
-                        "00000000-0000-0000-0000-000000000000" && (
-                          <div
-                            onClick={handleRemoveEpic}
-                            className="flex items-center gap-x-2 w-[150px] mb-2 p-3 bg-red-500 text-white rounded shadow-md font-semibold"
-                          >
-                            <span className="inline-block w-5 h-5">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                />
-                              </svg>
-                            </span>
-                            <span>Remove epic</span>
-                          </div>
-                        )}
-                    </div>
+                    <EpicSelectBox setShowEpic={setShowEpic} issueEpics={issueEpics} issue={issue} handleChooseEpic={handleChooseEpic} handleRemoveEpic={handleRemoveEpic} />
                   )}
                 </div>
               </div>
@@ -356,7 +345,22 @@ function EditIssuePopup({ members, project, issue, setShow }) {
               </div>
             </div>
           </div>
-          <div className="my-4 text-2xl font-bold">
+          <div className="my-4 text-2xl font-bold flex items-center gap-x-2">
+            <div className="w-5 h-5 rounded">
+              {
+                iconIssue ?
+                  <img
+                    className="w-full h-full"
+                    src={iconIssue}
+                    alt=""
+                  /> :
+                  <FontAwesomeIcon
+                    size="1x"
+                    className="pointer-events-none mx-1 p-[0.2rem] text-white text-[10px] inline-block bg-[#904ee2]"
+                    icon={faBolt}
+                  />
+              }
+            </div>
             <input
               spellCheck={false}
               value={values.summary}
@@ -419,7 +423,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
             </div>
             <div className="item w-full h-13 p-1 bg-white px-4 mt-[-1px] border-solid border-[1px] border-[#ccc] flex justify-between items-center flex-wrap">
               <div className="w-[40%] h-13 my-4">Assignee</div>
-              <div className="w-[60%]">
+              <div className="w-[60%] ">
                 <Assignee members={members} project={project} issue={issue} />
               </div>
               <div className="w-[40%] h-13 my-4">Labels</div>
@@ -427,12 +431,17 @@ function EditIssuePopup({ members, project, issue, setShow }) {
                 <Label project={project} issue={issue} currentSprint={currentSprint} />
               </div>
               <div className="w-[40%] h-13 my-4">Sprint</div>
-              <div className="w-[60%]">{currentSprint?.sprintName}</div>
+              <div className="w-[60%]">
+                <div className="w-fit px-4 py-1 border border-[#666] rounded">{currentSprint?.sprintName}</div>
+              </div>
               <div className="w-[40%] h-13 my-4">Story point estimate</div>
-              <div className="w-[60%]">{issue?.story_Point_Estimate}</div>
+              <div className="w-[60%]">
+                <div className="w-fit px-4 py-1 border border-[#666] rounded">{issue?.story_Point_Estimate}</div>
+              </div>
               <div className="w-[40%] h-13 my-4">Date started</div>
               <div className="w-[60%]">
                 <input
+                  className="p-2 rounded border border-[#666] cursor-pointer transition-all hover:bg-gray-main"
                   name="dateStarted"
                   onChange={handleValuesChange}
                   value={values.dateStarted}
@@ -442,6 +451,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
               <div className="w-[40%] h-13 my-4">Date end</div>
               <div className="w-[60%]">
                 <input
+                  className="p-2 rounded border border-[#666] cursor-pointer transition-all hover:bg-gray-main"
                   name="dateEnd"
                   onChange={handleValuesChange}
                   value={values.dateEnd}
@@ -458,7 +468,7 @@ function EditIssuePopup({ members, project, issue, setShow }) {
           <div className="flex items-center my-5">
             <Comments
               commentURL="https://localhost:5001/hubs/marvic"
-              IdIssueComment={issue.id}
+              IdIssueComment={issue?.id}
             />
           </div>
         </div>
@@ -497,17 +507,17 @@ function ChildIssue({ issues, project }) {
         {issues.length === 0 && <p>No child issue</p>}
         {issues.length > 0 &&
           issues.map((issue) => (
-            <div onClick={() => handleShowEdit(issue)} key={issue.id} className="issue-item">
+            <div onClick={() => handleShowEdit(issue)} key={issue?.id} className="issue-item">
               <div className="img">
                 <img
                   src={
-                    issueTypes.find((item) => item.value === issue.id_IssueType)
+                    issueTypes.find((item) => item.value === issue?.id_IssueType)
                       .thumbnail
                   }
                   alt=""
                 />
               </div>
-              <span className="summary">{issue.summary}</span>
+              <span className="summary">{issue?.summary}</span>
               <span
                 onClick={() => handleRemoveChild(issue)}
                 title="Remove"
@@ -541,7 +551,7 @@ function LinkIssue({ project, issue }) {
   } = useModalContext();
   const [{ issueNormals }, dispatchIssue] = useListIssueContext();
   const issueLinked = useMemo(() => {
-    return issueNormals.filter(item => item.id_Linked_Issue === issue.id);
+    return issueNormals.filter(item => item.id_Linked_Issue === issue?.id);
   }, [issueNormals, issue])
   // handle remove link
   const handleRemoveChild = async (issueRemove) => {
@@ -602,8 +612,8 @@ function Attachment({ issue }) {
   const downloadRef = useRef();
   // handle download
   const handleDownload = () => {
-    const lastBacklashIndex = issue.attachment_Path.lastIndexOf("/");
-    const fileName = issue.attachment_Path.slice(lastBacklashIndex + 1);
+    const lastBacklashIndex = issue?.attachment_Path.lastIndexOf("/");
+    const fileName = issue?.attachment_Path.slice(lastBacklashIndex + 1);
     const path = `${BASE_URL}/api/Issue/download?fileName=${fileName}`;
     if (fileName) {
       downloadRef.current.href = path;
@@ -619,7 +629,7 @@ function Attachment({ issue }) {
       ) : (
         <div className="download">
           <div className="image">
-            <img src={issue.attachment_Path} alt="" />
+            <img src={issue?.attachment_Path} alt="" />
           </div>
           <a ref={downloadRef} hidden href="/">
             download
@@ -646,11 +656,16 @@ function Attachment({ issue }) {
 }
 // text area
 function TextBox({ value, onChange, ...props }) {
+  const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
   const nodeRef = useRef();
   const [height, setHeight] = useState("auto");
   const [text, setText] = useState(value);
   // handle change
   const handleChange = (e) => {
+    if (roleUser === 3) {
+      createToast('warn', 'You are not permission!');
+      return;
+    }
     setText(e.target.value);
     setHeight("auto");
     onChange(e);
@@ -671,283 +686,65 @@ function TextBox({ value, onChange, ...props }) {
     ></textarea>
   );
 }
-// Stage
-function Stage({ project, issue, stage, currentSprint }) {
-  const [{ stages }, dispatchStage] = useStageContext();
-  const [, dispatchBoard] = useBoardContext();
-  const [show, setShow] = useState(false);
-  const [, dispatchIssue] = useListIssueContext();
-  // toggle
-  const toggle = (e) => {
-    if (e.target.matches(".btn-toggle")) {
-      setShow((prev) => !prev);
-    }
-  };
-  // handle change stage
-  const handleChangeStage = async (stage) => {
-    if (stage) {
-      issue.id_Stage = stage.id;
-      await updateIssues(issue, dispatchIssue);
-      if (window.location.href.includes('projects/board') >= 0) {
-        fetchBoard({
-          idSprint: currentSprint.id,
-          idEpic: null,
-          type: 0
-        }, dispatchBoard);
-      } else {
-        fetchIssue(project.id, dispatchIssue);
-      }
-      createToast('success', 'Update stage successfully');
-    }
-  };
 
-  return (
-    <div onClick={toggle} className='btn-toggle relative flex gap-x-2 items-center justify-center px-4 py-2
-    rounded bg-gray-main cursor-pointer hover:bg-gray-200 transition-all'>
-      <span className='inline-block uppercase font-semibold pointer-events-none'>{stage.stage_Name}</span>
-      <span className='inline-block w-5 h-5 text-inherit pointer-events-none'>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-        </svg>
-      </span>
-      {show && (
-        <div className="absolute w-[110%] z-10 top-[105%] left-0 bg-gray-main rounded shadow-md">
-          {
-            stages.length > 0 &&
-            stages.map(item => {
-              return (
-                item.id !== stage.id
-                  ? <p key={item.id} onClick={() => handleChangeStage(item)} className='p-2 uppercase cursor-pointer hover:bg-gray-200'>{item.stage_Name}</p>
-                  : null
-              )
-
-            })
-          }
-        </div>
-      )}
-    </div>
-  );
-}
-// Assign
-function Assignee({ members, project, issue }) {
-  const [, dispathIssue] = useListIssueContext();
-  const [show, setShow] = useState(false);
-
-  // current assignee
-  const currentAssignee = useMemo(() => {
-    return members.find((item) => item.id === issue.id_Assignee);
-  }, [members, issue]);
-  // toggle
-  const toggle = (e) => {
-    if (e.target.matches(".toggle")) {
-      setShow((prev) => !prev);
-    }
-  };
-  // handle select member
-  const handleSelectMember = async (member) => {
-    if (member === null) {
-      issue.id_Assignee = NIL;
-    } else {
-      issue.id_Assignee = member.id;
-    }
-    await updateIssues(issue, dispathIssue);
-    fetchIssue(project.id, dispathIssue);
-    createToast('success', 'Change assignee sucessfully');
-  }
-
-  return (
-    <div
-      onClick={toggle}
-      className="relative z-10 w-6 h-6 bg-white rounded-full cursor-pointer toggle"
-    >
-      {currentAssignee ? (
-        <span className="inline-flex items-center justify-center w-full h-full text-white bg-orange-500 rounded-full pointer-events-none">
-          {
-            currentAssignee.avatar_Path ?
-              (<img className="inline-block w-full h-full rounded-full" src={currentAssignee.avatar_Path} alt="" />) :
-              (currentAssignee?.userName?.slice(0, 1))
-          }
-        </span>
-      ) : (
-        <span className="inline-block w-full h-full text-[#ccc] hover:text-gray-500 pointer-events-none">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </span>
-      )}
-      {show && (
-        <div
-          style={{ transform: "translateX(-25%)" }}
-          className="absolute top-[105%] left-0 shadow-md bg-white max-h-[150px] overflow-auto have-y-scroll"
-        >
-          <div
-            onClick={() => handleSelectMember(null)}
-            className="flex items-center p-2"
-          >
-            Unassignee
-          </div>
-          {members.length > 0 &&
-            members.map((item) => (
-              <div
-                onClick={() => handleSelectMember(item)}
-                key={item.id}
-                className={`p-2 flex items-center hover:bg-gray-main ${issue.id_Assignee === item.id
-                  ? "bg-orange-500 text-white pointer-events-none"
-                  : ""
-                  }`}
-              >
-                {item.userName}
-              </div>
-            ))}
-        </div>
-      )}
-    </div>
-  );
-}
-// Reporter
-function Reporter({ members, project, issue }) {
-  const [, dispathIssue] = useListIssueContext();
-  const [show, setShow] = useState(false);
-
-  // current assignee
-  const currentAssignee = useMemo(() => {
-    return members.find((item) => item.id === issue.id_Reporter);
-  }, [members, issue]);
-  // toggle
-  const toggle = (e) => {
-    if (e.target.matches(".toggle")) {
-      setShow((prev) => !prev);
-    }
-  };
-  // handle select member
-  const handleSelectMember = async (member) => {
-    issue.id_Reporter = member.id;
-    await updateIssues(issue, dispathIssue);
-    fetchIssue(project.id, dispathIssue);
-    createToast('success', 'Change reporter sucessfully');
-  }
-
-  return (
-    <div
-      onClick={toggle}
-      className="relative z-10 w-6 h-6 bg-white rounded-full cursor-pointer toggle"
-    >
-      {currentAssignee ? (
-        <span className="inline-flex items-center justify-center w-full h-full text-white bg-orange-500 rounded-full pointer-events-none">
-          {
-            currentAssignee.avatar_Path ?
-              (<img className="inline-block w-full h-full rounded-full" src={currentAssignee.avatar_Path} alt="" />) :
-              (currentAssignee?.userName?.slice(0, 1))
-          }
-        </span>
-      ) : (
-        <span className="inline-block w-full h-full text-[#ccc] hover:text-gray-500 pointer-events-none">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </span>
-      )}
-      {show && (
-        <div
-          style={{ transform: "translateX(-25%)" }}
-          className="absolute top-[105%] left-0 shadow-md bg-white max-h-[150px] overflow-auto have-y-scroll"
-        >
-          {members.length > 0 &&
-            members.map((item) => (
-              <div
-                onClick={() => handleSelectMember(item)}
-                key={item.id}
-                className={`p-2 flex items-center hover:bg-gray-main ${issue.id_Reporter === item.id
-                  ? "bg-orange-500 text-white pointer-events-none"
-                  : ""
-                  }`}
-              >
-                {item.userName}
-              </div>
-            ))}
-        </div>
-      )}
-    </div>
-  );
-}
-// Label
-function Label({ project, issue, currentSprint }) {
-  const [{ labels }] = useLabelContext();
-  const [, dispatchIssue] = useListIssueContext();
-  const [, dispatchBoard] = useBoardContext();
-  const [show, setShow] = useState(false);
-  const currentLablel = useMemo(() => {
-    return labels.find(item => item.id === issue.id_Label)
-  }, [labels, issue])
-  // handle show
-  const handleShow = (e) => {
-    if (e.target.matches('.btn-label')) {
-      setShow(prev => !prev);
-    }
-  }
-  // handle select label
-  const handleSelectLabel = async (labelSelected) => {
-    try {
-      const resp = await axios.put(`${BASE_URL}/api/Issue/AddLabel`, {
-        idIssue: issue.id,
-        idLabel: labelSelected.id
-      })
-      if (resp.status === 200) {
-        if (window.location.href.includes('/projects/board')) {
-          fetchIssue(project.id, dispatchIssue);
-          fetchBoard({
-            idSprint: currentSprint.id,
-            idEpic: null,
-            type: 0
-          }, dispatchBoard);
-        } else if (window.location.href.includes('/projects/backlog')) {
-          fetchIssue(project.id, dispatchIssue);
+function EpicSelectBox({ setShowEpic, issueEpics, issue, handleChooseEpic, handleRemoveEpic }) {
+  const nodeRef = useRef();
+  const renderRef = useRef(1);
+  useEffect(() => {
+    const handleClickOutSide = (e) => {
+      if (nodeRef.current) {
+        if (!nodeRef.current.contains(e.target) && renderRef.current !== 1) {
+          setShowEpic(false);
         }
       }
-    } catch (error) {
-      console.log(error);
+      ++renderRef.current;
     }
-  }
-
+    document.addEventListener('click', handleClickOutSide);
+    return () => document.removeEventListener('click', handleClickOutSide);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
-    <div onClick={handleShow} className="w-fit relative">
-      <p className="btn-label w-fit p-2 rounded hover:bg-gray-main cursor-pointer">{currentLablel ? currentLablel.name : 'None'}</p>
-      {
-        show &&
-        <div className="bg-white shadow-md border border-gray-main absolute top-full left-0 rounded overflow-hidden min-w-[100px]">
-          <p
-            onClick={() => handleSelectLabel({ id: NIL })}
-            className={`p-2 cursor-pointer hover:bg-gray-main w-full
-          ${!currentLablel ? 'bg-orange-400 text-white pointer-events-none' : ''}`}
-          >None</p>
-          {
-            labels.length > 0 &&
-            labels.map(item => (
-              <p
-                key={item.id}
-                onClick={() => handleSelectLabel(item)}
-                className={`p-2 cursor-pointer hover:bg-gray-main w-full ${currentLablel?.id === item.id ? 'bg-orange-400 text-white pointer-events-none' : ''}`}>{item.name}</p>
-            )
-            )
-          }
-        </div>
-      }
+    <div ref={nodeRef} className="have-y-scroll absolute w-fit max-h-[150px] overflow-auto p-2 rounded bg-white shadow-md shadow-[#8777D9] left-0 top-[calc(100%+10px)]">
+      {issueEpics.length > 0 &&
+        issueEpics
+          .filter(
+            (epicItem) => epicItem.id !== issue.id_Parent_Issue
+          )
+          .map((item) => (
+            <div
+              onClick={() => handleChooseEpic(item)}
+              className="w-[150px] mb-2 p-3 bg-white rounded shadow-md font-semibold
+                                            hover:bg-[#8777D9] hover:text-white"
+              key={item.id}
+            >
+              {item.summary}
+            </div>
+          ))}
+      {issue.id_Parent_Issue &&
+        issue.id_Parent_Issue !==
+        "00000000-0000-0000-0000-000000000000" && (
+          <div
+            onClick={handleRemoveEpic}
+            className="flex items-center gap-x-2 w-[150px] mb-2 p-3 bg-red-500 text-white rounded shadow-md font-semibold"
+          >
+            <span className="inline-block w-5 h-5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
+              </svg>
+            </span>
+            <span>Remove epic</span>
+          </div>
+        )}
     </div>
   )
 }

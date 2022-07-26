@@ -153,7 +153,7 @@ namespace MarvicSolution.Services.System.Users.Services
                 user.Department = rq.Department;
                 user.Organization = rq.Organization;
                 user.PhoneNumber = rq.PhoneNumber;
-
+                user.IsFirstLogin = (EnumStatus)rq.IsFirstLogin;
                 _context.SaveChanges();
                 return rq.Id;
             }
@@ -252,18 +252,20 @@ namespace MarvicSolution.Services.System.Users.Services
         {
             try
             {
-                return _context.App_Users.Where(x => x.Id.Equals(Id)).Select(i => new User_ViewModel()
+                return _context.App_Users.Where(u => u.Id.Equals(Id)).Select(u => new User_ViewModel()
                 {
-                    Id = i.Id,
-                    Avatar = i.Avatar,
-                    Avatar_Path = i.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, i.Avatar),
-                    Department = i.Department,
-                    Email = i.Email,
-                    FullName = i.FullName,
-                    JobTitle = i.JobTitle,
-                    Organization = i.Organization,
-                    PhoneNumber = i.PhoneNumber,
-                    UserName = i.UserName
+                    Id = u.Id,
+                    Avatar = u.Avatar,
+                    Avatar_Path = u.Avatar.Equals(string.Empty) ? string.Empty : string.Format("{0}://{1}{2}/upload files/Avatar/{3}", rqVM.Shceme, rqVM.Host, rqVM.PathBase, u.Avatar),
+                    Department = u.Department,
+                    Email = u.Email,
+                    FullName = u.FullName,
+                    JobTitle = u.JobTitle,
+                    Organization = u.Organization,
+                    PhoneNumber = u.PhoneNumber,
+                    UserName = u.UserName,
+                    Scores = u.Scores,
+                    IsFirstLogin = u.IsFirstLogin
                 }).SingleOrDefault();
             }
             catch (Exception e)

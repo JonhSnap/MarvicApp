@@ -275,3 +275,10 @@
     display: none;
   }
 }
+#add-member-btn {
+  @apply bg-gray-main;
+  transition: all ease-in 0.1s;
+  &:hover {
+    background-color: #bdbdbd;
+  }
+}

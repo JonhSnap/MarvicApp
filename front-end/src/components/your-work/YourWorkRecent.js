@@ -10,6 +10,7 @@ const YourWorkRecent = ({ project }) => {
   };
   return (
     <div
+      data-tut='tut-recentproject'
       onClick={() => handleClickName(project.key)}
       className="w-[240px] mr-6 h-[170px] border-l-[20px] rounded-lg youwork-recent border-2  border-blue-400 mt-4 cursor-pointer"
     >

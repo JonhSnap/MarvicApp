@@ -10,17 +10,17 @@ function WrapperSprint({ project, members }) {
         if (project.id) {
             fetchSprint(project.id, dispatch);
         }
-    }, [project])
+    }, [project.id])
 
     return (
-        <>
+        <div data-tut='tut-container-backlog'>
             {
                 sprints.length > 0 &&
                 sprints.map((sprint, index) => (
                     <Sprint index={index} project={project} members={members} sprint={sprint} key={v4()} />
                 ))
             }
-        </>
+        </div>
     )
 }
 

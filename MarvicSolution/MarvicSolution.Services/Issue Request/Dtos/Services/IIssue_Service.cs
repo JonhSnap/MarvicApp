@@ -46,11 +46,12 @@ namespace MarvicSolution.Services.Issue_Request.Issue_Request
         List<GroupWorkedOn_ViewModel> GetIssueForWorkedOn(Guid IdUserLogin, RequestVM rqVM);
         List<GroupAssignedTM_ViewModel> GetIssueAssignedToMe(Guid IdUserLogin, RequestVM rqVM);
         List<IssueArchive_ViewModel> GetIssuesArchive(Guid idProject, RequestVM rqVM);
-        Task<bool> ChangeStage(ChangeStage_Request rq);
+        Task<bool> ChangeIssueStage(ChangeIssueStage_Request rq);
         Task<bool> AddLabel(IssueLabel_Request rq);
         Task<bool> RemoveLabel(Guid idIssue);
         List<IssueStatistic_ViewModel> StatisticIssue(Guid idProject, DateTime DateStarted, DateTime DateEnd);
         List<StatisticIssueArchived_ViewModel> StatisticIssueArchived(Guid idProject, DateTime DateStarted, DateTime DateEnd);
+        Task<Guid> ChangeIssueSprint(Guid idUserLogin, ChangeIssueSprint_Request rq);
 
     }
 }

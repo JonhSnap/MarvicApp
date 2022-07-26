@@ -22,7 +22,9 @@ namespace MarvicSolution.DATA.Entities
         public string Department { get; set; }
         public string Organization { get; set; }
         public string PhoneNumber { get; set; }
+        public int Scores { get; set; }
         public EnumStatus IsDeleted { get; set; }
+        public EnumStatus IsFirstLogin { get; set; }
 
         public App_User()
         {
@@ -37,6 +39,8 @@ namespace MarvicSolution.DATA.Entities
             PhoneNumber = string.Empty;
             IsDeleted = EnumStatus.False;
             Avatar = string.Empty;
+            Scores = 0;
+            IsFirstLogin = EnumStatus.True;
         }
     }
 }

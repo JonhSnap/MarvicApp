@@ -61,7 +61,7 @@ function FilterLabelSelectBox({ onClose, bodyStyle, project }) {
             onClose={onClose}
             bodyStyle={bodyStyle}
         >
-            <div className='bg-white w-[140px] shadow-xl p-3 rounded flex flex-col transition-all'>
+            <div className='bg-white w-[140px] p-3 rounded flex flex-col transition-all shadow-lg shadow-epic-color'>
                 {
                     labels.length > 0 &&
                     labels.map(item => (

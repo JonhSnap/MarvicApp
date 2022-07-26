@@ -32,6 +32,7 @@ const BarChartDoughnut = ({ project, dateStarted, dateEnd }) => {
         dockInsidePlotArea: true,
       },
     ],
+    height: 350,
     data: [
       {
         type: "doughnut",
@@ -48,7 +49,7 @@ const BarChartDoughnut = ({ project, dateStarted, dateEnd }) => {
       <>
         <h3 className="font-bold text-[20px]">No issue for the period</h3>
         <div className="justify-self-center w-full h-[full]">
-          <img className="block w-full h-full object-cover" src={ImageChart} alt="" />
+          <img className="block w-full h-full object-cover opacity-20" src={ImageChart} alt="" />
         </div>
       </>
     )
@@ -56,7 +57,7 @@ const BarChartDoughnut = ({ project, dateStarted, dateEnd }) => {
   return (
     <div className="mt-[30px]">
       <CanvasJSChart ref={ref} options={options} />
-      <button onClick={handleExportChart} className="p-2 mt-3 text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
+      <button data-tut='tut-dashboard-export' onClick={handleExportChart} className="p-2 mt-3 text-white bg-blue-500 rounded-md hover:opacity-90">Export Chart</button>
     </div>
   );
 };

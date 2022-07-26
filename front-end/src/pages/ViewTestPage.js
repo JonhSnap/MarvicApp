@@ -33,31 +33,44 @@ function ViewTestPage() {
                 <Typography variant='h3' style={{ marginBottom: 20, color: '#0052cc' }}>Test resutls</Typography>
                 <Link to='/testlist' className='test-link'>Go to test</Link>
             </div>
-            {
-                listTest.length > 0 &&
-                listTest.map((item, index) => (
-                    <Accordion key={v4()}>
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls={index}
-                            id={index}
-                        >
-                            <Typography>{item.testName}</Typography>
-                        </AccordionSummary>
-                        {
-                            item.items.map((testItem, index) => (
-                                <AccordionDetails key={v4()}>
-                                    <div className='test-detail'>
-                                        <span className='stt'>{index + 1}.</span>
-                                        <div className='wrapper-score'><span>Score:</span><span>{testItem.score}</span></div>
-                                        <span className='date'>{testItem.createDate}</span>
-                                    </div>
-                                </AccordionDetails>
-                            ))
-                        }
-                    </Accordion>
-                ))
-            }
+            <div className='list-test'>
+                {
+                    listTest.length > 0 &&
+                    listTest.map((item, index) => (
+                        <div className='test-item'>
+                            <Accordion
+                                sx={{
+                                    '&:hover': {
+                                        boxShadow: '1px 1px 5px 2px #ccc',
+                                        transition: 'all linear 0.1s'
+                                    }
+                                }}
+                                style={{ backgroundColor: 'rgba(0, 82, 204, 0.8)', marginBottom: 10, borderRadius: 6 }}
+                                key={v4()}
+                            >
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
+                                    aria-controls={index}
+                                    id={index}
+                                >
+                                    <Typography variant='h6' color='#fff'>{item.testName}</Typography>
+                                </AccordionSummary>
+                                {
+                                    item.items.map((testItem, index) => (
+                                        <AccordionDetails key={v4()}>
+                                            <div className='test-detail'>
+                                                <span className='stt'>{index + 1}.</span>
+                                                <div className='wrapper-score'><span>Score:</span><span>{testItem.score}</span></div>
+                                                <span className='date'>{testItem.createDate}</span>
+                                            </div>
+                                        </AccordionDetails>
+                                    ))
+                                }
+                            </Accordion>
+                        </div>
+                    ))
+                }
+            </div>
         </div>
     )
 }

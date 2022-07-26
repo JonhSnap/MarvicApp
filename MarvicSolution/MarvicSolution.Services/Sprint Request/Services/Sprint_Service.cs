@@ -36,14 +36,12 @@ namespace MarvicSolution.Services.Sprint_Request.Services
         {
             try
             {
-                foreach (var i_id in rq.ListIdIssue)
-                {
-                    var issue = _context.Issues.SingleOrDefault(i => i.Id.Equals(i_id));
-                    if (issue == null)
-                        throw new MarvicException($"Cannot find issue = {i_id}");
-                    issue.Id_Sprint = rq.IdSprint;
-                    _context.SaveChanges();
-                }
+                var issue = _context.Issues.SingleOrDefault(i => i.Id.Equals(rq.IdIssue));
+                if (issue == null)
+                    throw new MarvicException($"Cannot find issue = {rq.IdIssue}");
+                issue.Id_Sprint = rq.IdSprint;
+                _context.SaveChanges();
+
                 return rq.IdSprint;
             }
             catch (Exception e)
@@ -53,7 +51,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             }
         }
 
-        public async Task<bool> AddSprint(Sprint currentSprint)
+        public async Task<bool> AddSprint(Sprint currentSprint, Guid idUserLogin)
         {
             using (IDbContextTransaction tran = _context.Database.BeginTransaction())
             {
@@ -62,16 +60,16 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                     _context.Sprints.Add(currentSprint);
                     await _context.SaveChangesAsync();
                     // sent notif 
-                    _notifService.PSS_SendNotif(currentSprint.Id_Project, currentSprint.Id_Creator, $"{_userService.GetUserbyId(currentSprint.Id_Creator).UserName} has been created Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project).Name}");
+                    _notifService.PSS_SendNotif(currentSprint.Id_Project, currentSprint.Id_Creator, $"{_userService.GetUserbyId(currentSprint.Id_Creator).UserName} has been created Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project, idUserLogin).Name}");
                     await tran.CommitAsync();
 
                     return true;
                 }
                 catch (Exception e)
                 {
+                    await tran.RollbackAsync();
                     _logger.LogInformation($"Controller: Sprints.Method: AddSprint. Marvic Error: {e}");
                     throw new MarvicException($"Error: {e}");
-                    await tran.RollbackAsync();
                 }
             }
         }
@@ -83,19 +81,21 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             {
                 //get id stage done in project have a complete_Sprint_Request.OldSprintId
                 var stageDoneId = await _context.Stages
-                    .Where(stg => stg.Id_Project == model.CurrentProjectId &&
-                    stg.isDone == EnumStatus.True &&
-                    stg.isDeleted == EnumStatus.False)
-                    .Select(stage => stage.Id)
-                    .FirstOrDefaultAsync();
+                                        .Where(stg => stg.Id_Project == model.CurrentProjectId &&
+                                                        stg.isDone == EnumStatus.True &&
+                                                        stg.isDeleted == EnumStatus.False)
+                                        .Select(stage => stage.Id).FirstOrDefaultAsync();
 
                 //get list issue undone
                 var listIssueUnDone = await _context.Issues
-                    .Where(a => a.Id_Sprint == model.CurrentSprintId &&
-                    a.IsDeleted == EnumStatus.False &&
-                    a.Id_Stage != stageDoneId)
-                    .ToListAsync();
-
+                                            .Where(a => a.Id_Sprint == model.CurrentSprintId &&
+                                                        a.IsDeleted == EnumStatus.False &&
+                                                        a.Id_Stage != stageDoneId).ToListAsync();
+                //get list issue has done
+                var listIssueHasDone = await _context.Issues
+                                            .Where(a => a.Id_Sprint == model.CurrentSprintId &&
+                                                        a.IsDeleted == EnumStatus.False &&
+                                                        a.Id_Stage == stageDoneId).ToListAsync();
                 foreach (var item in listIssueUnDone)
                 {
                     item.Id_Sprint = model.NewSprintId;
@@ -103,15 +103,18 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 //change issue to new currentSprint
                 _context.Issues.UpdateRange(listIssueUnDone);
 
-                //remove current currentSprint
-                //var currentSprint = await _context.Sprints.FindAsync(model.CurrentSprintId);
+                //Calculate issue Scores for assignee and reporter
+                CalculateScores(listIssueHasDone);
+
+                // update current sprint
+                currentSprint.Update_Date = DateTime.Now;
                 currentSprint.Is_Archieved = EnumStatus.True;
                 currentSprint.End_Date = DateTime.Now;
                 _context.Sprints.Update(currentSprint);
 
                 await _context.SaveChangesAsync();
                 // sent notif 
-                _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin, $"{_userService.GetUserbyId(idUserLogin).UserName} has been complete Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project).Name}");
+                _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin, $"{_userService.GetUserbyId(idUserLogin).UserName} has been complete Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project, idUserLogin).Name}");
                 await transaction.CommitAsync();
                 return true;
             }
@@ -145,7 +148,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
 
                     var result = await _context.SaveChangesAsync() > 0;
                     // sent notif 
-                    _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin, $"{_userService.GetUserbyId(idUserLogin).UserName} has been deleted Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project).Name}");
+                    _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin, $"{_userService.GetUserbyId(idUserLogin).UserName} has been deleted Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project, idUserLogin).Name}");
                     await tran.CommitAsync();
                     return result;
                 }
@@ -223,12 +226,12 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                     if (currentSprint.Is_Started.Equals(EnumStatus.False))
                     {
                         _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin,
-                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been updated Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project).Name}");
+                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been updated Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project, idUserLogin).Name}");
                     }
                     else
                     {
                         _notifService.PSS_SendNotif(currentSprint.Id_Project, idUserLogin,
-                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been started Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project).Name}");
+                        $"{_userService.GetUserbyId(idUserLogin).UserName} has been started Sprint {currentSprint.SprintName} in Project {GetProjectById(currentSprint.Id_Project, idUserLogin).Name}");
                     }
                     await tran.CommitAsync();
 
@@ -242,20 +245,23 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                 }
             }
         }
-        private Project_ViewModel GetProjectById(Guid Id)
+        private Project_ViewModel GetProjectById(Guid idProject, Guid idUserLogin)
         {
+            // This function is only used for Notif for now
             try
             {
                 var proj = (from p in _context.Projects
-                            join u in _context.App_Users on p.Id_Lead equals u.Id
-                            where p.Id.Equals(Id)
+                            join mem in _context.Members on p.Id equals mem.Id_Project
+                            where p.Id.Equals(idProject)
+                                    && mem.Id_User.Equals(idUserLogin)
+                                    && (mem.Role.Equals(EnumRole.ProductOwner) || mem.Role.Equals(EnumRole.ProjectManager))
                             select new Project_ViewModel()
                             {
                                 Id = p.Id,
                                 Name = p.Name,
                                 Key = p.Key,
                                 Access = p.Access,
-                                Lead = u.UserName,
+                                Lead = _userService.GetUserbyId(mem.Id_User).UserName,
                                 Id_Creator = p.Id_Creator,
                                 DateCreated = p.DateCreated,
                                 DateStarted = p.DateStarted,
@@ -266,7 +272,7 @@ namespace MarvicSolution.Services.Sprint_Request.Services
                             }).FirstOrDefault();
 
                 if (proj == null)
-                    throw new MarvicException($"Cannot find the project with id: {Id}");
+                    throw new MarvicException($"Cannot find the project with id: {idProject}");
 
                 return proj;
             }
@@ -278,6 +284,16 @@ namespace MarvicSolution.Services.Sprint_Request.Services
             }
         }
 
-
+        private void CalculateScores(List<Issue> listIssue)
+        {
+            foreach (var i_issue in listIssue)
+            {
+                var assignee = _context.App_Users.SingleOrDefault(u => u.Id.Equals(i_issue.Id_Assignee));
+                var reporter = _context.App_Users.SingleOrDefault(u => u.Id.Equals(i_issue.Id_Reporter));
+                assignee.Scores += (int)i_issue.Story_Point_Estimate;
+                reporter.Scores += (int)i_issue.Story_Point_Estimate;
+                _context.SaveChanges();
+            }
+        }
     }
 }

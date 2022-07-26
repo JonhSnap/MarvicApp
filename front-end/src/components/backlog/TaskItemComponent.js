@@ -1,6 +1,6 @@
 import React, { useRef, useState, useMemo, memo } from "react";
 import { fetchIssue, updateIssues } from "../../reducers/listIssueReducer";
-import { issueTypes } from "../../util/constants";
+import { issueTypes, KEY_ROLE_USER } from "../../util/constants";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,7 +16,8 @@ import Stages from "./Stages";
 import { useLabelContext } from "../../contexts/labelContext";
 
 
-function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
+function TaskItemComponent({ members, issue, project, issueEpics, sprint, isRoadmap = false }) {
+  const roleUser = JSON.parse(localStorage.getItem(KEY_ROLE_USER));
   const [{ stages }] = useStageContext();
   const {
     modal: [, setShow],
@@ -40,7 +41,7 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
 
   // handle click item
   const handleClickItem = (e) => {
-    if (e.target.matches(".item")) {
+    if (e.target.matches(".item") || e.target.closest(".left-item")) {
       setShow(true);
       setIssue(issue);
     }
@@ -70,6 +71,7 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
   return (
     <>
       <div
+        data-tut='tut-backlog-issue'
         onClick={handleClickItem}
         ref={ref}
         className={`item hover:bg-[#eee] cursor-pointer rounded-md w-full h-[30px] p-1
@@ -77,10 +79,10 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
             flex justify-between items-center ${issue.isFlagged ? "bg-[#ffe8e6] hover:bg-[#ffb9b3]" : "bg-white"
           }`}
       >
-        <div className="flex items-center h-full left-item">
-          <div className="w-5 h-5">
+        <div data-tut='tut-backlog-issue-info' className="flex items-center h-full left-item">
+          <div className="w-5 h-5 pointer-events-none">
             <img
-              className="object-cover w-full h-full rounded"
+              className="object-cover w-full h-full rounded pointer-events-none"
               src={
                 issueTypes.find((item) => item.value === issue.id_IssueType)
                   ?.thumbnail
@@ -89,9 +91,9 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
             />
           </div>
           <div className="inline-block mx-1">
-            <span>{issue?.summary}</span>
+            <span className="one-line">{issue?.summary}</span>
           </div>
-          {currentEpic && (
+          {currentEpic && !isRoadmap && (
             <div
               title="epic"
               className="parent ml-5 bg-[#8777D9] flex items-center justify-center p-1 rounded-[2px]"
@@ -102,13 +104,13 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
             </div>
           )}
           {
-            currentLabel &&
+            currentLabel && !isRoadmap &&
             <div
               title='label'
               className="ml-5 bg-task-color text-white text-[10px] rounded-[2px] py-1 px-3">{currentLabel.name}</div>
           }
         </div>
-        <div className="flex items-center h-full right-item w-fit">
+        <div data-tut='tut-backlog-issue-action' className="flex items-center h-full right-item w-fit">
           {issue.isFlagged === 1 && (
             <span style={{ color: '#ff2d1a' }} className="inline-block w-5 h-5">
               <svg
@@ -124,23 +126,33 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
               </svg>
             </span>
           )}
-          {!showInputPoint &&
+          {!showInputPoint && !isRoadmap &&
             (issue?.story_Point_Estimate ? (
               <div
-                onClick={() => setShowInputPoint(true)}
-                className="rounded-full cursor-pointer flex items-center justify-center w-[20px] h-[20px] p-1 text-xs bg-[#dfe1e6] mx-[0.2rem]"
+                onClick={() =>
+                  roleUser === 3 ? undefined : setShowInputPoint(true)
+                }
+                className={`rounded-full cursor-pointer flex items-center justify-center w-[20px] h-[20px] p-1
+                text-xs bg-[#dfe1e6] mx-[0.2rem] hover:bg-primary hover:text-white transition-all
+                ${roleUser === 3 ? 'cursor-not-allowed hover:bg-[#dfe1e6] hover:text-inherit' : ''}
+                `}
               >
                 <span>{issue?.story_Point_Estimate}</span>
               </div>
             ) : (
               <div
-                onClick={() => setShowInputPoint(true)}
-                className="rounded-full cursor-pointer flex items-center justify-center w-[20px] h-[20px] p-1 text-xs bg-[#dfe1e6] mx-[0.2rem]"
+                onClick={() =>
+                  roleUser === 3 ? undefined : setShowInputPoint(true)
+                }
+                className={`rounded-full cursor-pointer flex items-center justify-center w-[20px] h-[20px] p-1
+                text-xs bg-[#dfe1e6] mx-[0.2rem] hover:bg-primary hover:text-white transition-all
+                ${roleUser === 3 ? 'cursor-not-allowed hover:bg-[#dfe1e6] hover:text-inherit' : ''}
+                `}
               >
                 <span>-</span>
               </div>
             ))}
-          {showInputPoint && (
+          {showInputPoint && !isRoadmap && (
             <input
               onChange={(e) => {
                 const pointPrev = e.target.value;
@@ -166,11 +178,14 @@ function TaskItemComponent({ members, issue, project, issueEpics, sprint }) {
               <Stages project={project} issue={issue} stage={stage} /> :
               null
           }
-          <MemberComponent
-            project={project}
-            issue={issue}
-            members={members}
-          ></MemberComponent>
+          {
+            !isRoadmap &&
+            <MemberComponent
+              project={project}
+              issue={issue}
+              members={members}
+            ></MemberComponent>
+          }
           <OptionComponent project={project} issue={issue} />
         </div>
       </div>

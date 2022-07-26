@@ -4,6 +4,12 @@ import CreateComponent from '../CreateComponent'
 import EditIssuePopup from '../popup/EditIssuePopup'
 import useModal from '../../hooks/useModal';
 import { useMembersContext } from '../../contexts/membersContext';
+import axios from 'axios';
+import { BASE_URL } from '../../util/constants';
+import { fetchIssue } from '../../reducers/listIssueReducer';
+import { useListIssueContext } from '../../contexts/listIssueContext';
+import { v4 } from 'uuid';
+import createToast from '../../util/createToast';
 
 function FilterEpicSelectBox({ onClose, bodyStyle, epics, issueEpics, project, handleChooseEpic }) {
 
@@ -33,7 +39,7 @@ function FilterEpicSelectBox({ onClose, bodyStyle, epics, issueEpics, project, h
                 {
                     issueEpics.length > 0 &&
                     issueEpics.map(item => (
-                        <EpicItem key={item.id} project={project} epics={epics} epic={item} handleChooseEpic={handleChooseEpic} />
+                        <EpicItem key={v4()} project={project} epics={epics} epic={item} handleChooseEpic={handleChooseEpic} />
                     ))
                 }
                 <CreateComponent idIssueType={1} project={project} createWhat={"epic"} />
@@ -48,6 +54,20 @@ function EpicItem({ project, epics, epic, handleChooseEpic }) {
     const [show, setShow] = useModal();
     const { state: { members }
     } = useMembersContext();
+    const [, dispatchIssue] = useListIssueContext();
+    // handle delete
+    const handleDelete = async (e) => {
+        e.stopPropagation();
+        try {
+            const resp = await axios.delete(`${BASE_URL}/api/Issue/${epic.id}`);
+            if (resp && resp.status === 200) {
+                createToast('success', 'Delete epic successfully!');
+                fetchIssue(project.id, dispatchIssue);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <>
@@ -55,11 +75,10 @@ function EpicItem({ project, epics, epic, handleChooseEpic }) {
                 show && <EditIssuePopup members={members} project={project} issue={epic} setShow={setShow} />
             }
             <div
-                onClick={() => handleChooseEpic(epic.id)}
-                className='flex items-center gap-x-2'>
+                className='flex items-center gap-x-2 group'>
                 <input
+                    onChange={() => handleChooseEpic(epic.id)}
                     className='cursor-pointer border-gray-500'
-                    id={epic.id}
                     checked={epics.includes(epic.id)}
                     readOnly
                     type="checkbox"
@@ -67,7 +86,14 @@ function EpicItem({ project, epics, epic, handleChooseEpic }) {
                 <label
                     onClick={() => setShow(true)}
                     className='text-base font-semibold hover:underline hover:text-epic-color cursor-pointer'
-                    htmlFor={epic.id}>{epic.summary}</label>
+                >
+                    {epic.summary}
+                </label>
+                <span onClick={handleDelete} className='cursor-pointer hidden group-hover:inline-flex ml-auto text-[#ccc] items-center justify-center w-6 h-6 p-1 rounded-full hover:bg-gray-main'>
+                    <svg xmlns="http://www.w3.org/2000/svg" className='w-5 h-5' viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                </span>
             </div>
         </>
     )
