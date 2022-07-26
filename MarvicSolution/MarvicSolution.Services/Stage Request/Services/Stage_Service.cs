@@ -141,7 +141,6 @@ namespace MarvicSolution.Services.Stage_Request.Services
 
         public async Task<bool> DragAndDrop(int curentPos, int newPos, Guid id_Project)
         {
-            using var tran = _context.Database.BeginTransaction();
             try
             {
                 int skip = 0;
@@ -158,13 +157,10 @@ namespace MarvicSolution.Services.Stage_Request.Services
                         skip = newPos;
                         break;
                 }
-                var result = await UpdateListOrder(skip, take, curentPos, newPos, id_Project, range > 0);
-                await tran.CommitAsync();
-                return result;
+                return await UpdateListOrder(skip, take, curentPos, newPos, id_Project, range > 0);
             }
             catch (Exception e)
             {
-                await tran.RollbackAsync();
                 _logger.LogInformation($"Controller: Stages. Method: DragAndDrop. Marvic Error: {e}");
                 throw new MarvicException($"Error: {e}");
             }
@@ -178,7 +174,7 @@ namespace MarvicSolution.Services.Stage_Request.Services
                 currentStage.Order = newPos;
                 var newStage = await _context.Stages.FirstOrDefaultAsync(stage => stage.Id_Project == id_Project && stage.Order == newPos);
                 newStage.Order = curentPos;
-                _context.Stages.UpdateRange(new List<Stage> { currentStage, newStage });
+                _context.Stages.UpdateRange(new[] { currentStage, newStage });
                 await _context.SaveChangesAsync();
                 return true;
             }
