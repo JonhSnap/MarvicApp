@@ -59,6 +59,188 @@ namespace MarvicSolution.DATA.Configurations
                     Role = EnumRole.ProjectManager,
                     IsActive = EnumStatus.True
                 }
+                ,
+                //
+                new Member
+                {
+                    Id_Project = new Guid("1C843CDE-0BAA-47FB-ABFA-926E816BDABA"), // Natashin Khan
+                    Id_User = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // User KhietPT pass KhietPT@123
+                    Role = EnumRole.ProductOwner,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("1C843CDE-0BAA-47FB-ABFA-926E816BDABA"), // Natashin Khan
+                    Id_User = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD pass ThangVD@123
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("1C843CDE-0BAA-47FB-ABFA-926E816BDABA"), // Natashin Khan
+                    Id_User = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // NhanNT pass NhanNT@123
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("1C843CDE-0BAA-47FB-ABFA-926E816BDABA"), // Natashin Khan
+                    Id_User = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ pass ThinhLQ@123
+                    Role = EnumRole.Developer,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("1C843CDE-0BAA-47FB-ABFA-926E816BDABA"), // Natashin Khan
+                    Id_User = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV pass TungNV@123
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
+                }
+                ,
+                ////
+                new Member
+                {
+                    Id_Project = new Guid("5BAE647F-C584-4292-BFF2-C6CBEA7117A4"), // Morgan Football
+                    Id_User = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // User KhietPT pass KhietPT@123
+                    Role = EnumRole.ProductOwner,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("5BAE647F-C584-4292-BFF2-C6CBEA7117A4"), // Morgan Football
+                    Id_User = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD pass ThangVD@123
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("5BAE647F-C584-4292-BFF2-C6CBEA7117A4"), // Morgan Football
+                    Id_User = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // NhanNT pass NhanNT@123
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("5BAE647F-C584-4292-BFF2-C6CBEA7117A4"), // Morgan Football
+                    Id_User = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ pass ThinhLQ@123
+                    Role = EnumRole.Developer,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("5BAE647F-C584-4292-BFF2-C6CBEA7117A4"), // Morgan Football
+                    Id_User = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV pass TungNV@123
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
+                },
+                ////
+                new Member
+                {
+                    Id_Project = new Guid("0A77A086-8CEC-477E-BB86-076AE2D3C877"), // Herashen Academy
+                    Id_User = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // User KhietPT pass KhietPT@123
+                    Role = EnumRole.ProductOwner,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("0A77A086-8CEC-477E-BB86-076AE2D3C877"), // Herashen Academy
+                    Id_User = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD pass ThangVD@123
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("0A77A086-8CEC-477E-BB86-076AE2D3C877"), // Herashen Academy
+                    Id_User = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // NhanNT pass NhanNT@123
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("0A77A086-8CEC-477E-BB86-076AE2D3C877"), // Herashen Academy
+                    Id_User = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ pass ThinhLQ@123
+                    Role = EnumRole.Developer,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("0A77A086-8CEC-477E-BB86-076AE2D3C877"), // Herashen Academy
+                    Id_User = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV pass TungNV@123
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
+                },
+                ////
+                new Member
+                {
+                    Id_Project = new Guid("A9BB6DE5-9093-44CA-B406-927ADDC2790F"), // Sealink Hope
+                    Id_User = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // User KhietPT pass KhietPT@123
+                    Role = EnumRole.ProductOwner,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("A9BB6DE5-9093-44CA-B406-927ADDC2790F"), // Sealink Hope
+                    Id_User = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD pass ThangVD@123
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("A9BB6DE5-9093-44CA-B406-927ADDC2790F"), // Sealink Hope
+                    Id_User = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // NhanNT pass NhanNT@123
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("A9BB6DE5-9093-44CA-B406-927ADDC2790F"), // Sealink Hope
+                    Id_User = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ pass ThinhLQ@123
+                    Role = EnumRole.Developer,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("A9BB6DE5-9093-44CA-B406-927ADDC2790F"), // Sealink Hope
+                    Id_User = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV pass TungNV@123
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
+                },
+                ///
+                new Member
+                {
+                    Id_Project = new Guid("DC48AF74-2747-4FB5-936C-DDCDACBDC738"), // BentaSteam
+                    Id_User = new Guid("EC32BFFD-121F-405F-B7C5-5E2AB4BA7E27"), // User KhietPT pass KhietPT@123
+                    Role = EnumRole.ProductOwner,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("DC48AF74-2747-4FB5-936C-DDCDACBDC738"), // BentaSteam
+                    Id_User = new Guid("3413ED48-771A-4533-91B0-8C19CD863E2F"), // ThangVD pass ThangVD@123
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("DC48AF74-2747-4FB5-936C-DDCDACBDC738"), // BentaSteam
+                    Id_User = new Guid("D6C6033A-89E4-4217-B33B-95EE39EC4C5C"), // NhanNT pass NhanNT@123
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("DC48AF74-2747-4FB5-936C-DDCDACBDC738"), // BentaSteam
+                    Id_User = new Guid("71FBD467-6496-412C-B6FA-B461CAB6DD05"), // ThinhLQ pass ThinhLQ@123
+                    Role = EnumRole.Developer,
+                    IsActive = EnumStatus.True
+                },
+                new Member
+                {
+                    Id_Project = new Guid("DC48AF74-2747-4FB5-936C-DDCDACBDC738"), // BentaSteam
+                    Id_User = new Guid("A21973B7-EB51-4141-A7F8-BE3E9071BF9A"), // TungNV pass TungNV@123
+                    Role = EnumRole.ProjectManager,
+                    IsActive = EnumStatus.True
+                }
                 );
         }
     }

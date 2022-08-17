@@ -26,7 +26,8 @@ namespace MarvicSolution.DATA.Configurations
                 new Test
                 {
                     Id = new Guid("43D27FB9-CDF2-4A42-AEAC-30D551AD7334"),
-                    Name = "Test A"
+                    //Name = "Test A"
+                    Name = "Project Knowledge"
                 },
                 new Test
                 {
@@ -47,11 +48,6 @@ namespace MarvicSolution.DATA.Configurations
                 {
                     Id = new Guid("C475D804-0122-4B2B-AF41-F6C53D22BA74"),
                     Name = "Test E"
-                },
-                new Test
-                {
-                    Id = new Guid("C7B0D387-AFC8-423D-8218-A3FD83CC850E"),
-                    Name = "Test F"
                 }
                 );
         }
